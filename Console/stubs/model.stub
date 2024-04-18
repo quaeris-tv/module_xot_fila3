@@ -44,8 +44,7 @@ class DummyClass extends BaseModel {
     /**
      * The attributes that should be casted to native types.
      * da fare
-     * @return array<string, string>
-     */
+     * @return array<string, string> */
     protected function casts(): array
     {
         return [
@@ -55,7 +54,7 @@ class DummyClass extends BaseModel {
     'deleted_by' => 'string',
 
         ];
-      }
+    }
 
 
     /**

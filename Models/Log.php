@@ -39,9 +39,17 @@ class Log extends BaseModel
     protected function casts(): array
     {
         return [
+<<<<<<< HEAD
             'id' => 'string',
             'name' => 'string',
             'size' => 'integer',
+=======
+
+        'id' => 'string',
+        'name' => 'string',
+        'size' => 'integer',
+
+>>>>>>> c71e97d546613770cd9924e917f917431d152601
         ];
     }
 
