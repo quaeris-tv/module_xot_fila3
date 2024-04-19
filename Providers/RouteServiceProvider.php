@@ -43,9 +43,9 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
         $this->registerRoutePattern($router);
         $this->registerMyMiddleware($router);
 
-        //$lang = request()->user()?->locale ?? app()->getLocale();
+        // $lang = request()->user()?->locale ?? app()->getLocale();
         // URL::defaults(['locale' => $request->user()->locale]);
-        //URL::defaults(['lang' => $lang]);
+        // URL::defaults(['lang' => $lang]);
     }
 
     public function registerMyMiddleware(Router $router): void
@@ -56,7 +56,6 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
         $router->prependMiddlewareToGroup('web', SetDefaultTenantForUrlsMiddleware::class);
         $router->prependMiddlewareToGroup('api', SetDefaultTenantForUrlsMiddleware::class);
     }
-
 
     public function registerLang(): void
     {
@@ -70,7 +69,7 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
         if (! \is_array($langs)) {
             throw new \Exception('[.__LINE__.]['.class_basename(__CLASS__).']');
         }
-        if (\in_array(request()->segment(1),  $langs, false)) {
+        if (\in_array(request()->segment(1), $langs, false)) {
             $lang = request()->segment(1);
             if (null !== $lang) {
                 app()->setLocale($lang);
@@ -79,7 +78,6 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
 
         URL::defaults(['lang' => $lang]);
     }
-
 
     public function registerRoutePattern(Router $router): void
     {
