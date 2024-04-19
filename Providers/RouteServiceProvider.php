@@ -38,14 +38,14 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
         $router = app('router');
         // dddx([$router, $router1]);
 
-        // $this->registerLang();
+        $this->registerLang();
 
         $this->registerRoutePattern($router);
         $this->registerMyMiddleware($router);
 
-        $lang = request()->user()?->locale ?? app()->getLocale();
+        //$lang = request()->user()?->locale ?? app()->getLocale();
         // URL::defaults(['locale' => $request->user()->locale]);
-        URL::defaults(['lang' => $lang]);
+        //URL::defaults(['lang' => $lang]);
     }
 
     public function registerMyMiddleware(Router $router): void
@@ -57,11 +57,11 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
         $router->prependMiddlewareToGroup('api', SetDefaultTenantForUrlsMiddleware::class);
     }
 
-    /*
+
     public function registerLang(): void
     {
         $langs = ['it', 'en'];
-
+        $lang = request()->user()?->locale ?? app()->getLocale();
         $locales = config('laravellocalization.supportedLocales');
         if (is_array($locales)) {
             $langs = array_keys($locales);
@@ -70,14 +70,16 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
         if (! \is_array($langs)) {
             throw new \Exception('[.__LINE__.]['.class_basename(__CLASS__).']');
         }
-        if (\in_array(\Request::segment(1),  $langs, false)) {
-            $lang = \Request::segment(1);
+        if (\in_array(request()->segment(1),  $langs, false)) {
+            $lang = request()->segment(1);
             if (null !== $lang) {
-                App::setLocale($lang);
+                app()->setLocale($lang);
             }
         }
+
+        URL::defaults(['lang' => $lang]);
     }
-    */
+
 
     public function registerRoutePattern(Router $router): void
     {
