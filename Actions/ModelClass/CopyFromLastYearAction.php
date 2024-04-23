@@ -14,7 +14,6 @@ class CopyFromLastYearAction
     {
         $rows_year = $modelClass::where([$fieldName => (int) $year])->get();
         $rows_last_year = $modelClass::where([$fieldName => (int) $year - 1])->get();
-
         if ($rows_year->count() > 0) {
             return;
         }

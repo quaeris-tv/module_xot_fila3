@@ -33,7 +33,6 @@ class ExportXlsAction extends Action
                     $filename = class_basename($livewire).'-'.collect($livewire->tableFilters)->flatten()->implode('-').'.xlsx';
                     $transKey = app(GetTransKeyAction::class)->execute($livewire::class);
                     $transKey .= '.fields';
-
                     $query = $livewire->getFilteredTableQuery(); // ->getQuery(); // Staudenmeir\LaravelCte\Query\Builder
                     $rows = $query->get();
 
