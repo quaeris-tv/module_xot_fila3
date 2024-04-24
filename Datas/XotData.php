@@ -15,6 +15,7 @@ use Modules\Xot\Contracts\ProfileContract;
 use Spatie\LaravelData\Concerns\WireableData;
 use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
+use function Safe\realpath;
 
 /**
  * Undocumented class.
