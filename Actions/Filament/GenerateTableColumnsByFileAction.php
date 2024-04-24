@@ -72,7 +72,7 @@ class GenerateTableColumnsByFileAction
             $body=app(GetMethodBodyAction::class)->execute($class_name,'table');
             $body1=app(GetStrBetweenStartsWithAction::class)->execute($body,'->filters(','(',')');
             $body_new = "->filters([
-                    app(\Modules\Xot\Actions\Filament\Filter\GetYearFilter::class)->execute('anno',date('Y')-3,intval(date('Y'))),
+                    app(\Modules\Xot\Actions\Filament\Filter\GetYearFilter::class)->execute('anno',intval(date('Y')) - 3,intval(date('Y'))),
                 ],layout: \Filament\Tables\Enums\FiltersLayout::AboveContent)
                 ->persistFiltersInSession()";
             $body_up=Str::of($body)

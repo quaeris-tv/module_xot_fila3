@@ -76,6 +76,9 @@ class GetFactoryAction
             'dataFromMethods' => $dataFromMethods,
         ]);
         */
-        dddx('WIP');
+        dddx([
+            'message' => 'WIP',
+            'model_name' => $model_class,
+        ]);
     }
 }

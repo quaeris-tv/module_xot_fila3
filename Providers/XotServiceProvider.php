@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Providers;
 
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Database\Events\MigrationsEnded;
@@ -19,6 +21,8 @@ use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\View\Composers\XotComposer;
 
 use function Safe\realpath;
+
+use Webmozart\Assert\Assert;
 
 /**
  * Class XotServiceProvider.
@@ -61,6 +65,18 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->registerEvents();
 
         $this->registerExceptionHandler();
+
+        $this->registerTimezone();
+    }
+
+    public function registerTimezone(): void
+    {
+        // config('app.user_timezone')
+        Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin');
+        date_default_timezone_set($timezone);
+
+        DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone($timezone));
+        TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
     }
 
     public function registerCallback(): void

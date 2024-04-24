@@ -43,6 +43,7 @@ class BelongsToAction
 
         if (Arr::isAssoc($relationDTO->data)) {
             $sub = $rows->firstOrCreate();
+            // $sub = $rows->first() ?? $rows->getModel();
             if (null === $sub) {
                 throw new \Exception('['.__LINE__.']['.__FILE__.']');
             }

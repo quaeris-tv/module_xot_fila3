@@ -42,6 +42,11 @@ class TransCollectionAction
         $trans = trans($key);
 
         if ($trans !== $key) {
+            if (! is_string($trans)) {
+                // return 'fix trans ['.$item.']';
+                return $item;
+            }
+
             return $trans;
         }
 

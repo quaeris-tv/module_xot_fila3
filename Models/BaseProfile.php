@@ -84,15 +84,18 @@ abstract class BaseProfile extends BaseModel implements ProfileContract
         'full_name',
     ];
 
-    /** @var array<string, string> */
-    protected $casts = [
-        'updated_by' => 'string',
-        'created_by' => 'string',
-        'deleted_by' => 'string',
+    /** @return array<string, string> */
+    protected function casts(): array
+    {
+        return [
+            'updated_by' => 'string',
+            'created_by' => 'string',
+            'deleted_by' => 'string',
 
-        'is_active' => 'boolean',
-        'extra' => SchemalessAttributes::class,
-    ];
+            'is_active' => 'boolean',
+            'extra' => SchemalessAttributes::class,
+        ];
+    }
 
     /** @var array */
     protected $schemalessAttributes = [

@@ -61,6 +61,12 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Session                                whereUserAgent($value)
  * @method static Builder|Session                                whereUserId($value)
  *
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property string|null                     $deleted_by
+ *
+ * @method static Builder|Session whereDeletedAt($value)
+ * @method static Builder|Session whereDeletedBy($value)
+ *
  * @mixin \Eloquent
  */
 class Session extends BaseModel

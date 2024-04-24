@@ -15,6 +15,7 @@ use Modules\Xot\Contracts\ProfileContract;
 use Spatie\LaravelData\Concerns\WireableData;
 use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
+use function Safe\realpath;
 
 /**
  * Undocumented class.
@@ -188,5 +189,13 @@ class XotData extends Data implements Wireable
     public function save(): void
     {
         dddx('wip');
+    }
+
+    public function getPubThemeViewPath(string $key = ''): string
+    {
+        $theme = $this->pub_theme;
+        $path = realpath(base_path('Themes/'.$theme.'/Resources/views/'.$key));
+
+        return $path;
     }
 }

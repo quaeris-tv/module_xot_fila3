@@ -33,7 +33,7 @@ abstract class XotBaseFilamentMiddleware extends Middleware
         $user = $guard->user();
 
         if ($user instanceof FilamentUser && method_exists($user, 'canAccessFilament')) {
-            abort_if(! $user->canAccessFilament(), 403);
+            abort_if(! $user->canAccessPanel(), 403);
 
             return;
         }

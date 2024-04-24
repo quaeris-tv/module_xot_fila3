@@ -44,13 +44,17 @@ class DummyClass extends BaseModel {
     /**
      * The attributes that should be casted to native types.
      * da fare
-     * @var array<string, string>
-     */
-    protected $casts = [
+     * @return array<string, string> */
+    protected function casts(): array
+    {
+        return [
+
     'updated_by' => 'string',
     'created_by' => 'string',
     'deleted_by' => 'string',
-];
+
+        ];
+    }
 
 
     /**
