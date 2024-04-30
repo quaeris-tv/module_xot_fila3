@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Contracts;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Query\Builder;
 use Modules\User\Models\Role;
+use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Database\Query\Builder;
 use Spatie\Permission\Contracts\Permission;
+use Illuminate\Database\Eloquent\Collection;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 
 /**
@@ -22,7 +23,7 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
  *
  * @mixin \Eloquent
  */
-interface ProfileContract
+interface ProfileContract extends HasMedia
 {
     /**
      * Grant the given permission(s) to a role.
