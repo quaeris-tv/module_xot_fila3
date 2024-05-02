@@ -7,6 +7,7 @@ namespace Modules\Xot\Contracts;
 use Modules\User\Models\Role;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Query\Builder;
+use Modules\Xot\Contracts\UserContract;
 use Spatie\Permission\Contracts\Permission;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
@@ -20,6 +21,7 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
  * @property string                $user_id
  * @property Collection<int, Role> $roles
  * @property int|null              $roles_count
+ * @property UserContract          $user
  *
  * @mixin \Eloquent
  */
