@@ -28,3 +28,4 @@ package-lock.json
 .git-rewrite/
 
 node_modules
+.git-blame-ignore-revs
