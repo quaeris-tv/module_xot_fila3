@@ -60,7 +60,6 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->registerExceptionHandlersRepository();
         $this->extendExceptionHandler();
     }
-    
 
     /**
      * @see https://github.com/cerbero90/exception-handler
@@ -106,7 +105,6 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->mergeConfigFrom($config_file, 'metatag');
     }
 
-   
     public function loadHelpersFrom(string $path): void
     {
         $files = File::files($path);
