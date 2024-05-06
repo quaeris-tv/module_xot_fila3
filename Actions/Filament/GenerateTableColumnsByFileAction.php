@@ -46,42 +46,42 @@ class GenerateTableColumnsByFileAction
         $model_name = app($class_name)->getModel();
         $model = app($model_name);
         // ------------------- TABLE -------------------
-        //*
-        $body=app(GetMethodBodyAction::class)->execute($class_name,'table');
-        $body1=app(GetStrBetweenStartsWithAction::class)->execute($body,'->columns(','(',')');
+        // *
+        $body = app(GetMethodBodyAction::class)->execute($class_name, 'table');
+        $body1 = app(GetStrBetweenStartsWithAction::class)->execute($body, '->columns(', '(', ')');
         $body_new = '->columns(['.chr(13).$this->getResourceTableColumns($model_name).chr(13).'])';
-        $body_up=Str::of($body)
+        $body_up = Str::of($body)
             ->replace($body1, $body_new)
             ->toString();
-        $content_new=Str::of($file->getContents())->replace($body, $body_up)->toString();
+        $content_new = Str::of($file->getContents())->replace($body, $body_up)->toString();
         LaravelFile::put($filename, $content_new);
 
-        //-------------------- FORM ------------------------------
-        $body=app(GetMethodBodyAction::class)->execute($class_name,'form');
-        $body1=app(GetStrBetweenStartsWithAction::class)->execute($body,'->schema(','(',')');
+        // -------------------- FORM ------------------------------
+        $body = app(GetMethodBodyAction::class)->execute($class_name, 'form');
+        $body1 = app(GetStrBetweenStartsWithAction::class)->execute($body, '->schema(', '(', ')');
         $body_new = '->schema(['.chr(13).$this->getResourceFormSchema($model_name).chr(13).'])';
-        $body_up=Str::of($body)
+        $body_up = Str::of($body)
             ->replace($body1, $body_new)
             ->toString();
-        $content_new=Str::of($file->getContents())->replace($body, $body_up)->toString();
+        $content_new = Str::of($file->getContents())->replace($body, $body_up)->toString();
         LaravelFile::put($filename, $content_new);
 
-        //-----------------------------------------------------
+        // -----------------------------------------------------
 
-        if(in_array('anno', $model->getFillable())){
-            $body=app(GetMethodBodyAction::class)->execute($class_name,'table');
-            $body1=app(GetStrBetweenStartsWithAction::class)->execute($body,'->filters(','(',')');
+        if (in_array('anno', $model->getFillable())) {
+            $body = app(GetMethodBodyAction::class)->execute($class_name, 'table');
+            $body1 = app(GetStrBetweenStartsWithAction::class)->execute($body, '->filters(', '(', ')');
             $body_new = "->filters([
                     app(\Modules\Xot\Actions\Filament\Filter\GetYearFilter::class)->execute('anno',intval(date('Y')) - 3,intval(date('Y'))),
                 ],layout: \Filament\Tables\Enums\FiltersLayout::AboveContent)
                 ->persistFiltersInSession()";
-            $body_up=Str::of($body)
+            $body_up = Str::of($body)
                 ->replace($body1, $body_new)
                 ->toString();
-            $content_new=Str::of($file->getContents())->replace($body, $body_up)->toString();
+            $content_new = Str::of($file->getContents())->replace($body, $body_up)->toString();
             LaravelFile::put($filename, $content_new);
         }
-        //*/
+        // */
     }
 
     public function ddFile(File $file): void
