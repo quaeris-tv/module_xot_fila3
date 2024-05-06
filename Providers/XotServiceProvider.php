@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Providers;
 
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\TimePicker;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -29,76 +31,36 @@ use Webmozart\Assert\Assert;
  */
 class XotServiceProvider extends XotBaseServiceProvider
 {
-    // use Traits\PresenterTrait;
     use TranslatorTrait;
 
     public string $module_name = 'xot';
-
-    /**
-     * The module directory.
-     */
     protected string $module_dir = __DIR__;
-
-    /**
-     * The module namespace.
-     */
     protected string $module_ns = __NAMESPACE__;
 
     public function bootCallback(): void
     {
-        // $this->registerConfigs();
-        // $this->registerCommands(); //moved to XotBaseServiceProvider
-
         $this->redirectSSL();
-
         $this->registerTranslator();
-
-        // $this->registerCacheOPCache();
-        // $this->registerScout();
-
-        // $this->registerLivewireComponents();
-
         $this->registerViewComposers(); // rompe filament
-
-        // $this->registerPanel();
-        // $this->registerDropbox();// PROBLEMA DI COMPOSER
         $this->registerEvents();
-
         $this->registerExceptionHandler();
-
         $this->registerTimezone();
     }
 
     public function registerTimezone(): void
     {
-        // config('app.user_timezone')
         Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin');
+        // Assert::string($date_format = config('app.date_format'));
         date_default_timezone_set($timezone);
 
         DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone($timezone));
+        DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone));
+        TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
     }
 
     public function registerCallback(): void
     {
-        // $this->loadHelpersFrom(__DIR__.'/../Helpers'); //non serve piu
-        // $aliasLoader = AliasLoader::getInstance();
-        // $aliasLoader->alias('Panel', PanelService::class);
-
-        // $loader->alias(\Modules\Xot\Facades\Profile::class,
-        // $this->registerPresenter();
-
-        // $this->registerPanel();
-        // $this->registerBladeDirectives(); //non intercetta
-        // $this->app->singleton('profile', function (Application $app) {
-        //    return new \Modul
-        // });
-        // $this->app->bind('profile', \Modules\Xot\Services\ProfileTest::class);
-
-        // $this->app->bind(
-        //    'profile',
-        //    static fn (): ProfileTest => new ProfileTest()
-        // );
         $this->registerConfigs();
         $this->registerExceptionHandlersRepository();
         $this->extendExceptionHandler();
@@ -146,23 +108,8 @@ class XotServiceProvider extends XotBaseServiceProvider
     {
         $config_file = realpath(__DIR__.'/../Config/metatag.php');
         $this->mergeConfigFrom($config_file, 'metatag');
-        // dddx('a');
     }
 
-    /*
-    public function mergeConfigs(): void {
-        $configs = ['database', 'filesystems', 'auth', 'metatag', 'services', 'xra', 'social'];
-        foreach ($configs as $v) {
-            $tmp = Tenant::config($v);
-            //dddx($tmp);
-        }
-        //DB::purge('mysql');//Call to a member function prepare() on null
-        //DB::purge('user');
-        //DB::reconnect();
-    }
-
-    //end mergeConfigs
-    //*/
     public function loadHelpersFrom(string $path): void
     {
         $files = File::files($path);
@@ -197,26 +144,10 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->app->extend(
             ExceptionHandler::class,
             static function (ExceptionHandler $handler, $app) {
-                // dddx('a');
                 return new HandlerDecorator($handler, $app[HandlersRepository::class]);
             }
         );
     }
-
-    /*
-    public function mergeConfigs(): void {
-        $configs = ['database', 'filesystems', 'auth', 'metatag', 'services', 'xra', 'social'];
-        foreach ($configs as $v) {
-            $tmp = Tenant::config($v);
-            //dddx($tmp);
-        }
-        //DB::purge('mysql');//Call to a member function prepare() on null
-        //DB::purge('user');
-        //DB::reconnect();
-    }
-
-    //end mergeConfigs
-    //*/
 
     private function redirectSSL(): void
     {
@@ -249,12 +180,8 @@ class XotServiceProvider extends XotBaseServiceProvider
         );
     }
 
-    // Method Modules\Xot\Providers\XotServiceProvider::registerViewComposers() is unused
     private function registerViewComposers(): void
     {
-        // Factory $view
-        // $view->composer('bootstrap-italia::page', BootstrapItaliaComposer::class);
         View::composer('*', XotComposer::class);
-        // dddx($res);
     }
 } // end class
