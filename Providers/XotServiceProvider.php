@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Providers;
 
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\TimePicker;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -48,9 +50,12 @@ class XotServiceProvider extends XotBaseServiceProvider
     public function registerTimezone(): void
     {
         Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin');
+        // Assert::string($date_format = config('app.date_format'));
         date_default_timezone_set($timezone);
 
         DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone($timezone));
+        DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone));
+        TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
     }
 

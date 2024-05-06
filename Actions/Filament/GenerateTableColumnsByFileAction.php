@@ -46,7 +46,7 @@ class GenerateTableColumnsByFileAction
         $model_name = app($class_name)->getModel();
         $model = app($model_name);
         // ------------------- TABLE -------------------
-        /*
+        //*
         $body=app(GetMethodBodyAction::class)->execute($class_name,'table');
         $body1=app(GetStrBetweenStartsWithAction::class)->execute($body,'->columns(','(',')');
         $body_new = '->columns(['.chr(13).$this->getResourceTableColumns($model_name).chr(13).'])';
@@ -81,7 +81,7 @@ class GenerateTableColumnsByFileAction
             $content_new=Str::of($file->getContents())->replace($body, $body_up)->toString();
             LaravelFile::put($filename, $content_new);
         }
-        */
+        //*/
     }
 
     public function ddFile(File $file): void
