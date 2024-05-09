@@ -56,6 +56,12 @@ trait NavigationLabelTrait
         return static::trans('navigation.name');
     }
     /*
+
+    public function getHeading(): string|Htmlable
+    {
+        return 'AAAAAAAAAA';
+    }
+
     public static function getNavigationSort(): ?int {
         return JobsWaitingPlugin::make()->getNavigationSort();
     }

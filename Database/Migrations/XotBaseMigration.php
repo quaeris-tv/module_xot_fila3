@@ -40,8 +40,16 @@ abstract class XotBaseMigration extends Migration
         }
 
         $name = class_basename($this);
+
         $name = Str::before(Str::after($name, 'Create'), 'Table');
         $name = Str::singular($name);
+        if (Str::contains($name, '.php')) {
+            $name = Str::of($name)
+                ->between('_create_', '_tables.php')
+                ->singular()
+                ->studly()
+                ->toString();
+        }
 
         $reflectionClass = new \ReflectionClass($this);
         $filename = (string) $reflectionClass->getFilename();
@@ -104,7 +112,7 @@ abstract class XotBaseMigration extends Migration
     /**
      * ---.
      */
-    public function tableExists(?string $table = null): bool
+    public function tableExists(string $table = null): bool
     {
         if (null === $table) {
             $table = $this->getTable();
