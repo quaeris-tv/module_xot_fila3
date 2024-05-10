@@ -13,8 +13,8 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Artisan;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
-use Spatie\Health\Checks\Checks\DatabaseCheck;
-use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
+use Modules\Xot\Filament\Widgets;
+use Spatie\Health\Checks\Checks;
 use Spatie\Health\Commands\RunHealthChecksCommand;
 use Spatie\Health\Facades\Health;
 use Spatie\Health\ResultStores\ResultStore;
@@ -44,6 +44,13 @@ class HealthPage extends Page
         ];
     }
 
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            Widgets\HealthOverviewWidget::make(),
+        ];
+    }
+
     protected function getViewData(): array
     {
         $checkResults = app(ResultStore::class)->latestResults();
@@ -56,12 +63,29 @@ class HealthPage extends Page
 
     public function refresh(): void
     {
-        Artisan::call(RunHealthChecksCommand::class);
-
-        $res = Health::checks([
-            UsedDiskSpaceCheck::new(),
-            DatabaseCheck::new(),
+        Health::checks([
+            Checks\OptimizedAppCheck::new(),
+            Checks\DebugModeCheck::new(),
+            Checks\EnvironmentCheck::new(),
+            Checks\UsedDiskSpaceCheck::new(),
+            Checks\DatabaseCheck::new(),
+            Checks\DatabaseSizeCheck::new(),
+            Checks\DatabaseTableSizeCheck::new(),
+            Checks\CacheCheck::new(),
+            Checks\DatabaseConnectionCountCheck::new(),
+            Checks\FlareErrorOccurrenceCountCheck::new(),
+            Checks\HorizonCheck::new(),
+            Checks\MeiliSearchCheck::new(),
+            Checks\QueueCheck::new(),
+            Checks\RedisCheck::new(),
+            Checks\ScheduleCheck::new(),
+            Checks\RedisMemoryUsageCheck::new(),
+            // Checks\PingCheck::new()->url('https://google.com')->name('Google'),
+            \Spatie\CpuLoadHealthCheck\CpuLoadCheck::new(),
+            \Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck::new(),
         ]);
+
+        Artisan::call(RunHealthChecksCommand::class);
 
         $this->dispatch('refresh-component');
 
