@@ -83,6 +83,7 @@ class HealthPage extends Page
             // Checks\PingCheck::new()->url('https://google.com')->name('Google'),
             \Spatie\CpuLoadHealthCheck\CpuLoadCheck::new(),
             \Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck::new(),
+            \Laraxot\SmtpHealthCheck\SmtpCheck::new(),
         ]);
 
         Artisan::call(RunHealthChecksCommand::class);
