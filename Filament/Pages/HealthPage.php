@@ -32,7 +32,7 @@ class HealthPage extends Page
 
     protected static string $view = 'xot::filament.pages.health';
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Action::make('refresh')
