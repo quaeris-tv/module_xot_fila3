@@ -66,11 +66,11 @@ class XotServiceProvider extends XotBaseServiceProvider
     public function registerTimezone(): void
     {
         Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin');
-        // Assert::string($date_format = config('app.date_format'));
+        Assert::string($date_format = config('app.date_format'));
         date_default_timezone_set($timezone);
 
         DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone($timezone));
-        DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone));
+        DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone)->displayFormat($date_format));
         TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
     }
