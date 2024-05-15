@@ -10,7 +10,7 @@ use Spatie\Health\ResultStores\EloquentHealthResultStore;
 
 return new class() extends XotBaseMigration {
     /**
-     * Undocumented function
+     * Undocumented function.
      *
      * @return void
      */
