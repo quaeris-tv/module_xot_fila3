@@ -24,8 +24,6 @@ use Modules\Xot\View\Composers\XotComposer;
 
 use function Safe\realpath;
 
-use Spatie\Health\Checks\Checks;
-use Spatie\Health\Facades\Health;
 use Webmozart\Assert\Assert;
 
 /**
@@ -47,20 +45,6 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->registerEvents();
         $this->registerExceptionHandler();
         $this->registerTimezone();
-        $this->registerHealth();
-    }
-
-    public function registerHealth(): void
-    {
-        /*
-        Health::checks([
-            Checks\OptimizedAppCheck::new(),
-            Checks\DebugModeCheck::new(),
-            Checks\EnvironmentCheck::new(),
-            Checks\UsedDiskSpaceCheck::new(),
-            Checks\DatabaseCheck::new(),
-        ]);
-        */
     }
 
     public function registerTimezone(): void
