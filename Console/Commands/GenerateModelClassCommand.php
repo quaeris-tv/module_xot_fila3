@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+
+use function Safe\realpath;
 
 class GenerateModelClassCommand extends GeneratorCommand
 {
