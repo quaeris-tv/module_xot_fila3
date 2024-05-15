@@ -7,6 +7,7 @@ namespace Modules\Xot\Actions\Dummy;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class GetProductsArrayDummyAction
 {
@@ -21,7 +22,7 @@ class GetProductsArrayDummyAction
     {
         // API
         $products = Http::get('https://dummyjson.com/products')->json();
-
+        Assert::isArray($products['products']);
         // filtering some attributes
         $products = Arr::map($products['products'], function ($item) {
             return Arr::only($item,
