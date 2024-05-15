@@ -15,6 +15,9 @@ class HealthOverviewWidget extends BaseWidget
         $stats = [];
 
         $checkResults = app(ResultStore::class)->latestResults();
+        if (null === $checkResults) {
+            return $stats;
+        }
         foreach ($checkResults->storedCheckResults as $result) {
             $label = $result->label;
             $value = $result->shortSummary;
@@ -35,7 +38,7 @@ class HealthOverviewWidget extends BaseWidget
         return $stats;
     }
 
-    public function iconColor($status)
+    public function iconColor(string $status): string
     {
         return match ($status) {
             \Spatie\Health\Enums\Status::ok()->value => 'success',

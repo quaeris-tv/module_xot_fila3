@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder;
 use Modules\User\Models\Role;
 use Spatie\MediaLibrary\HasMedia;
@@ -43,7 +44,7 @@ interface ProfileContract extends HasMedia
     /**
      * Determine if the model has (one of) the given role(s).
      */
-    public function hasRole(string|int|array|\Spatie\Permission\Contracts\Role|\Illuminate\Support\Collection $roles, ?string $guard = null): bool;
+    public function hasRole(string|int|array|\Spatie\Permission\Contracts\Role|\Illuminate\Support\Collection $roles, string $guard = null): bool;
 
     /**
      * Determine if the model has any of the given role(s).
@@ -57,7 +58,7 @@ interface ProfileContract extends HasMedia
      *
      * @throws PermissionDoesNotExist
      */
-    public function hasPermissionTo(string|int|Permission $permission, ?string $guardName = null): bool;
+    public function hasPermissionTo(string|int|Permission $permission, string $guardName = null): bool;
 
     /**
      * Create a new Eloquent query builder for the model.
@@ -67,4 +68,14 @@ interface ProfileContract extends HasMedia
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function newEloquentBuilder($query);
+
+    /**
+     * Undocumented function
+     */
+    public function toggleSuperAdmin(): void;
+
+    /**
+     * ---return BelongsTo<UserContract, self>
+     */
+    public function user(): BelongsTo;
 }

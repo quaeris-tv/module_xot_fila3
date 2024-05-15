@@ -63,7 +63,7 @@ class HealthPage extends Page
 
     public function refresh(): void
     {
-        Health::checks([
+        $checks = [
             Checks\OptimizedAppCheck::new(),
             Checks\DebugModeCheck::new(),
             Checks\EnvironmentCheck::new(),
@@ -81,10 +81,18 @@ class HealthPage extends Page
             Checks\ScheduleCheck::new(),
             Checks\RedisMemoryUsageCheck::new(),
             // Checks\PingCheck::new()->url('https://google.com')->name('Google'),
-            \Spatie\CpuLoadHealthCheck\CpuLoadCheck::new(),
-            \Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck::new(),
-            \Laraxot\SmtpHealthCheck\SmtpCheck::new(),
-        ]);
+        ];
+        if (class_exists(\Spatie\CpuLoadHealthCheck\CpuLoadCheck::class)) {
+            $checks[] = \Spatie\CpuLoadHealthCheck\CpuLoadCheck::new();
+        }
+        if (class_exists(\Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck::class)) {
+            $checks[] = \Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck::new();
+        }
+        if (class_exists(\Laraxot\SmtpHealthCheck\SmtpCheck::class)) {
+            $checks[] = \Laraxot\SmtpHealthCheck\SmtpCheck::new();
+        }
+
+        Health::checks($checks);
 
         Artisan::call(RunHealthChecksCommand::class);
 

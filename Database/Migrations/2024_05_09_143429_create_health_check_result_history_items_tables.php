@@ -9,6 +9,11 @@ use Spatie\Health\Models\HealthCheckResultHistoryItem;
 use Spatie\Health\ResultStores\EloquentHealthResultStore;
 
 return new class() extends XotBaseMigration {
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function up()
     {
         // $connection = (new HealthCheckResultHistoryItem())->getConnectionName();
