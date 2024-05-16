@@ -22,9 +22,9 @@ use Modules\Xot\Exceptions\Handlers\HandlersRepository;
 use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\View\Composers\XotComposer;
 
-use Webmozart\Assert\Assert;
-
 use function Safe\realpath;
+
+use Webmozart\Assert\Assert;
 
 /**
  * Class XotServiceProvider.
