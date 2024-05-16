@@ -14,8 +14,6 @@ class MainDashboard extends Page
 
     protected static string $view = 'xot::filament.pages.dashboard';
 
-
-
     public function mount(): void
     {
         Assert::notNull($user = auth()->user(), '['.__LINE__.']['.__FILE__.']');

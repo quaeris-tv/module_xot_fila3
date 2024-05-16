@@ -47,7 +47,6 @@ class MorphToManyAction
                     $v['pivot'] = [];
                 }
 
-
                 /*
                 echo '<hr/><pre>'.print_r($v['pivot'],1).'</pre><hr/>';
                 $res = $model->$name()
