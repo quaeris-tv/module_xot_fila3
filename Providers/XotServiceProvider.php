@@ -22,9 +22,9 @@ use Modules\Xot\Exceptions\Handlers\HandlersRepository;
 use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\View\Composers\XotComposer;
 
-use function Safe\realpath;
-
 use Webmozart\Assert\Assert;
+
+use function Safe\realpath;
 
 /**
  * Class XotServiceProvider.
@@ -50,7 +50,7 @@ class XotServiceProvider extends XotBaseServiceProvider
     public function registerTimezone(): void
     {
         Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin');
-        Assert::string($date_format = config('app.date_format'));
+        Assert::string($date_format = config('app.date_format') ?? 'd/m/Y');
         date_default_timezone_set($timezone);
 
         DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone($timezone));
