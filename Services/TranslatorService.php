@@ -21,7 +21,6 @@ class TranslatorService extends BaseTranslator
 {
     public static function parse(array $params): array
     {
-        dddx('a');
         $lang = app()->getLocale();
         extract($params);
         if (! isset($key)) {

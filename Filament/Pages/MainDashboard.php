@@ -14,11 +14,7 @@ class MainDashboard extends Page
 
     protected static string $view = 'xot::filament.pages.dashboard';
 
-    /*
-    public function __construct(){
-        dddx('a'); //1
-    }
-    */
+
 
     public function mount(): void
     {

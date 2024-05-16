@@ -22,9 +22,9 @@ use Modules\Xot\Exceptions\Handlers\HandlersRepository;
 use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\View\Composers\XotComposer;
 
-use function Safe\realpath;
-
 use Webmozart\Assert\Assert;
+
+use function Safe\realpath;
 
 /**
  * Class XotServiceProvider.
@@ -93,13 +93,13 @@ class XotServiceProvider extends XotBaseServiceProvider
         /*
         ->reporter(function ($e) {
             // $this->app['log']->debug($e->getMessage());
-            dddx('a');
+
         });
 
         // register a custom renderer to redirect the user back and show validation errors
         $this->app->make(ExceptionHandler::class)->renderer(function ($e, $request) {
             // return back()->withInput()->withErrors($e->errors());
-            dddx('b');
+
         });
         */
     }
