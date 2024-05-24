@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Modules\Xot\Contracts\PivotContract.
@@ -18,6 +19,8 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Collection|array<ChangeCatContract> $changeCats
  *
  * @method mixed update($params)
+ *
+ * @phpstan-require-extends Model
  *
  * @mixin \Eloquent
  */

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Modules\User\Models\User;
@@ -47,6 +48,8 @@ use Spatie\ModelStatus\Status;
  * @method int       treeSonsCount()
  * @method array     toArray()
  * @method BelongsTo user()
+ *
+ * @phpstan-require-extends Model
  *
  * @mixin \Eloquent
  */

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Contracts;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
@@ -41,6 +42,8 @@ use Illuminate\Support\Carbon;
  * @method array     toArray()
  * @method BelongsTo user()
  * @method mixed     getAttributeValue(string $key)
+ *
+ * @phpstan-require-extends Model
  *
  * @mixin \Eloquent
  */

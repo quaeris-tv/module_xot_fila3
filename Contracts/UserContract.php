@@ -32,6 +32,8 @@ use Spatie\Permission\Contracts\Role;
  * @property Collection|array<\Modules\User\Models\Area> $areas
  * @property \Modules\User\Models\PermUser|null          $perm
  *
+ * @phpstan-require-extends Model
+ *
  * @mixin \Eloquent
  */
 interface UserContract extends CanResetPassword, FilamentUser, HasTeamsContract, ModelContract, MustVerifyEmail, PassportHasApiTokensContract

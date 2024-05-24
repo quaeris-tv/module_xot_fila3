@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder;
 use Modules\User\Models\Role;
@@ -22,6 +23,8 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
  * @property Collection<int, Role> $roles
  * @property int|null              $roles_count
  * @property UserContract          $user
+ *
+ * @phpstan-require-extends Model
  *
  * @mixin \Eloquent
  */

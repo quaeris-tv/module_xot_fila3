@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Contracts;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Passport\PersonalAccessTokenResult;
 use Laravel\Passport\Token;
@@ -15,6 +16,8 @@ use Laravel\Passport\TransientToken;
 
 /**
  * @propery \Laravel\Passport\Token|\Laravel\Passport\TransientToken|null $accessToken;
+ *
+ * @phpstan-require-extends Model
  */
 interface PassportHasApiTokensContract
 {
