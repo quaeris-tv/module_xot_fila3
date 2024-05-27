@@ -81,4 +81,9 @@ interface ProfileContract extends HasMedia
      * ---return BelongsTo<UserContract, self>.
      */
     public function user(): BelongsTo;
+
+    /**
+     * --.
+     */
+    public function isSuperAdmin(): bool;
 }
