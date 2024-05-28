@@ -23,8 +23,8 @@ class FeedFactory extends Factory
     public function definition(): array
     {
         return [
-            'created_at' => $this->faker->dateTime,
-            'updated_at' => $this->faker->dateTime,
+            // 'created_at' => $this->faker->dateTime,
+            // 'updated_at' => $this->faker->dateTime,
         ];
     }
 }

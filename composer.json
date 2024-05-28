@@ -24,7 +24,6 @@
         "guzzlehttp/guzzle": "*",
         "illuminate/contracts": "*",
         "illuminate/support": "*",
-        "konnco/filament-import": "*",
         "laraxot/module_tenant_fila3": "dev-master",
         "livewire/livewire": "*",
         "nwidart/laravel-modules": "*",
@@ -49,20 +48,20 @@
         "laravel/pint": "^1.13",
         "nunomaduro/collision": "*",
         "nunomaduro/phpinsights": "^2.11",
-        "orchestra/testbench": "^8.22",
+        "orchestra/testbench": "*",
         "pestphp/pest": "*",
         "pestphp/pest-plugin-arch": "*",
         "pestphp/pest-plugin-laravel": "*",
         "phpstan/phpstan-deprecation-rules": "*",
         "phpstan/phpstan-phpunit": "*",
-        "psalm/plugin-laravel": "^2.8",
+        
         "spatie/laravel-ray": "*",
         "symplify/phpstan-rules": "*",
         "thecodingmachine/phpstan-safe-rule": "^1.2",
         "tightenco/duster": "*",
-        "vimeo/psalm": "^5.17"
+        "vimeo/psalm": "*"
     },
-    "repositories": [
+    "repositories_comment": [
         {
             "type": "path",
             "url": "../Tenant"
@@ -73,15 +72,15 @@
         },
         {
             "type": "path",
-            "url": "../../packages/konnco/filament-import"
-        },
-        {
-            "type": "path",
             "url": "../../packages/savannabits/filament-modules"
         },
         {
             "type": "path",
             "url": "../../packages/sevendays-digital/filament-nested-resources"
+        },
+        {
+            "type": "composer",
+            "url": "https://packagist.org"
         }
     ],
     "autoload": {
