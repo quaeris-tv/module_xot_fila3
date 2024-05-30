@@ -10,6 +10,7 @@ namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
+use Webmozart\Assert\Assert;
 
 class ViewDatabaseConfigCommand extends Command
 {
@@ -42,7 +43,8 @@ class ViewDatabaseConfigCommand extends Command
      */
     public function handle(): void
     {
-        $database = Arr::map(config('database.connections'),
+        Assert::isArray($connections = config('database.connections'));
+        $database = Arr::map($connections,
             function ($item) {
                 $item['password'] = '********';
 
