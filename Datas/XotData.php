@@ -173,7 +173,7 @@ class XotData extends Data implements Wireable
         }
         $user_id = (string) authId();
 
-        Assert::isInstanceOf($this->profile = $this->getProfileModelByUserId($user_id), ProfileContract::class);
+        Assert::isInstanceOf($this->profile = $this->getProfileModelByUserId($user_id), ProfileContract::class, '['.__LINE__.']['.__FILE__.']');
 
         return $this->profile;
     }

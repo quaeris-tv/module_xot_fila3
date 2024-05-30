@@ -24,7 +24,7 @@ trait HasCustomRelations
     {
         $instance = new $related();
         // Call to an undefined method object::newQuery()
-        Assert::isInstanceOf($instance, Model::class);
+        Assert::isInstanceOf($instance, Model::class, '['.__LINE__.']['.__FILE__.']');
         $query = $instance->newQuery();
 
         return new CustomRelation($query, $this, $baseConstraints, $eagerConstraints, $eagerMatcher);

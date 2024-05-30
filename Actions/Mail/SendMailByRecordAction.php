@@ -50,7 +50,7 @@ class SendMailByRecordAction
         // dddx($to);
         // $to = 'marco.sottana@gmail.com';
 
-        Assert::isInstanceOf($mailable = new $mail_class($record), \Illuminate\Contracts\Mail\Mailable::class);
+        Assert::isInstanceOf($mailable = new $mail_class($record), \Illuminate\Contracts\Mail\Mailable::class, '['.__LINE__.']['.__FILE__.']');
         // $mailable = new $mail_class($record);
         if (null != $to) {
             Mail::to($to)->send($mailable);
