@@ -25,6 +25,7 @@
         "illuminate/contracts": "*",
         "illuminate/support": "*",
         "laraxot/module_tenant_fila3": "dev-master",
+        "spatie/laravel-health": "^1.29",
         "livewire/livewire": "*",
         "nwidart/laravel-modules": "*",
         "spatie/laravel-data": "*",
