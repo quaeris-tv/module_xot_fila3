@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 use Illuminate\Database\Schema\Blueprint;
 // ---- models ---
-use Modules\User\Models\Team;
-use Modules\User\Models\User;
 use Modules\Xot\Database\Migrations\XotBaseMigration;
 
 /**
@@ -30,11 +28,10 @@ class CreateExtraTable extends XotBaseMigration
         // -- UPDATE --
         $this->tableUpdate(
             function (Blueprint $table): void {
-                //if (! $this->hasColumn('name')) {
+                // if (! $this->hasColumn('name')) {
                 //    $table->string('name')->nullable();
-                //}
-                $this->updateTimestamps(table:$table, hasSoftDeletes:true);
-
+                // }
+                $this->updateTimestamps(table: $table, hasSoftDeletes: true);
             }
         );
     }
