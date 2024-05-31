@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Factory;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 use Spatie\QueueableAction\QueueableAction;
 
 /**
