@@ -1156,7 +1156,13 @@ if (! function_exists('cssInLine')) {
 if (! function_exists('authId')) {
     function authId(): ?string
     {
-        $id = Filament::auth()->id() ?? auth()->id();
+        try{
+            $id = Filament::auth()->id() ?? auth()->id();
+        }catch(\Exception $e){
+            return null;
+        }catch(\Error $e){
+            return null;
+        }
         if (null == $id) {
             return null;
         }
