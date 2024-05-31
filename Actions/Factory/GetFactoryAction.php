@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\Factory;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Artisan;
 use Spatie\QueueableAction\QueueableAction;
 
 /**
@@ -76,9 +77,17 @@ class GetFactoryAction
             'dataFromMethods' => $dataFromMethods,
         ]);
         */
+        $model_name = class_basename($model_class);
+        $module_name = Str::of($model_class)->between('Modules\\', '\Models\\')->toString();
+        $artisan_cmd = 'module:make-factory';
+        $artisan_params = ['name' => $model_name, 'module' => $module_name];
+        Artisan::call($artisan_cmd, $artisan_params);
+
+        /*
         dddx([
             'message' => 'WIP',
             'model_name' => $model_class,
         ]);
+        */
     }
 }

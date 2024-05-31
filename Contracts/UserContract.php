@@ -4,23 +4,24 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Contracts;
 
-use Filament\Models\Contracts\FilamentUser;
-use Illuminate\Contracts\Auth\CanResetPassword;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Passport\Token;
-use Modules\User\Contracts\HasTeamsContract;
 use Spatie\Permission\Contracts\Role;
+use Illuminate\Database\Eloquent\Model;
+use Modules\Xot\Contracts\ProfileContract;
+use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Database\Eloquent\Collection;
+use Modules\User\Contracts\HasTeamsContract;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 // use Filament\Models\Contracts\HasTenants;
 
 /**
  * Modules\User\Contracts\UserContract.
  *
- * @property ModelProfileContract|null                   $profile
+ * @property ProfileContract|null                        $profile
  * @property int                                         $id
  * @property string                                      $handle
  * @property string|null                                 $first_name

@@ -14,7 +14,7 @@ use Spatie\Permission\Contracts\Permission;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 
 /**
- * Modules\Xot\Contracts\ModelProfileContract.
+ * Modules\Xot\Contracts\ProfileContract.
  *
  * @property string                $id
  * @property string                $email
