@@ -9,7 +9,8 @@ use Webmozart\Assert\Assert;
 
 trait NavigationLabelTrait
 {
-    public static function trans(string $key): string
+    use TransTrait;
+    /*public static function trans(string $key): string
     {
         $transKey = app(GetTransKeyAction::class)->execute(static::class);
         $tmp = $transKey.'.'.$key;
@@ -20,6 +21,7 @@ trait NavigationLabelTrait
 
         return 'fix:'.$tmp;
     }
+    */
 
     public static function getModelLabel(): string
     {

@@ -85,13 +85,24 @@ class GetTransKeyAction
         $piece = explode('.', $tmp);
 
         $tmp = Str::of($tmp)->replace('.pages.list.', '.')->toString();
+        // $tmp = Str::of($tmp)->replace('.pages.create.', '.')->toString();
+        // $tmp = Str::of($tmp)->replace('.pages.edit.', '.')->toString();
+        // $tmp = Str::of($tmp)->replace('.pages.view.', '.')->toString();
         $tmp = Str::of($tmp)->replace('::enums.', '::')->toString();
         $tmp = Str::of($tmp)->replace('.relation.', '.')->toString();
 
         if (Str::endsWith($tmp, '.pages.list')) {
             $tmp = Str::before($tmp, '.pages.list');
         }
-
+        if (Str::endsWith($tmp, '.pages.create')) {
+            $tmp = Str::before($tmp, '.pages.create');
+        }
+        if (Str::endsWith($tmp, '.pages.edit')) {
+            $tmp = Str::before($tmp, '.pages.edit');
+        }
+        if (Str::endsWith($tmp, '.pages.view')) {
+            $tmp = Str::before($tmp, '.pages.view');
+        }
         if (Str::contains($tmp, '::actions.') && count($piece) >= 3) {
             $piece = array_slice($piece, 0, -1);
             $tmp = Str::of(implode('.', $piece))->replace('::actions.', '::')->toString();
