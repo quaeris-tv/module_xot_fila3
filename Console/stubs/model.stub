@@ -48,10 +48,13 @@ class DummyClass extends BaseModel {
     protected function casts(): array
     {
         return [
-
-    'updated_by' => 'string',
-    'created_by' => 'string',
-    'deleted_by' => 'string',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+            'deleted_at' => 'datetime',
+            
+            'updated_by' => 'string',
+            'created_by' => 'string',
+            'deleted_by' => 'string',
 
         ];
     }
