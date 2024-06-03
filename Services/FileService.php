@@ -121,7 +121,7 @@ class FileService
                 }
             }
 
-            Assert::string($asset,'['.__LINE__.']['.__FILE__.']');
+            Assert::string($asset, '['.__LINE__.']['.__FILE__.']');
 
             return $asset;
         }
@@ -151,7 +151,7 @@ class FileService
             File::copy($filename_from, $filename_to);
         }
 
-        Assert::string($asset,'['.__LINE__.']['.__FILE__.']');
+        Assert::string($asset, '['.__LINE__.']['.__FILE__.']');
 
         return $asset;
 
@@ -788,7 +788,7 @@ class FileService
         $ns_name = Str::before($key, '::');
         $stringable = Str::of($key)->after('::')->toString();
         $ns_dir = self::getViewNameSpacePath($ns_name);
-        Assert::string($group_dir = Str::replace('.', '/', $stringable),'['.__LINE__.']['.__FILE__.']');
+        Assert::string($group_dir = Str::replace('.', '/', $stringable), '['.__LINE__.']['.__FILE__.']');
         $res = $ns_dir.'/'.$group_dir.'.blade.php';
 
         return self::fixPath($res);
@@ -904,7 +904,7 @@ class FileService
      */
     public static function getComponents(string $path, string $namespace, string $prefix, bool $force_recreate = false): array
     {
-        Assert::string($namespace = Str::replace('/', '\\', $namespace),'['.__LINE__.']['.__FILE__.']');
+        Assert::string($namespace = Str::replace('/', '\\', $namespace), '['.__LINE__.']['.__FILE__.']');
         $components_json = $path.'/_components.json';
         $components_json = self::fixPath($components_json);
 
