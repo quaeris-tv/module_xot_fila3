@@ -74,7 +74,7 @@ class ExportXlsStreamByLazyCollection
                         return $trans;
                     }
 
-                    Assert::string($item1 = Str::replace('.', '_', $item));
+                    Assert::string($item1 = Str::replace('.', '_', $item), '['.__LINE__.']['.__FILE__.']');
                     $key = $transKey.'.fields.'.$item1;
                     $trans = trans($key);
                     if ($trans !== $key) {

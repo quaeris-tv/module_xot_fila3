@@ -49,8 +49,8 @@ class XotServiceProvider extends XotBaseServiceProvider
 
     public function registerTimezone(): void
     {
-        Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin');
-        Assert::string($date_format = config('app.date_format') ?? 'd/m/Y');
+        Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin', '['.__LINE__.']['.__FILE__.']');
+        Assert::string($date_format = config('app.date_format') ?? 'd/m/Y', '['.__LINE__.']['.__FILE__.']');
         date_default_timezone_set($timezone);
 
         DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone($timezone));
