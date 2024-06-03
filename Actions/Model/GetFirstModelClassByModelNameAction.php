@@ -21,7 +21,7 @@ class GetFirstModelClassByModelNameAction
     public function execute(string $modelName): string
     {
         $models = app(GetAllModelsAction::class)->execute();
-        Assert::string($modelClass = collect($models)->get($modelName));
+        Assert::string($modelClass = collect($models)->get($modelName), '['.__LINE__.']['.__FILE__.']');
 
         return $modelClass;
     }

@@ -26,7 +26,7 @@ class Search
     {
         $search_fields = [];
         $model = $query->getModel();
-        Assert::string($q = request('q', ''));
+        Assert::string($q = request('q', ''), '['.__LINE__.']['.__FILE__.']');
         $search_fields = $model->getFillable();
         // $table = $model->getTable();
         if (\strlen($q) > 1) {

@@ -933,7 +933,7 @@ if (! function_exists('getRouteAction')) {
 if (! function_exists('getModTradFilepath')) {
     function getModTradFilepath(string $file_path): string
     {
-        Assert::string($file_path = Str::replace('\\', '/', $file_path), 'wip');
+        Assert::string($file_path = Str::replace('\\', '/', $file_path), '['.__LINE__.']['.__FILE__.']');
 
         $stringable = Str::of($file_path)->after('/Modules/')->before('/')->lower();
         $info = pathinfo($file_path);
