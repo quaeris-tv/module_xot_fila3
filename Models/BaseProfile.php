@@ -41,14 +41,14 @@ use Spatie\SchemalessAttributes\SchemalessAttributesTrait;
  * @property string|null                                                                                                   $user_name
  *
  * @method static \Modules\EWall\Database\Factories\ProfileFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Profile      newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Profile      newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Profile      permission($permissions, $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder|Profile      query()
- * @method static \Illuminate\Database\Eloquent\Builder|Profile      role($roles, $guard = null, $without = false)
- * @method static Builder|BaseProfile                                withExtraAttributes()
- * @method static \Illuminate\Database\Eloquent\Builder|Profile      withoutPermission($permissions)
- * @method static \Illuminate\Database\Eloquent\Builder|Profile      withoutRole($roles, $guard = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile    newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile    newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile    permission($permissions, $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile    query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile    role($roles, $guard = null, $without = false)
+ * @method static Builder|BaseProfile                              withExtraAttributes()
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile    withoutPermission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile    withoutRole($roles, $guard = null)
  *
  * @mixin \Eloquent
  */
