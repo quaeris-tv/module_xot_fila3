@@ -40,7 +40,7 @@ use Spatie\SchemalessAttributes\SchemalessAttributesTrait;
  * @property \Modules\User\Models\User|null                                                                                $user
  * @property string|null                                                                                                   $user_name
  *
- * @method static \Modules\Camping\Database\Factories\ProfileFactory factory($count = null, $state = [])
+ * @method static \Modules\EWall\Database\Factories\ProfileFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Profile      newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Profile      newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Profile      permission($permissions, $without = false)
