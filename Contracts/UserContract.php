@@ -21,7 +21,7 @@ use Spatie\Permission\Contracts\Role;
  * Modules\User\Contracts\UserContract.
  *
  * @property ProfileContract|null                        $profile
- * @property int                                         $id
+ * @property string                                      $id
  * @property string                                      $handle
  * @property string|null                                 $first_name
  * @property string|null                                 $last_name
@@ -48,6 +48,8 @@ interface UserContract extends CanResetPassword, FilamentUser, HasTeamsContract,
 
     /**
      * Update the model in the database.
+     *
+     * @param mixed $key
      *
      * @return bool
      */
@@ -80,7 +82,7 @@ interface UserContract extends CanResetPassword, FilamentUser, HasTeamsContract,
     /**
      * Determine if the model has (one of) the given role(s).
      */
-    public function hasRole(string|int|array|Role|\Illuminate\Support\Collection $roles, ?string $guard = null): bool;
+    public function hasRole(string|int|array|Role|\Illuminate\Support\Collection $roles, string $guard = null): bool;
 
     /**
      * Assign the given role to the model.
