@@ -8,12 +8,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Console\Commands;
 
-use Illuminate\Support\Str;
-use Webmozart\Assert\Assert;
 use Illuminate\Console\Command;
-use Nwidart\Modules\Facades\Module;
-use Illuminate\Support\Facades\File;
 use Modules\Xot\Actions\Generate\GenerateModelByModelClass;
+use Webmozart\Assert\Assert;
 
 class GenerateModelByModelClassCommand extends Command
 {
@@ -51,6 +48,5 @@ class GenerateModelByModelClassCommand extends Command
         app(GenerateModelByModelClass::class)
             ->setCustomReplaces(['DummyTable' => 'lime_survey_xxx'])
             ->execute($model_class);
-
     }
 }
