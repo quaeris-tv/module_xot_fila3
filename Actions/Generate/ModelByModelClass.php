@@ -38,6 +38,7 @@ class ModelByModelClass
         // dddx([file_exists($factory_class), $factory_class, $model_class, class_exists($model_class)]);
         if (class_exists($factory_class)) {
             dddx('a');
+
             // return $factory_class::new();
             return new $factory_class();
         }
