@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @see https://medium.com/@yohan7788/seeders-and-faker-in-laravel-6806084a0c7.
  */
 
-namespace Modules\Xot\Actions\Factory;
+namespace Modules\Xot\Actions\Generate;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
@@ -19,7 +19,7 @@ use Spatie\QueueableAction\QueueableAction;
 /**
  * @see https://github.com/mpociot/laravel-test-factory-helper/blob/master/src/Console/GenerateCommand.php#L213
  */
-class GenerateModelByModelClass
+class ModelByModelClass
 {
     use QueueableAction;
 
@@ -34,11 +34,11 @@ class GenerateModelByModelClass
      */
     public function execute(string $model_class)
     {
-        dddx('wip');
         $factory_class = $this->getFactoryClass($model_class);
-
+        dddx([file_exists($factory_class), $factory_class, $model_class, class_exists($model_class)]);
         if (class_exists($factory_class)) {
-            return $factory_class::new();
+            // return $factory_class::new();
+            return new $factory_class;
         }
 
         $this->createFactory($model_class);
@@ -49,11 +49,11 @@ class GenerateModelByModelClass
     public function getFactoryClass(string $model_class): string
     {
         $model_name = class_basename($model_class);
+        // dddx($model_name);
         $factory_class = Str::of($model_class)
-            ->before('\Models\\')
-            ->append('\Database\Factories\\')
-            ->append($model_name)
-            ->append('Factory')
+            // ->before('\Models\\')
+            // ->append('\Models\\')
+            // ->append($model_name)
             ->toString();
 
         return $factory_class;
@@ -68,27 +68,11 @@ class GenerateModelByModelClass
      */
     public function createFactory(string $model_class)
     {
-        /*
-        $model = app($model_class);
-        $dataFromTable = app(GetPropertiesFromTableByModelAction::class)->execute($model);
-        $dataFromMethods = app(GetPropertiesFromMethodsByModelAction::class)->execute($model);
-
-        dddx([
-            'dataFromTable' => $dataFromTable,
-            'dataFromMethods' => $dataFromMethods,
-        ]);
-        */
         $model_name = class_basename($model_class);
         $module_name = Str::of($model_class)->between('Modules\\', '\Models\\')->toString();
-        $artisan_cmd = 'module:make-factory';
-        $artisan_params = ['name' => $model_name, 'module' => $module_name];
+        $artisan_cmd = 'module:make-model';
+        $artisan_params = ['model' => $model_name, 'module' => $module_name];
+        // dddx([$artisan_cmd, $artisan_params]);
         Artisan::call($artisan_cmd, $artisan_params);
-
-        /*
-        dddx([
-            'message' => 'WIP',
-            'model_name' => $model_class,
-        ]);
-        */
     }
 }
