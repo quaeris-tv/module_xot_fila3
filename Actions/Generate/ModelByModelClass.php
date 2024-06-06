@@ -35,13 +35,14 @@ class ModelByModelClass
     public function execute(string $model_class)
     {
         $factory_class = $this->getFactoryClass($model_class);
-        dddx([file_exists($factory_class), $factory_class, $model_class, class_exists($model_class)]);
+        // dddx([file_exists($factory_class), $factory_class, $model_class, class_exists($model_class)]);
         if (class_exists($factory_class)) {
+            dddx('a');
             // return $factory_class::new();
             return new $factory_class();
         }
 
-        $this->createFactory($model_class);
+        $this->createModel($model_class);
 
         throw new \Exception('Generating Factory ['.$factory_class.'] press [F5] to refresh page ['.__LINE__.']['.__FILE__.']');
     }
@@ -66,7 +67,7 @@ class ModelByModelClass
      *
      * @return void
      */
-    public function createFactory(string $model_class)
+    public function createModel(string $model_class)
     {
         $model_name = class_basename($model_class);
         $module_name = Str::of($model_class)->between('Modules\\', '\Models\\')->toString();
