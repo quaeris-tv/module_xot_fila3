@@ -3,10 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Modules\Xot\Database\Migrations\XotBaseMigration;
-use Spatie\Health\Models\HealthCheckResultHistoryItem;
-use Spatie\Health\ResultStores\EloquentHealthResultStore;
 
 return new class() extends XotBaseMigration {
     /**
@@ -16,10 +13,7 @@ return new class() extends XotBaseMigration {
      */
     public function up()
     {
-        // $connection = (new HealthCheckResultHistoryItem())->getConnectionName();
-        // $tableName = EloquentHealthResultStore::getHistoryItemInstance()->getTable();
-
-        // Schema::connection($connection)->create($tableName, function (Blueprint $table) {
+        // -- CREATE --
         $this->tableCreate(
             function (Blueprint $table): void {
                 $table->id();
@@ -33,13 +27,19 @@ return new class() extends XotBaseMigration {
                 $table->timestamp('ended_at');
                 $table->uuid('batch')->index();
 
-                $table->timestamps();
+                // $table->timestamps();
             }
         );
 
-        // Schema::connection($connection)->table($tableName, function (Blueprint $table) {
-        //    $table->index('created_at');
-        //    $table->index('batch');
-        // });
+        // -- UPDATE --
+        $this->tableUpdate(
+            function (Blueprint $table): void {
+                if (! $this->hasColumn('id')) {
+                    $table->increments('id');
+                }
+
+                $this->updateTimestamps(table: $table, hasSoftDeletes: false);
+            }
+        );
     }
 };
