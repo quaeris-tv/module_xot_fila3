@@ -34,10 +34,6 @@ return new class() extends XotBaseMigration {
         // -- UPDATE --
         $this->tableUpdate(
             function (Blueprint $table): void {
-                if (! $this->hasColumn('id')) {
-                    $table->increments('id');
-                }
-
                 $this->updateTimestamps(table: $table, hasSoftDeletes: false);
             }
         );
