@@ -72,17 +72,20 @@ class XotServiceProvider extends XotBaseServiceProvider
     public function registerExceptionHandler(): void
     {
         $exceptionHandler = $this->app->make(ExceptionHandler::class);
+
         $exceptionHandler->reporter(
             static function (\Throwable $e): void {
                 $data = (new WebhookErrorFormatter($e))->format();
                 if ($e instanceof AuthenticationException) {
                     return;
                 }
-                Log::channel('slack_errors')
-                    ->error(
-                        $e->getMessage(),
-                        $data
-                    );
+                if (is_string(config('logging.channels.slack_errors.url'))) {
+                    Log::channel('slack_errors')
+                        ->error(
+                            $e->getMessage(),
+                            $data
+                        );
+                }
             }
         );
 
