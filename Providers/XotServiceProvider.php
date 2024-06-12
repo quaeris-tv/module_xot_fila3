@@ -4,27 +4,29 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Providers;
 
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\TimePicker;
-use Filament\Tables\Columns\TextColumn;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Database\Events\MigrationsEnded;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\File;
+use Webmozart\Assert\Assert;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
-use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
+use Illuminate\Support\Facades\Event;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TimePicker;
+use Modules\Xot\View\Composers\XotComposer;
+use Illuminate\Auth\AuthenticationException;
+use Filament\Forms\Components\DateTimePicker;
+use Illuminate\Database\Events\MigrationsEnded;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
-use Modules\Xot\Providers\Traits\TranslatorTrait;
-use Modules\Xot\View\Composers\XotComposer;
+
+use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use function Safe\realpath;
-
-use Webmozart\Assert\Assert;
 
 /**
  * Class XotServiceProvider..
@@ -78,6 +80,9 @@ class XotServiceProvider extends XotBaseServiceProvider
                 $data = (new WebhookErrorFormatter($e))->format();
                 if ($e instanceof AuthenticationException) {
                     return;
+                }
+                if($e instanceof NotFoundHttpException) {
+                    return ;
                 }
                 if (is_string(config('logging.channels.slack_errors.url'))) {
                     Log::channel('slack_errors')
