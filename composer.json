@@ -25,10 +25,11 @@
         "illuminate/contracts": "*",
         "illuminate/support": "*",
         "laraxot/module_tenant_fila3": "dev-master",
-        "spatie/laravel-health": "^1.29",
         "livewire/livewire": "*",
+        "maatwebsite/excel": "^3.1",
         "nwidart/laravel-modules": "*",
         "spatie/laravel-data": "*",
+        "spatie/laravel-health": "^1.29",
         "spatie/laravel-model-status": "*",
         "spatie/laravel-package-tools": "*",
         "spatie/laravel-permission": "*",
@@ -62,7 +63,7 @@
         "tightenco/duster": "*",
         "vimeo/psalm": "*"
     },
-    "repositories_comment": [
+    "repositories": [
         {
             "type": "path",
             "url": "../Tenant"
