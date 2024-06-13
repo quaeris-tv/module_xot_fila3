@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\Class\GetFilenameByClassnameAction;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class GenerateModelByModelClass
 {
@@ -19,7 +20,7 @@ class GenerateModelByModelClass
     /**
      * Execute the function with the given model class.
      *
-     * @param string $model_class the class name of the model
+     * @param class-string $model_class the class name of the model
      *
      * @return void
      */
@@ -38,6 +39,7 @@ class GenerateModelByModelClass
         }
         $content = str_replace(' extends Model', ' extends BaseModel', $content);
         $content = str_replace('use HasFactory;', '', $content);
+        Assert::string($content, '['.__LINE__.']['.__FILE__.']');
 
         if ($content != $content_old) {
             File::put($filename, $content);
@@ -47,7 +49,7 @@ class GenerateModelByModelClass
     public function replaceDummyTable(string $value, string $content): string
     {
         $table_start = strpos($content, 'protected $table');
-        $fillable_start = strpos($content, 'protected $fillable');
+        Assert::integer($fillable_start = strpos($content, 'protected $fillable'), '['.__LINE__.']['.__FILE__.']');
         $fillable_end = strpos($content, '];', $fillable_start);
         if (false === $table_start) {
             $before = substr($content, 0, $fillable_end + 2);

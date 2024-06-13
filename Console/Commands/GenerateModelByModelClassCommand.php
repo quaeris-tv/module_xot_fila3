@@ -43,7 +43,7 @@ class GenerateModelByModelClassCommand extends Command
      */
     public function handle(): void
     {
-        Assert::string($model_class = $this->argument('model_class'), '['.__LINE__.']['.__FILE__.']');
+        Assert::classExists($model_class = $this->argument('model_class'), '['.__LINE__.']['.__FILE__.']');
 
         app(GenerateModelByModelClass::class)
             ->setCustomReplaces(['DummyTable' => 'lime_survey_xxx'])

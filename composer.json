@@ -17,7 +17,7 @@
     "require": {
         "php": "^8.2",
         "calebporzio/sushi": "^2.5",
-        "doctrine/dbal": "*",
+        "doctrine/dbal": "^3.8",
         "fidum/laravel-eloquent-morph-to-one": "*",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
@@ -68,10 +68,6 @@
         {
             "type": "path",
             "url": "../Tenant"
-        },
-        {
-            "type": "path",
-            "url": "../UI"
         },
         {
             "type": "path",

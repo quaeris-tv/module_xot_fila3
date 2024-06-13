@@ -13,7 +13,7 @@ class GetFilenameByClassnameAction
     use QueueableAction;
 
     /**
-     * @param class-string<T of object>|T of object $class_name
+     * @param class-string $class_name
      */
     public function execute(string $class_name): string
     {
