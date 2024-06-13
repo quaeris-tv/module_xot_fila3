@@ -24,7 +24,6 @@
         "guzzlehttp/guzzle": "*",
         "illuminate/contracts": "*",
         "illuminate/support": "*",
-        "laraxot/module_tenant_fila3": "*",
         "livewire/livewire": "*",
         "livewire/volt": "^1.6",
         "maatwebsite/excel": "^3.1",
@@ -43,6 +42,9 @@
         "thecodingmachine/safe": "^2.5",
         "tightenco/parental": "^1.4"
     },
+    "require_comment": {
+        "laraxot/module_tenant_fila3": "*"
+    },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "*",
         "enlightn/enlightn": "^2.7",
@@ -58,7 +60,6 @@
         "pestphp/pest-plugin-laravel": "*",
         "phpstan/phpstan-deprecation-rules": "*",
         "phpstan/phpstan-phpunit": "*",
-        
         "spatie/laravel-ray": "*",
         "symplify/phpstan-rules": "*",
         "thecodingmachine/phpstan-safe-rule": "^1.2",
