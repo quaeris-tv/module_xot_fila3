@@ -24,10 +24,11 @@
         "guzzlehttp/guzzle": "*",
         "illuminate/contracts": "*",
         "illuminate/support": "*",
-        "laraxot/module_tenant_fila3": "dev-master",
+        "laraxot/module_tenant_fila3": "*",
         "livewire/livewire": "*",
         "maatwebsite/excel": "^3.1",
         "nwidart/laravel-modules": "*",
+        "spatie/cpu-load-health-check": "^1.0",
         "spatie/laravel-data": "*",
         "spatie/laravel-health": "^1.29",
         "spatie/laravel-model-status": "*",
@@ -75,10 +76,6 @@
         {
             "type": "path",
             "url": "../../packages/savannabits/filament-modules"
-        },
-        {
-            "type": "path",
-            "url": "../../packages/sevendays-digital/filament-nested-resources"
         },
         {
             "type": "composer",

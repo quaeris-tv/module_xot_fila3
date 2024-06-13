@@ -20,6 +20,8 @@ class GenerateModelByModelClass
      * Execute the function with the given model class.
      *
      * @param string $model_class the class name of the model
+     *
+     * @return void
      */
     public function execute(string $model_class)
     {
