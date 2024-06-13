@@ -83,6 +83,7 @@ class XotServiceProvider extends XotBaseServiceProvider
                 if ($e instanceof NotFoundHttpException) {
                     return;
                 }
+
                 if (is_string(config('logging.channels.slack_errors.url'))) {
                     Log::channel('slack_errors')
                         ->error(
