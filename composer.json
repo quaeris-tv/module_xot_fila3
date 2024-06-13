@@ -111,7 +111,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Xot\\Provider\\XotServiceProvider"
+                "Modules\\Xot\\Providers\\XotServiceProvider"
 
             ],
             "aliases": {}
