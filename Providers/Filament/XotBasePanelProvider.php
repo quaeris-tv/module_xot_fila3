@@ -71,21 +71,43 @@ abstract class XotBasePanelProvider extends PanelProvider
                 ]
             )
 
-            ->discoverResources(in: base_path('Modules/'.$this->module.'/Filament/Resources'), for: sprintf('%s\Filament\Resources', $moduleNamespace))
-            ->discoverPages(in: base_path('Modules/'.$this->module.'/Filament/Pages'), for: sprintf('%s\Filament\Pages', $moduleNamespace))
+            ->discoverResources(
+                in: base_path('Modules/'.$this->module.'/Filament/Resources'),
+                for: sprintf('%s\Filament\Resources', $moduleNamespace)
+            )
+            ->discoverPages(
+                in: base_path('Modules/'.$this->module.'/Filament/Pages'),
+                for: sprintf('%s\Filament\Pages', $moduleNamespace)
+            )
             ->pages(
                 [
                     // Dashboard::class,
                 ]
             )
-            ->discoverWidgets(in: base_path('Modules/'.$this->module.'/Filament/Widgets'), for: sprintf('%s\Filament\Widgets', $moduleNamespace))
+            ->discoverWidgets(
+                in: base_path('Modules/'.$this->module.'/Filament/Widgets'),
+                for: sprintf('%s\Filament\Widgets', $moduleNamespace)
+            )
             ->widgets(
                 [
                     // Widgets\AccountWidget::class,
                     // Widgets\FilamentInfoWidget::class,
                 ]
             )
-            ->discoverClusters(in: base_path('Modules/'.$this->module.'/Filament/Clusters'), for: sprintf('%s\Filament\Clusters', $moduleNamespace))
+            ->discoverClusters(
+                in: base_path('Modules/'.$this->module.'/Filament/Clusters'),
+                for: sprintf('%s\Filament\Clusters', $moduleNamespace)
+            )
+            /*
+            $panel->discoverLivewireComponents(
+                in: $module->appPath('Livewire'),
+                for: $module->appNamespace('\\Livewire')
+            )
+            */
+            ->discoverLivewireComponents(
+                in: base_path('Modules/'.$this->module.'/Http/Livewire'),
+                for: sprintf('%s\Http\Livewire', $moduleNamespace)
+            )
             ->middleware(
                 [
                     EncryptCookies::class,

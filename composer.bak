@@ -13,7 +13,6 @@
         "fidum/laravel-eloquent-morph-to-one": "^2.1",
         "guzzlehttp/guzzle": "*",
         "illuminate/contracts": "*",
-        "intervention/image": "^2.7",
         "laravelcollective/html": "^6.3",
         "livewire/livewire": "^3.2",
         "mcamara/laravel-localization": "*",
