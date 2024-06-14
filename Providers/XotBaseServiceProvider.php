@@ -58,8 +58,11 @@ abstract class XotBaseServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->module_ns = collect(explode('\\', $this->module_ns))->slice(0, -1)->implode('\\');
-        $this->app->register(''.$this->module_ns.'\Providers\RouteServiceProvider');
+        // $this->module_ns = collect(explode('\\', $this->module_ns))->slice(0, -1)->implode('\\');
+        // $this->app->register(''.$this->module_ns.'\Providers\RouteServiceProvider');
+
+        // $this->app->register(EventServiceProvider::class);
+        $this->app->register(RouteServiceProvider::class);
         if (method_exists($this, 'registerCallback')) {
             $this->registerCallback();
         }

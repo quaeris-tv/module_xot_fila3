@@ -18,6 +18,7 @@
         "php": "^8.2",
         "calebporzio/sushi": "^2.5",
         "doctrine/dbal": "*",
+        "coolsam/modules": "dev-dev",
         "fidum/laravel-eloquent-morph-to-one": "*",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
@@ -45,7 +46,7 @@
     "require_comment": {
         "laraxot/module_tenant_fila3": "*"
     },
-    "require-dev": {
+    "require-dev_comment": {
         "barryvdh/laravel-ide-helper": "*",
         "enlightn/enlightn": "^2.7",
         "fakerphp/faker": "*",
@@ -107,7 +108,9 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Xot\\Providers\\XotServiceProvider"
+                "Modules\\Xot\\Providers\\XotServiceProvider",
+                "Modules\\Xot\\Providers\\Filament\\ModulesServiceProvider"
+                
 
             ],
             "aliases": {}

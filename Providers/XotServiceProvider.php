@@ -46,6 +46,19 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->registerEvents();
         $this->registerExceptionHandler();
         $this->registerTimezone();
+        $this->registerProviders();
+    }
+
+    public function registerCallback(): void
+    {
+        $this->registerConfigs();
+        $this->registerExceptionHandlersRepository();
+        $this->extendExceptionHandler();
+    }
+
+    public function registerProviders(): void
+    {
+        // $this->app->register(Filament\ModulesServiceProvider::class);
     }
 
     public function registerTimezone(): void
@@ -58,13 +71,6 @@ class XotServiceProvider extends XotBaseServiceProvider
         DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone)->displayFormat($date_format));
         TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
-    }
-
-    public function registerCallback(): void
-    {
-        $this->registerConfigs();
-        $this->registerExceptionHandlersRepository();
-        $this->extendExceptionHandler();
     }
 
     /**
