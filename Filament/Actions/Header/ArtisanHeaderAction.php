@@ -10,9 +10,9 @@ namespace Modules\Xot\Filament\Actions\Header;
 // Header actions must be an instance of Filament\Actions\Action, or Filament\Actions\ActionGroup.
 // use Filament\Tables\Actions\Action;
 use Filament\Actions\Action;
-use Webmozart\Assert\Assert;
-use Illuminate\Support\Facades\Artisan;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Artisan;
+use Webmozart\Assert\Assert;
 
 class ArtisanHeaderAction extends Action
 {

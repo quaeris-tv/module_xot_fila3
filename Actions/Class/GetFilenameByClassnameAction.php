@@ -20,11 +20,11 @@ class GetFilenameByClassnameAction
         try {
             $path = str_replace('\\', '/', $class_name);
             $path = base_path($path).'.php';
+
             return $path;
         } catch (\Throwable $th) {
-            //throw $th;
+            // throw $th;
         }
-
 
         $reflector = new \ReflectionClass($class_name);
 
