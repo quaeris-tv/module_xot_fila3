@@ -10,8 +10,9 @@ namespace Modules\Xot\Filament\Actions\Header;
 // Header actions must be an instance of Filament\Actions\Action, or Filament\Actions\ActionGroup.
 // use Filament\Tables\Actions\Action;
 use Filament\Actions\Action;
-use Filament\Notifications\Notification;
+use Webmozart\Assert\Assert;
 use Illuminate\Support\Facades\Artisan;
+use Filament\Notifications\Notification;
 
 class ArtisanHeaderAction extends Action
 {
@@ -29,7 +30,7 @@ class ArtisanHeaderAction extends Action
             // ->icon('heroicon-o-arrow-down-tray')
             ->action(
                 function () {
-                    $cmd = $this->getName();
+                    Assert::string($cmd = $this->getName());
                     Artisan::call($cmd);
 
                     $output = Artisan::output();

@@ -17,9 +17,19 @@ class GetFilenameByClassnameAction
      */
     public function execute(string $class_name): string
     {
+        try {
+            $path = str_replace('\\', '/', $class_name);
+            $path = base_path($path).'.php';
+            return $path;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+
         $reflector = new \ReflectionClass($class_name);
 
         $filename = $reflector->getFileName();
+
         if (is_string($filename)) {
             return $filename;
         }

@@ -12,9 +12,9 @@ class Clock extends Widget
 {
     protected static string $view = 'modules.xot.filament.widgets.clock';
 
-    public $start = 3;
+    public int $start = 3;
 
-    public function begin()
+    public function begin(): void
     {
         // while ($this->start >= 0) {
         while (1) {
