@@ -12,12 +12,13 @@ class Clock extends Widget
 {
     protected static string $view = 'modules.xot.filament.widgets.clock';
 
-    public int $start = 3;
+    public string $start = '';
 
     public function begin(): void
     {
         // while ($this->start >= 0) {
-        while (1) {
+        $cond=true;
+        while ($cond) {
             // Stream the current count to the browser...
             $this->stream(
                 to: 'count',
@@ -30,7 +31,7 @@ class Clock extends Widget
 
             // Decrement the counter...
             // $this->start = $this->start - 1;
-            $this->start = now();
+            $this->start = (string) now();
         }
     }
 }
