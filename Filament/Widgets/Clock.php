@@ -17,7 +17,7 @@ class Clock extends Widget
     public function begin(): void
     {
         // while ($this->start >= 0) {
-        $cond=true;
+        $cond = true;
         while ($cond) {
             // Stream the current count to the browser...
             $this->stream(
