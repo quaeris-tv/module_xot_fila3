@@ -11,6 +11,7 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Database\Events\MigrationsEnded;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -65,6 +66,9 @@ class XotServiceProvider extends XotBaseServiceProvider
     {
         Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin', '['.__LINE__.']['.__FILE__.']');
         Assert::string($date_format = config('app.date_format') ?? 'd/m/Y', '['.__LINE__.']['.__FILE__.']');
+        Assert::string($locale = config('app.locale') ?? 'it', '['.__LINE__.']['.__FILE__.']');
+
+        Carbon::setLocale($locale);
         date_default_timezone_set($timezone);
 
         DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone($timezone));
