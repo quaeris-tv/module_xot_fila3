@@ -32,6 +32,9 @@ class Clock extends Widget
             // Decrement the counter...
             // $this->start = $this->start - 1;
             $this->start = (string) now();
+            if ('impossible' === $this->start) {
+                $cond = false;
+            }
         }
     }
 }
