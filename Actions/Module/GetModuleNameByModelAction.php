@@ -7,12 +7,12 @@ namespace Modules\Xot\Actions\Module;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\QueueableAction\QueueableAction;
 
-class GetModuleNameFromModelAction
+class GetModuleNameByModelAction
 {
     use QueueableAction;
 
     public function execute(Model $model): string
     {
-        return app(GetModuleNameFromModelClassAction::class)->execute($model::class);
+        return app(GetModuleNameByModelClassAction::class)->execute($model::class);
     }
 }

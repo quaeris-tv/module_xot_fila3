@@ -51,6 +51,8 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         // Illuminate\Contracts\Container\BindingResolutionException: Target class [modules] does not exist.
         $this->registerBladeComponents();
         $this->registerCommands();
+
+        // $this->app->register(''.$this->module_ns.'\Providers\Filament\AdminPanelProvider');
     }
 
     /**
@@ -61,6 +63,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         $this->module_ns = collect(explode('\\', $this->module_ns))->slice(0, -1)->implode('\\');
         $this->app->register(''.$this->module_ns.'\Providers\RouteServiceProvider');
 
+        $this->app->register(''.$this->module_ns.'\Providers\Filament\AdminPanelProvider');
         // $this->app->register(EventServiceProvider::class);
         // $this->app->register(RouteServiceProvider::class);
         if (method_exists($this, 'registerCallback')) {
