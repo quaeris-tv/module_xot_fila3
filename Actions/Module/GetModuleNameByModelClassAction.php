@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Spatie\QueueableAction\QueueableAction;
 
-class GetModuleNameFromModelAction
+class GetModuleNameByModelClassAction
 {
     use QueueableAction;
 
-    public function execute(Model $model): string
+    public function execute(string $model_class): string
     {
         
-        return app(GetModuleNameFromModelClassAction::class)->execute($model::class);
+        $module = Str::between($model_class, 'Modules\\', '\Models\\');
+
+        return (string) $module;
     }
 }

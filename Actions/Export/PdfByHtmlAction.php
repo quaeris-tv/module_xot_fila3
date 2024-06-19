@@ -25,14 +25,13 @@ class PdfByHtmlAction
         $path = Storage::disk($disk)->path($filename);
         $html2pdf->output($path, 'F');
 
-        $res = $html2pdf->output($path, 'F');
-
         $headers = [
             'Content-Type' => 'application/pdf',
         ];
 
         return match ($out) {
             'download' => response()->download($path, $filename, $headers),
+            'content'  => $html2pdf->output($path, 'S'),  //D
             default => $path,
         };
     }
