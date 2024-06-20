@@ -18,17 +18,20 @@
         "php": "^8.2",
         "calebporzio/sushi": "^2.5",
         "doctrine/dbal": "*",
+        "coolsam/modules": "dev-dev",
         "fidum/laravel-eloquent-morph-to-one": "*",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "guzzlehttp/guzzle": "*",
         "illuminate/contracts": "*",
         "illuminate/support": "*",
-        "laraxot/module_tenant_fila3": "dev-master",
-        "spatie/laravel-health": "^1.29",
         "livewire/livewire": "*",
+        "livewire/volt": "^1.6",
+        "maatwebsite/excel": "^3.1",
         "nwidart/laravel-modules": "*",
+        "spatie/cpu-load-health-check": "^1.0",
         "spatie/laravel-data": "*",
+        "spatie/laravel-health": "^1.29",
         "spatie/laravel-model-status": "*",
         "spatie/laravel-package-tools": "*",
         "spatie/laravel-permission": "*",
@@ -40,7 +43,10 @@
         "thecodingmachine/safe": "^2.5",
         "tightenco/parental": "^1.4"
     },
-    "require-dev": {
+    "require_comment": {
+        "laraxot/module_tenant_fila3": "*"
+    },
+    "require-dev_comment": {
         "barryvdh/laravel-ide-helper": "*",
         "enlightn/enlightn": "^2.7",
         "fakerphp/faker": "*",
@@ -55,29 +61,20 @@
         "pestphp/pest-plugin-laravel": "*",
         "phpstan/phpstan-deprecation-rules": "*",
         "phpstan/phpstan-phpunit": "*",
-        
         "spatie/laravel-ray": "*",
         "symplify/phpstan-rules": "*",
         "thecodingmachine/phpstan-safe-rule": "^1.2",
         "tightenco/duster": "*",
         "vimeo/psalm": "*"
     },
-    "repositories_comment": [
+    "repositories": [
         {
             "type": "path",
             "url": "../Tenant"
         },
         {
             "type": "path",
-            "url": "../UI"
-        },
-        {
-            "type": "path",
             "url": "../../packages/savannabits/filament-modules"
-        },
-        {
-            "type": "path",
-            "url": "../../packages/sevendays-digital/filament-nested-resources"
         },
         {
             "type": "composer",
@@ -111,7 +108,9 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Xot\\Provider\\XotServiceProvider"
+                "Modules\\Xot\\Providers\\XotServiceProvider",
+                "Modules\\Xot\\Providers\\Filament\\ModulesServiceProvider"
+                
 
             ],
             "aliases": {}

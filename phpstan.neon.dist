@@ -19,6 +19,8 @@ parameters:
         - '#Unsafe usage of new static#'
         - '#PHPDoc tag @mixin contains unknown class #'
         - '#Static call to instance method Nwidart#'
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
 
     excludePaths:
         - ./build/*
@@ -42,8 +44,8 @@ parameters:
 
     tmpDir: ./build/phpstan
     checkUnusedViews: false
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
+    #checkMissingIterableValueType: false
+    #checkGenericClassInNonGenericObjectType: false
     treatPhpDocTypesAsCertain: false
     reportUnmatchedIgnoredErrors: false
     checkOctaneCompatibility: false

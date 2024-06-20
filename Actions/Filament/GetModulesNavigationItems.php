@@ -52,6 +52,7 @@ class GetModulesNavigationItems
                             return false;
                         }
 
+                        // Call to an undefined method Illuminate\Foundation\Auth\User::hasRole()
                         return $user->hasRole($role);
                     }
                 );

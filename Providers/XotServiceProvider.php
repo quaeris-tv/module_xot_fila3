@@ -11,6 +11,7 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Database\Events\MigrationsEnded;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -46,18 +47,7 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->registerEvents();
         $this->registerExceptionHandler();
         $this->registerTimezone();
-    }
-
-    public function registerTimezone(): void
-    {
-        Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin', '['.__LINE__.']['.__FILE__.']');
-        Assert::string($date_format = config('app.date_format') ?? 'd/m/Y', '['.__LINE__.']['.__FILE__.']');
-        date_default_timezone_set($timezone);
-
-        DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone($timezone));
-        DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone)->displayFormat($date_format));
-        TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
-        TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
+        $this->registerProviders();
     }
 
     public function registerCallback(): void
@@ -65,6 +55,26 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->registerConfigs();
         $this->registerExceptionHandlersRepository();
         $this->extendExceptionHandler();
+    }
+
+    public function registerProviders(): void
+    {
+        // $this->app->register(Filament\ModulesServiceProvider::class);
+    }
+
+    public function registerTimezone(): void
+    {
+        Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin', '['.__LINE__.']['.__FILE__.']');
+        Assert::string($date_format = config('app.date_format') ?? 'd/m/Y', '['.__LINE__.']['.__FILE__.']');
+        Assert::string($locale = config('app.locale') ?? 'it', '['.__LINE__.']['.__FILE__.']');
+
+        Carbon::setLocale($locale);
+        date_default_timezone_set($timezone);
+
+        DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone($timezone));
+        DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone)->displayFormat($date_format));
+        TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
+        TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
     }
 
     /**
@@ -83,7 +93,11 @@ class XotServiceProvider extends XotBaseServiceProvider
                 if ($e instanceof NotFoundHttpException) {
                     return;
                 }
-                if (is_string(config('logging.channels.slack_errors.url'))) {
+
+                if (
+                    is_string(config('logging.channels.slack_errors.url'))
+                    && strlen(config('logging.channels.slack_errors.url')) > 5
+                ) {
                     Log::channel('slack_errors')
                         ->error(
                             $e->getMessage(),

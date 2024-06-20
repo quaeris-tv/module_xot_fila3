@@ -9,11 +9,10 @@
     "require": {
         "php": "^8.2",
         "calebporzio/sushi": "^2.4",
-        "doctrine/dbal": "^3.5",
+        "doctrine/dbal": "*",
         "fidum/laravel-eloquent-morph-to-one": "^2.1",
         "guzzlehttp/guzzle": "*",
         "illuminate/contracts": "*",
-        "intervention/image": "^2.7",
         "laravelcollective/html": "^6.3",
         "livewire/livewire": "^3.2",
         "mcamara/laravel-localization": "*",
