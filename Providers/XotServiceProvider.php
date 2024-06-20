@@ -94,7 +94,10 @@ class XotServiceProvider extends XotBaseServiceProvider
                     return;
                 }
 
-                if (is_string(config('logging.channels.slack_errors.url'))) {
+                if (
+                    is_string(config('logging.channels.slack_errors.url'))
+                    && strlen(config('logging.channels.slack_errors.url')) > 5
+                ) {
                     Log::channel('slack_errors')
                         ->error(
                             $e->getMessage(),
