@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models\Traits;
 
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Str;
 use Modules\Xot\Models\Extra;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait HasExtraTrait
 {
     public function extra(): MorphOne
     {
-        return $this->morphOne(Extra::class, 'model');
+
+        $extra_class = Str::of(static::class)
+            ->before('\Models\\')
+            ->append('\Models\Extra')
+            ->toString();
+
+        return $this->morphOne($extra_class, 'model');
     }
 
     /**
@@ -19,22 +26,10 @@ trait HasExtraTrait
      */
     public function getExtra(string $name)
     {
-        if (null == $this->extra) {
-            $res = $this->extra()->create([]);
-            $res->save();
-
-            return null;
-        }
-
-        return $this->extra->extra_attributes->get($name);
+        $value = $this->extra?->extra_attributes->get($name);
+        return $value;
     }
 
-    public function getExtraBool(string $name): bool
-    {
-        $extra = $this->getExtra($name);
-
-        return boolval($extra);
-    }
 
     /**
      * @param int|float|string|array|bool|null $value
@@ -43,10 +38,10 @@ trait HasExtraTrait
      */
     public function setExtra(string $name, $value)
     {
+
         $extra = $this->extra;
-        if (null == $this->extra) {
-            $res = $this->extra()->create([]);
-            $res->save();
+        if (null === $this->extra) {
+            $extra = $this->extra()->create(['extra_attributes' => []]);
         }
 
         $extra?->extra_attributes->set($name, $value);
