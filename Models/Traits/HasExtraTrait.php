@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models\Traits;
 
-use Illuminate\Support\Str;
-use Modules\Xot\Models\Extra;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Str;
 
 trait HasExtraTrait
 {
     public function extra(): MorphOne
     {
-
         $extra_class = Str::of(static::class)
             ->before('\Models\\')
             ->append('\Models\Extra')
@@ -27,9 +25,9 @@ trait HasExtraTrait
     public function getExtra(string $name)
     {
         $value = $this->extra?->extra_attributes->get($name);
+
         return $value;
     }
-
 
     /**
      * @param int|float|string|array|bool|null $value
@@ -38,7 +36,6 @@ trait HasExtraTrait
      */
     public function setExtra(string $name, $value)
     {
-
         $extra = $this->extra;
         if (null === $this->extra) {
             $extra = $this->extra()->create(['extra_attributes' => []]);
