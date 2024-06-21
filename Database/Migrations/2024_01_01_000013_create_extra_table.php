@@ -22,6 +22,7 @@ class CreateExtraTable extends XotBaseMigration
                 $table->increments('id');
                 $table->morphs('model');
                 $table->schemalessAttributes('extra_attributes');
+                $table->unique(['model_id', 'model_type'], 'morph_unique');
             }
         );
 
