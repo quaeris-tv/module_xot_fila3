@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models;
 
-use Webmozart\Assert\Assert;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\SchemalessAttributes\SchemalessAttributesTrait;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
+use Spatie\SchemalessAttributes\SchemalessAttributesTrait;
+use Webmozart\Assert\Assert;
 
 /**
  * Model Extra.
