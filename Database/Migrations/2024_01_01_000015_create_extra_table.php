@@ -22,6 +22,7 @@ class CreateExtraTable extends XotBaseMigration
                 $table->increments('id');
                 $table->morphs('model');
                 $table->schemalessAttributes('extra_attributes');
+                $table->unique(['model_id', 'model_type'], 'morph_unique');
             }
         );
 
@@ -32,6 +33,9 @@ class CreateExtraTable extends XotBaseMigration
                 //    $table->string('name')->nullable();
                 // }
                 $this->updateTimestamps(table: $table, hasSoftDeletes: true);
+                if(!$this->hasIndex('morph_unique')) {
+                    $table->unique(['model_id', 'model_type'], 'morph_unique');
+                }
             }
         );
     }
