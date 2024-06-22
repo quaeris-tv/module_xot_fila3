@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models\Traits;
 
-use Illuminate\Support\Str;
-use Modules\Xot\Models\Extra;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Str;
+use Modules\Xot\Models\Extra;
 
 trait HasExtraTrait
 {
     /**
      * Retrieves the morphed one-to-one relationship between the current model and the Extra model.
      *
-     * @return MorphOne<Extra> The morphed one-to-one relationship.
+     * @return MorphOne<Extra> the morphed one-to-one relationship
      */
     public function extra(): MorphOne
     {
