@@ -20,7 +20,7 @@ class GenerateModelByModelClass
     /**
      * Execute the function with the given model class.
      *
-     * @param class-string $model_class the class name of the model
+     * @param string $model_class the class name of the model
      *
      * @return void
      */
