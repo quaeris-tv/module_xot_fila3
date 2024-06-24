@@ -18,7 +18,7 @@
         "php": "^8.2",
         "calebporzio/sushi": "^2.5",
         "doctrine/dbal": "*",
-        "coolsam/modules": "dev-dev",
+        "coolsam/panel-modules":"*",
         "fidum/laravel-eloquent-morph-to-one": "*",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
@@ -41,10 +41,12 @@
         "spipu/html2pdf": "^5.2",
         "symfony/dom-crawler": "*",
         "thecodingmachine/safe": "^2.5",
-        "tightenco/parental": "^1.4"
+        "tightenco/parental": "^1.4",
+        "laravel/folio": "^1.1"
     },
     "require_comment": {
-        "laraxot/module_tenant_fila3": "*"
+        "laraxot/module_tenant_fila3": "*",
+        "coolsam/modules": "dev-dev"
     },
     "require-dev_comment": {
         "barryvdh/laravel-ide-helper": "*",
