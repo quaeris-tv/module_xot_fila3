@@ -17,14 +17,16 @@
     "require": {
         "php": "^8.2",
         "calebporzio/sushi": "^2.5",
+        "coolsam/panel-modules": "*",
         "doctrine/dbal": "*",
-        "coolsam/panel-modules":"*",
         "fidum/laravel-eloquent-morph-to-one": "*",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
+        "filament/spatie-laravel-translatable-plugin": "^3.2",
         "guzzlehttp/guzzle": "*",
         "illuminate/contracts": "*",
         "illuminate/support": "*",
+        "laravel/folio": "^1.1",
         "livewire/livewire": "*",
         "livewire/volt": "^1.6",
         "maatwebsite/excel": "^3.1",
@@ -41,8 +43,7 @@
         "spipu/html2pdf": "^5.2",
         "symfony/dom-crawler": "*",
         "thecodingmachine/safe": "^2.5",
-        "tightenco/parental": "^1.4",
-        "laravel/folio": "^1.1"
+        "tightenco/parental": "^1.4"
     },
     "require_comment": {
         "laraxot/module_tenant_fila3": "*",
