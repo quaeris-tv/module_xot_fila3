@@ -10,7 +10,6 @@ use Livewire\Wireable;
 use Modules\Tenant\Services\TenantService;
 use Modules\User\Models\Membership;
 use Modules\User\Models\Team;
-use Modules\User\Models\Tenant;
 use Modules\Xot\Contracts\ProfileContract;
 
 use function Safe\realpath;
@@ -125,8 +124,6 @@ class XotData extends Data implements Wireable
 
     public function getTenantResourceClass(): string
     {
-        // dddx($this->tenant_class); //Modules\Bimaticard\Models\Shop
-        // desiderata  Modules\Bimaticard\Filament\Resources\ShopResource
         return Str::of($this->tenant_class)
             ->replace('\Models\\', '\Filament\Resources\\')
             ->append('Resource')

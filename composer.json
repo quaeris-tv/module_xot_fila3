@@ -48,14 +48,18 @@
         "laraxot/module_tenant_fila3": "*",
         "coolsam/modules": "dev-dev"
     },
-    "require-dev_comment": {
-        "barryvdh/laravel-ide-helper": "*",
-        "enlightn/enlightn": "^2.7",
-        "fakerphp/faker": "*",
-        "friendsofphp/php-cs-fixer": "*",
-        "larastan/larastan": "*",
+    "require-dev": {
+        "larastan/larastan": "^2.9",
+        "thecodingmachine/phpstan-safe-rule": "^1.2",
+        "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
-        "nunomaduro/collision": "*",
+        "laravel/sail": "^1.26",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.0",
+        "barryvdh/laravel-ide-helper": "*"
+    },
+    "require-dev_comment": {
+        "enlightn/enlightn": "^2.7",
         "nunomaduro/phpinsights": "^2.11",
         "orchestra/testbench": "*",
         "pestphp/pest": "*",
@@ -65,7 +69,6 @@
         "phpstan/phpstan-phpunit": "*",
         "spatie/laravel-ray": "*",
         "symplify/phpstan-rules": "*",
-        "thecodingmachine/phpstan-safe-rule": "^1.2",
         "tightenco/duster": "*",
         "vimeo/psalm": "*"
     },
@@ -119,8 +122,6 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "require-dev": {
-        "larastan/larastan": "^2.9"
-    }
+    "prefer-stable": true
+    
 }

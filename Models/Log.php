@@ -19,16 +19,13 @@ use Illuminate\Support\Facades\File;
  * @method static Builder|Feed                                newModelQuery()
  * @method static Builder|Feed                                newQuery()
  * @method static Builder|Feed                                query()
- *
  * @property string|null $id
  * @property string|null $name
  * @property int|null    $size
  * @property string|null $file_content
- *
  * @method static Builder|Log whereId($value)
  * @method static Builder|Log whereName($value)
  * @method static Builder|Log whereSize($value)
- *
  * @mixin \Eloquent
  */
 class Log extends BaseModel
