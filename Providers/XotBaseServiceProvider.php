@@ -76,10 +76,11 @@ abstract class XotBaseServiceProvider extends ServiceProvider
      */
     public function registerViews(): void
     {
-        $sourcePath = realpath($this->module_dir.'/../Resources/views');
-        // if (false === $sourcePath) {
-        //    throw new \Exception('realpath not find dir');
-        // }
+        try {
+            $sourcePath = realpath($this->module_dir.'/../Resources/views');
+        } catch (\Exception $e) {
+            throw new \Exception('realpath not find dir ['.$this->module_dir.'/../Resources/views]');
+        }
         /*
         $viewPath = resource_path('views/modules/'.$this->module_name);
 
