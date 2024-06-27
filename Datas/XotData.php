@@ -11,12 +11,11 @@ use Modules\Tenant\Services\TenantService;
 use Modules\User\Models\Membership;
 use Modules\User\Models\Team;
 use Modules\Xot\Contracts\ProfileContract;
-
-use function Safe\realpath;
-
 use Spatie\LaravelData\Concerns\WireableData;
 use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
+
+use function Safe\realpath;
 
 /**
  * Undocumented class.
@@ -166,7 +165,7 @@ class XotData extends Data implements Wireable
 
     public function getProfileModel(): Model&ProfileContract
     {
-        if (null != $this->profile) {
+        if ($this->profile != null) {
             return $this->profile;
         }
         $user_id = (string) authId();
