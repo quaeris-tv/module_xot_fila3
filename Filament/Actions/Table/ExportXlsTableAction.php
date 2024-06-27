@@ -24,7 +24,7 @@ class ExportXlsTableAction extends Action
             ->label('')
             ->tooltip(__('xot::actions.export_xls'))
              // ->icon('fas-file-excel')
-             ->icon('heroicon-o-arrow-down-tray')
+            ->icon('heroicon-o-arrow-down-tray')
             ->action(
                 static function (RelationManager $livewire) {
                     $livewire_class = $livewire::class;

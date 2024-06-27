@@ -7,6 +7,4 @@ namespace Modules\Xot\Models\Traits\Relationships;
 /*
  * Undocumented trait.
  */
-trait ProfileRelationship
-{
-}
+trait ProfileRelationship {}

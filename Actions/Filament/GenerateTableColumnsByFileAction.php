@@ -20,11 +20,12 @@ use Webmozart\Assert\Assert;
 
 class GenerateTableColumnsByFileAction
 {
-    use QueueableAction;
-    use CanReadModelSchemas;
+    use CanGenerateForms;
     // use CanGenerateImporterColumns;
     use CanGenerateTables;
-    use CanGenerateForms;
+
+    use CanReadModelSchemas;
+    use QueueableAction;
 
     /**
      * Undocumented function.
