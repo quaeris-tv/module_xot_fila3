@@ -70,8 +70,6 @@ class MetatagPage extends Page implements HasForms
                     TextInput::make('logo_header'),
                     TextInput::make('logo_header_dark')
                         ->helperText('logo for dark css'),
-                    // 'logo_header'=>'bimaticard::img/logo.png',
-                    // 'logo_header_dark' => 'bimaticard::img/logo_dark.png',
                     TextInput::make('logo_height'),
                 ]
             )->columns(2)

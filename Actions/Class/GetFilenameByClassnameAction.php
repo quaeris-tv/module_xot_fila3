@@ -12,23 +12,18 @@ class GetFilenameByClassnameAction
 {
     use QueueableAction;
 
-    /**
-     * @param class-string $class_name
-     */
     public function execute(string $class_name): string
     {
+        $filename = null;
         try {
-            $path = str_replace('\\', '/', $class_name);
-            $path = base_path($path).'.php';
-
-            return $path;
-        } catch (\Throwable $th) {
-            // throw $th;
+            if (class_exists($class_name)) {
+                $reflector = new \ReflectionClass($class_name);
+                $filename = $reflector->getFileName();
+            }
+        } catch (\Exception $e) {
+            $filename = str_replace('\\', '/', $class_name);
+            $filename = base_path($filename).'.php';
         }
-
-        $reflector = new \ReflectionClass($class_name);
-
-        $filename = $reflector->getFileName();
 
         if (is_string($filename)) {
             return $filename;
