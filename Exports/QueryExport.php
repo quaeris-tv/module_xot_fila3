@@ -19,11 +19,12 @@ use Modules\Xot\Actions\Collection\TransCollectionAction;
 
 // use Staudenmeir\LaravelCte\Query\Builder as CteBuilder;
 
-class QueryExport implements FromQuery, ShouldQueue, WithHeadings, WithChunkReading, WithMapping
+class QueryExport implements FromQuery, ShouldQueue, WithChunkReading, WithHeadings, WithMapping
 {
     use Exportable;
 
     public array $headings = [];
+
     public ?array $fields = null;
 
     public ?string $transKey = null;
@@ -63,7 +64,7 @@ class QueryExport implements FromQuery, ShouldQueue, WithHeadings, WithChunkRead
          * @var \Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null
          */
         $first = $this->query->first();
-        if (null === $first) {
+        if ($first === null) {
             return collect([]);
         }
 
@@ -94,11 +95,11 @@ class QueryExport implements FromQuery, ShouldQueue, WithHeadings, WithChunkRead
     }
 
     /**
-     * @param \Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null $item
+     * @param  \Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null  $item
      */
     public function map($item): array
     {
-        if (null === $this->fields) {
+        if ($this->fields === null) {
             return collect($item)->toArray();
         }
 
