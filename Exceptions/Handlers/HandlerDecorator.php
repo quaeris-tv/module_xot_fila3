@@ -47,9 +47,9 @@ class HandlerDecorator implements ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @return void|mixed
-     *
      * @throws \Throwable
+     *
+     * @return void|mixed
      */
     public function report(\Throwable $e)
     {
@@ -75,10 +75,11 @@ class HandlerDecorator implements ExceptionHandler
      *
      * @see laravel\vendor\laravel\framework\src\Illuminate\Contracts\Debug\ExceptionHandler.php
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param \Illuminate\Http\Request $request
      *
      * @throws \Throwable
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function render($request, \Throwable $e)
     {
@@ -102,7 +103,8 @@ class HandlerDecorator implements ExceptionHandler
     /**
      * Render an exception to the console.
      *
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
      * @return void|mixed
      *
      * @internal this method is not meant to be used or overwritten outside the framework
