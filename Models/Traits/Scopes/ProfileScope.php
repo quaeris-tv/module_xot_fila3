@@ -7,4 +7,6 @@ namespace Modules\Xot\Models\Traits\Scopes;
 /*
  * Undocumented trait.
  */
-trait ProfileScope {}
+trait ProfileScope
+{
+}
