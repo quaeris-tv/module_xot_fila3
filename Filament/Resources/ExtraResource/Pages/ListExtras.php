@@ -56,7 +56,6 @@ class ListExtras extends ListRecords
             ->columns($this->getTableColumns())
             ->filters($this->getTableFilters())
             ->actions($this->getTableActions())
-            ->bulkActions($this->getTableBulkActions())
-        ;
+            ->bulkActions($this->getTableBulkActions());
     }
 }

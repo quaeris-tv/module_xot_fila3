@@ -72,6 +72,7 @@ class XotData extends Data implements Wireable
     public string $tenant_pivot_class = 'Modules\User\Models\TenantUser'; // = Membership::class;
 
     public ?string $super_admin = null;
+
     private static ?self $instance = null;
 
     /**

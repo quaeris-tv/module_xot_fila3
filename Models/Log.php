@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\File;
 class Log extends BaseModel
 {
     use \Sushi\Sushi;
+
     protected $fillable = ['id', 'name', 'size'];
 
     /** @return array<string, string> */

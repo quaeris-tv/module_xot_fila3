@@ -19,11 +19,12 @@ use Modules\Xot\Actions\Collection\TransCollectionAction;
 
 // use Staudenmeir\LaravelCte\Query\Builder as CteBuilder;
 
-class QueryExport implements FromQuery, ShouldQueue, WithHeadings, WithChunkReading, WithMapping
+class QueryExport implements FromQuery, ShouldQueue, WithChunkReading, WithHeadings, WithMapping
 {
     use Exportable;
 
     public array $headings = [];
+
     public ?array $fields = null;
 
     public ?string $transKey = null;
