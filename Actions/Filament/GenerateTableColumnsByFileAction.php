@@ -21,9 +21,9 @@ use Webmozart\Assert\Assert;
 class GenerateTableColumnsByFileAction
 {
     use CanGenerateForms;
+
     // use CanGenerateImporterColumns;
     use CanGenerateTables;
-
     use CanReadModelSchemas;
     use QueueableAction;
 
