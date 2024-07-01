@@ -21,7 +21,7 @@ class TransCollectionAction
         Collection $collection,
         ?string $transKey,
     ): Collection {
-        if ($transKey === null) {
+        if (null === $transKey) {
             return $collection;
         }
 
