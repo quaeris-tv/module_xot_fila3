@@ -33,9 +33,9 @@ class CreateExtraTable extends XotBaseMigration
                 //    $table->string('name')->nullable();
                 // }
                 $this->updateTimestamps(table: $table, hasSoftDeletes: true);
-                if (! $this->hasIndex('morph_unique')) {
-                    $table->unique(['model_id', 'model_type'], 'morph_unique');
-                }
+                // if (! $this->hasIndex('morph_unique')) {
+                //    $table->unique(['model_id', 'model_type'], 'morph_unique');
+                // }
 
                 if ($this->hasColumn('model_id') && 'bigint' === $this->getColumnType('model_id')) {
                     $table->string('model_id', 36)->index()->change();
