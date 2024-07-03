@@ -51,7 +51,7 @@ class Extra extends Model
     use SchemalessAttributesTrait;
 
     /** @var string */
-    protected $connection = 'xot'; // this will use the specified database connection
+    protected $connection = 'xot';
 
     protected $fillable = [
         'id',
