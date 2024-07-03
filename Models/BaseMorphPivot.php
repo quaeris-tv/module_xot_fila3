@@ -30,7 +30,7 @@ abstract class BaseMorphPivot extends MorphPivot
     protected $perPage = 30;
 
     /** @var string */
-    protected $connection = 'xot'; // this will use the specified database connection
+    protected $connection = 'xot';
 
     /** @var array<int, string> */
     protected $appends = [];
