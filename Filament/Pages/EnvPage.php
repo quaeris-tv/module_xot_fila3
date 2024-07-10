@@ -34,20 +34,6 @@ class EnvPage extends Page implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            /*
-            Forms\Components\Repeater::make('players')
-                ->schema([
-                    Forms\Components\Select::make('name')
-                        ->options(Player::pluck('name', 'id')->toArray())
-                        ->reactive()
-                        ->required()
-                ])
-                ->disableLabel()
-                ->defaultItems(10)
-                ->disableItemCreation()
-                ->disableItemDeletion()
-                ->disableItemMovement()
-            */
             TextInput::make('app_url')
                 ->label('URL')
                 ->placeholder('http://localhost')
