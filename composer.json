@@ -34,7 +34,7 @@
         "nwidart/laravel-modules": "^11.0",
         "predis/predis": "^2.2",
         "spatie/cpu-load-health-check": "^1.0",
-        "spatie/laravel-data": "*",
+        "spatie/laravel-data": "^4.7",
         "spatie/laravel-health": "^1.29",
         "spatie/laravel-model-status": "*",
         "spatie/laravel-package-tools": "*",
