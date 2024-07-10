@@ -49,8 +49,7 @@
         "tightenco/parental": "^1.4"
     },
     "require_comment": {
-        "laraxot/module_tenant_fila3": "*",
-        "coolsam/modules": "dev-dev"
+        "laraxot/module_tenant_fila3": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
