@@ -44,6 +44,9 @@ class EnvWidget extends Widget implements HasForms
             'google_maps_api_key' => TextInput::make('google_maps_api_key')
                 ->placeholder('AIzaSyAuB_...')
                 ->helperText('google maps api key'),
+            'telegram_bot_token' => TextInput::make('telegram_bot_token')
+                ->placeholder('AIzaSyAuB_...')
+                ->helperText('telegram_bot_token'),
         ];
 
         $fields = Arr::only($all, $this->only);
