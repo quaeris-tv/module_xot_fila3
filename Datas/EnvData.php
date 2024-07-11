@@ -20,6 +20,8 @@ class EnvData extends Data implements Wireable
 
     public string $app_url = 'http://localhost';
     public bool $debugbar_enabled = false;
+    public string $google_maps_api_key = '';
+    public string $telegram_bot_token = '';
 
     public static function make(): self
     {
