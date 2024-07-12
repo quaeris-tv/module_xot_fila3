@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models\Traits;
 
+use Illuminate\Support\Str;
+use Webmozart\Assert\Assert;
+use Modules\Xot\Models\Extra;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+<<<<<<< HEAD
 use Illuminate\Support\Str;
 use Modules\Xot\Models\BaseExtra;
 use Modules\Xot\Models\Extra;
 use Webmozart\Assert\Assert;
+=======
+>>>>>>> 3dd6d89 (.)
 
 trait HasExtraTrait
 {
