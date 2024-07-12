@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Contracts;
 
-<<<<<<< HEAD
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\CanResetPassword;
@@ -13,19 +12,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-=======
->>>>>>> d7be27f (up)
 use Laravel\Passport\Token;
 use Spatie\Permission\Contracts\Role;
-use Illuminate\Database\Eloquent\Model;
-use Filament\Models\Contracts\FilamentUser;
-use Illuminate\Database\Eloquent\Collection;
 use Modules\User\Contracts\HasTeamsContract;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Contracts\Auth\CanResetPassword;
-use Illuminate\Contracts\Auth\Access\Authorizable;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 // use Filament\Models\Contracts\HasTenants;
 
