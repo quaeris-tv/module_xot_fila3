@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Feed                                newModelQuery()
  * @method static Builder|Feed                                newQuery()
  * @method static Builder|Feed                                query()
- *
  * @mixin \Eloquent
  */
 class Feed extends BaseModel
