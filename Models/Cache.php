@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property string $key
  * @property string $value
  * @property int    $expiration
+ *
  * @method static \Modules\Xot\Database\Factories\CacheFactory factory($count = null, $state = [])
  * @method static Builder|Cache                                newModelQuery()
  * @method static Builder|Cache                                newQuery()
@@ -19,7 +20,9 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Cache                                whereExpiration($value)
  * @method static Builder|Cache                                whereKey($value)
  * @method static Builder|Cache                                whereValue($value)
+ *
  * @property int $expiration
+ *
  * @method static \Modules\Xot\Database\Factories\CacheFactory factory($count = null, $state = [])
  * @method static Builder|Cache                                newModelQuery()
  * @method static Builder|Cache                                newQuery()
@@ -27,6 +30,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Cache                                whereExpiration($value)
  * @method static Builder|Cache                                whereKey($value)
  * @method static Builder|Cache                                whereValue($value)
+ *
  * @mixin \Eloquent
  */
 class Cache extends BaseModel
