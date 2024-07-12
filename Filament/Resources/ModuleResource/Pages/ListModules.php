@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Xot\Filament\Resources\ModuleResource\Pages;
 
-use Modules\Xot\Filament\Resources\ModuleResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Modules\Xot\Filament\Resources\ModuleResource;
 
 class ListModules extends ListRecords
 {

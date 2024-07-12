@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Xot\Filament\Resources\ModuleResource\Pages;
 
-use Modules\Xot\Filament\Resources\ModuleResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Modules\Xot\Filament\Resources\ModuleResource;
 
 class CreateModule extends CreateRecord
 {
