@@ -15,11 +15,12 @@ use Modules\User\Models\Team;
 use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Contracts\UserContract;
 
-use function Safe\realpath;
-
 use Spatie\LaravelData\Concerns\WireableData;
+
 use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
+
+use function Safe\realpath;
 
 /**
  * Undocumented class.
@@ -114,6 +115,7 @@ class XotData extends Data implements Wireable
     {
         Assert::classExists($class = $this->team_class, '['.__LINE__.']['.__FILE__.']');
         // Assert::isInstanceOf($team_class, Model::class, '['.__LINE__.']['.__FILE__.']');
+        Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
         Assert::implementsInterface($class, TeamContract::class, '['.__LINE__.']['.__FILE__.']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
 
@@ -129,6 +131,7 @@ class XotData extends Data implements Wireable
     {
         Assert::classExists($class = $this->tenant_class, '['.$class.']['.__LINE__.']['.__FILE__.']');
         // Assert::isInstanceOf($class, Model::class, '['.__LINE__.']['.__FILE__.']');
+        Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
         Assert::implementsInterface($class, TenantContract::class, '['.__LINE__.']['.__FILE__.']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
 
