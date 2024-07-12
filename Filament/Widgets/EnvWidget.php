@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Widgets;
 
 use Filament\Forms;
+use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -14,6 +15,9 @@ use Filament\Widgets\Widget;
 use Illuminate\Support\Arr;
 use Modules\Xot\Datas\EnvData;
 
+/**
+ * @property ComponentContainer $form
+ */
 class EnvWidget extends Widget implements HasForms
 {
     use InteractsWithForms;
@@ -62,9 +66,12 @@ class EnvWidget extends Widget implements HasForms
             ->statePath('data');
     }
 
-    public function submit()
+    public function submit(): void
     {
-        $res = EnvData::make()->update($this->data);
+        if (! is_array($this->data)) {
+            return;
+        }
+        EnvData::make()->update($this->data);
         Notification::make()
             ->title('Saved successfully')
             ->success()

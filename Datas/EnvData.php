@@ -46,7 +46,7 @@ class EnvData extends Data implements Wireable
         return self::$instance;
     }
 
-    public function update(array $data)
+    public function update(array $data): void
     {
         $env_path = base_path('.env');
 
@@ -60,7 +60,7 @@ class EnvData extends Data implements Wireable
         File::put($env_path, $env_content);
     }
 
-    public function updateVar(string $key, int|bool|string $value, string $env_content)
+    public function updateVar(string $key, int|bool|string $value, string $env_content): string
     {
         $key = str($key)->upper()->toString();
         $replace = $this->getLine($key, $value);
