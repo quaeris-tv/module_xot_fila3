@@ -94,11 +94,7 @@ class XotData extends Data implements Wireable
     }
 
     /**
-<<<<<<< HEAD
      * @return class-string<Model&UserContract>
-=======
-     * @return class-string
->>>>>>> 1a8b9a4 (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
      */
     public function getUserClass(): string
     {
@@ -106,14 +102,8 @@ class XotData extends Data implements Wireable
         Assert::stringNotEmpty($class, 'check config auth');
         Assert::classExists($class, 'check config auth');
         Assert::implementsInterface($class, UserContract::class, '['.__LINE__.']['.__FILE__.']');
-<<<<<<< HEAD
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
-=======
->>>>>>> 1a8b9a4 (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
-
         return $class;
-    }
-
     /**
      * @return class-string
      */
