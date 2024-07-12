@@ -15,11 +15,12 @@ use Modules\User\Models\Team;
 use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Contracts\UserContract;
 
-use function Safe\realpath;
-
 use Spatie\LaravelData\Concerns\WireableData;
+
 use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
+
+use function Safe\realpath;
 
 /**
  * Undocumented class.
