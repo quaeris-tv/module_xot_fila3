@@ -18,10 +18,13 @@ trait HasExtraTrait
      */
     public function extra(): MorphOne
     {
+        /** @var class-string<Illuminate\Database\Eloquent\Model> */
         $extra_class = Str::of(static::class)
             ->before('\Models\\')
             ->append('\Models\Extra')
             ->toString();
+        Assert::classExists($extra_class);
+        Assert::isAOf($extra_class, Model::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
 
         return $this->morphOne($extra_class, 'model');
     }
