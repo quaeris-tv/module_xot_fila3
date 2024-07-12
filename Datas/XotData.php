@@ -94,7 +94,7 @@ class XotData extends Data implements Wireable
     }
 
     /**
-     * @return class-string
+     * @return class-string<Model&UserContract>
      */
     public function getUserClass(): string
     {
@@ -102,6 +102,7 @@ class XotData extends Data implements Wireable
         Assert::stringNotEmpty($class, 'check config auth');
         Assert::classExists($class, 'check config auth');
         Assert::implementsInterface($class, UserContract::class, '['.__LINE__.']['.__FILE__.']');
+        Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
 
         return $class;
     }
