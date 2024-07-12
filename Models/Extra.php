@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 /**
  * Model Extra.
  *
@@ -38,11 +36,6 @@ namespace Modules\Xot\Models;
  * @method static Builder|Extra whereUpdatedBy($value)
  * @mixin \Eloquent
  */
-=======
-<<<<<<< HEAD
->>>>>>> 2e9610a (📝 (Models): Add missing PHPDoc comments for properties in Cache, CacheLock, Extra, Feed, HealthCheckResultHistoryItem, Log, and Session models.)
-=======
->>>>>>> 147f9b4 (♻️ (Extra.php): refactor Extra model to remove unnecessary code and improve readability by removing commented out code and unused imports)
 class Extra extends BaseExtra
 {
 }
