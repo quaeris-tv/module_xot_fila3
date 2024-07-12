@@ -100,6 +100,8 @@ class CustomRelation extends Relation
 
     /**
      * Get the results of the relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Database\Eloquent\Model>
      */
     public function getResults()
     {
