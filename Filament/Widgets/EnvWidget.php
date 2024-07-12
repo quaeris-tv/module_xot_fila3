@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Widgets;
 
 use Filament\Forms;
+<<<<<<< HEAD
 use Filament\Forms\ComponentContainer;
+=======
+>>>>>>> feca56f (up)
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -15,9 +18,12 @@ use Filament\Widgets\Widget;
 use Illuminate\Support\Arr;
 use Modules\Xot\Datas\EnvData;
 
+<<<<<<< HEAD
 /**
  * @property ComponentContainer $form
  */
+=======
+>>>>>>> feca56f (up)
 class EnvWidget extends Widget implements HasForms
 {
     use InteractsWithForms;
@@ -48,9 +54,12 @@ class EnvWidget extends Widget implements HasForms
             'google_maps_api_key' => TextInput::make('google_maps_api_key')
                 ->placeholder('AIzaSyAuB_...')
                 ->helperText('google maps api key'),
+<<<<<<< HEAD
             'telegram_bot_token' => TextInput::make('telegram_bot_token')
                 ->placeholder('AIzaSyAuB_...')
                 ->helperText('telegram_bot_token'),
+=======
+>>>>>>> feca56f (up)
         ];
 
         $fields = Arr::only($all, $this->only);
@@ -66,12 +75,18 @@ class EnvWidget extends Widget implements HasForms
             ->statePath('data');
     }
 
+<<<<<<< HEAD
     public function submit(): void
     {
         if (! is_array($this->data)) {
             return;
         }
         EnvData::make()->update($this->data);
+=======
+    public function submit()
+    {
+        $res = EnvData::make()->update($this->data);
+>>>>>>> feca56f (up)
         Notification::make()
             ->title('Saved successfully')
             ->success()
