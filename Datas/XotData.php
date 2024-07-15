@@ -104,6 +104,9 @@ class XotData extends Data implements Wireable
         Assert::implementsInterface($class, UserContract::class, '['.__LINE__.']['.__FILE__.']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
         return $class;
+    }
+
+
     /**
      * @return class-string
      */
