@@ -6,6 +6,9 @@ namespace Modules\Xot\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
+use Spatie\SchemalessAttributes\SchemalessAttributesTrait;
+use Webmozart\Assert\Assert;
 
 /**
  * Model Extra.
@@ -43,6 +46,44 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin \Eloquent
  */
-class Extra extends BaseExtra
+abstract class BaseExtra extends Model
 {
+    use SchemalessAttributesTrait;
+
+    /** @var string */
+    protected $connection = 'xot';
+
+    protected $fillable = [
+        'id',
+        'model_id',
+        'model_type',
+        'extra_attributes',
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'extra_attributes' => SchemalessAttributes::class,
+
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+            'deleted_at' => 'datetime',
+
+            'updated_by' => 'string',
+            'created_by' => 'string',
+            'deleted_by' => 'string',
+        ];
+    }
+
+    public function scopeWithExtraAttributes(): Builder
+    {
+        Assert::notNull($this->extra_attributes, '['.__FILE__.']['.__LINE__.']');
+
+        return $this->extra_attributes->modelScope();
+    }
 }

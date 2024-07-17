@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Contracts;
 
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
@@ -36,7 +37,13 @@ use Spatie\Permission\Contracts\Role;
  *
  * @mixin \Eloquent
  */
-interface UserContract extends CanResetPassword, FilamentUser, HasTeamsContract, ModelContract, MustVerifyEmail, PassportHasApiTokensContract
+interface UserContract extends CanResetPassword,
+    FilamentUser,
+    HasTeamsContract,
+    ModelContract,
+    MustVerifyEmail,
+    PassportHasApiTokensContract,
+    Authorizable
 {
     /*
     public function isSuperAdmin();
