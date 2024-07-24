@@ -189,6 +189,13 @@ class XotData extends Data implements Wireable
         return $res;
     }
 
+    public function iAmSuperAdmin(): bool
+    {
+        $user = auth()->user();
+
+        return $user->hasRole('super-admin');
+    }
+
     public function getProfileModel(): ProfileContract
     {
         if (null != $this->profile) {
