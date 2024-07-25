@@ -23,7 +23,7 @@ class GetModulesNavigationItems
         $navs = [];
 
         $modules = TenantService::allModules();
-        
+
         foreach ($modules as $module) {
             // if (! Filament::auth()->check()) {
             //    continue;
