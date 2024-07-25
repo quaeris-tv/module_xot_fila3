@@ -191,7 +191,7 @@ class XotData extends Data implements Wireable
 
     public function iAmSuperAdmin(): bool
     {
-        $user = auth()->user();
+        Assert::notNull($user = auth()->user(), '['.__LINE__.']['.__FILE__.']');
 
         return $user->hasRole('super-admin');
     }
