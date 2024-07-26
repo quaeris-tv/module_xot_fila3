@@ -127,7 +127,7 @@ class XotData extends Data implements Wireable
      */
     public function getTenantClass(): string
     {
-        Assert::classExists($class = $this->tenant_class, '['.__LINE__.']['.__FILE__.']');
+        Assert::classExists($class = $this->tenant_class, '['.$class.']['.__LINE__.']['.__FILE__.']');
         // Assert::isInstanceOf($class, Model::class, '['.__LINE__.']['.__FILE__.']');
         Assert::implementsInterface($class, TenantContract::class, '['.__LINE__.']['.__FILE__.']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
