@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 return [
     'navigation' => [
-        'name' => 'Env',
-        'plural' => 'Env',
+        'name' => 'Modulo',
+        'plural' => 'Moduli',
         'group' => [
             'name' => 'Admin',
         ],

@@ -18,7 +18,6 @@ trait HasExtraTrait
      */
     public function extra(): MorphOne
     {
-        /** @var class-string<Model> */
         $extra_class = Str::of(static::class)
             ->before('\Models\\')
             ->append('\Models\Extra')
