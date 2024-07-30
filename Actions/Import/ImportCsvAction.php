@@ -65,6 +65,7 @@ class ImportCsvAction
             $sql = $sql.'SET '.$sql_replace.';';
         }
 
+        $pdo->exec('SET GLOBAL local_infile=1;');
         // echo '<pre>'.htmlspecialchars($sql).'</pre>';
         $n_rows = $pdo->exec($sql);
         // dddx($n_rows);
