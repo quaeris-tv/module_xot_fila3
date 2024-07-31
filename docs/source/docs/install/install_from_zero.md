@@ -183,26 +183,11 @@ create Folders :
  inside folder laravel/modules
 
 ~~~ bash
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
- git submodule add https://github.com/provtv/module_xot_fila3.git Xot
- git submodule add https://github.com/provtv/module_tenant_fila3.git Tenant
- git submodule add https://github.com/provtv/module_user_fila3.git User
- git submodule add https://github.com/provtv/module_notify_fila3.git Notify
- git submodule add https://github.com/provtv/module_ui_fila3.git UI
- git submodule add https://github.com/provtv/module_ptv_fila3.git Ptv
-=======
->>>>>>> afc9754 (📝 (install_from_zero.md): update submodule URLs to laraxot organization for consistency)
  git submodule add https://github.com/laraxot/module_xot_fila.git Xot
  git submodule add https://github.com/laraxot/module_tenant_fila.git Tenant
  git submodule add https://github.com/laraxot/module_user_fila.git User
  git submodule add https://github.com/laraxot/module_notify_fila.git Notify
  git submodule add https://github.com/laraxot/module_ui_fila.git UI
-<<<<<<< HEAD
-=======
->>>>>>> c51288a (.)
->>>>>>> afc9754 (📝 (install_from_zero.md): update submodule URLs to laraxot organization for consistency)
 ~~~
 
 
@@ -210,11 +195,7 @@ from folder laravel
 ~~~ bash
 git submodule add  https://github.com/laraxot/filament-modules.git  packages/savannabits/filament-modules
 
-<<<<<<< HEAD
 composer update -W (--with-all-dependencies)
-=======
-composer update -W
->>>>>>> c51288a (.)
 ~~~ 
 
 
