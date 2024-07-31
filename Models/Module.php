@@ -10,9 +10,12 @@ use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
 /**
+<<<<<<< HEAD
  *
  *
  * @property int $id
+=======
+>>>>>>> 78691f6 (🔧 (Module.php): resolve merge conflict by keeping the properties and methods from both branches)
  * @property int         $id
  * @property string|null $name
  * @property string|null $description
@@ -20,6 +23,7 @@ use Sushi\Sushi;
  * @property int|null    $priority
  * @property string|null $path
  *
+<<<<<<< HEAD
  *
  *
  * @property int $id
@@ -28,6 +32,8 @@ use Sushi\Sushi;
  * @property bool|null $status
  * @property int|null $priority
  * @property string|null $path
+=======
+>>>>>>> 78691f6 (🔧 (Module.php): resolve merge conflict by keeping the properties and methods from both branches)
  * @method static \Illuminate\Database\Eloquent\Builder|Module newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Module newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Module query()
