@@ -10,14 +10,21 @@ use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
 /**
+<<<<<<< HEAD
  *
  *
+=======
+>>>>>>> 0275d76 (🔧 (XotData.php): Remove unnecessary conflict markers from the file)
  * @property int         $id
  * @property string|null $name
  * @property string|null $description
  * @property bool|null   $status
  * @property int|null    $priority
  * @property string|null $path
+<<<<<<< HEAD
+=======
+ *
+>>>>>>> 0275d76 (🔧 (XotData.php): Remove unnecessary conflict markers from the file)
  * @method static \Illuminate\Database\Eloquent\Builder|Module newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Module newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Module query()
@@ -27,6 +34,10 @@ use Sushi\Sushi;
  * @method static \Illuminate\Database\Eloquent\Builder|Module wherePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Module wherePriority($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereStatus($value)
+<<<<<<< HEAD
+=======
+ *
+>>>>>>> 0275d76 (🔧 (XotData.php): Remove unnecessary conflict markers from the file)
  * @mixin \Eloquent
  */
 class Module extends Model
