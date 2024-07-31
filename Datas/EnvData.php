@@ -20,8 +20,11 @@ class EnvData extends Data implements Wireable
 
     public string $app_url = 'http://localhost';
     public bool $debugbar_enabled = false;
+<<<<<<< HEAD
     public string $google_maps_api_key = '';
     public string $telegram_bot_token = '';
+=======
+>>>>>>> b24bec0 (.)
 
     public static function make(): self
     {
@@ -46,7 +49,11 @@ class EnvData extends Data implements Wireable
         return self::$instance;
     }
 
+<<<<<<< HEAD
     public function update(array $data): void
+=======
+    public function update(array $data)
+>>>>>>> b24bec0 (.)
     {
         $env_path = base_path('.env');
 
@@ -60,7 +67,11 @@ class EnvData extends Data implements Wireable
         File::put($env_path, $env_content);
     }
 
+<<<<<<< HEAD
     public function updateVar(string $key, int|bool|string $value, string $env_content): string
+=======
+    public function updateVar(string $key, int|bool|string $value, string $env_content)
+>>>>>>> b24bec0 (.)
     {
         $key = str($key)->upper()->toString();
         $replace = $this->getLine($key, $value);
