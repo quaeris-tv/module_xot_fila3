@@ -10,14 +10,32 @@ use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
 /**
+<<<<<<< HEAD
  *
  *
+=======
+<<<<<<< HEAD
+>>>>>>> 7bb3ef7 (🔧 (XotData.php): resolve conflict in XotData.php file)
  * @property int         $id
  * @property string|null $name
  * @property string|null $description
  * @property bool|null   $status
  * @property int|null    $priority
  * @property string|null $path
+<<<<<<< HEAD
+=======
+ *
+=======
+ * 
+ *
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $description
+ * @property bool|null $status
+ * @property int|null $priority
+ * @property string|null $path
+>>>>>>> 4bc1223 (up)
+>>>>>>> 7bb3ef7 (🔧 (XotData.php): resolve conflict in XotData.php file)
  * @method static \Illuminate\Database\Eloquent\Builder|Module newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Module newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Module query()
@@ -27,6 +45,13 @@ use Sushi\Sushi;
  * @method static \Illuminate\Database\Eloquent\Builder|Module wherePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Module wherePriority($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereStatus($value)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+ *
+=======
+>>>>>>> 4bc1223 (up)
+>>>>>>> 7bb3ef7 (🔧 (XotData.php): resolve conflict in XotData.php file)
  * @mixin \Eloquent
  */
 class Module extends Model
