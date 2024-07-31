@@ -1,7 +1,10 @@
 <?php
+<<<<<<< HEAD
 /**
  * @see https://github.com/shuvroroy/filament-spatie-laravel-health/tree/main
  */
+=======
+>>>>>>> 0bb62e1 (📝 (XotData.php): Update method signatures in XotData class to specify return types for better type safety and clarity)
 
 declare(strict_types=1);
 
