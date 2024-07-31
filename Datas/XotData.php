@@ -104,9 +104,17 @@ class XotData extends Data implements Wireable
         Assert::classExists($class, 'check config auth');
         Assert::implementsInterface($class, UserContract::class, '['.__LINE__.']['.__FILE__.']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
+
         return $class;
     }
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3c80fec (up)
+>>>>>>> 1124cad (📝 (XotData.php): Add assertions to ensure the correct class type and interface implementation for getTeamClass, getTenantClass, and getTenantResourceClass methods)
     /**
      * @return class-string<Model&TeamContract>
      */
