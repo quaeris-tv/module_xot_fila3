@@ -60,10 +60,7 @@
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
-<<<<<<< HEAD
         "pestphp/pest": "^2.34",
-=======
->>>>>>> a751e1d (up)
         "spatie/laravel-error-solutions": "^1.0",
         "thecodingmachine/phpstan-safe-rule": "^1.2"
     },
@@ -124,7 +121,7 @@
             "providers": [
                 "Modules\\Xot\\Providers\\XotServiceProvider",
                 "Modules\\Xot\\Providers\\Filament\\ModulesServiceProvider"
-                
+
 
             ],
             "aliases": {}
@@ -132,5 +129,5 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true
-    
+
 }
