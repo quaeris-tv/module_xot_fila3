@@ -104,10 +104,6 @@ class XotData extends Data implements Wireable
         Assert::classExists($class, 'check config auth');
         Assert::implementsInterface($class, UserContract::class, '['.__LINE__.']['.__FILE__.']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
-<<<<<<< HEAD
-
-=======
->>>>>>> f8e7dcd (🔧 (XotData.php): resolve conflict in XotData.php file)
         return $class;
     }
 
