@@ -13,18 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Passport\Token;
-<<<<<<< HEAD
-<<<<<<< HEAD
 use Spatie\Permission\Contracts\Role;
 use Modules\User\Contracts\HasTeamsContract;
-=======
-use Modules\User\Contracts\HasTeamsContract;
-use Spatie\Permission\Contracts\Role;
->>>>>>> 76f06a8 (Check & fix styling)
-=======
-use Modules\User\Contracts\HasTeamsContract;
-use Spatie\Permission\Contracts\Role;
->>>>>>> 4a65c31 (Check & fix styling)
 
 // use Filament\Models\Contracts\HasTenants;
 
