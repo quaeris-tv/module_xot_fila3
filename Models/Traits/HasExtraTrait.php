@@ -6,14 +6,10 @@ namespace Modules\Xot\Models\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-<<<<<<< HEAD
-use Modules\Xot\Models\BaseExtra;
-=======
 use Illuminate\Support\Str;
 use Modules\Xot\Models\BaseExtra;
 use Modules\Xot\Models\Extra;
 use Webmozart\Assert\Assert;
->>>>>>> 4df604f (📝 (Models): Remove unnecessary empty lines and comments for better code readability and cleanliness.)
 
 trait HasExtraTrait
 {
@@ -28,13 +24,8 @@ trait HasExtraTrait
             ->append('\Models\Extra')
             ->toString();
         Assert::classExists($extra_class);
-<<<<<<< HEAD
         Assert::isAOf($extra_class, Model::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
         // Assert::isInstanceOf($extra_class, BaseExtra::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
-=======
-        // Assert::isAOf($extra_class, Model::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
-        Assert::isInstanceOf($extra_class, BaseExtra::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
->>>>>>> 4df604f (📝 (Models): Remove unnecessary empty lines and comments for better code readability and cleanliness.)
 
         return $this->morphOne($extra_class, 'model');
     }
