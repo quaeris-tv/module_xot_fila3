@@ -107,10 +107,7 @@ class XotData extends Data implements Wireable
 
         return $class;
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> 3c80fec (up)
     /**
      * @return class-string<Model&TeamContract>
      */
