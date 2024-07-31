@@ -9,8 +9,6 @@ use Illuminate\Support\Arr;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
-<<<<<<< HEAD
-=======
 /**
  *
  *
@@ -31,7 +29,6 @@ use Sushi\Sushi;
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereStatus($value)
  * @mixin \Eloquent
  */
->>>>>>> b1c228e (🔧 (Module.php): Remove unnecessary conflict markers and empty lines for better code readability and cleanliness)
 class Module extends Model
 {
     use Sushi;
