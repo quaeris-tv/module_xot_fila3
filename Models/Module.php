@@ -10,6 +10,11 @@ use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
 /**
+<<<<<<< HEAD
+=======
+ *
+ *
+>>>>>>> f8e7dcd (🔧 (XotData.php): resolve conflict in XotData.php file)
  * @property int         $id
  * @property string|null $name
  * @property string|null $description
