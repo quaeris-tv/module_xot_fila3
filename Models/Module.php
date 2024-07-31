@@ -9,7 +9,6 @@ use Illuminate\Support\Arr;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
-<<<<<<< HEAD
 /**
  *
  *
@@ -32,8 +31,6 @@ use Sushi\Sushi;
  *
  * @mixin \Eloquent
  */
-=======
->>>>>>> d0eb3a4 (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
 class Module extends Model
 {
     use Sushi;

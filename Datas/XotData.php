@@ -15,11 +15,12 @@ use Modules\User\Models\Team;
 use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Contracts\UserContract;
 
-use function Safe\realpath;
-
 use Spatie\LaravelData\Concerns\WireableData;
+
 use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
+
+use function Safe\realpath;
 
 /**
  * Undocumented class.
@@ -94,11 +95,7 @@ class XotData extends Data implements Wireable
     }
 
     /**
-<<<<<<< HEAD
      * @return class-string<Model&UserContract>
-=======
-     * @return class-string
->>>>>>> d0eb3a4 (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
      */
     public function getUserClass(): string
     {
@@ -106,10 +103,7 @@ class XotData extends Data implements Wireable
         Assert::stringNotEmpty($class, 'check config auth');
         Assert::classExists($class, 'check config auth');
         Assert::implementsInterface($class, UserContract::class, '['.__LINE__.']['.__FILE__.']');
-<<<<<<< HEAD
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
-=======
->>>>>>> d0eb3a4 (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
 
         return $class;
     }
