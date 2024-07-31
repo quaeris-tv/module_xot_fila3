@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models;
 
-<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -40,8 +39,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Extra whereUpdatedBy($value)
  * @mixin \Eloquent
  */
-=======
->>>>>>> 147f9b4 (♻️ (Extra.php): refactor Extra model to remove unnecessary code and improve readability by removing commented out code and unused imports)
 class Extra extends BaseExtra
 {
 }
