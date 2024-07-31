@@ -10,6 +10,11 @@ use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
 /**
+<<<<<<< HEAD
+=======
+ *
+ *
+>>>>>>> b1c228e (🔧 (Module.php): Remove unnecessary conflict markers and empty lines for better code readability and cleanliness)
  * @property int         $id
  * @property string|null $name
  * @property string|null $description
