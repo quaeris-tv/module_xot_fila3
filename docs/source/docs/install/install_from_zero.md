@@ -195,7 +195,7 @@ from folder laravel
 ~~~ bash
 git submodule add  https://github.com/laraxot/filament-modules.git  packages/savannabits/filament-modules
 
-composer update -W
+composer update -W (--with-all-dependencies)
 ~~~ 
 
 
