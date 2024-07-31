@@ -33,15 +33,7 @@ jobs:
       run: cd docs && echo "laraxot.github.io/module_xot_fila3" > ./build_production/CNAME
 
     - name: gh-pages
-<<<<<<< HEAD
       uses: JamesIves/github-pages-deploy-action@latest
-=======
-<<<<<<< HEAD
-      uses: JamesIves/github-pages-deploy-action@v4.6.3
-=======
-      uses: JamesIves/github-pages-deploy-action@latest
->>>>>>> b3a9cda (up)
->>>>>>> 21babb3 (.)
       with:
         branch: gh-pages
         folder: ./docs/build_production
