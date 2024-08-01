@@ -15,12 +15,11 @@ use Modules\User\Models\Team;
 use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Contracts\UserContract;
 
-use Spatie\LaravelData\Concerns\WireableData;
+use function Safe\realpath;
 
+use Spatie\LaravelData\Concerns\WireableData;
 use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
-
-use function Safe\realpath;
 
 /**
  * Undocumented class.
@@ -104,16 +103,19 @@ class XotData extends Data implements Wireable
         Assert::classExists($class, 'check config auth');
         Assert::implementsInterface($class, UserContract::class, '['.__LINE__.']['.__FILE__.']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
+
         return $class;
     }
+
     /**
-     * @return class-string
+     * @return class-string<Model&TeamContract>
      */
     public function getTeamClass(): string
     {
         Assert::classExists($class = $this->team_class, '['.__LINE__.']['.__FILE__.']');
         // Assert::isInstanceOf($team_class, Model::class, '['.__LINE__.']['.__FILE__.']');
         Assert::implementsInterface($class, TeamContract::class, '['.__LINE__.']['.__FILE__.']');
+        Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
 
         return $class;
     }
@@ -121,23 +123,30 @@ class XotData extends Data implements Wireable
     /**
      * Undocumented function.
      *
-     * @return class-string
+     * @return class-string<Model&TenantContract>
      */
     public function getTenantClass(): string
     {
-        Assert::classExists($class = $this->tenant_class, '['.__LINE__.']['.__FILE__.']');
+        Assert::classExists($class = $this->tenant_class, '['.$class.']['.__LINE__.']['.__FILE__.']');
         // Assert::isInstanceOf($class, Model::class, '['.__LINE__.']['.__FILE__.']');
         Assert::implementsInterface($class, TenantContract::class, '['.__LINE__.']['.__FILE__.']');
+        Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
 
         return $class;
     }
 
+    /**
+     * @return class-string
+     */
     public function getTenantResourceClass(): string
     {
-        return Str::of($this->tenant_class)
+        $class = Str::of($this->tenant_class)
             ->replace('\Models\\', '\Filament\Resources\\')
             ->append('Resource')
             ->toString();
+        Assert::classExists($class, '['.__LINE__.']['.__FILE__.']');
+
+        return $class;
     }
 
     public function getTenantPivotClass(): string
@@ -186,6 +195,16 @@ class XotData extends Data implements Wireable
         $res = $profile->firstOrCreate(['user_id' => $user_id]);
 
         return $res;
+    }
+
+    public function iAmSuperAdmin(): bool
+    {
+        $user = auth()->user();
+        if (null == $user) {
+            return false;
+        }
+
+        return $user->hasRole('super-admin');
     }
 
     public function getProfileModel(): ProfileContract

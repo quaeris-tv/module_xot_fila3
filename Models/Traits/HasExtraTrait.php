@@ -4,29 +4,26 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models\Traits;
 
-use Illuminate\Support\Str;
-use Webmozart\Assert\Assert;
-use Modules\Xot\Models\Extra;
-use Modules\Xot\Models\BaseExtra;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Str;
+use Modules\Xot\Models\BaseExtra;
+use Modules\Xot\Models\Extra;
+use Webmozart\Assert\Assert;
 
 trait HasExtraTrait
 {
     /**
      * Retrieves the morphed one-to-one relationship between the current model and the Extra model.
-     *
-     * @return MorphOne
      */
     public function extra(): MorphOne
     {
-        /** @var class-string<Model> */
         $extra_class = Str::of(static::class)
             ->before('\Models\\')
             ->append('\Models\Extra')
             ->toString();
         Assert::classExists($extra_class);
-        //Assert::isAOf($extra_class, Model::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
+        Assert::isAOf($extra_class, Model::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
         Assert::isInstanceOf($extra_class, BaseExtra::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
 
         return $this->morphOne($extra_class, 'model');
