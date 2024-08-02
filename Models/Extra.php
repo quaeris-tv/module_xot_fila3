@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Xot\Models;
 
 /**
+ * 
+ *
  * @property int                                                    $id
  * @property string                                                 $model_type
  * @property string                                                 $model_id
@@ -15,7 +17,6 @@ namespace Modules\Xot\Models;
  * @property string|null                                            $created_by
  * @property \Illuminate\Support\Carbon|null                        $deleted_at
  * @property string|null                                            $deleted_by
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Extra newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Extra newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Extra query()
@@ -30,7 +31,6 @@ namespace Modules\Xot\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|Extra whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Extra whereUpdatedBy($value)
  * @method static Builder|Extra                               withExtraAttributes()
- *
  * @mixin \Eloquent
  */
 class Extra extends BaseExtra
