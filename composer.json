@@ -121,7 +121,7 @@
             "providers": [
                 "Modules\\Xot\\Providers\\XotServiceProvider",
                 "Modules\\Xot\\Providers\\Filament\\ModulesServiceProvider"
-                
+
 
             ],
             "aliases": {}
@@ -129,5 +129,5 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true
-    
+
 }
