@@ -19,20 +19,7 @@ class ImportCsvAction
 {
     use QueueableAction;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
     public function execute(string $disk, string $filename, string $db, string $tbl): void
-=======
->>>>>>> 4ba78ad (✨ (ImportCsvAction.php): Add execute method to ImportCsvAction class)
-    /**
-     * @return void
-     */
-    public function execute(string $disk, string $filename, string $db, string $tbl)
-<<<<<<< HEAD
-=======
->>>>>>> bae9f11 (up)
->>>>>>> 4ba78ad (✨ (ImportCsvAction.php): Add execute method to ImportCsvAction class)
     {
         ini_set('max_execution_time', '0');
         ini_set('memory_limit', '-1'); // '512M'
