@@ -1,4 +1,0 @@
-providers:
-  - Modules\Xot\Providers\XotServiceProvider
-  - Modules\Xot\Providers\Filament\AdminPanelProvider
-  - Nwidart\Modules\LaravelModulesServiceProvider
