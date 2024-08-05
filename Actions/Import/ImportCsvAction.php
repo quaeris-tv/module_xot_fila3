@@ -20,14 +20,10 @@ class ImportCsvAction
 {
     use QueueableAction;
 
-<<<<<<< HEAD
-    public function execute(string $disk, string $filename, string $db, string $tbl): void
-=======
     /**
      * @return void
      */
     public function execute(string $disk, string $filename, string $db, string $tbl)
->>>>>>> bae9f11 (up)
     {
         ini_set('max_execution_time', '0');
         ini_set('memory_limit', '-1'); // '512M'
