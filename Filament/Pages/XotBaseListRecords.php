@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Pages;
 
 use Filament\Resources\Pages\ListRecords;
+use Modules\UI\Enums\TableLayoutEnum;
+use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Filament\Actions\Header\ExportXlsAction;
 
 /**
@@ -14,6 +16,15 @@ use Modules\Xot\Filament\Actions\Header\ExportXlsAction;
  */
 abstract class XotBaseListRecords extends ListRecords
 {
+    public TableLayoutEnum $layoutView = TableLayoutEnum::GRID;
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            TableLayoutToggleTableAction::make(),
+        ];
+    }
+
     protected function getHeaderActions(): array
     {
         /*
