@@ -11,15 +11,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\QueueableAction\QueueableAction;
+use function Safe\ini_set;
+use function Safe\preg_replace;
 
 class ImportCsvAction
 {
     use QueueableAction;
 
-    public function execute(string $disk, string $filename, string $db, string $tbl)
+    public function execute(string $disk, string $filename, string $db, string $tbl): void
     {
-        ini_set('max_execution_time', 0);
-        ini_set('memory_limit', -1); // '512M'
+        ini_set('max_execution_time', '0');
+        ini_set('memory_limit', '-1'); // '512M'
 
         $storage = Storage::disk($disk);
         $path = $storage->path($filename);
