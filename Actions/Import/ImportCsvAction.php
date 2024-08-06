@@ -10,16 +10,20 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+<<<<<<< HEAD
 
 use function Safe\ini_set;
 use function Safe\preg_replace;
 
+=======
+>>>>>>> 2afd959 (up)
 use Spatie\QueueableAction\QueueableAction;
 
 class ImportCsvAction
 {
     use QueueableAction;
 
+<<<<<<< HEAD
     /**
      * @return void
      */
@@ -27,6 +31,12 @@ class ImportCsvAction
     {
         ini_set('max_execution_time', '0');
         ini_set('memory_limit', '-1'); // '512M'
+=======
+    public function execute(string $disk, string $filename, string $db, string $tbl)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1); // '512M'
+>>>>>>> 2afd959 (up)
 
         $storage = Storage::disk($disk);
         $path = $storage->path($filename);
@@ -72,7 +82,10 @@ class ImportCsvAction
             $sql = $sql.'SET '.$sql_replace.';';
         }
 
+<<<<<<< HEAD
         $pdo->exec('SET GLOBAL local_infile=1;');
+=======
+>>>>>>> 2afd959 (up)
         // echo '<pre>'.htmlspecialchars($sql).'</pre>';
         $n_rows = $pdo->exec($sql);
         // dddx($n_rows);
