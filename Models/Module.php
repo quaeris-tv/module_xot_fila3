@@ -42,10 +42,13 @@ class Module extends Model
         'path',
     ];
 
-    protected $casts = [
-        'status' => 'boolean',
-        'priority' => 'integer',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean',
+            'priority' => 'integer',
+        ];
+    }
 
     /**
      * @return array
