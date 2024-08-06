@@ -94,11 +94,7 @@ class XotData extends Data implements Wireable
     }
 
     /**
-<<<<<<< HEAD
      * @return class-string<Model&UserContract>
-=======
-     * @return class-string
->>>>>>> e01854d (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
      */
     public function getUserClass(): string
     {
@@ -106,7 +102,6 @@ class XotData extends Data implements Wireable
         Assert::stringNotEmpty($class, 'check config auth');
         Assert::classExists($class, 'check config auth');
         Assert::implementsInterface($class, UserContract::class, '['.__LINE__.']['.__FILE__.']');
-<<<<<<< HEAD
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
 
         return $class;
@@ -138,8 +133,6 @@ class XotData extends Data implements Wireable
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
         Assert::implementsInterface($class, TenantContract::class, '['.__LINE__.']['.__FILE__.']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
-=======
->>>>>>> e01854d (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
 
         return $class;
     }
@@ -147,32 +140,6 @@ class XotData extends Data implements Wireable
     /**
      * @return class-string
      */
-<<<<<<< HEAD
-=======
-    public function getTeamClass(): string
-    {
-        Assert::classExists($class = $this->team_class, '['.__LINE__.']['.__FILE__.']');
-        // Assert::isInstanceOf($team_class, Model::class, '['.__LINE__.']['.__FILE__.']');
-        Assert::implementsInterface($class, TeamContract::class, '['.__LINE__.']['.__FILE__.']');
-
-        return $class;
-    }
-
-    /**
-     * Undocumented function.
-     *
-     * @return class-string
-     */
-    public function getTenantClass(): string
-    {
-        Assert::classExists($class = $this->tenant_class, '['.__LINE__.']['.__FILE__.']');
-        // Assert::isInstanceOf($class, Model::class, '['.__LINE__.']['.__FILE__.']');
-        Assert::implementsInterface($class, TenantContract::class, '['.__LINE__.']['.__FILE__.']');
-
-        return $class;
-    }
-
->>>>>>> e01854d (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
     public function getTenantResourceClass(): string
     {
         $class = Str::of($this->tenant_class)
@@ -232,7 +199,6 @@ class XotData extends Data implements Wireable
         return $res;
     }
 
-<<<<<<< HEAD
     public function iAmSuperAdmin(): bool
     {
         $user = auth()->user();
@@ -243,8 +209,6 @@ class XotData extends Data implements Wireable
         return $user->hasRole('super-admin');
     }
 
-=======
->>>>>>> e01854d (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
     public function getProfileModel(): ProfileContract
     {
         if (null != $this->profile) {

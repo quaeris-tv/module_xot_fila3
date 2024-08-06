@@ -9,9 +9,8 @@ use Illuminate\Support\Arr;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
-<<<<<<< HEAD
 /**
- * 
+ *
  *
  * @property int         $id
  * @property string|null $name
@@ -30,8 +29,6 @@ use Sushi\Sushi;
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereStatus($value)
  * @mixin \Eloquent
  */
-=======
->>>>>>> e01854d (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
 class Module extends Model
 {
     use Sushi;
@@ -45,7 +42,6 @@ class Module extends Model
         'path',
     ];
 
-<<<<<<< HEAD
     protected function casts(): array
     {
         return [
@@ -55,12 +51,6 @@ class Module extends Model
 
        ];
     }
-=======
-    protected $casts = [
-        'status' => 'boolean',
-        'priority' => 'integer',
-    ];
->>>>>>> e01854d (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
 
     /**
      * @return array
