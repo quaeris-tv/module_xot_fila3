@@ -18,14 +18,17 @@ trait HasExtraTrait
      */
     public function extra(): MorphOne
     {
-        /** @var class-string<Model> */
         $extra_class = Str::of(static::class)
             ->before('\Models\\')
             ->append('\Models\Extra')
             ->toString();
         Assert::classExists($extra_class);
         Assert::isAOf($extra_class, Model::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
+<<<<<<< HEAD
         // Assert::isInstanceOf($extra_class, BaseExtra::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
+=======
+        Assert::isInstanceOf($extra_class, BaseExtra::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
+>>>>>>> 1124cad (📝 (XotData.php): Add assertions to ensure the correct class type and interface implementation for getTeamClass, getTenantClass, and getTenantResourceClass methods)
 
         return $this->morphOne($extra_class, 'model');
     }
