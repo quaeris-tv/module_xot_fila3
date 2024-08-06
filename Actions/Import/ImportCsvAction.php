@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 use Spatie\QueueableAction\QueueableAction;
+use function Safe\ini_set;
+use function Safe\preg_replace;
 
 use function Safe\ini_set;
 
@@ -21,10 +23,14 @@ class ImportCsvAction
 {
     use QueueableAction;
 
+<<<<<<< HEAD
     /**
      * @return void
      */
     public function execute(string $disk, string $filename, string $db, string $tbl)
+=======
+    public function execute(string $disk, string $filename, string $db, string $tbl): void
+>>>>>>> 8664c90 (phpstan)
     {
         ini_set('max_execution_time', '0');
         ini_set('memory_limit', '-1'); // '512M'
