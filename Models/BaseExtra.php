@@ -17,7 +17,10 @@ use Webmozart\Assert\Assert;
  * @property int|null                                          $model_id
  * @property string|null                                       $model_type
  * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
+<<<<<<< HEAD
  *
+=======
+>>>>>>> d7be27f (up)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel disableCache()
  * @method static \Modules\Xot\Database\Factories\ExtraFactory    factory($count = null, $state = [])
  * @method static Builder|Extra                                   newModelQuery()
@@ -25,14 +28,20 @@ use Webmozart\Assert\Assert;
  * @method static Builder|Extra                                   query()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel withCacheCooldownSeconds(?int $seconds = null)
  * @method static Builder|Extra                                   withExtraAttributes()
+<<<<<<< HEAD
  *
+=======
+>>>>>>> d7be27f (up)
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null                     $updated_by
  * @property string|null                     $created_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property string|null                     $deleted_by
+<<<<<<< HEAD
  *
+=======
+>>>>>>> d7be27f (up)
  * @method static Builder|Extra whereCreatedAt($value)
  * @method static Builder|Extra whereCreatedBy($value)
  * @method static Builder|Extra whereDeletedAt($value)
@@ -43,7 +52,10 @@ use Webmozart\Assert\Assert;
  * @method static Builder|Extra whereModelType($value)
  * @method static Builder|Extra whereUpdatedAt($value)
  * @method static Builder|Extra whereUpdatedBy($value)
+<<<<<<< HEAD
  *
+=======
+>>>>>>> d7be27f (up)
  * @mixin \Eloquent
  */
 abstract class BaseExtra extends Model
