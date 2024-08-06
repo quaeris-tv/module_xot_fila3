@@ -8,6 +8,8 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Modules\UI\Enums\TableLayoutEnum;
+use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Filament\Actions\Header\ArtisanHeaderAction;
 use Modules\Xot\Filament\Resources\CacheResource;
 use Modules\Xot\Filament\Widgets\Clock;
@@ -15,6 +17,15 @@ use Modules\Xot\Filament\Widgets\Clock;
 class ListCaches extends ListRecords
 {
     protected static string $resource = CacheResource::class;
+
+    public TableLayoutEnum $layoutView = TableLayoutEnum::GRID;
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            TableLayoutToggleTableAction::make(),
+        ];
+    }
 
     public function getHeaderWidgets(): array
     {
