@@ -18,7 +18,11 @@ trait HasExtraTrait
      */
     public function extra(): MorphOne
     {
+<<<<<<< HEAD
         /** @var class-string<Model> */
+=======
+        /** @var class-string<Illuminate\Database\Eloquent\Model> */
+>>>>>>> 48e3f0e (up)
         $extra_class = Str::of(static::class)
             ->before('\Models\\')
             ->append('\Models\Extra')
