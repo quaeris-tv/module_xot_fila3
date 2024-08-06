@@ -25,10 +25,7 @@ trait HasExtraTrait
             ->toString();
         Assert::classExists($extra_class);
         Assert::isAOf($extra_class, Model::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
-<<<<<<< HEAD
         // Assert::isInstanceOf($extra_class, BaseExtra::class, '['.__LINE__.']['.__FILE__.']['.$extra_class.']');
-=======
->>>>>>> a84da9e (up)
 
         return $this->morphOne($extra_class, 'model');
     }
