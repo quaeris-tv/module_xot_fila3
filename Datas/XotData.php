@@ -107,6 +107,10 @@ class XotData extends Data implements Wireable
 
         return $class;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 768f6b3 (🔧 (XotData.php): remove unnecessary merge conflict markers from the file)
     /**
      * @return class-string<Model&TeamContract>
      */
