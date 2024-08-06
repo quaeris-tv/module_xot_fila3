@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 /**
  * Model Extra.
  *
@@ -38,11 +36,6 @@ namespace Modules\Xot\Models;
  * @method static Builder|Extra whereUpdatedBy($value)
  * @mixin \Eloquent
  */
-=======
-<<<<<<< HEAD
->>>>>>> be6b32a (🔧 (XotData.php): resolve conflict in XotData.php file)
-=======
->>>>>>> f8e7dcd (🔧 (XotData.php): resolve conflict in XotData.php file)
 class Extra extends BaseExtra
 {
 }
