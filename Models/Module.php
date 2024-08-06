@@ -9,6 +9,51 @@ use Illuminate\Support\Arr;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
+<<<<<<< HEAD
+=======
+/**
+<<<<<<< HEAD
+<<<<<<< HEAD
+ *
+ *
+=======
+>>>>>>> 0275d76 (🔧 (XotData.php): Remove unnecessary conflict markers from the file)
+=======
+ * 
+ *
+>>>>>>> 4a6b3ad (📝 (Models): Remove unnecessary empty lines and comments for better code readability and cleanliness.)
+ * @property int         $id
+ * @property string|null $name
+ * @property string|null $description
+ * @property bool|null   $status
+ * @property int|null    $priority
+ * @property string|null $path
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+ *
+>>>>>>> 0275d76 (🔧 (XotData.php): Remove unnecessary conflict markers from the file)
+=======
+>>>>>>> 4a6b3ad (📝 (Models): Remove unnecessary empty lines and comments for better code readability and cleanliness.)
+ * @method static \Illuminate\Database\Eloquent\Builder|Module newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Module newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Module query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Module whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Module whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Module whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Module wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Module wherePriority($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Module whereStatus($value)
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+ *
+>>>>>>> 0275d76 (🔧 (XotData.php): Remove unnecessary conflict markers from the file)
+=======
+>>>>>>> 4a6b3ad (📝 (Models): Remove unnecessary empty lines and comments for better code readability and cleanliness.)
+ * @mixin \Eloquent
+ */
+>>>>>>> 4df604f (📝 (Models): Remove unnecessary empty lines and comments for better code readability and cleanliness.)
 class Module extends Model
 {
     use Sushi;
