@@ -9,6 +9,32 @@ use Illuminate\Support\Arr;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+/**
+ * 
+ *
+ * @property int         $id
+ * @property string|null $name
+ * @property string|null $description
+ * @property bool|null   $status
+ * @property int|null    $priority
+ * @property string|null $path
+ * @method static \Illuminate\Database\Eloquent\Builder|Module newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Module newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Module query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Module whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Module whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Module whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Module wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Module wherePriority($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Module whereStatus($value)
+ * @mixin \Eloquent
+ */
+=======
+>>>>>>> 1a8b9a4 (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
+>>>>>>> dcb1b86 (📝 (XotData.php): Update method signatures in XotData class to specify return types for better type safety and clarity)
 class Module extends Model
 {
     use Sushi;
