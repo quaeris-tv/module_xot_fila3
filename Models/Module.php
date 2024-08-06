@@ -10,13 +10,9 @@ use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
 /**
-<<<<<<< HEAD
  *
  *
  * @property int $id
-=======
- * @property int         $id
->>>>>>> 9ec2e67 (Check & fix styling)
  * @property string|null $name
  * @property string|null $description
  * @property bool|null   $status
