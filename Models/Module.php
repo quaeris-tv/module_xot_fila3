@@ -10,6 +10,7 @@ use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
 /**
+<<<<<<< HEAD
  *
  *
  * @property int         $id
@@ -17,6 +18,15 @@ use Sushi\Sushi;
  * @property string|null $description
  * @property bool|null   $status
  * @property int|null    $priority
+=======
+ * 
+ *
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $description
+ * @property bool|null $status
+ * @property int|null $priority
+>>>>>>> d54eeaf (up)
  * @property string|null $path
  * @method static \Illuminate\Database\Eloquent\Builder|Module newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Module newQuery()
