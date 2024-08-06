@@ -1,7 +1,10 @@
 <?php
+<<<<<<< HEAD
 /**
  * @see https://github.com/shuvroroy/filament-spatie-laravel-health/tree/main
  */
+=======
+>>>>>>> e01854d (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
 
 declare(strict_types=1);
 
@@ -17,4 +20,9 @@ class EnvPage extends Page
     protected static ?string $navigationIcon = 'heroicon-o-home';
 
     protected static string $view = 'xot::filament.pages.dashboard';
+<<<<<<< HEAD
 }
+=======
+
+}
+>>>>>>> e01854d (📝 (EnvData.php): Update method signatures in EnvData class to specify return types for better type safety and clarity)
