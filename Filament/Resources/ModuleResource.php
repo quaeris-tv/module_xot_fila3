@@ -7,8 +7,6 @@ namespace Modules\Xot\Filament\Resources;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Tables;
-use Filament\Tables\Table;
 use Modules\UI\Filament\Forms\Components\IconPicker;
 use Modules\Xot\Filament\Resources\ModuleResource\Pages;
 use Modules\Xot\Models\Module;
@@ -27,43 +25,6 @@ class ModuleResource extends XotBaseResource
                         TextInput::make('description')->required(),
                         IconPicker::make('icon'),
                     ]),
-            ]);
-    }
-
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->searchable()
-                    ->sortable()
-                    ->wrap(),
-                Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('priority'),
-                // Tables\Columns\TextColumn::make('path'),
-            ])
-            ->filters([
-                // Tables\Filters\SelectFilter::make('name')->options(
-                //    Module::pluck('name', 'name')->toArray()
-                // ),
-                // Tables\Filters\SelectFilter::make('status')->options([
-                //    'enabled' => 'Enabled',
-                //    'disabled' => 'Disabled',
-                // ])->default('enabled'),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
-            ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
             ]);
     }
 
