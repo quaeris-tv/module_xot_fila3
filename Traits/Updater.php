@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Traits;
 
+use Modules\Xot\Datas\XotData;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 /**
  * Trait Updater.
  * https://dev.to/hasanmn/automatically-update-createdby-and-updatedby-in-laravel-using-bootable-traits-28g9.
@@ -38,6 +41,42 @@ trait Updater
                     $model->save();
                 }
             }
+        );
+    }
+
+    public function creator(): BelongsTo
+    {
+        $profile_class = XotData::make()->getProfileClass();
+        /*
+        return $this->belongsTo(
+            User::class,
+            'created_by',
+        );
+        */
+        return $this->belongsTo(
+            $profile_class,
+            'updated_by',
+            'user_id'
+        );
+    }
+
+    /**
+     * Defines a relation to obtain the last user who
+     * manipulated the Entity instance.
+     */
+    public function updater(): BelongsTo
+    {
+        $profile_class = XotData::make()->getProfileClass();
+        /*
+        return $this->belongsTo(
+            User::class,
+            'updated_by',
+        );
+        */
+        return $this->belongsTo(
+            $profile_class,
+            'updated_by',
+            'user_id'
         );
     }
 }// end trait Updater
