@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Traits;
 
-use Modules\Xot\Datas\XotData;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Xot\Datas\XotData;
 
 /**
  * Trait Updater.
@@ -47,6 +47,7 @@ trait Updater
     public function creator(): BelongsTo
     {
         $profile_class = XotData::make()->getProfileClass();
+
         /*
         return $this->belongsTo(
             User::class,
@@ -67,6 +68,7 @@ trait Updater
     public function updater(): BelongsTo
     {
         $profile_class = XotData::make()->getProfileClass();
+
         /*
         return $this->belongsTo(
             User::class,
