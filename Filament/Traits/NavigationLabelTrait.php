@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-use Modules\Xot\Actions\GetTransKeyAction;
 use Webmozart\Assert\Assert;
 
 trait NavigationLabelTrait
 {
     use TransTrait;
-
 
     public static function getModelLabel(): string
     {
