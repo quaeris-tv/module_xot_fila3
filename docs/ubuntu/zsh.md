@@ -16,3 +16,6 @@ PROMPT='%F{green}%n@%m%f %F{yellow}%~ %F{cyan}${vcs_info_msg_0_}%f %F{reset_colo
 source ~/.zshrc
 ~~~
 
+usefull links:
+- https://zsh-prompt-generator.site/
+
