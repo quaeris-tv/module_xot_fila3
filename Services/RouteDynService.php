@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Webmozart\Assert\Assert;
 
-<<<<<<< HEAD
-use Webmozart\Assert\Assert;
-
-=======
->>>>>>> 9f602e2 (up)
 use function Safe\preg_replace;
 
 /**

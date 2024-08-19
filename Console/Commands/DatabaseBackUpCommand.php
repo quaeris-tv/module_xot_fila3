@@ -13,11 +13,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Webmozart\Assert\Assert;
 
-<<<<<<< HEAD
-use Webmozart\Assert\Assert;
-
-=======
->>>>>>> 9f602e2 (up)
 use function Safe\exec;
 
 class DatabaseBackUpCommand extends Command

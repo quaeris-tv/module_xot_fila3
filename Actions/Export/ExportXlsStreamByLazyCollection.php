@@ -10,13 +10,10 @@ use Spatie\QueueableAction\QueueableAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Webmozart\Assert\Assert;
 
-<<<<<<< HEAD
 use Spatie\QueueableAction\QueueableAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Webmozart\Assert\Assert;
 
-=======
->>>>>>> 9f602e2 (up)
 use function Safe\fclose;
 use function Safe\fopen;
 use function Safe\fputcsv;

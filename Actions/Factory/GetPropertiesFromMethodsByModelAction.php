@@ -17,11 +17,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 use Spatie\QueueableAction\QueueableAction;
 
-<<<<<<< HEAD
-use Spatie\QueueableAction\QueueableAction;
-
-=======
->>>>>>> 9f602e2 (up)
 use function Safe\preg_replace;
 
 /**
