@@ -100,11 +100,10 @@ class ListCaches extends ListRecords
             ->persistFiltersInSession()
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
-            ->actionsPosition(ActionsPosition::BeforeColumns)
-            // ->defaultSort(
-            //    column: 'created_at',
-            //    direction: 'DESC',
-            // )
-        ;
+            ->actionsPosition(ActionsPosition::BeforeColumns);
+        // ->defaultSort(
+        //    column: 'created_at',
+        //    direction: 'DESC',
+        // )
     }
 }

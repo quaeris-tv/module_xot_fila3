@@ -60,7 +60,7 @@ class BelongsToManyAction
             }
         }
 
-        if ([] !== $ids) {
+        if ($ids !== []) {
             try {
                 $model->{$relationDTO->name}()->syncWithoutDetaching($ids);
             } catch (\Exception $e) {

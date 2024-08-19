@@ -45,8 +45,8 @@ class ListModules extends ListRecords
         return [
             Stack::make([
                 Tables\Columns\TextColumn::make('name')
-                        ->searchable()
-                        ->sortable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable()
                     ->sortable()
@@ -61,8 +61,8 @@ class ListModules extends ListRecords
     {
         return [
             Tables\Columns\TextColumn::make('name')
-                    ->searchable()
-                    ->sortable(),
+                ->searchable()
+                ->sortable(),
             Tables\Columns\TextColumn::make('description')
                 ->searchable()
                 ->sortable()
