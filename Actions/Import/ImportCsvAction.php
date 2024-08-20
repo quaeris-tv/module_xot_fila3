@@ -11,15 +11,11 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-use function Safe\ini_set;
-use function Safe\preg_replace;
-
-<<<<<<< HEAD
-use function Safe\ini_set;
-use function Safe\preg_replace;
-=======
 use Spatie\QueueableAction\QueueableAction;
->>>>>>> d92aa8f (Check & fix styling)
+
+use function Safe\ini_set;
+
+use function Safe\preg_replace;
 
 class ImportCsvAction
 {
