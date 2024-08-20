@@ -47,7 +47,6 @@ trait Updater
     public function creator(): BelongsTo
     {
         $profile_class = XotData::make()->getProfileClass();
-
         /*
         return $this->belongsTo(
             User::class,
@@ -68,7 +67,6 @@ trait Updater
     public function updater(): BelongsTo
     {
         $profile_class = XotData::make()->getProfileClass();
-
         /*
         return $this->belongsTo(
             User::class,
