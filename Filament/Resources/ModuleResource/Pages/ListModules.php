@@ -44,13 +44,8 @@ class ListModules extends ListRecords
         return [
             Stack::make([
                 Tables\Columns\TextColumn::make('name')
-<<<<<<< HEAD
                     ->searchable()
                     ->sortable(),
-=======
-                        ->searchable()
-                        ->sortable(),
->>>>>>> 4ed2a8b (✨ (ListCaches.php): Add new grid table columns and list table columns for better organization and display of cache data)
                 Tables\Columns\TextColumn::make('description')
                     ->searchable()
                     ->sortable()
@@ -65,13 +60,8 @@ class ListModules extends ListRecords
     {
         return [
             Tables\Columns\TextColumn::make('name')
-<<<<<<< HEAD
                 ->searchable()
                 ->sortable(),
-=======
-                    ->searchable()
-                    ->sortable(),
->>>>>>> 4ed2a8b (✨ (ListCaches.php): Add new grid table columns and list table columns for better organization and display of cache data)
             Tables\Columns\TextColumn::make('description')
                 ->searchable()
                 ->sortable()
