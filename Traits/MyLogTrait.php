@@ -29,7 +29,7 @@ trait MyLogTrait
         */
         static::creating(
             /**
-             * @param Model $model
+             * @param  Model  $model
              */
             static function ($model): void {
                 // dddx(static::$logModel);
@@ -45,7 +45,7 @@ trait MyLogTrait
 
         static::updating(
             /**
-             * @param Model $model
+             * @param  Model  $model
              */
             static function ($model): void {
                 // $tmp = ;
@@ -60,7 +60,7 @@ trait MyLogTrait
                         static function ($value, $key): bool {
                             $key = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', (string) $key);
 
-                            return '*attributes' === $key;
+                            return $key === '*attributes';
                         }
                     )->values()[0];
                     $parz['data'] = \Safe\json_encode($data, JSON_THROW_ON_ERROR);
