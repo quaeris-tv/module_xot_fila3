@@ -18,11 +18,7 @@ class GetTransKeyAction
      */
     public function execute(string $class = ''): string
     {
-<<<<<<< HEAD
         if ($class === '') {
-=======
-        if ('' === $class) {
->>>>>>> 35d9347 (.)
             $backtrace = debug_backtrace();
             Assert::string($class = Arr::get($backtrace, '1.class'), '['.__LINE__.']['.__FILE__.']');
         }
@@ -36,11 +32,7 @@ class GetTransKeyAction
             ->toString();
 
         $arr = explode('\\', $class);
-<<<<<<< HEAD
         if ($arr[0] !== 'Modules') {
-=======
-        if ('Modules' !== $arr[0]) {
->>>>>>> 35d9347 (.)
             throw new \Exception('Invalid class name['.__LINE__.']['.__FILE__.']');
         }
 
@@ -86,11 +78,7 @@ class GetTransKeyAction
             ->implode('.');
 
         $tmp = $module_low.'::'.$model_low;
-<<<<<<< HEAD
         if ($res !== '') {
-=======
-        if ('' !== $res) {
->>>>>>> 35d9347 (.)
             $tmp .= '.'.$res;
         }
         $piece = explode('.', $tmp);

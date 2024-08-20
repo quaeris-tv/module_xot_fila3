@@ -26,18 +26,10 @@ class GetFactoryAction
     /**
      * Execute the function with the given model class.
      *
-<<<<<<< HEAD
      * @param  string  $model_class  the class name of the model
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      *
      * @throws \Exception Generating Factory [factory_class] press [F5] to refresh page [__LINE__][__FILE__]
-=======
-     * @param string $model_class the class name of the model
-     *
-     * @throws \Exception Generating Factory [factory_class] press [F5] to refresh page [__LINE__][__FILE__]
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
->>>>>>> 35d9347 (.)
      */
     public function execute(string $model_class)
     {
@@ -68,12 +60,7 @@ class GetFactoryAction
     /**
      * Create a factory for the given model class.
      *
-<<<<<<< HEAD
      * @param  string  $model_class  The class name of the model to create the factory for
-=======
-     * @param string $model_class The class name of the model to create the factory for
-     *
->>>>>>> 35d9347 (.)
      * @return void
      */
     public function createFactory(string $model_class)

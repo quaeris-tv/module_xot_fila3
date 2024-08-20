@@ -12,11 +12,7 @@ class PhoneCast implements CastsAttributes
     /**
      * Cast the given value.
      *
-<<<<<<< HEAD
      * @param  array<string, mixed>  $attributes
-=======
-     * @param array<string, mixed> $attributes
->>>>>>> 35d9347 (.)
      */
     public function get($model, string $key, mixed $value, array $attributes): PhoneValueObject
     {
@@ -30,11 +26,7 @@ class PhoneCast implements CastsAttributes
     /**
      * Prepare the given value for storage.
      *
-<<<<<<< HEAD
      * @param  array<string, mixed>  $attributes
-=======
-     * @param array<string, mixed> $attributes
->>>>>>> 35d9347 (.)
      */
     public function set($model, string $key, mixed $value, array $attributes): string
     {

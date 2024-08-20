@@ -7,11 +7,15 @@ use Modules\Xot\Database\Migrations\XotBaseMigration;
 use Modules\Xot\Models\HealthCheckResultHistoryItem;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 return new class extends XotBaseMigration
 {
 =======
 return new class() extends XotBaseMigration {
 >>>>>>> 35d9347 (.)
+=======
+return new class extends XotBaseMigration {
+>>>>>>> 5ecb5a9 (Check & fix styling)
     protected ?string $model_class = HealthCheckResultHistoryItem::class;
 
     /**

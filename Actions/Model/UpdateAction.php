@@ -24,11 +24,7 @@ class UpdateAction
 
         $keyName = $model->getKeyName();
         // $data['updated_by'] = authId();
-<<<<<<< HEAD
-        if ($model->getKey() === null) {
-=======
         if (null === $model->getKey()) {
->>>>>>> 35d9347 (.)
             $key = $data[$keyName];
             $data = collect($data)->except($keyName)->toArray();
 

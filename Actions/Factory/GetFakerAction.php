@@ -24,11 +24,7 @@ class GetFakerAction
 
     public function execute(string $name, ?string $type = null, ?string $table = null): string
     {
-<<<<<<< HEAD
         if ($type !== null && Str::startsWith($type, 'factory(')) {
-=======
-        if (null !== $type && Str::startsWith($type, 'factory(')) {
->>>>>>> 35d9347 (.)
             return $type;
         }
 

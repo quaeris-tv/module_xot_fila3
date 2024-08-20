@@ -48,11 +48,7 @@ class GetModulesNavigationItems
                 ->visible(
                     static function () use ($role) {
                         $user = Filament::auth()->user();
-<<<<<<< HEAD
-                        if ($user === null) {
-=======
                         if (null === $user) {
->>>>>>> 35d9347 (.)
                             return false;
                         }
 
