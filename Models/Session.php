@@ -67,6 +67,9 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Session whereDeletedAt($value)
  * @method static Builder|Session whereDeletedBy($value)
  *
+ * @property-read \Modules\Fixcity\Models\Profile|null $creator
+ * @property-read \Modules\Fixcity\Models\Profile|null $updater
+ *
  * @mixin \Eloquent
  */
 class Session extends BaseModel

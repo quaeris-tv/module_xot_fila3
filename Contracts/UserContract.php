@@ -21,29 +21,23 @@ use Spatie\Permission\Contracts\Role;
 /**
  * Modules\User\Contracts\UserContract.
  *
- * @property ProfileContract|null                        $profile
- * @property string                                      $id
- * @property string                                      $handle
- * @property string|null                                 $first_name
- * @property string|null                                 $last_name
- * @property string|null                                 $full_name
- * @property string|null                                 $current_team_id
- * @property string|null                                 $phone
- * @property string|null                                 $email
+ * @property ProfileContract|null $profile
+ * @property string $id
+ * @property string $handle
+ * @property string|null $first_name
+ * @property string|null $last_name
+ * @property string|null $full_name
+ * @property string|null $current_team_id
+ * @property string|null $phone
+ * @property string|null $email
  * @property Collection|array<\Modules\User\Models\Area> $areas
- * @property \Modules\User\Models\PermUser|null          $perm
+ * @property \Modules\User\Models\PermUser|null $perm
  *
  * @phpstan-require-extends Model
  *
  * @mixin \Eloquent
  */
-interface UserContract extends CanResetPassword,
-    FilamentUser,
-    HasTeamsContract,
-    ModelContract,
-    MustVerifyEmail,
-    PassportHasApiTokensContract,
-    Authorizable
+interface UserContract extends Authorizable, CanResetPassword, FilamentUser, HasTeamsContract, ModelContract, MustVerifyEmail, PassportHasApiTokensContract
 {
     /*
     public function isSuperAdmin();
@@ -61,8 +55,7 @@ interface UserContract extends CanResetPassword,
     /**
      * Get a relationship.
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return mixed|null
      */
     public function getRelationValue($key);
@@ -70,9 +63,8 @@ interface UserContract extends CanResetPassword,
     /**
      * Create a new instance of the given model.
      *
-     * @param array $attributes
-     * @param bool  $exists
-     *
+     * @param  array  $attributes
+     * @param  bool  $exists
      * @return static
      */
     public function newInstance($attributes = [], $exists = false);

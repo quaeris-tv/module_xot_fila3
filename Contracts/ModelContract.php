@@ -14,37 +14,37 @@ use Illuminate\Support\Carbon;
 /**
  * Modules\Xot\Contracts\ModelContract.
  *
- * @property int                $id
- * @property int|null           $user_id
- * @property string|null        $post_type
- * @property Carbon|null        $created_at
- * @property Carbon|null        $updated_at
- * @property string|null        $created_by
- * @property string|null        $updated_by
- * @property string|null        $title
- * @property bool               $is_reclamed
- * @property bool               $table_enable
+ * @property int $id
+ * @property int|null $user_id
+ * @property string|null $post_type
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $title
+ * @property bool $is_reclamed
+ * @property bool $table_enable
  * @property PivotContract|null $pivot
- * @property string             $tennant_name
+ * @property string $tennant_name
  *
- * @method mixed     getKey()
- * @method string    getRouteKey()
- * @method string    getRouteKeyName()
- * @method string    getTable()
- * @method mixed     with($array)
- * @method array     getFillable()
- * @method mixed     fill($array)
- * @method mixed     getConnection()
- * @method mixed     update($params)
- * @method mixed     delete()
- * @method mixed     detach($params)
- * @method mixed     attach($params)
- * @method array     treeLabel()
- * @method array     treeSons()
- * @method int       treeSonsCount()
- * @method array     toArray()
+ * @method mixed getKey()
+ * @method string getRouteKey()
+ * @method string getRouteKeyName()
+ * @method string getTable()
+ * @method mixed with($array)
+ * @method array getFillable()
+ * @method mixed fill($array)
+ * @method mixed getConnection()
+ * @method mixed update($params)
+ * @method mixed delete()
+ * @method mixed detach($params)
+ * @method mixed attach($params)
+ * @method array treeLabel()
+ * @method array treeSons()
+ * @method int treeSonsCount()
+ * @method array toArray()
  * @method BelongsTo user()
- * @method mixed     getAttributeValue(string $key)
+ * @method mixed getAttributeValue(string $key)
  *
  * @phpstan-require-extends Model
  *
