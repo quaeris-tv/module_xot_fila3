@@ -36,7 +36,7 @@ return new class extends XotBaseMigration {
                 //    $table->unique(['model_id', 'model_type'], 'morph_unique');
                 // }
 
-                if ($this->hasColumn('model_id') && 'bigint' === $this->getColumnType('model_id')) {
+                if ($this->hasColumn('model_id') && $this->getColumnType('model_id') === 'bigint') {
                     $table->string('model_id', 36)->index()->change();
                 }
             }

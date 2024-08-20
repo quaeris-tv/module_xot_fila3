@@ -53,8 +53,8 @@ trait Cacheable
      */
     public function skippedCache(): bool
     {
-        return false === config('repositories.cache_enabled', false)
-            || true === app('request')->has(config('repositories.cache_skip_param', 'skipCache'));
+        return config('repositories.cache_enabled', false) === false
+            || app('request')->has(config('repositories.cache_skip_param', 'skipCache')) === true;
     }
 
     /**
@@ -87,7 +87,7 @@ trait Cacheable
     public function cacheCallback(string $method, array $args, \Closure $callback, mixed $time = null)
     {
         // Cache disabled, just execute query & return result
-        if (true === $this->skippedCache()) {
+        if ($this->skippedCache() === true) {
             return \call_user_func($callback);
         }
 
@@ -107,7 +107,7 @@ trait Cacheable
     public function flushCache(): bool
     {
         // Cache disabled, just ignore this
-        if (false === $this->eventFlushCache || false === config('repositories.cache_enabled', false)) {
+        if ($this->eventFlushCache === false || config('repositories.cache_enabled', false) === false) {
             return false;
         }
 
@@ -122,7 +122,7 @@ trait Cacheable
      */
     protected function getCacheExpiresTime(?int $time = null): int
     {
-        if (self::EXPIRES_END_OF_DAY === $time) {
+        if ($time === self::EXPIRES_END_OF_DAY) {
             return class_exists(Carbon::class)
                 ? round(Carbon::now()->secondsUntilEndOfDay() / 60)
                 : $this->cacheMinutes;
