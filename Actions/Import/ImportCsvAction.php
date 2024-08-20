@@ -68,14 +68,7 @@ class ImportCsvAction
             $sql = $sql.'SET '.$sql_replace.';';
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         $pdo->exec('SET GLOBAL local_infile=1;');
-=======
->>>>>>> f3b50b6 (up)
-=======
-        $pdo->exec('SET GLOBAL local_infile=1;');
->>>>>>> d959adc (up)
         // echo '<pre>'.htmlspecialchars($sql).'</pre>';
         $n_rows = $pdo->exec($sql);
         // dddx($n_rows);
@@ -90,11 +83,7 @@ class ImportCsvAction
     public function fixFieldName(string $str): string
     {
         $str = trim($str);
-<<<<<<< HEAD
         if ($str === 'desc') {
-=======
-        if ('desc' === $str) {
->>>>>>> f3b50b6 (up)
             return 'desc1';
         } // descrizione;
         // preg_match_all(, subject, matches)
