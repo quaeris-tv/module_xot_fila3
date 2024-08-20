@@ -10,11 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-<<<<<<< HEAD
 
 use Spatie\QueueableAction\QueueableAction;
-=======
->>>>>>> d7d5c20 (Check & fix styling)
 
 use function Safe\ini_set;
 
@@ -26,14 +23,7 @@ class ImportCsvAction
 {
     use QueueableAction;
 
-<<<<<<< HEAD
     public function execute(string $disk, string $filename, string $db, string $tbl): void
-=======
-    /**
-     * @return void
-     */
-    public function execute(string $disk, string $filename, string $db, string $tbl)
->>>>>>> 58cb3e5 (♻️ (ImportCsvAction.php): remove unnecessary merge conflict markers and cleanup execute method definition)
     {
         ini_set('max_execution_time', '0');
         ini_set('memory_limit', '-1'); // '512M'
