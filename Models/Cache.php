@@ -11,17 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @property string $key
  * @property string $value
-<<<<<<< HEAD
- * @property int $expiration
- *
- * @method static \Modules\Xot\Database\Factories\CacheFactory factory($count = null, $state = [])
- * @method static Builder|Cache newModelQuery()
- * @method static Builder|Cache newQuery()
- * @method static Builder|Cache query()
- * @method static Builder|Cache whereExpiration($value)
- * @method static Builder|Cache whereKey($value)
- * @method static Builder|Cache whereValue($value)
-=======
  * @property int    $expiration
  *
  * @method static \Modules\Xot\Database\Factories\CacheFactory factory($count = null, $state = [])
@@ -31,29 +20,16 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Cache                                whereExpiration($value)
  * @method static Builder|Cache                                whereKey($value)
  * @method static Builder|Cache                                whereValue($value)
->>>>>>> 35d9347 (.)
  *
  * @property int $expiration
  *
  * @method static \Modules\Xot\Database\Factories\CacheFactory factory($count = null, $state = [])
-<<<<<<< HEAD
- * @method static Builder|Cache newModelQuery()
- * @method static Builder|Cache newQuery()
- * @method static Builder|Cache query()
- * @method static Builder|Cache whereExpiration($value)
- * @method static Builder|Cache whereKey($value)
- * @method static Builder|Cache whereValue($value)
- *
- * @property-read \Modules\Fixcity\Models\Profile|null $creator
- * @property-read \Modules\Fixcity\Models\Profile|null $updater
-=======
  * @method static Builder|Cache                                newModelQuery()
  * @method static Builder|Cache                                newQuery()
  * @method static Builder|Cache                                query()
  * @method static Builder|Cache                                whereExpiration($value)
  * @method static Builder|Cache                                whereKey($value)
  * @method static Builder|Cache                                whereValue($value)
->>>>>>> 35d9347 (.)
  *
  * @mixin \Eloquent
  */

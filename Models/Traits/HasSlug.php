@@ -36,11 +36,7 @@ trait HasSlug
         $counter = 0;
 
         while ($this->slugExists($slug, $this->exists ? $this->getKey() : null)) {
-<<<<<<< HEAD
-            $counter++;
-=======
             ++$counter;
->>>>>>> 35d9347 (.)
             $slug = $originalSlug.'-'.$counter;
         }
 

@@ -223,16 +223,10 @@ class TranslatorService extends BaseTranslator
     /**
      * Get the translation for the given key.
      *
-<<<<<<< HEAD
-     * @param  string  $key
-     * @param  string|null  $locale
-     * @param  bool  $fallback
-=======
      * @param string      $key
      * @param string|null $locale
      * @param bool        $fallback
      *
->>>>>>> 35d9347 (.)
      * @return string|array
      */
     public function get($key, array $replace = [], $locale = null, $fallback = true)
@@ -242,11 +236,7 @@ class TranslatorService extends BaseTranslator
         // superdump([$key, $replace , $locale , $fallback ]);
 
         // *
-<<<<<<< HEAD
-        if ($locale === null) {
-=======
         if (null === $locale) {
->>>>>>> 35d9347 (.)
             $locale = app()->getLocale();
         }
 

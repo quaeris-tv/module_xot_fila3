@@ -29,11 +29,7 @@ trait MyLogTrait
         */
         static::creating(
             /**
-<<<<<<< HEAD
              * @param  Model  $model
-=======
-             * @param Model $model
->>>>>>> 35d9347 (.)
              */
             static function ($model): void {
                 // dddx(static::$logModel);
@@ -49,11 +45,7 @@ trait MyLogTrait
 
         static::updating(
             /**
-<<<<<<< HEAD
              * @param  Model  $model
-=======
-             * @param Model $model
->>>>>>> 35d9347 (.)
              */
             static function ($model): void {
                 // $tmp = ;
@@ -68,11 +60,7 @@ trait MyLogTrait
                         static function ($value, $key): bool {
                             $key = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', (string) $key);
 
-<<<<<<< HEAD
                             return $key === '*attributes';
-=======
-                            return '*attributes' === $key;
->>>>>>> 35d9347 (.)
                         }
                     )->values()[0];
                     $parz['data'] = \Safe\json_encode($data, JSON_THROW_ON_ERROR);

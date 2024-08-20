@@ -28,21 +28,13 @@ class RouteService
             return config()->get('in_admin');
         }
         */
-<<<<<<< HEAD
-        if (Request::segment(1) === 'admin') {
-=======
         if ('admin' === Request::segment(1)) {
->>>>>>> 35d9347 (.)
             return true;
         }
 
         $segments = Request::segments();
 
-<<<<<<< HEAD
-        return (is_countable($segments) ? \count($segments) : 0) > 0 && $segments[0] === 'livewire' && session('in_admin') === true;
-=======
         return (is_countable($segments) ? \count($segments) : 0) > 0 && 'livewire' === $segments[0] && true === session('in_admin');
->>>>>>> 35d9347 (.)
     }
 
     // --- sarebbe deprecata ma il mal di testa
@@ -209,11 +201,7 @@ class RouteService
             $tmp[] = 'admin';
         }
 
-<<<<<<< HEAD
-        for ($i = 0; $i <= $n; $i++) {
-=======
         for ($i = 0; $i <= $n; ++$i) {
->>>>>>> 35d9347 (.)
             $tmp[] = 'container'.$i;
         }
 
@@ -375,11 +363,7 @@ class RouteService
     public static function getAct(): string
     {
         $route_action = Route::currentRouteAction();
-<<<<<<< HEAD
-        if ($route_action === null) {
-=======
         if (null === $route_action) {
->>>>>>> 35d9347 (.)
             throw new \Exception('$route_action is null');
         }
 
@@ -405,11 +389,7 @@ class RouteService
     public static function getModuleName(): string
     {
         $route_action = Route::currentRouteAction();
-<<<<<<< HEAD
-        if ($route_action === null) {
-=======
         if (null === $route_action) {
->>>>>>> 35d9347 (.)
             throw new \Exception('$route_action is null');
         }
 
@@ -424,11 +404,7 @@ class RouteService
     public static function getControllerName(): string
     {
         $route_action = Route::currentRouteAction();
-<<<<<<< HEAD
-        if ($route_action === null) {
-=======
         if (null === $route_action) {
->>>>>>> 35d9347 (.)
             throw new \Exception('$route_action is null');
         }
 

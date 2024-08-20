@@ -22,11 +22,7 @@ class Memoization
     public static function getInstance(): self
     {
         if (! self::$_instance instanceof Memoization) {
-<<<<<<< HEAD
-            self::$_instance = new self;
-=======
             self::$_instance = new self();
->>>>>>> 35d9347 (.)
         }
 
         return self::$_instance;

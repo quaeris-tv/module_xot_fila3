@@ -23,11 +23,7 @@ class PolicyService
     public static function getInstance(): self
     {
         if (! self::$policyService instanceof PolicyService) {
-<<<<<<< HEAD
-            self::$policyService = new self;
-=======
             self::$policyService = new self();
->>>>>>> 35d9347 (.)
         }
 
         /*
@@ -61,11 +57,7 @@ class PolicyService
         self::$in_vars['class'] = $class;
         $reflectionClass = new \ReflectionClass(self::$in_vars['class']);
         $filename = $reflectionClass->getFileName();
-<<<<<<< HEAD
-        if ($filename === false) {
-=======
         if (false === $filename) {
->>>>>>> 35d9347 (.)
             throw new \Exception('autoloader_reflector error');
         }
 
@@ -134,11 +126,7 @@ class PolicyService
         }
 
         $stub_name = 'policy';
-<<<<<<< HEAD
-        if (self::$in_vars['class_type'] !== '') {
-=======
         if ('' !== self::$in_vars['class_type']) {
->>>>>>> 35d9347 (.)
             $stub_name .= '/'.self::$in_vars['class_type'];
         }
 

@@ -60,19 +60,11 @@ class CollectionExport implements FromCollection, ShouldQueue, WithHeadings, Wit
     }
 
     /**
-<<<<<<< HEAD
-     * @param  \Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null  $item
-     */
-    public function map($item): array
-    {
-        if ($this->fields === null) {
-=======
      * @param \Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null $item
      */
     public function map($item): array
     {
         if (null === $this->fields) {
->>>>>>> 35d9347 (.)
             return collect($item)->toArray();
         }
 

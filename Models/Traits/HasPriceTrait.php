@@ -15,15 +15,9 @@ use Cknow\Money\Money;
  * Modules\Food\Models\Traits\HasPriceTrait.
  *
  * @property string $currency
-<<<<<<< HEAD
- * @property float $price
- * @property string $price_complete
- * @property int $qty
-=======
  * @property float  $price
  * @property string $price_complete
  * @property int    $qty
->>>>>>> 35d9347 (.)
  */
 trait HasPriceTrait
 {

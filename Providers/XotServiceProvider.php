@@ -22,20 +22,13 @@ use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
 use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\View\Composers\XotComposer;
-<<<<<<< HEAD
+
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 use Webmozart\Assert\Assert;
 
 use function Safe\realpath;
 
-=======
-
-use function Safe\realpath;
-
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Webmozart\Assert\Assert;
-
->>>>>>> 35d9347 (.)
 /**
  * Class XotServiceProvider..
  */
@@ -145,19 +138,11 @@ class XotServiceProvider extends XotBaseServiceProvider
     {
         $files = File::files($path);
         foreach ($files as $file) {
-<<<<<<< HEAD
-            if ($file->getExtension() !== 'php') {
-                continue;
-            }
-
-            if ($file->getRealPath() === false) {
-=======
             if ('php' !== $file->getExtension()) {
                 continue;
             }
 
             if (false === $file->getRealPath()) {
->>>>>>> 35d9347 (.)
                 continue;
             }
 
@@ -191,13 +176,8 @@ class XotServiceProvider extends XotBaseServiceProvider
     private function redirectSSL(): void
     {
         // --- meglio ficcare un controllo anche sull'env
-<<<<<<< HEAD
-        if (config('xra.forcessl') && (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== 'localhost'
-            && isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'http')
-=======
         if (config('xra.forcessl') && (isset($_SERVER['SERVER_NAME']) && 'localhost' !== $_SERVER['SERVER_NAME']
             && isset($_SERVER['REQUEST_SCHEME']) && 'http' === $_SERVER['REQUEST_SCHEME'])
->>>>>>> 35d9347 (.)
         ) {
             URL::forceScheme('https');
             /*

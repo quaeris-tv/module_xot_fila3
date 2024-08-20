@@ -13,27 +13,6 @@ use Webmozart\Assert\Assert;
 /**
  * Model Extra.
  *
-<<<<<<< HEAD
- * @property int $id
- * @property int|null $model_id
- * @property string|null $model_type
- * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
- *
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel disableCache()
- * @method static \Modules\Xot\Database\Factories\ExtraFactory factory($count = null, $state = [])
- * @method static Builder|Extra newModelQuery()
- * @method static Builder|Extra newQuery()
- * @method static Builder|Extra query()
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel withCacheCooldownSeconds(?int $seconds = null)
- * @method static Builder|Extra withExtraAttributes()
- *
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $updated_by
- * @property string|null $created_by
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property string|null $deleted_by
-=======
  * @property int                                               $id
  * @property int|null                                          $model_id
  * @property string|null                                       $model_type
@@ -53,7 +32,6 @@ use Webmozart\Assert\Assert;
  * @property string|null                     $created_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property string|null                     $deleted_by
->>>>>>> 35d9347 (.)
  *
  * @method static Builder|Extra whereCreatedAt($value)
  * @method static Builder|Extra whereCreatedBy($value)

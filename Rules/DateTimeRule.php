@@ -15,13 +15,8 @@ class DateTimeRule implements Rule
     /**
      * Undocumented function.
      *
-<<<<<<< HEAD
-     * @param  string  $attribute
-     * @param  string  $value
-=======
      * @param string $attribute
      * @param string $value
->>>>>>> 35d9347 (.)
      */
     public function passes($attribute, $value): bool
     {

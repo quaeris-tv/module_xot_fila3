@@ -17,23 +17,17 @@ use Modules\Xot\Datas\XotData;
 use Modules\Xot\Services\FileService;
 use Modules\Xot\Services\ModuleService;
 use Nwidart\Modules\Facades\Module;
-<<<<<<< HEAD
+
 use Webmozart\Assert\Assert;
-=======
->>>>>>> 35d9347 (.)
 
 use function Safe\define;
 use function Safe\glob;
 use function Safe\json_decode;
 use function Safe\parse_url;
 use function Safe\preg_match;
+
 use function Safe\realpath;
 
-<<<<<<< HEAD
-=======
-use Webmozart\Assert\Assert;
-
->>>>>>> 35d9347 (.)
 // ------------------------------------------------
 
 /* --- MAH
@@ -133,24 +127,14 @@ if (! function_exists('hex2rgba')) {
         }
 
         // Sanitize $color if "#" is provided
-<<<<<<< HEAD
-        if ($color[0] === '#') {
-=======
         if ('#' === $color[0]) {
->>>>>>> 35d9347 (.)
             $color = substr($color, 1);
         }
 
         // Check if color has 6 or 3 characters and get values
-<<<<<<< HEAD
-        if (strlen($color) === 6) {
-            $hex = [$color[0].$color[1], $color[2].$color[3], $color[4].$color[5]];
-        } elseif (strlen($color) === 3) {
-=======
         if (6 === strlen($color)) {
             $hex = [$color[0].$color[1], $color[2].$color[3], $color[4].$color[5]];
         } elseif (3 === strlen($color)) {
->>>>>>> 35d9347 (.)
             $hex = [$color[0].$color[0], $color[1].$color[1], $color[2].$color[2]];
         } else {
             return $default;
@@ -160,11 +144,7 @@ if (! function_exists('hex2rgba')) {
         $rgb = array_map('hexdec', $hex);
 
         // Check if opacity is set(rgba or rgb)
-<<<<<<< HEAD
-        if ($opacity !== -1.0) {
-=======
         if (-1.0 !== $opacity) {
->>>>>>> 35d9347 (.)
             if ($opacity < 0 || $opacity > 1) {
                 $opacity = 1.0;
             }
@@ -299,21 +279,13 @@ if (! function_exists('inAdmin')) {
             return config()->get('in_admin');
         }
         */
-<<<<<<< HEAD
-        if (Request::segment(2) === 'admin') {
-=======
         if ('admin' === Request::segment(2)) {
->>>>>>> 35d9347 (.)
             return true;
         }
 
         $segments = Request::segments();
 
-<<<<<<< HEAD
-        return (is_countable($segments) ? count($segments) : 0) > 0 && $segments[0] === 'livewire' && session('in_admin') === true;
-=======
         return (is_countable($segments) ? count($segments) : 0) > 0 && 'livewire' === $segments[0] && true === session('in_admin');
->>>>>>> 35d9347 (.)
     }
 }
 
@@ -412,11 +384,7 @@ if (! function_exists('params2ContainerItem')) {
      */
     function params2ContainerItem(?array $params = null): array
     {
-<<<<<<< HEAD
-        if ($params === null) {
-=======
         if (null === $params) {
->>>>>>> 35d9347 (.)
             // Call to static method current() on an unknown class Route.
             // $params = optional(\Route::current())->parameters();
             // Cannot call method parameters() on mixed.
@@ -481,11 +449,7 @@ if (! function_exists('getModelByName')) {
 
         // dddx($registered);
 
-<<<<<<< HEAD
-        if ($path === null) {
-=======
         if (null === $path) {
->>>>>>> 35d9347 (.)
             throw new Exception('['.$name.'] not in morph_map ['.__LINE__.']['.__FILE__.']');
         }
 
@@ -666,11 +630,7 @@ if (! function_exists('dottedToBrackets')) {
     function dottedToBrackets(string $str, string $quotation_marks = ''): string
     {
         return collect(explode('.', $str))->map(
-<<<<<<< HEAD
-            static fn (string $v, $k): string => $k === 0 ? $v : '['.$v.']'
-=======
             static fn (string $v, $k): string => 0 === $k ? $v : '['.$v.']'
->>>>>>> 35d9347 (.)
         )->implode('');
     }
 }
@@ -710,14 +670,9 @@ if (! function_exists('url_queries')) {
     /**
      * Modifies the query strings in a given (or the current) URL.
      *
-<<<<<<< HEAD
-     * @param  array  $queries  Indexed array of query parameters
-     * @param  string|null  $url  URL to use parse. If none is supplied, the current URL of the page load will be used
-=======
      * @param array       $queries Indexed array of query parameters
      * @param string|null $url     URL to use parse. If none is supplied, the current URL of the page load will be used
      *
->>>>>>> 35d9347 (.)
      * @return string The updated query string
      */
     function url_queries(array $queries, ?string $url = null): string
@@ -730,11 +685,7 @@ if (! function_exists('url_queries')) {
         // Split the URL down into an array with all the parts separated out
         $url_parsed = parse_url($url);
 
-<<<<<<< HEAD
-        if ($url_parsed === false) {
-=======
         if (false === $url_parsed) {
->>>>>>> 35d9347 (.)
             throw new Exception('error parsing url ['.$url.']');
         }
 
@@ -764,12 +715,8 @@ if (! function_exists('build_url')) {
     /**
      * Rebuilds the URL parameters into a string from the native parse_url() function.
      *
-<<<<<<< HEAD
-     * @param  array  $parts  The parts of a URL
-=======
      * @param array $parts The parts of a URL
      *
->>>>>>> 35d9347 (.)
      * @return string The constructed URL
      */
     function build_url(array $parts): string
@@ -803,11 +750,7 @@ if (! function_exists('getRelationships')) {
         foreach ($methods as $method) {
             $reflection = new ReflectionMethod($model, $method);
             $args = $reflection->getParameters();
-<<<<<<< HEAD
-            if ($args !== []) {
-=======
             if ([] !== $args) {
->>>>>>> 35d9347 (.)
                 continue;
             }
 
@@ -1114,11 +1057,7 @@ if (! function_exists('getServerName')) {
         $default = Str::after($default, '//');
 
         $server_name = $default;
-<<<<<<< HEAD
-        if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== '127.0.0.1') {
-=======
         if (isset($_SERVER['SERVER_NAME']) && '127.0.0.1' !== $_SERVER['SERVER_NAME']) {
->>>>>>> 35d9347 (.)
             $server_name = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
         }
         $server_name = Str::of($server_name)->replace('www.', '')->toString();
@@ -1225,11 +1164,7 @@ if (! function_exists('authId')) {
         } catch (Error $e) {
             return null;
         }
-<<<<<<< HEAD
-        if ($id == null) {
-=======
         if (null == $id) {
->>>>>>> 35d9347 (.)
             return null;
         }
 

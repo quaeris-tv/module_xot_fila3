@@ -21,11 +21,7 @@ class XotComposer
     /**
      * Undocumented function.
      *
-<<<<<<< HEAD
      * @param  array<mixed|void>  $arguments
-=======
-     * @param array<mixed|void> $arguments
->>>>>>> 35d9347 (.)
      */
     public function __call(string $name, array $arguments): mixed
     {

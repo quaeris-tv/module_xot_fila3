@@ -6,10 +6,7 @@ namespace Modules\Xot\Providers;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Blade;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Config;
-=======
->>>>>>> 35d9347 (.)
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
@@ -72,7 +69,6 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             $this->registerCallback();
         }
 
-<<<<<<< HEAD
         $this->registerBladeIcons();
 
         // echo '<h3>Time :'.class_basename($this).' '.(microtime(true) - LARAVEL_START).'</h3>';
@@ -91,11 +87,6 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         Config::set('blade-icons.sets.'.$this->module_name.'.prefix', $this->module_name);
     }
 
-=======
-        // echo '<h3>Time :'.class_basename($this).' '.(microtime(true) - LARAVEL_START).'</h3>';
-    }
-
->>>>>>> 35d9347 (.)
     /**
      * Register views.
      */
@@ -249,11 +240,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
                     ];
                     if (class_exists($event) && class_exists($listener)) {
                         // \Event::listen($event, $listener);
-<<<<<<< HEAD
-                        $tmp = new \stdClass;
-=======
                         $tmp = new \stdClass();
->>>>>>> 35d9347 (.)
                         $tmp->event = $event;
                         $tmp->listener = $listener;
                         $events[] = $tmp;
