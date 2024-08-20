@@ -9,10 +9,6 @@ use Webmozart\Assert\Assert;
 trait NavigationLabelTrait
 {
     use TransTrait;
-<<<<<<< HEAD
-=======
-
->>>>>>> 16a3369 (✨ (GetViewsSiblingsAndSelfAction.php): Add support for filtering out non-blade.php files when fetching views to improve efficiency and accuracy)
 
     public static function getModelLabel(): string
     {

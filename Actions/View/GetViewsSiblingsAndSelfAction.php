@@ -27,12 +27,7 @@ class GetViewsSiblingsAndSelfAction
         $files = File::files($dir);
         $views = [];
         foreach ($files as $file) {
-<<<<<<< HEAD
             if (! Str::endsWith($file->getFilename(), '.blade.php')) {
-=======
-
-            if(!Str::endsWith($file->getFilename(), '.blade.php')) {
->>>>>>> 16a3369 (✨ (GetViewsSiblingsAndSelfAction.php): Add support for filtering out non-blade.php files when fetching views to improve efficiency and accuracy)
                 continue;
             }
 
