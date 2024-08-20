@@ -13,7 +13,7 @@ class GetStrBetweenStartsWithAction
     public function execute(string $body, string $start, string $open, string $close): string
     {
         $pos = strpos($body, $start);
-        if (false === $pos) {
+        if ($pos === false) {
             throw new \Exception("Cannot find $start in $body [".__LINE__.']['.__FILE__.']');
         }
         $pos1 = strpos($body, $close, $pos);
@@ -23,7 +23,7 @@ class GetStrBetweenStartsWithAction
             $body1 = substr($body, $pos, $length);
             $open_count = substr_count($body1, $open);
             $close_count = substr_count($body1, $close);
-            ++$length;
+            $length++;
         } while ($open_count !== $close_count);
 
         return $body1;

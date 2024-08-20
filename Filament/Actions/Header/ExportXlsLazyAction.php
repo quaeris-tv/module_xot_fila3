@@ -45,7 +45,7 @@ class ExportXlsLazyAction extends Action
                     }
 
                     $lazy = $livewire->getFilteredTableQuery();
-                    if (null !== $fields) {
+                    if ($fields !== null) {
                         // $lazy = $lazy->select($fields);
                     }
                     if ($lazy->count() < 7) {
