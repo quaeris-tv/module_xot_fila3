@@ -40,13 +40,22 @@ trait HasExtraTrait
     }
 
     /**
+<<<<<<< HEAD
      * @param  int|float|string|array|bool|null  $value
+=======
+     * @param int|float|string|array|bool|null $value
+     *
+>>>>>>> 35d9347 (.)
      * @return void
      */
     public function setExtra(string $name, $value)
     {
         $extra = $this->extra;
+<<<<<<< HEAD
         if ($this->extra === null) {
+=======
+        if (null === $this->extra) {
+>>>>>>> 35d9347 (.)
             $extra = $this->extra()->firstOrCreate([], ['extra_attributes' => []]);
         }
 

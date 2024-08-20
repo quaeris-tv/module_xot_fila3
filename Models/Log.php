@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\File;
  * Modules\Xot\Models\Feed.
  *
  * @method static \Modules\Xot\Database\Factories\FeedFactory factory($count = null, $state = [])
+<<<<<<< HEAD
  * @method static Builder|Feed newModelQuery()
  * @method static Builder|Feed newQuery()
  * @method static Builder|Feed query()
@@ -23,15 +24,30 @@ use Illuminate\Support\Facades\File;
  * @property string|null $id
  * @property string|null $name
  * @property int|null $size
+=======
+ * @method static Builder|Feed                                newModelQuery()
+ * @method static Builder|Feed                                newQuery()
+ * @method static Builder|Feed                                query()
+ * @method static Builder|Feed                                newModelQuery()
+ * @method static Builder|Feed                                newQuery()
+ * @method static Builder|Feed                                query()
+ *
+ * @property string|null $id
+ * @property string|null $name
+ * @property int|null    $size
+>>>>>>> 35d9347 (.)
  * @property string|null $file_content
  *
  * @method static Builder|Log whereId($value)
  * @method static Builder|Log whereName($value)
  * @method static Builder|Log whereSize($value)
  *
+<<<<<<< HEAD
  * @property-read \Modules\Fixcity\Models\Profile|null $creator
  * @property-read \Modules\Fixcity\Models\Profile|null $updater
  *
+=======
+>>>>>>> 35d9347 (.)
  * @mixin \Eloquent
  */
 class Log extends BaseModel
@@ -64,7 +80,11 @@ class Log extends BaseModel
         $files = File::files(storage_path('logs'));
 
         foreach ($files as $file) {
+<<<<<<< HEAD
             if ($file->getExtension() == 'log') {
+=======
+            if ('log' == $file->getExtension()) {
+>>>>>>> 35d9347 (.)
                 $rows[] = [
                     'id' => $file->getFilenameWithoutExtension(),
                     'name' => $file->getFilenameWithoutExtension(),

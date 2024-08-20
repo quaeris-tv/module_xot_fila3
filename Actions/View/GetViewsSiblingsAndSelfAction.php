@@ -8,7 +8,10 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\View;
 
 use Illuminate\Support\Facades\File;
+<<<<<<< HEAD
 use Illuminate\Support\Str;
+=======
+>>>>>>> 35d9347 (.)
 use Spatie\QueueableAction\QueueableAction;
 
 class GetViewsSiblingsAndSelfAction
@@ -26,10 +29,13 @@ class GetViewsSiblingsAndSelfAction
         $files = File::files($dir);
         $views = [];
         foreach ($files as $file) {
+<<<<<<< HEAD
             if (! Str::endsWith($file->getFilename(), '.blade.php')) {
                 continue;
             }
 
+=======
+>>>>>>> 35d9347 (.)
             $k = $file->getBasename('.blade.php');
             $views[$k] = $k;
         }

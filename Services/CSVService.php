@@ -29,7 +29,11 @@ class CSVService
     public static function getInstance(): self
     {
         if (! self::$instance instanceof CSVService) {
+<<<<<<< HEAD
             self::$instance = new self;
+=======
+            self::$instance = new self();
+>>>>>>> 35d9347 (.)
         }
 
         return self::$instance;

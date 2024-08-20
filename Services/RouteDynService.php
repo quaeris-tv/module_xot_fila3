@@ -6,10 +6,18 @@ namespace Modules\Xot\Services;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+<<<<<<< HEAD
 use Webmozart\Assert\Assert;
 
 use function Safe\preg_replace;
 
+=======
+
+use function Safe\preg_replace;
+
+use Webmozart\Assert\Assert;
+
+>>>>>>> 35d9347 (.)
 /**
  * Class RouteDynService.
  */
@@ -40,7 +48,11 @@ class RouteDynService
         $prefix = mb_strtolower((string) $v['name']);
         // /*
         $param_name = self::getParamName($v, $namespace);
+<<<<<<< HEAD
         if ($param_name !== '') {
+=======
+        if ('' !== $param_name) {
+>>>>>>> 35d9347 (.)
             /*
             Call to function is_array() with string will always evaluate to false.
             if (\is_array($param_name)) {
@@ -88,7 +100,11 @@ class RouteDynService
         // }
         $namespace = str_replace('{', '', (string) $namespace);
         $namespace = str_replace('}', '', $namespace);
+<<<<<<< HEAD
         if ($namespace === '') {
+=======
+        if ('' === $namespace) {
+>>>>>>> 35d9347 (.)
             return null;
         }
 
@@ -107,7 +123,11 @@ class RouteDynService
 
         $v['act'] = $v['name'];
         $v['act'] = preg_replace('/{.*}\//', '', (string) $v['act']);
+<<<<<<< HEAD
         if ($v['act'] === null) {
+=======
+        if (null === $v['act']) {
+>>>>>>> 35d9347 (.)
             $v['act'] = '';
         }
 
@@ -173,7 +193,11 @@ class RouteDynService
             $opts['only'] = $v['only'];
         }
 
+<<<<<<< HEAD
         if ($param_name === '' && ! isset($opts['only'])) {
+=======
+        if ('' === $param_name && ! isset($opts['only'])) {
+>>>>>>> 35d9347 (.)
             $opts['only'] = ['index'];
         }
 
@@ -235,7 +259,11 @@ class RouteDynService
     {
         $as = Str::slug($v['name']); // !!!!!! test da controllare
         $uses = self::getUses($v, $namespace);
+<<<<<<< HEAD
         if ($curr !== null) {
+=======
+        if (null !== $curr) {
+>>>>>>> 35d9347 (.)
             $uses = '\\'.self::$namespace_start.'\\'.$curr.'\\'.$uses;
         } else {
             $uses = '\\'.self::$namespace_start.'\\'.$uses;
@@ -246,7 +274,11 @@ class RouteDynService
 
     public static function dynamic_route(array $array, ?string $namespace = null, ?string $namespace_start = null, ?string $curr = null): void
     {
+<<<<<<< HEAD
         if ($namespace_start !== null) {
+=======
+        if (null !== $namespace_start) {
+>>>>>>> 35d9347 (.)
             self::$namespace_start = $namespace_start;
         } /*
         if($curr!=null){
@@ -273,7 +305,11 @@ class RouteDynService
 
     public static function createRouteResource(array $v, ?string $namespace): void
     {
+<<<<<<< HEAD
         if ($v['name'] === null) {
+=======
+        if (null === $v['name']) {
+>>>>>>> 35d9347 (.)
             return;
         }
 
@@ -303,7 +339,11 @@ class RouteDynService
         }
         }
          */
+<<<<<<< HEAD
         if ($curr === null) {
+=======
+        if (null === $curr) {
+>>>>>>> 35d9347 (.)
             $curr = $sub_namespace;
         } else {
             $piece = explode('\\', $curr);
@@ -379,13 +419,21 @@ class RouteDynService
 
     public static function prefixedResourceNames(string $prefix): array
     {
+<<<<<<< HEAD
         if (mb_substr($prefix, -1) === '.') {
+=======
+        if ('.' === mb_substr($prefix, -1)) {
+>>>>>>> 35d9347 (.)
             $prefix = mb_substr($prefix, 0, -1);
         }
 
         // Strict comparison using === between null and non-empty-string will always evaluate to false.
         // if ('' === $prefix || null === $prefix) {
+<<<<<<< HEAD
         if ($prefix === '') {
+=======
+        if ('' === $prefix) {
+>>>>>>> 35d9347 (.)
             return ['index' => $prefix.'index', 'create' => $prefix.'create', 'store' => $prefix.'store', 'show' => $prefix.'show', 'edit' => $prefix.'edit', 'update' => $prefix.'update', 'destroy' => $prefix.'destroy'];
         }
 

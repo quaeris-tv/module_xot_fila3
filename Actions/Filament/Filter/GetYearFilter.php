@@ -17,7 +17,11 @@ class GetYearFilter
     public function execute(string $fieldName, int $from, int $to): SelectFilter
     {
         $opts = [];
+<<<<<<< HEAD
         for ($curr = $from; $curr <= $to; $curr++) {
+=======
+        for ($curr = $from; $curr <= $to; ++$curr) {
+>>>>>>> 35d9347 (.)
             $opts[(string) $curr] = (string) $curr;
         }
 

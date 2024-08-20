@@ -6,7 +6,11 @@ namespace Modules\Xot\Filament\Traits;
 
 trait NavigationPageLabelTrait
 {
+<<<<<<< HEAD
     use TransTrait;
+=======
+    use NavigationLabelTrait;
+>>>>>>> 35d9347 (.)
 
     public function getModelLabel(): string
     {
@@ -17,6 +21,7 @@ trait NavigationPageLabelTrait
     {
         return static::trans('navigation.plural');
     }
+<<<<<<< HEAD
 
     public static function getNavigationLabel(): string
     {
@@ -42,4 +47,6 @@ trait NavigationPageLabelTrait
     {
         return static::trans('navigation.name');
     }
+=======
+>>>>>>> 35d9347 (.)
 }

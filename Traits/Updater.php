@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Traits;
 
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Xot\Datas\XotData;
 
+=======
+>>>>>>> 35d9347 (.)
 /**
  * Trait Updater.
  * https://dev.to/hasanmn/automatically-update-createdby-and-updatedby-in-laravel-using-bootable-traits-28g9.
@@ -43,6 +46,7 @@ trait Updater
             }
         );
     }
+<<<<<<< HEAD
 
     public function creator(): BelongsTo
     {
@@ -81,4 +85,6 @@ trait Updater
             'user_id'
         );
     }
+=======
+>>>>>>> 35d9347 (.)
 }// end trait Updater

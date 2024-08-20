@@ -21,6 +21,7 @@ use Spatie\Permission\Contracts\Role;
 /**
  * Modules\User\Contracts\UserContract.
  *
+<<<<<<< HEAD
  * @property ProfileContract|null $profile
  * @property string $id
  * @property string $handle
@@ -32,12 +33,35 @@ use Spatie\Permission\Contracts\Role;
  * @property string|null $email
  * @property Collection|array<\Modules\User\Models\Area> $areas
  * @property \Modules\User\Models\PermUser|null $perm
+=======
+ * @property ProfileContract|null                        $profile
+ * @property string                                      $id
+ * @property string                                      $handle
+ * @property string|null                                 $first_name
+ * @property string|null                                 $last_name
+ * @property string|null                                 $full_name
+ * @property string|null                                 $current_team_id
+ * @property string|null                                 $phone
+ * @property string|null                                 $email
+ * @property Collection|array<\Modules\User\Models\Area> $areas
+ * @property \Modules\User\Models\PermUser|null          $perm
+>>>>>>> 35d9347 (.)
  *
  * @phpstan-require-extends Model
  *
  * @mixin \Eloquent
  */
+<<<<<<< HEAD
 interface UserContract extends Authorizable, CanResetPassword, FilamentUser, HasTeamsContract, ModelContract, MustVerifyEmail, PassportHasApiTokensContract
+=======
+interface UserContract extends CanResetPassword,
+    FilamentUser,
+    HasTeamsContract,
+    ModelContract,
+    MustVerifyEmail,
+    PassportHasApiTokensContract,
+    Authorizable
+>>>>>>> 35d9347 (.)
 {
     /*
     public function isSuperAdmin();
@@ -55,7 +79,12 @@ interface UserContract extends Authorizable, CanResetPassword, FilamentUser, Has
     /**
      * Get a relationship.
      *
+<<<<<<< HEAD
      * @param  string  $key
+=======
+     * @param string $key
+     *
+>>>>>>> 35d9347 (.)
      * @return mixed|null
      */
     public function getRelationValue($key);
@@ -63,8 +92,14 @@ interface UserContract extends Authorizable, CanResetPassword, FilamentUser, Has
     /**
      * Create a new instance of the given model.
      *
+<<<<<<< HEAD
      * @param  array  $attributes
      * @param  bool  $exists
+=======
+     * @param array $attributes
+     * @param bool  $exists
+     *
+>>>>>>> 35d9347 (.)
      * @return static
      */
     public function newInstance($attributes = [], $exists = false);

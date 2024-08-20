@@ -72,7 +72,11 @@ class CustomRelation extends Relation
     /**
      * Initialize the relation on a set of models.
      *
+<<<<<<< HEAD
      * @param  string  $relation
+=======
+     * @param string $relation
+>>>>>>> 35d9347 (.)
      */
     public function initRelation(array $models, $relation): array
     {
@@ -86,7 +90,11 @@ class CustomRelation extends Relation
     /**
      * Match the eagerly loaded results to their parents.
      *
+<<<<<<< HEAD
      * @param  string  $relation
+=======
+     * @param string $relation
+>>>>>>> 35d9347 (.)
      */
     public function match(array $models, Collection $collection, $relation): array
     {
@@ -111,7 +119,11 @@ class CustomRelation extends Relation
     /**
      * Execute the query as a "select" statement.
      *
+<<<<<<< HEAD
      * @param  array  $columns
+=======
+     * @param array $columns
+>>>>>>> 35d9347 (.)
      */
     public function get($columns = ['*']): Collection
     {

@@ -44,7 +44,11 @@ class Search
                                     // dddx($subquery1);
                                 }
                             );
+<<<<<<< HEAD
                             // dddx($subquery);
+=======
+                        // dddx($subquery);
+>>>>>>> 35d9347 (.)
                         } else {
                             $subquery = $subquery->orWhere($search_field, 'like', '%'.$q.'%');
                         }

@@ -37,7 +37,11 @@ class CreateExtraTable extends XotBaseMigration
                 //    $table->unique(['model_id', 'model_type'], 'morph_unique');
                 // }
 
+<<<<<<< HEAD
                 if ($this->hasColumn('model_id') && $this->getColumnType('model_id') === 'bigint') {
+=======
+                if ($this->hasColumn('model_id') && 'bigint' === $this->getColumnType('model_id')) {
+>>>>>>> 35d9347 (.)
                     $table->string('model_id', 36)->index()->change();
                 }
             }

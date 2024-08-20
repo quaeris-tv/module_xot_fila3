@@ -21,7 +21,11 @@ class TransCollectionAction
         Collection $collection,
         ?string $transKey,
     ): Collection {
+<<<<<<< HEAD
         if ($transKey === null) {
+=======
+        if (null === $transKey) {
+>>>>>>> 35d9347 (.)
             return $collection;
         }
 

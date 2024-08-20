@@ -45,7 +45,11 @@ class ExportXlsLazyAction extends Action
                     }
 
                     $lazy = $livewire->getFilteredTableQuery();
+<<<<<<< HEAD
                     if ($fields !== null) {
+=======
+                    if (null !== $fields) {
+>>>>>>> 35d9347 (.)
                         // $lazy = $lazy->select($fields);
                     }
                     if ($lazy->count() < 7) {

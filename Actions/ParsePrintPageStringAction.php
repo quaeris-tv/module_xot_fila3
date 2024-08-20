@@ -7,10 +7,17 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions;
 
+<<<<<<< HEAD
 use Spatie\QueueableAction\QueueableAction;
 
 use function Safe\preg_match_all;
 
+=======
+use function Safe\preg_match_all;
+
+use Spatie\QueueableAction\QueueableAction;
+
+>>>>>>> 35d9347 (.)
 class ParsePrintPageStringAction
 {
     use QueueableAction;
@@ -23,8 +30,13 @@ class ParsePrintPageStringAction
 
         $n = count($matches[0]);
         $res = [];
+<<<<<<< HEAD
         for ($i = 0; $i < $n; $i++) {
             if ($matches[2][$i] === '') {
+=======
+        for ($i = 0; $i < $n; ++$i) {
+            if ('' === $matches[2][$i]) {
+>>>>>>> 35d9347 (.)
                 $res[] = (int) $matches[1][$i];
             } else {
                 $res = array_merge($res, self::fromTo((int) $matches[1][$i], (int) $matches[2][$i]));
@@ -37,7 +49,11 @@ class ParsePrintPageStringAction
     public static function fromTo(int $from, int $to): array
     {
         $res = [];
+<<<<<<< HEAD
         for ($i = $from; $i <= $to; $i++) {
+=======
+        for ($i = $from; $i <= $to; ++$i) {
+>>>>>>> 35d9347 (.)
             $res[] = $i;
         }
 

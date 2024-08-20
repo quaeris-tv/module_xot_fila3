@@ -18,7 +18,11 @@ class MorphManyAction
      */
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
+<<<<<<< HEAD
         if ($relationDTO->data === []) {
+=======
+        if ([] === $relationDTO->data) {
+>>>>>>> 35d9347 (.)
             // dddx(['model'=>$model,'relationDTO'=>$relationDTO]);
             // save Model
             $model->{$relationDTO->name}()->saveMany($relationDTO->data);

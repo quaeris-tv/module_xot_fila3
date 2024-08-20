@@ -52,7 +52,11 @@ class SendMailByRecordAction
 
         Assert::isInstanceOf($mailable = new $mail_class($record), \Illuminate\Contracts\Mail\Mailable::class, '['.__LINE__.']['.__FILE__.']');
         // $mailable = new $mail_class($record);
+<<<<<<< HEAD
         if ($to != null) {
+=======
+        if (null != $to) {
+>>>>>>> 35d9347 (.)
             Mail::to($to)->send($mailable);
             $record->myLogs()->create(['act' => 'sendMail']);
         } else {

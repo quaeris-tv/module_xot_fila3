@@ -27,7 +27,11 @@ class ModuleService
     public static function getInstance(): self
     {
         if (! self::$_instance instanceof ModuleService) {
+<<<<<<< HEAD
             self::$_instance = new self;
+=======
+            self::$_instance = new self();
+>>>>>>> 35d9347 (.)
         }
 
         return self::$_instance;
@@ -77,7 +81,11 @@ class ModuleService
             $ext = '.php';
             // dddx(['ext' => $file->getExtension(), get_class_methods($file)]);
             if (Str::endsWith($filename, $ext)) {
+<<<<<<< HEAD
                 $tmp = new \stdClass;
+=======
+                $tmp = new \stdClass();
+>>>>>>> 35d9347 (.)
 
                 $name = substr($filename, 0, -\strlen($ext));
 

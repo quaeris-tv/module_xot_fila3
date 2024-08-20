@@ -10,13 +10,21 @@ use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\Array\SaveArrayAction;
 use Nwidart\Modules\Facades\Module;
+<<<<<<< HEAD
 use Webmozart\Assert\Assert;
+=======
+>>>>>>> 35d9347 (.)
 
 use function Safe\json_decode;
 use function Safe\json_encode;
 use function Safe\realpath;
 use function Safe\scandir;
 
+<<<<<<< HEAD
+=======
+use Webmozart\Assert\Assert;
+
+>>>>>>> 35d9347 (.)
 /**
  * Class FileService.
  */
@@ -143,7 +151,11 @@ class FileService
         }
 
         // dddx(app()->environment());// local
+<<<<<<< HEAD
         if (! File::exists($filename_to) || app()->environment() !== 'production') {
+=======
+        if (! File::exists($filename_to) || 'production' !== app()->environment()) {
+>>>>>>> 35d9347 (.)
             if (! File::exists(\dirname($filename_to))) {
                 File::makeDirectory(\dirname($filename_to), 0755, true, true);
             }
@@ -437,7 +449,11 @@ class FileService
         })->collapse()->first();
         */
         $ns_dir = self::getViewNameSpacePath($ns_name);
+<<<<<<< HEAD
         if ($ns_dir === null) {
+=======
+        if (null === $ns_dir) {
+>>>>>>> 35d9347 (.)
             return '#['.$key.']['.__LINE__.']['.__FILE__.']';
         }
 
@@ -589,7 +605,11 @@ class FileService
     // *
 
     /**
+<<<<<<< HEAD
      * @param  array<string>  $files
+=======
+     * @param array<string> $files
+>>>>>>> 35d9347 (.)
      */
     public static function viewNamespaceToUrl(array $files): array
     {
@@ -608,11 +628,19 @@ class FileService
                     $viewNamespace = '---';
                 }
                 */
+<<<<<<< HEAD
                 if ($hints === 'pub_theme') {
                     $tmp = str_replace(public_path(''), '', $viewNamespace);
                     $tmp = str_replace(\DIRECTORY_SEPARATOR, '/', $tmp);
                     $pos = mb_strpos($filename, '/');
                     if ($pos === false) {
+=======
+                if ('pub_theme' === $hints) {
+                    $tmp = str_replace(public_path(''), '', $viewNamespace);
+                    $tmp = str_replace(\DIRECTORY_SEPARATOR, '/', $tmp);
+                    $pos = mb_strpos($filename, '/');
+                    if (false === $pos) {
+>>>>>>> 35d9347 (.)
                         throw new \Exception('not found / on filename');
                     }
 
@@ -665,7 +693,11 @@ class FileService
             return public_path(substr($path, \strlen(asset(''))));
         }
 
+<<<<<<< HEAD
         if ($path[0] === '/') {
+=======
+        if ('/' === $path[0]) {
+>>>>>>> 35d9347 (.)
             $path = mb_substr($path, 1);
         }
 
@@ -720,11 +752,19 @@ class FileService
         $data = [];
         foreach ($dirs as $v) {
             $name = Str::after($v, $path.\DIRECTORY_SEPARATOR);
+<<<<<<< HEAD
             $value = $dir === '' ? $name : $dir.\DIRECTORY_SEPARATOR.$name;
             if (! \in_array($name, $except, false)) {
                 $data[] = $value;
                 $sub = self::allDirectories($v, $except, $value);
                 if ($sub !== []) {
+=======
+            $value = '' === $dir ? $name : $dir.\DIRECTORY_SEPARATOR.$name;
+            if (! \in_array($name, $except, false)) {
+                $data[] = $value;
+                $sub = self::allDirectories($v, $except, $value);
+                if ([] !== $sub) {
+>>>>>>> 35d9347 (.)
                     $data = array_merge($data, $sub);
                 }
             }
@@ -775,7 +815,11 @@ class FileService
             return $value;
         }
 
+<<<<<<< HEAD
         if ($value === null) {
+=======
+        if (null === $value) {
+>>>>>>> 35d9347 (.)
             return $value;
         }
 
@@ -872,7 +916,11 @@ class FileService
         $from_value = self::config($from);
         $to_value = self::config($to);
 
+<<<<<<< HEAD
         if ($to_value !== null) {
+=======
+        if (null !== $to_value) {
+>>>>>>> 35d9347 (.)
             return;
         }
 
@@ -929,7 +977,11 @@ class FileService
 
         $comps = [];
         foreach ($files as $file) {
+<<<<<<< HEAD
             if ($file->getExtension() === 'php') {
+=======
+            if ('php' === $file->getExtension()) {
+>>>>>>> 35d9347 (.)
                 $tmp = (object) [];
                 $class_name = $file->getFilenameWithoutExtension();
 
@@ -942,7 +994,11 @@ class FileService
                 $relative_path = $file->getRelativePath();
                 Assert::string($relative_path = Str::replace('/', '\\', $relative_path), '['.__LINE__.']['.__FILE__.']');
 
+<<<<<<< HEAD
                 if ($relative_path !== '') {
+=======
+                if ('' !== $relative_path) {
+>>>>>>> 35d9347 (.)
                     $tmp->comp_name = '';
                     $piece = collect(explode('\\', $relative_path))
                         ->map(
@@ -984,7 +1040,11 @@ class FileService
     {
         if ($binaryPrefix) {
             $unit = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
+<<<<<<< HEAD
             if ($bytes === 0) {
+=======
+            if (0 === $bytes) {
+>>>>>>> 35d9347 (.)
                 return '0 '.$unit[0];
             }
 
@@ -992,7 +1052,11 @@ class FileService
         }
 
         $unit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+<<<<<<< HEAD
         if ($bytes === 0) {
+=======
+        if (0 === $bytes) {
+>>>>>>> 35d9347 (.)
             return '0 '.$unit[0];
         }
 
@@ -1002,7 +1066,11 @@ class FileService
     /**
      * Undocumented function.
      *
+<<<<<<< HEAD
      * @param  class-string  $class_name
+=======
+     * @param class-string $class_name
+>>>>>>> 35d9347 (.)
      */
     public static function getFileNameByClassName(string $class_name): ?string
     {
@@ -1017,7 +1085,11 @@ class FileService
         // } catch (\Exception $e) {
         //    return null;
         // }
+<<<<<<< HEAD
         if ($reflectionClass->getFileName() === false) {
+=======
+        if (false === $reflectionClass->getFileName()) {
+>>>>>>> 35d9347 (.)
             return null;
         }
 

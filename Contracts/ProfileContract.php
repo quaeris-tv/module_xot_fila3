@@ -16,6 +16,7 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 /**
  * Modules\Xot\Contracts\ProfileContract.
  *
+<<<<<<< HEAD
  * @property string $id
  * @property string $email
  * @property string $slug
@@ -23,6 +24,15 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
  * @property Collection<int, Role> $roles
  * @property int|null $roles_count
  * @property UserContract $user
+=======
+ * @property string                $id
+ * @property string                $email
+ * @property string                $slug
+ * @property string                $user_id
+ * @property Collection<int, Role> $roles
+ * @property int|null              $roles_count
+ * @property UserContract          $user
+>>>>>>> 35d9347 (.)
  *
  * @phpstan-require-extends Model
  *
@@ -66,7 +76,12 @@ interface ProfileContract extends HasMedia
     /**
      * Create a new Eloquent query builder for the model.
      *
+<<<<<<< HEAD
      * @param  Builder  $query
+=======
+     * @param Builder $query
+     *
+>>>>>>> 35d9347 (.)
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function newEloquentBuilder($query);

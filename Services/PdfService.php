@@ -26,7 +26,11 @@ class PdfService
     public static function getInstance(): self
     {
         if (! self::$instance instanceof PdfService) {
+<<<<<<< HEAD
             self::$instance = new self;
+=======
+            self::$instance = new self();
+>>>>>>> 35d9347 (.)
         }
 
         return self::$instance;
@@ -47,9 +51,15 @@ class PdfService
             throw new \Exception('['.__LINE__.']['.__FILE__.']');
         }
 
+<<<<<<< HEAD
         $pdfMerger = new PDFMerger;
         $pdf_files = collect(File::files($path))->filter(
             static fn ($file, $key): bool => $file->getExtension() === 'pdf' && ! Str::startsWith($file->getBasename(), '_')
+=======
+        $pdfMerger = new PDFMerger();
+        $pdf_files = collect(File::files($path))->filter(
+            static fn ($file, $key): bool => 'pdf' === $file->getExtension() && ! Str::startsWith($file->getBasename(), '_')
+>>>>>>> 35d9347 (.)
         );
         foreach ($this->filenames as $filename) {
             // $pdf->addPDF($filename.'.pdf');

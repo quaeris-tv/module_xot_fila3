@@ -20,7 +20,12 @@ class GenerateModelByModelClass
     /**
      * Execute the function with the given model class.
      *
+<<<<<<< HEAD
      * @param  string  $model_class  the class name of the model
+=======
+     * @param string $model_class the class name of the model
+     *
+>>>>>>> 35d9347 (.)
      * @return void
      */
     public function execute(string $model_class)
@@ -50,7 +55,11 @@ class GenerateModelByModelClass
         $table_start = strpos($content, 'protected $table');
         Assert::integer($fillable_start = strpos($content, 'protected $fillable'), '['.__LINE__.']['.__FILE__.']');
         $fillable_end = strpos($content, '];', $fillable_start);
+<<<<<<< HEAD
         if ($table_start === false) {
+=======
+        if (false === $table_start) {
+>>>>>>> 35d9347 (.)
             $before = substr($content, 0, $fillable_end + 2);
             $after = substr($content, $fillable_end + 2);
             $content = $before.PHP_EOL.'    protected $table = "'.$value.'";'.PHP_EOL.$after;
@@ -62,7 +71,12 @@ class GenerateModelByModelClass
     /**
      * Create a factory for the given model class.
      *
+<<<<<<< HEAD
      * @param  string  $model_class  The class name of the model to create the factory for
+=======
+     * @param string $model_class The class name of the model to create the factory for
+     *
+>>>>>>> 35d9347 (.)
      * @return void
      */
     public function generate(string $model_class)
