@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-use Modules\Xot\Actions\GetTransKeyAction;
 use Webmozart\Assert\Assert;
 
 trait NavigationLabelTrait
@@ -19,10 +18,13 @@ trait NavigationLabelTrait
             return $res;
         }
 
+<<<<<<< HEAD
         return 'fix:'.$tmp;
     }
     */
 
+=======
+>>>>>>> be81b22 (Check & fix styling)
     public static function getModelLabel(): string
     {
         return static::trans('navigation.name');

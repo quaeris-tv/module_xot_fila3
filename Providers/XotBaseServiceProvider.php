@@ -6,6 +6,7 @@ namespace Modules\Xot\Providers;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
@@ -71,6 +72,22 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         // echo '<h3>Time :'.class_basename($this).' '.(microtime(true) - LARAVEL_START).'</h3>';
     }
 
+<<<<<<< HEAD
+=======
+    public function registerBladeIcons(): void
+    {
+        $svg_path = Str::of($this->module_ns.'/Resources/svg')->replace('\\', '/')->toString();
+        $svg_abs_path = $this->module_dir.'/../../../'.$svg_path;
+
+        if (! File::exists($svg_abs_path)) {
+            File::makeDirectory($svg_abs_path, 0755, true, true);
+            File::put($svg_abs_path.'/.gitkeep', '');
+        }
+        Config::set('blade-icons.sets.'.$this->module_name.'.path', $svg_path);
+        Config::set('blade-icons.sets.'.$this->module_name.'.prefix', $this->module_name);
+    }
+
+>>>>>>> be81b22 (Check & fix styling)
     /**
      * Register views.
      */
