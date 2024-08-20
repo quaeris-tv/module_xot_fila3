@@ -6,7 +6,6 @@ namespace Modules\Xot\Filament\Resources\ModuleResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-<<<<<<< HEAD
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -16,8 +15,6 @@ use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
-=======
->>>>>>> a7c7064 (✨ (ImportCsvAction.php): Add execute method to ImportCsvAction class)
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Filament\Resources\ModuleResource;
