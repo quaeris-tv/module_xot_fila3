@@ -18,13 +18,10 @@ trait NavigationLabelTrait
             return $res;
         }
 
-<<<<<<< HEAD
         return 'fix:'.$tmp;
     }
     */
 
-=======
->>>>>>> be81b22 (Check & fix styling)
     public static function getModelLabel(): string
     {
         return static::trans('navigation.name');

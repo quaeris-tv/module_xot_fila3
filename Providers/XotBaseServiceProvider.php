@@ -72,8 +72,6 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         // echo '<h3>Time :'.class_basename($this).' '.(microtime(true) - LARAVEL_START).'</h3>';
     }
 
-<<<<<<< HEAD
-=======
     public function registerBladeIcons(): void
     {
         $svg_path = Str::of($this->module_ns.'/Resources/svg')->replace('\\', '/')->toString();
@@ -87,7 +85,6 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         Config::set('blade-icons.sets.'.$this->module_name.'.prefix', $this->module_name);
     }
 
->>>>>>> be81b22 (Check & fix styling)
     /**
      * Register views.
      */
