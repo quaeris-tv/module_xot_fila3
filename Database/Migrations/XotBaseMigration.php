@@ -115,7 +115,7 @@ abstract class XotBaseMigration extends Migration
     /**
      * ---.
      */
-    public function tableExists(string $table = null): bool
+    public function tableExists(?string $table = null): bool
     {
         if (null === $table) {
             $table = $this->getTable();
