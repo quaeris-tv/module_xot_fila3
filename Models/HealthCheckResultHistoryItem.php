@@ -10,6 +10,7 @@ namespace Modules\Xot\Models;
 use Spatie\Health\Models\HealthCheckResultHistoryItem as BaseHealthCheckResultHistoryItem;
 
 /**
+<<<<<<< HEAD
  * @property int $id
  * @property string $check_name
  * @property string $check_label
@@ -19,6 +20,17 @@ use Spatie\Health\Models\HealthCheckResultHistoryItem as BaseHealthCheckResultHi
  * @property array $meta
  * @property string $ended_at
  * @property string $batch
+=======
+ * @property int                             $id
+ * @property string                          $check_name
+ * @property string                          $check_label
+ * @property string                          $status
+ * @property string|null                     $notification_message
+ * @property string|null                     $short_summary
+ * @property array                           $meta
+ * @property string                          $ended_at
+ * @property string                          $batch
+>>>>>>> d7d5c20 (Check & fix styling)
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  *
