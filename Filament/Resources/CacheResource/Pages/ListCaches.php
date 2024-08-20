@@ -100,19 +100,10 @@ class ListCaches extends ListRecords
             ->persistFiltersInSession()
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
-<<<<<<< HEAD
             ->actionsPosition(ActionsPosition::BeforeColumns);
         // ->defaultSort(
         //    column: 'created_at',
         //    direction: 'DESC',
         // )
-=======
-            ->actionsPosition(ActionsPosition::BeforeColumns)
-            // ->defaultSort(
-            //    column: 'created_at',
-            //    direction: 'DESC',
-            // )
-        ;
->>>>>>> 4ed2a8b (✨ (ListCaches.php): Add new grid table columns and list table columns for better organization and display of cache data)
     }
 }
