@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Modules\Xot\Services\BladeService;
 use Modules\Xot\Services\FileService;
 use Modules\Xot\Services\LivewireService;
+use Illuminate\Support\Facades\Config;
 
 use function Safe\glob;
 use function Safe\json_decode;
@@ -76,10 +77,18 @@ abstract class XotBaseServiceProvider extends ServiceProvider
 
     public function registerBladeIcons(): void
     {
+<<<<<<< HEAD
         $svg_path = Str::of($this->module_ns.'/Resources/svg')->replace('\\', '/')->toString();
         $svg_abs_path = $this->module_dir.'/../../../'.$svg_path;
 
         if (! File::exists($svg_abs_path)) {
+=======
+
+        $svg_path = Str::of($this->module_ns.'/Resources/svg')->replace('\\', '/')->toString();
+        $svg_abs_path = $this->module_dir.'/../../../'.$svg_path;
+
+        if(!File::exists($svg_abs_path)) {
+>>>>>>> 16a3369 (✨ (GetViewsSiblingsAndSelfAction.php): Add support for filtering out non-blade.php files when fetching views to improve efficiency and accuracy)
             File::makeDirectory($svg_abs_path, 0755, true, true);
             File::put($svg_abs_path.'/.gitkeep', '');
         }
