@@ -87,9 +87,13 @@ class ImportCsvAction
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         $pdo->exec('SET GLOBAL local_infile=1;');
 =======
 >>>>>>> f3b50b6 (up)
+=======
+        $pdo->exec('SET GLOBAL local_infile=1;');
+>>>>>>> d959adc (up)
         // echo '<pre>'.htmlspecialchars($sql).'</pre>';
         $n_rows = $pdo->exec($sql);
         // dddx($n_rows);
