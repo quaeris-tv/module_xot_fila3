@@ -15,10 +15,18 @@ namespace Modules\Xot\Actions\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
+<<<<<<< HEAD
 use Spatie\QueueableAction\QueueableAction;
 
 use function Safe\preg_replace;
 
+=======
+
+use function Safe\preg_replace;
+
+use Spatie\QueueableAction\QueueableAction;
+
+>>>>>>> 9af88cd (.)
 /**
  * @see https://github.com/mpociot/laravel-test-factory-helper/blob/master/src/Console/GenerateCommand.php#L213
  */

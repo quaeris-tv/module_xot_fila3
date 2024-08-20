@@ -23,12 +23,20 @@ use Modules\Xot\Exceptions\Handlers\HandlersRepository;
 use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\View\Composers\XotComposer;
 
+<<<<<<< HEAD
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Webmozart\Assert\Assert;
 
 use function Safe\realpath;
 
+=======
+use function Safe\realpath;
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Webmozart\Assert\Assert;
+
+>>>>>>> 9af88cd (.)
 /**
  * Class XotServiceProvider..
  */

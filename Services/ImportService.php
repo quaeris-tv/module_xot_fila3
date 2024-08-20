@@ -27,19 +27,32 @@ use Psr\Http\Message\ResponseInterface as ResponseContract;
 use Psr\Http\Message\UriInterface;
 use Request;
 
+<<<<<<< HEAD
 use Storage;
 use Symfony\Component\DomCrawler\Crawler;
 use Webmozart\Assert\Assert;
 
+=======
+>>>>>>> 9af88cd (.)
 use function Safe\fclose;
 use function Safe\file_get_contents;
 use function Safe\fopen;
 use function Safe\ini_set;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9af88cd (.)
 use function Safe\json_decode;
 use function Safe\json_encode;
 use function Safe\parse_url;
 
+<<<<<<< HEAD
+=======
+use Storage;
+use Symfony\Component\DomCrawler\Crawler;
+use Webmozart\Assert\Assert;
+
+>>>>>>> 9af88cd (.)
 // */
 
 /**

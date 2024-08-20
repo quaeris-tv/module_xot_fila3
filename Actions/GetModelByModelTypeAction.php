@@ -22,11 +22,19 @@ class GetModelByModelTypeAction
     {
         $model_class = app(GetModelClassByModelTypeAction::class)->execute($model_type);
         $model = app($model_class);
+<<<<<<< HEAD
         if ($model_id !== null) {
             $model = $model->find($model_id);
         }
 
         if ($model === null) {
+=======
+        if (null !== $model_id) {
+            $model = $model->find($model_id);
+        }
+
+        if (null === $model) {
+>>>>>>> 9af88cd (.)
             throw new \Exception('['.__LINE__.']['.__FILE__.']');
         }
 
