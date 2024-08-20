@@ -6,6 +6,10 @@ namespace Modules\Xot\Filament\Resources\ModuleResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+<<<<<<< HEAD
+=======
+use Filament\Tables;
+>>>>>>> 4ed2a8b (✨ (ListCaches.php): Add new grid table columns and list table columns for better organization and display of cache data)
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
@@ -44,8 +48,13 @@ class ListModules extends ListRecords
         return [
             Stack::make([
                 Tables\Columns\TextColumn::make('name')
+<<<<<<< HEAD
                     ->searchable()
                     ->sortable(),
+=======
+                        ->searchable()
+                        ->sortable(),
+>>>>>>> 4ed2a8b (✨ (ListCaches.php): Add new grid table columns and list table columns for better organization and display of cache data)
                 Tables\Columns\TextColumn::make('description')
                     ->searchable()
                     ->sortable()
@@ -60,8 +69,13 @@ class ListModules extends ListRecords
     {
         return [
             Tables\Columns\TextColumn::make('name')
+<<<<<<< HEAD
                 ->searchable()
                 ->sortable(),
+=======
+                    ->searchable()
+                    ->sortable(),
+>>>>>>> 4ed2a8b (✨ (ListCaches.php): Add new grid table columns and list table columns for better organization and display of cache data)
             Tables\Columns\TextColumn::make('description')
                 ->searchable()
                 ->sortable()
