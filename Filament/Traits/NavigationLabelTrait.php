@@ -4,17 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-<<<<<<< HEAD
-=======
 use Modules\Xot\Actions\GetTransKeyAction;
->>>>>>> 9af88cd (.)
 use Webmozart\Assert\Assert;
 
 trait NavigationLabelTrait
 {
     use TransTrait;
-<<<<<<< HEAD
-=======
     /*public static function trans(string $key): string
     {
         $transKey = app(GetTransKeyAction::class)->execute(static::class);
@@ -27,7 +22,6 @@ trait NavigationLabelTrait
         return 'fix:'.$tmp;
     }
     */
->>>>>>> 9af88cd (.)
 
     public static function getModelLabel(): string
     {

@@ -31,11 +31,7 @@ class XlsByModelClassAction
             ->where($where);
 
         $rows = $rows->get();
-<<<<<<< HEAD
-        if ($includes !== []) {
-=======
         if ([] !== $includes) {
->>>>>>> 9af88cd (.)
             $rows = $rows->map(
                 static function ($item) use ($includes) {
                     $data = [];
@@ -48,19 +44,11 @@ class XlsByModelClassAction
             );
         }
 
-<<<<<<< HEAD
-        if ($excludes !== []) {
-            $rows = $rows->makeHidden($excludes);
-        }
-
-        if ($callback !== null) {
-=======
         if ([] !== $excludes) {
             $rows = $rows->makeHidden($excludes);
         }
 
         if (null !== $callback) {
->>>>>>> 9af88cd (.)
             $rows = $rows->map($callback);
         }
 

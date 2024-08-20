@@ -15,11 +15,7 @@ class GetViewAction
 
     public function execute(string $tpl = '', string $file0 = ''): string
     {
-<<<<<<< HEAD
-        if ($file0 === '') {
-=======
         if ('' === $file0) {
->>>>>>> 9af88cd (.)
             $backtrace = debug_backtrace();
             $file0 = FileService::fixpath($backtrace[0]['file'] ?? '');
         }
@@ -27,11 +23,7 @@ class GetViewAction
         $file0 = Str::after($file0, base_path());
         $arr = explode(DIRECTORY_SEPARATOR, $file0);
 
-<<<<<<< HEAD
-        if ($arr[0] === '') {
-=======
         if ('' === $arr[0]) {
->>>>>>> 9af88cd (.)
             $arr = array_slice($arr, 1);
             $arr = array_values($arr);
         }
@@ -50,11 +42,7 @@ class GetViewAction
         $pub_view = 'pub_theme::'.$tmp;
         Assert::string($pub_view, '['.__LINE__.']['.__FILE__.']');
 
-<<<<<<< HEAD
-        if ($tpl !== '') {
-=======
         if ('' !== $tpl) {
->>>>>>> 9af88cd (.)
             $pub_view .= '.'.$tpl;
         }
         if (view()->exists($pub_view)) {
@@ -63,11 +51,7 @@ class GetViewAction
 
         $view = Str::lower($mod).'::'.$tmp;
 
-<<<<<<< HEAD
-        if ($tpl !== '') {
-=======
         if ('' !== $tpl) {
->>>>>>> 9af88cd (.)
             $view .= '.'.$tpl;
         }
 

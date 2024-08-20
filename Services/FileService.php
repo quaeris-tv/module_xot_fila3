@@ -11,16 +11,6 @@ use Illuminate\Support\Str;
 use Modules\Xot\Actions\Array\SaveArrayAction;
 use Nwidart\Modules\Facades\Module;
 
-<<<<<<< HEAD
-use Webmozart\Assert\Assert;
-
-use function Safe\json_decode;
-use function Safe\json_encode;
-use function Safe\realpath;
-
-use function Safe\scandir;
-
-=======
 use function Safe\json_decode;
 use function Safe\json_encode;
 use function Safe\realpath;
@@ -28,7 +18,6 @@ use function Safe\scandir;
 
 use Webmozart\Assert\Assert;
 
->>>>>>> 9af88cd (.)
 /**
  * Class FileService.
  */

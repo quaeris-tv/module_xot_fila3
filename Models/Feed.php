@@ -6,11 +6,6 @@ namespace Modules\Xot\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 
-<<<<<<< HEAD
-=======
-// --- services
-// --- TRAITS ---
->>>>>>> 9af88cd (.)
 /**
  * Modules\Xot\Models\Feed.
  *

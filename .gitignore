@@ -30,8 +30,5 @@ package-lock.json
 node_modules
 .git-blame-ignore-revs
 .git-blame-ignore-revs
-<<<<<<< HEAD
 node_modules
 vendor
-=======
->>>>>>> 9af88cd (.)

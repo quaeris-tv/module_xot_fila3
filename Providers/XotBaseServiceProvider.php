@@ -6,10 +6,6 @@ namespace Modules\Xot\Providers;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Blade;
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Config;
-=======
->>>>>>> 9af88cd (.)
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
@@ -17,10 +13,6 @@ use Illuminate\Support\Str;
 use Modules\Xot\Services\BladeService;
 use Modules\Xot\Services\FileService;
 use Modules\Xot\Services\LivewireService;
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Config;
-=======
->>>>>>> 9af88cd (.)
 
 use function Safe\glob;
 use function Safe\json_decode;
@@ -76,30 +68,9 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             $this->registerCallback();
         }
 
-<<<<<<< HEAD
-        $this->registerBladeIcons();
-
         // echo '<h3>Time :'.class_basename($this).' '.(microtime(true) - LARAVEL_START).'</h3>';
     }
 
-    public function registerBladeIcons(): void
-    {
-        $svg_path = Str::of($this->module_ns.'/Resources/svg')->replace('\\', '/')->toString();
-        $svg_abs_path = $this->module_dir.'/../../../'.$svg_path;
-
-        if (! File::exists($svg_abs_path)) {
-            File::makeDirectory($svg_abs_path, 0755, true, true);
-            File::put($svg_abs_path.'/.gitkeep', '');
-        }
-        Config::set('blade-icons.sets.'.$this->module_name.'.path', $svg_path);
-        Config::set('blade-icons.sets.'.$this->module_name.'.prefix', $this->module_name);
-    }
-
-=======
-        // echo '<h3>Time :'.class_basename($this).' '.(microtime(true) - LARAVEL_START).'</h3>';
-    }
-
->>>>>>> 9af88cd (.)
     /**
      * Register views.
      */

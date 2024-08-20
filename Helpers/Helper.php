@@ -18,26 +18,15 @@ use Modules\Xot\Services\FileService;
 use Modules\Xot\Services\ModuleService;
 use Nwidart\Modules\Facades\Module;
 
-<<<<<<< HEAD
-use Webmozart\Assert\Assert;
-
-=======
->>>>>>> 9af88cd (.)
 use function Safe\define;
 use function Safe\glob;
 use function Safe\json_decode;
 use function Safe\parse_url;
 use function Safe\preg_match;
-<<<<<<< HEAD
-
-use function Safe\realpath;
-
-=======
 use function Safe\realpath;
 
 use Webmozart\Assert\Assert;
 
->>>>>>> 9af88cd (.)
 // ------------------------------------------------
 
 /* --- MAH
