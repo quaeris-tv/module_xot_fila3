@@ -70,6 +70,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         }
 
         // echo '<h3>Time :'.class_basename($this).' '.(microtime(true) - LARAVEL_START).'</h3>';
+        $this->registerBladeIcons();
     }
 
     public function registerBladeIcons(): void
