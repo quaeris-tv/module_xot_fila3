@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\ModelClass;
 
 use Spatie\QueueableAction\QueueableAction;
+
 use Webmozart\Assert\Assert;
 
 use function Safe\file;

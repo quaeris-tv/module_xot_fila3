@@ -6,6 +6,7 @@ namespace Modules\Xot\Actions\Export;
 
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
+
 use Spatie\QueueableAction\QueueableAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Webmozart\Assert\Assert;
@@ -64,7 +65,7 @@ class ExportXlsStreamByLazyCollection
          */
         $head = $data->first();
         $headings = collect($head)->keys();
-        if ($transKey !== null) {
+        if (null !== $transKey) {
             $headings = $headings->map(
                 static function (string $item) use ($transKey) {
                     $key = $transKey.'.fields.'.$item;

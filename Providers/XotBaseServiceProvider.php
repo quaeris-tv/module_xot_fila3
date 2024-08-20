@@ -69,9 +69,8 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             $this->registerCallback();
         }
 
-        $this->registerBladeIcons();
-
         // echo '<h3>Time :'.class_basename($this).' '.(microtime(true) - LARAVEL_START).'</h3>';
+        $this->registerBladeIcons();
     }
 
     public function registerBladeIcons(): void
@@ -240,7 +239,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
                     ];
                     if (class_exists($event) && class_exists($listener)) {
                         // \Event::listen($event, $listener);
-                        $tmp = new \stdClass;
+                        $tmp = new \stdClass();
                         $tmp->event = $event;
                         $tmp->listener = $listener;
                         $events[] = $tmp;

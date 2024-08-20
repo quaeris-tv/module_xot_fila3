@@ -19,11 +19,8 @@ class EnvData extends Data implements Wireable
     private static ?self $instance = null;
 
     public string $app_url = 'http://localhost';
-
     public bool $debugbar_enabled = false;
-
     public string $google_maps_api_key = '';
-
     public string $telegram_bot_token = '';
 
     public static function make(): self
@@ -33,10 +30,10 @@ class EnvData extends Data implements Wireable
 
             foreach ($_ENV as $k => $v) {
                 $k = strtolower($k);
-                if ($v == 'false') {
+                if ('false' == $v) {
                     $v = false;
                 }
-                if ($v == 'true') {
+                if ('true' == $v) {
                     $v = true;
                 }
                 $data[$k] = $v;
@@ -55,7 +52,7 @@ class EnvData extends Data implements Wireable
 
         $env_content = File::get($env_path);
         foreach ($data as $k => $v) {
-            if ($v != $this->$k) {
+            if ($this->$k != $v) {
                 $env_content = $this->updateVar($k, $v, $env_content);
             }
         }
@@ -68,12 +65,12 @@ class EnvData extends Data implements Wireable
         $key = str($key)->upper()->toString();
         $replace = $this->getLine($key, $value);
         $pos_start = strpos($env_content, $key.'=');
-        if ($pos_start === false) {
+        if (false === $pos_start) {
             // throw new \Exception('['.__LINE__.']['.__FILE__.']');
             return $env_content."\n".$replace;
         }
         $pos_end = strpos($env_content, "\n", $pos_start);
-        if ($pos_end === false) {
+        if (false === $pos_end) {
             throw new \Exception('['.__LINE__.']['.__FILE__.']');
         }
 
@@ -94,7 +91,7 @@ class EnvData extends Data implements Wireable
         if (is_string($value)) {
             $replace .= '"'.$value.'"';
         }
-        if (is_int($value)) {
+        if (is_integer($value)) {
             $replace .= $value;
         }
         $replace .= "\n";
