@@ -21,6 +21,7 @@ use Modules\Xot\Datas\EnvData;
 class EnvWidget extends Widget implements HasForms
 {
     use InteractsWithForms;
+
     protected static string $view = 'xot::filament.widgets.env';
 
     public ?array $data = [];

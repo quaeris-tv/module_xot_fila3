@@ -23,7 +23,7 @@ class MainDashboard extends Page
             }
         );
 
-        if (1 === $modules->count()) {
+        if ($modules->count() === 1) {
             Assert::notNull($modules->first(), '['.__LINE__.']['.__FILE__.']');
             $panel_name = $modules->first()->name;
             $module_name = Str::before($panel_name, '::admin');
