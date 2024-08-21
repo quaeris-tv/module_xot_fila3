@@ -16,10 +16,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Feed newModelQuery()
  * @method static Builder|Feed newQuery()
  * @method static Builder|Feed query()
- *
  * @property-read \Modules\Fixcity\Models\Profile|null $creator
  * @property-read \Modules\Fixcity\Models\Profile|null $updater
- *
  * @mixin \Eloquent
  */
 class Feed extends BaseModel
