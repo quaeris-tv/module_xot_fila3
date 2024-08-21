@@ -11,6 +11,19 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @property string $key
  * @property string $owner
+<<<<<<< HEAD
+=======
+ * @property int $expiration
+ *
+ * @method static \Modules\Xot\Database\Factories\CacheLockFactory factory($count = null, $state = [])
+ * @method static Builder|CacheLock newModelQuery()
+ * @method static Builder|CacheLock newQuery()
+ * @method static Builder|CacheLock query()
+ * @method static Builder|CacheLock whereExpiration($value)
+ * @method static Builder|CacheLock whereKey($value)
+ * @method static Builder|CacheLock whereOwner($value)
+ *
+>>>>>>> origin/master
  * @property int $expiration
  * @method static \Modules\Xot\Database\Factories\CacheLockFactory factory($count = null, $state = [])
  * @method static Builder|CacheLock newModelQuery()
@@ -19,6 +32,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|CacheLock whereExpiration($value)
  * @method static Builder|CacheLock whereKey($value)
  * @method static Builder|CacheLock whereOwner($value)
+<<<<<<< HEAD
  * @property int $expiration
  * @method static \Modules\Xot\Database\Factories\CacheLockFactory factory($count = null, $state = [])
  * @method static Builder|CacheLock newModelQuery()
@@ -29,6 +43,9 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|CacheLock whereOwner($value)
  * @property-read \Modules\Fixcity\Models\Profile|null $creator
  * @property-read \Modules\Fixcity\Models\Profile|null $updater
+=======
+ *
+>>>>>>> origin/master
  * @mixin \Eloquent
  */
 class CacheLock extends BaseModel

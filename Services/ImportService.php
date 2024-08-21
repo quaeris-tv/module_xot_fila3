@@ -26,10 +26,13 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface as ResponseContract;
 use Psr\Http\Message\UriInterface;
 use Request;
+<<<<<<< HEAD
 use Storage;
 use Symfony\Component\DomCrawler\Crawler;
 use Webmozart\Assert\Assert;
 
+=======
+>>>>>>> origin/master
 use Storage;
 use Symfony\Component\DomCrawler\Crawler;
 use Webmozart\Assert\Assert;
@@ -38,7 +41,6 @@ use function Safe\fclose;
 use function Safe\file_get_contents;
 use function Safe\fopen;
 use function Safe\ini_set;
-
 use function Safe\json_decode;
 use function Safe\json_encode;
 use function Safe\parse_url;

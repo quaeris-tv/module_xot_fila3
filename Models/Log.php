@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\File;
  * @method static Builder|Feed newModelQuery()
  * @method static Builder|Feed newQuery()
  * @method static Builder|Feed query()
+<<<<<<< HEAD
+=======
+ *
+>>>>>>> origin/master
  * @property string|null $id
  * @property string|null $name
  * @property int|null $size
