@@ -1,28 +1,39 @@
 ---
-title: Orbit
-description: Salvataggio tramite Orbit
+title: SushiToJsons
+description: Salvataggio su File
 extends: _layouts.documentation
 section: content
 ---
 
-# Orbit {#orbit}
+# Invece di usare Orbit {#invece-di-usare-orbit}
 
 Pacchetto di riferimento [[Jigsaw documentation](https://github.com/ryangjchandler/orbit)](https://github.com/ryangjchandler/orbit)
 
-Salva dentro dei file json le istanze di un modello, non utilizzando più le tabelle mysql.
+Il suo problema che non funzionava con le traduzioni
 
-Dopo aver installato il pacchetto, aggiungere le seguenti connessioni dentro la configurazione database.php
+# Trait SushiToJsons {#trait-sushi-to-jsons }
 
-```php
-    'orbit' => [
-        'driver' => 'sqlite',
-        'database' => TenantService::filePath('orbit.sqlite'),
-        'foreign_key_constraints' => false,
-    ],
+Come Orbit, permette di salvare le istanze di un modello dentro dei file json, all'interno della configurazione locale che si sta utilizzando.
 
-    'orbit_meta' => [
-        'driver' => 'sqlite',
-        'database' => storage_path('framework/cache/orbit/orbit_meta.sqlite'),
-        'foreign_key_constraints' => false,
-    ],
+Esempio: se si vuole utilizzare dentro il modello Page, il singolo json di ogni istanza salvata verrà memorizzato dentro laravel\config\estensione_dominio\dominio\database\content\pages  
+
+Per il modello Menu, il json verrà salvato dentro laravel\config\estensione_dominio\dominio\database\content\menus  
+
+Aggiungere al modello su cui si vuole utilizzare
+
+```
+    use Modules\Tenant\Models\Traits\SushiToJsons;
+    ...
+    ...
+    use \Sushi\Sushi;
+    use SushiToJsons;
+```
+
+Aggiungere la funzione
+
+```
+public function getRows(): array
+{
+    return $this->getSushiRows();
+}
 ```
