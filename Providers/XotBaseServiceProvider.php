@@ -68,6 +68,8 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         if (method_exists($this, 'registerCallback')) {
             $this->registerCallback();
         }
+        $this->registerBladeIcons();
+
 
         // echo '<h3>Time :'.class_basename($this).' '.(microtime(true) - LARAVEL_START).'</h3>';
         $this->registerBladeIcons();
