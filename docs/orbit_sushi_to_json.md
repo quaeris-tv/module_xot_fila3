@@ -1,8 +1,6 @@
 ---
-title: SushiToJsons
-description: Salvataggio su File
-extends: _layouts.documentation
-section: content
+title: SushiToJsons/Orbit
+description: Salvataggio su File invece che in tabella
 ---
 
 # Invece di usare Orbit {#invece-di-usare-orbit}
