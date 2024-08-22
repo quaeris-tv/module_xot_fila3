@@ -27,6 +27,8 @@ abstract class XotBaseMigration extends Migration
 
     public function __construct()
     {
+        $trace = debug_backtrace();
+
         if ($this->model_class == null) {
             $this->model_class = $this->getModel();
         }
@@ -44,12 +46,16 @@ abstract class XotBaseMigration extends Migration
         $name = Str::before(Str::after($name, 'Create'), 'Table');
         $name = Str::singular($name);
         if (Str::contains($name, '.php')) {
+
             $name = Str::of($name)
                 ->between('_create_', '_tables.php')
+                ->before('_table.php')
                 ->singular()
                 ->studly()
                 ->toString();
         }
+
+
 
         $reflectionClass = new \ReflectionClass($this);
         $filename = (string) $reflectionClass->getFilename();
