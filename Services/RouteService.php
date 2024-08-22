@@ -28,13 +28,13 @@ class RouteService
             return config()->get('in_admin');
         }
         */
-        if (Request::segment(1) === 'admin') {
+        if ('admin' === Request::segment(1)) {
             return true;
         }
 
         $segments = Request::segments();
 
-        return (is_countable($segments) ? \count($segments) : 0) > 0 && $segments[0] === 'livewire' && session('in_admin') === true;
+        return (is_countable($segments) ? \count($segments) : 0) > 0 && 'livewire' === $segments[0] && true === session('in_admin');
     }
 
     // --- sarebbe deprecata ma il mal di testa
@@ -201,7 +201,7 @@ class RouteService
             $tmp[] = 'admin';
         }
 
-        for ($i = 0; $i <= $n; $i++) {
+        for ($i = 0; $i <= $n; ++$i) {
             $tmp[] = 'container'.$i;
         }
 
@@ -363,7 +363,7 @@ class RouteService
     public static function getAct(): string
     {
         $route_action = Route::currentRouteAction();
-        if ($route_action === null) {
+        if (null === $route_action) {
             throw new \Exception('$route_action is null');
         }
 
@@ -389,7 +389,7 @@ class RouteService
     public static function getModuleName(): string
     {
         $route_action = Route::currentRouteAction();
-        if ($route_action === null) {
+        if (null === $route_action) {
             throw new \Exception('$route_action is null');
         }
 
@@ -404,7 +404,7 @@ class RouteService
     public static function getControllerName(): string
     {
         $route_action = Route::currentRouteAction();
-        if ($route_action === null) {
+        if (null === $route_action) {
             throw new \Exception('$route_action is null');
         }
 

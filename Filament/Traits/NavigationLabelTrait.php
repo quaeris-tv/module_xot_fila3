@@ -10,7 +10,6 @@ trait NavigationLabelTrait
 {
     use TransTrait;
 
-
     public static function getModelLabel(): string
     {
         return static::trans('navigation.name');

@@ -31,9 +31,9 @@ class NavService
         }
 
         $year = $request->input('year', date('Y'));
-        $year--;
+        --$year;
         $nav = [];
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; ++$i) {
             $tmp = [];
             $params['year'] = $year;
             $tmp['title'] = $year;
@@ -45,13 +45,13 @@ class NavService
 
             $tmp['active'] = $year === $params['year'] ? 1 : 0;
 
-            if ($routename === null) {
+            if (null === $routename) {
                 throw new \Exception('routename is null');
             }
 
             $tmp['url'] = route($routename, $params);
             $nav[] = (object) $tmp;
-            $year++;
+            ++$year;
         }
 
         /**
@@ -82,13 +82,13 @@ class NavService
 
         $q = 2;
         $date = Carbon::create($year, $month, 1);
-        if ($date == null) {
+        if (null == $date) {
             throw new \Exception('carbon error');
         }
 
         $d = $date->subMonths($q);
         $nav = [];
-        for ($i = 0; $i < ($q * 2) + 1; $i++) {
+        for ($i = 0; $i < ($q * 2) + 1; ++$i) {
             $tmp = [];
             $params['month'] = (int) $d->format('m');
             $params['year'] = (int) $d->format('Y');
@@ -98,7 +98,7 @@ class NavService
             }
 
             $tmp['active'] = $year === $params['year'] && $month === $params['month'] ? 1 : 0;
-            if ($routename === null) {
+            if (null === $routename) {
                 throw new \Exception('routename is null');
             }
 

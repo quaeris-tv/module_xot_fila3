@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Traits;
 
-use Modules\Xot\Datas\XotData;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Xot\Contracts\UserContract;
-use Modules\Xot\Contracts\ProfileContract;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Xot\Datas\XotData;
 
 /**
  * Trait Updater.
@@ -48,8 +46,7 @@ trait Updater
     }
 
     /**
-     * Summary of creator
-     * @return BelongsTo
+     * Summary of creator.
      */
     public function creator(): BelongsTo
     {
@@ -71,7 +68,6 @@ trait Updater
     /**
      * Defines a relation to obtain the last user who
      * manipulated the Entity instance.
-
      */
     public function updater(): BelongsTo
     {

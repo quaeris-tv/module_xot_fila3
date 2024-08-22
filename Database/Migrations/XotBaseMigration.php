@@ -29,7 +29,7 @@ abstract class XotBaseMigration extends Migration
     {
         $trace = debug_backtrace();
 
-        if ($this->model_class == null) {
+        if (null == $this->model_class) {
             $this->model_class = $this->getModel();
         }
         $this->model = app($this->model_class);
@@ -37,7 +37,7 @@ abstract class XotBaseMigration extends Migration
 
     public function getModel(): string
     {
-        if ($this->model_class !== null) {
+        if (null !== $this->model_class) {
             return $this->model_class;
         }
 
@@ -46,7 +46,6 @@ abstract class XotBaseMigration extends Migration
         $name = Str::before(Str::after($name, 'Create'), 'Table');
         $name = Str::singular($name);
         if (Str::contains($name, '.php')) {
-
             $name = Str::of($name)
                 ->between('_create_', '_tables.php')
                 ->before('_table.php')
@@ -54,8 +53,6 @@ abstract class XotBaseMigration extends Migration
                 ->studly()
                 ->toString();
         }
-
-
 
         $reflectionClass = new \ReflectionClass($this);
         $filename = (string) $reflectionClass->getFilename();
@@ -120,7 +117,7 @@ abstract class XotBaseMigration extends Migration
      */
     public function tableExists(?string $table = null): bool
     {
-        if ($table === null) {
+        if (null === $table) {
             $table = $this->getTable();
         }
 
@@ -345,11 +342,11 @@ abstract class XotBaseMigration extends Migration
         $func = 'updateUserKey'.Str::studly($this->model->getKeyType());
         $this->{$func}($table);
 
-        if ($this->hasColumn('model_id') && $this->getColumnType('model_id') === 'bigint') {
+        if ($this->hasColumn('model_id') && 'bigint' === $this->getColumnType('model_id')) {
             $table->string('model_id', 36)->index()->change();
         }
 
-        if ($this->hasColumn('team_id') && $this->getColumnType('team_id') === 'bigint') {
+        if ($this->hasColumn('team_id') && 'bigint' === $this->getColumnType('team_id')) {
             $table->uuid('team_id')->nullable()->change(); //  ->index()
         }
     }
@@ -360,12 +357,12 @@ abstract class XotBaseMigration extends Migration
             $table->uuid('id')->primary()->first(); // ->default(DB::raw('(UUID())'));
         }
 
-        if ($this->hasColumn('id') && $this->getColumnType('id') === 'bigint') {
+        if ($this->hasColumn('id') && 'bigint' === $this->getColumnType('id')) {
             // $table->uuid('id')->default(DB::raw('(UUID())'))->change();
             $table->uuid('id')->change();
         }
 
-        if ($this->hasColumn('user_id') && $this->getColumnType('user_id') === 'bigint') {
+        if ($this->hasColumn('user_id') && 'bigint' === $this->getColumnType('user_id')) {
             $table->uuid('user_id')->change(); //  ->index()
         }
     }
