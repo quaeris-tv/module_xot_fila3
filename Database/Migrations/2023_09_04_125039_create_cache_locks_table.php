@@ -8,8 +8,7 @@ use Modules\Xot\Database\Migrations\XotBaseMigration;
 /**
  * Undocumented class.
  */
-class CreateCacheLocksTable extends XotBaseMigration
-{
+return new class () extends XotBaseMigration {
     /**
      * Run the migrations.
      */
@@ -24,4 +23,4 @@ class CreateCacheLocksTable extends XotBaseMigration
             }
         );
     }
-}
+};

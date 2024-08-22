@@ -9,8 +9,7 @@ use Modules\Xot\Database\Migrations\XotBaseMigration;
 /**
  * Class CreateExtraTable.
  */
-class CreateExtraTable extends XotBaseMigration
-{
+return new class () extends XotBaseMigration {
     /**
      * Run the migrations.
      */
@@ -47,4 +46,4 @@ class CreateExtraTable extends XotBaseMigration
     // end up
 
     // end down
-}
+};

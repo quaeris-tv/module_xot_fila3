@@ -17,7 +17,7 @@ use Modules\Xot\Database\Migrations\XotBaseMigration;
 /**
 * Class CreateDummyClassTable
 */
-class CreateDummyClassTable extends XotBaseMigration{
+return new class () extends XotBaseMigration{
 
     public function getTable(){
         return with(new MyModel())->getTable();
@@ -69,4 +69,4 @@ class CreateDummyClassTable extends XotBaseMigration{
     }
 
 
-}
+};

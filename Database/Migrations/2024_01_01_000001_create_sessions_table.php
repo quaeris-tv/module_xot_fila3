@@ -8,8 +8,7 @@ use Modules\Xot\Database\Migrations\XotBaseMigration;
 /**
  * Undocumented class.
  */
-class CreateSessionsTable extends XotBaseMigration
-{
+return new class () extends XotBaseMigration {
     /**
      * Run the migrations.
      */
@@ -45,4 +44,4 @@ class CreateSessionsTable extends XotBaseMigration
             }
         );
     }
-}
+};
