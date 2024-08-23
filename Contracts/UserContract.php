@@ -22,25 +22,25 @@ use Spatie\Permission\Contracts\Role;
 /**
  * Modules\User\Contracts\UserContract.
  *
- * @property ProfileContract|null                        $profile
- * @property string                                      $id
- * @property string                                      $handle
- * @property string|null                                 $first_name
- * @property string|null                                 $last_name
- * @property string|null                                 $full_name
- * @property string|null|int                             $current_team_id
- * @property string|null                                 $phone
- * @property string|null                                 $email
- * @property Collection|array<\Modules\User\Models\Area> $areas
- * @property \Modules\User\Models\PermUser|null          $perm
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\Role> $roles
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\Tenant> $tenants
+ * @property ProfileContract|null                                                       $profile
+ * @property string                                                                     $id
+ * @property string                                                                     $handle
+ * @property string|null                                                                $first_name
+ * @property string|null                                                                $last_name
+ * @property string|null                                                                $full_name
+ * @property string|int|null                                                            $current_team_id
+ * @property string|null                                                                $phone
+ * @property string|null                                                                $email
+ * @property Collection|array<\Modules\User\Models\Area>                                $areas
+ * @property \Modules\User\Models\PermUser|null                                         $perm
+ * @property \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\Role>   $roles
+ * @property \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\Tenant> $tenants
  *
  * @phpstan-require-extends Model
  *
  * @mixin \Eloquent
  */
-interface UserContract extends Authorizable, Authenticatable,CanResetPassword, FilamentUser, HasTeamsContract, ModelContract, MustVerifyEmail, PassportHasApiTokensContract
+interface UserContract extends Authorizable, Authenticatable, CanResetPassword, FilamentUser, HasTeamsContract, ModelContract, MustVerifyEmail, PassportHasApiTokensContract
 {
     /*
     public function isSuperAdmin();
@@ -92,10 +92,12 @@ interface UserContract extends Authorizable, Authenticatable,CanResetPassword, F
      * @return $this
      */
     public function assignRole(array|string|int|Role|\Illuminate\Support\Collection $roles = []);
+
     /**
      * Revoke the given role from the model.
      *
-     * @param  string|int|Role|\BackedEnum  $role
+     * @param string|int|Role|\BackedEnum $role
+     *
      * @return self
      */
     public function removeRole($role);
