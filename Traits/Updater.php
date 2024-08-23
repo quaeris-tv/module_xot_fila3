@@ -54,7 +54,7 @@ trait Updater
 
         /*
         return $this->belongsTo(
-            User::class,
+            \Modules\Xot\Datas\XotData::make()->getUserClass(),
             'created_by',
         );
         */
@@ -75,7 +75,7 @@ trait Updater
 
         /*
         return $this->belongsTo(
-            User::class,
+            \Modules\Xot\Datas\XotData::make()->getUserClass(),
             'updated_by',
         );
         */

@@ -41,7 +41,7 @@ public function setModelClass(string $class): self {
 Example
 
 ```php
-ModelService::make()->setModelClass(User::class): self {
+ModelService::make()->setModelClass(\Modules\Xot\Datas\XotData::make()->getUserClass()): self {
 ```
 
 ### Uses the model property and search the passed **$data** in its *relationships*
@@ -70,7 +70,7 @@ $table->string('email')->nullable();
 /*
 Profile model
 public function user(): BelongsTo {
-    return $this->belongsTo(User::class);
+    return $this->belongsTo(\Modules\Xot\Datas\XotData::make()->getUserClass());
 }
 */
 

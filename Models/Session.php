@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null                     $created_by
  * @property string|null                     $updated_by
- *
  * @method static \Modules\Xot\Database\Factories\SessionFactory factory($count = null, $state = [])
  * @method static Builder|Session                                newModelQuery()
  * @method static Builder|Session                                newQuery()
@@ -34,7 +33,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Session                                whereUpdatedBy($value)
  * @method static Builder|Session                                whereUserAgent($value)
  * @method static Builder|Session                                whereUserId($value)
- *
  * @property int                             $id
  * @property int|null                        $user_id
  * @property string|null                     $ip_address
@@ -45,7 +43,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null                     $created_by
  * @property string|null                     $updated_by
- *
  * @method static \Modules\Xot\Database\Factories\SessionFactory factory($count = null, $state = [])
  * @method static Builder|Session                                newModelQuery()
  * @method static Builder|Session                                newQuery()
@@ -60,16 +57,12 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Session                                whereUpdatedBy($value)
  * @method static Builder|Session                                whereUserAgent($value)
  * @method static Builder|Session                                whereUserId($value)
- *
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property string|null                     $deleted_by
- *
  * @method static Builder|Session whereDeletedAt($value)
  * @method static Builder|Session whereDeletedBy($value)
- *
  * @property \Modules\Fixcity\Models\Profile|null $creator
  * @property \Modules\Fixcity\Models\Profile|null $updater
- *
  * @mixin \Eloquent
  */
 class Session extends BaseModel

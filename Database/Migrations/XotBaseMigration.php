@@ -286,7 +286,7 @@ abstract class XotBaseMigration extends Migration
         /*
         if (! $this->hasColumn('user_id')) {
             $table->foreignIdFor(
-                model: User::class,
+                model: \Modules\Xot\Datas\XotData::make()->getUserClass(),
                 column: 'user_id',
             )
             ->nullable()
