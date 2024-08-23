@@ -61,7 +61,7 @@
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
         "pestphp/pest": "^2.34",
-        "spatie/laravel-error-solutions": "^1.0",
+        "spatie/laravel-error-solutions": "*",
         "thecodingmachine/phpstan-safe-rule": "^1.2"
     },
     "require-dev_comment": {
