@@ -32,7 +32,7 @@ use Spatie\Permission\Contracts\Role;
  * @property string|null                                                                $phone
  * @property string|null                                                                $email
  * @property Collection|array<\Modules\User\Models\Area>                                $areas
- * @property \Modules\User\Models\Perm\Modules\Xot\Contracts\UserContract|null                                         $perm
+ * @property \Modules\User\Models\Perm\Modules\Xot\Contracts\UserContract|null          $perm
  * @property \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\Role>   $roles
  * @property \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\Tenant> $tenants
  *
