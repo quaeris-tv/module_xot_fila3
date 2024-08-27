@@ -25,13 +25,13 @@ class HasOneAction
         $rows = $relationDTO->rows;
         // $rows= $row->{$relation->name}();
         if ($rows->exists()) {
-            if (! \is_array($relationDTO->data)) {
+            //if (! \is_array($relationDTO->data)) {
                 // variabile uguale alla relazione
-            } else {
+            //} else {
                 // backtrace(true);
                 // dddx([$model, $name, $data]);
                 $model->{$relationDTO->name}->update($relationDTO->data);
-            }
+            //}
         } else {
             dddx(['err' => 'wip']);
             // $this->storeRelationshipsHasOne($params);

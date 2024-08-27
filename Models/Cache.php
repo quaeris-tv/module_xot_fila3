@@ -43,7 +43,7 @@ class Cache extends BaseModel
     /** @var string */
     protected $primaryKey = 'key';
 
-    /** @var array<int, string> */
+    /** @var list<string> */
     protected $fillable = [
         'key',
         'value',

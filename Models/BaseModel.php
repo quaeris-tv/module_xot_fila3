@@ -44,7 +44,7 @@ abstract class BaseModel extends Model
     /** @var string */
     protected $connection = 'xot';
 
-    /** @var array<int, string> */
+    /** @var list<string> */
     protected $fillable = [
         'id',
     ];
@@ -67,7 +67,7 @@ abstract class BaseModel extends Model
     /** @var string */
     protected $primaryKey = 'id';
 
-    /** @var array<int, string> */
+    /** @var list<string> */
     protected $hidden = [
         // 'password'
     ];

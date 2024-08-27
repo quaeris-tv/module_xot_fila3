@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Services;
 
 use Illuminate\Database\Eloquent\Model;
+use Webmozart\Assert\Assert;
 
 /**
  * Class SqlService.
@@ -19,11 +20,11 @@ class SqlService
         ?string $to_field = null
     ): string {
         if (null === $from_field) {
-            $from_field = $model->getAttributeValue('from_field');
+            Assert::string($from_field = $model->getAttributeValue('from_field'));
         }
 
         if (null === $to_field) {
-            $to_field = $model->getAttributeValue('to_field');
+            Assert::string($to_field = $model->getAttributeValue('to_field'));
         }
 
         if (null !== $date_min) {

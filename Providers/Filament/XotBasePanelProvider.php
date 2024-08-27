@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Modules\Xot\Datas\MetatagData;
 use Modules\Xot\Datas\XotData;
+use Webmozart\Assert\Assert;
 
 abstract class XotBasePanelProvider extends PanelProvider
 {
@@ -143,6 +144,8 @@ abstract class XotBasePanelProvider extends PanelProvider
 
     protected function getModuleNamespace(): string
     {
-        return config('modules.namespace').'\\'.$this->module;
+        Assert::string($ns = config('modules.namespace'));
+
+        return $ns.'\\'.$this->module;
     }
 }

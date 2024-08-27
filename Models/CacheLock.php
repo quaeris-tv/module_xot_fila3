@@ -38,7 +38,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class CacheLock extends BaseModel
 {
-    /** @var array<int, string> */
+    /** @var list<string> */
     protected $fillable = [
         'key',
         'owner',
