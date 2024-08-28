@@ -67,8 +67,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Session whereDeletedAt($value)
  * @method static Builder|Session whereDeletedBy($value)
  *
- * @property \Modules\Fixcity\Models\Profile|null $creator
- * @property \Modules\Fixcity\Models\Profile|null $updater
+ * @property \Modules\Xot\Contracts\ProfileContract|null $creator
+ * @property \Modules\Xot\Contracts\ProfileContract|null $updater
  *
  * @mixin \Eloquent
  */

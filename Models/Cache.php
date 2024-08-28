@@ -31,8 +31,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Cache                                whereKey($value)
  * @method static Builder|Cache                                whereValue($value)
  *
- * @property \Modules\Fixcity\Models\Profile|null $creator
- * @property \Modules\Fixcity\Models\Profile|null $updater
+ * @property \Modules\Xot\Contracts\ProfileContract|null $creator
+ * @property \Modules\Xot\Contracts\ProfileContract|null $updater
  *
  * @mixin \Eloquent
  */
