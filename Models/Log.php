@@ -29,11 +29,15 @@ use Illuminate\Support\Facades\File;
  * @method static Builder|Log whereName($value)
  * @method static Builder|Log whereSize($value)
  *
+ * @property \Modules\Xot\Contracts\ProfileContract|null $creator
+ * @property \Modules\Xot\Contracts\ProfileContract|null $updater
+ *
  * @mixin \Eloquent
  */
 class Log extends BaseModel
 {
     use \Sushi\Sushi;
+
     protected $fillable = ['id', 'name', 'size'];
 
     /** @return array<string, string> */

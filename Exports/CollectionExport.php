@@ -12,12 +12,14 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Modules\Xot\Actions\Collection\TransCollectionAction;
 
-class CollectionExport implements FromCollection, WithHeadings, ShouldQueue, WithMapping
+class CollectionExport implements FromCollection, ShouldQueue, WithHeadings, WithMapping
 {
     use Exportable;
+
     public array $headings;
 
     public ?string $transKey;
+
     public ?array $fields = null;
 
     public function __construct(

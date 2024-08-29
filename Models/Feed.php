@@ -6,8 +6,6 @@ namespace Modules\Xot\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 
-// --- services
-// --- TRAITS ---
 /**
  * Modules\Xot\Models\Feed.
  *
@@ -19,11 +17,14 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Feed                                newQuery()
  * @method static Builder|Feed                                query()
  *
+ * @property \Modules\Xot\Contracts\ProfileContract|null $creator
+ * @property \Modules\Xot\Contracts\ProfileContract|null $updater
+ *
  * @mixin \Eloquent
  */
 class Feed extends BaseModel
 {
-    /** @var array<int, string> */
+    /** @var list<string> */
     protected $fillable = [
         'id',
         'created_at',

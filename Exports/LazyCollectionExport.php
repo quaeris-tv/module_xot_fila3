@@ -14,13 +14,14 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Modules\Xot\Actions\Collection\TransCollectionAction;
 
-class LazyCollectionExport implements FromIterator, WithHeadings, ShouldQueue, WithMapping
+class LazyCollectionExport implements FromIterator, ShouldQueue, WithHeadings, WithMapping
 {
     use Exportable;
 
     public array $headings;
 
     public ?string $transKey;
+
     public ?array $fields = null;
 
     public function __construct(public LazyCollection $collection, ?string $transKey = null, ?array $fields = null)

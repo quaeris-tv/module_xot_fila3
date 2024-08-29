@@ -6,11 +6,10 @@ use Illuminate\Database\Schema\Blueprint;
 // ---- models ---
 use Modules\Xot\Database\Migrations\XotBaseMigration;
 
-/**
+/*
  * Class CreateExtraTable.
  */
-class CreateExtraTable extends XotBaseMigration
-{
+return new class extends XotBaseMigration {
     /**
      * Run the migrations.
      */
@@ -33,9 +32,9 @@ class CreateExtraTable extends XotBaseMigration
                 //    $table->string('name')->nullable();
                 // }
                 $this->updateTimestamps(table: $table, hasSoftDeletes: true);
-                if (! $this->hasIndex('morph_unique')) {
-                    $table->unique(['model_id', 'model_type'], 'morph_unique');
-                }
+                // if (! $this->hasIndex('morph_unique')) {
+                //    $table->unique(['model_id', 'model_type'], 'morph_unique');
+                // }
 
                 if ($this->hasColumn('model_id') && 'bigint' === $this->getColumnType('model_id')) {
                     $table->string('model_id', 36)->index()->change();
@@ -47,4 +46,4 @@ class CreateExtraTable extends XotBaseMigration
     // end up
 
     // end down
-}
+};

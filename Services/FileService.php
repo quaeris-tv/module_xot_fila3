@@ -6,13 +6,13 @@ namespace Modules\Xot\Services;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\Array\SaveArrayAction;
 use Nwidart\Modules\Facades\Module;
 
 use function Safe\json_decode;
-use function Safe\json_encode;
 use function Safe\realpath;
 use function Safe\scandir;
 
@@ -917,12 +917,13 @@ class FileService
         }
 
         $exists = File::exists($components_json);
-        // dddx(['exists' => $exists, 'components_json' => $components_json]);
+
         if ($exists && ! $force_recreate) {
             Assert::string($content = File::get($components_json), '['.__LINE__.']['.__FILE__.']');
 
             // return (array) json_decode((string) $content, null, 512, JSON_THROW_ON_ERROR);
-            return (array) json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+            // return (array) json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+            return (array) json_decode($content, false);
         }
 
         $files = File::allFiles($path);

@@ -15,6 +15,7 @@ use Modules\Xot\Filament\Traits\NavigationLabelTrait;
 abstract class XotBaseResource extends Resource
 {
     use NavigationLabelTrait;
+
     protected static ?string $model = null;
 
     // protected static ?string $navigationIcon = 'heroicon-o-bell';

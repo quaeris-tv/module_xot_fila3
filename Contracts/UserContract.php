@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Xot\Contracts;
 
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Contracts\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
@@ -20,23 +22,25 @@ use Spatie\Permission\Contracts\Role;
 /**
  * Modules\User\Contracts\UserContract.
  *
- * @property ProfileContract|null                        $profile
- * @property string                                      $id
- * @property string                                      $handle
- * @property string|null                                 $first_name
- * @property string|null                                 $last_name
- * @property string|null                                 $full_name
- * @property string|null                                 $current_team_id
- * @property string|null                                 $phone
- * @property string|null                                 $email
- * @property Collection|array<\Modules\User\Models\Area> $areas
- * @property \Modules\User\Models\PermUser|null          $perm
+ * @property ProfileContract|null                                                       $profile
+ * @property string                                                                     $id
+ * @property string                                                                     $handle
+ * @property string|null                                                                $first_name
+ * @property string|null                                                                $last_name
+ * @property string|null                                                                $full_name
+ * @property string|int|null                                                            $current_team_id
+ * @property string|null                                                                $phone
+ * @property string|null                                                                $email
+ * @property Collection|array<\Modules\User\Models\Area>                                $areas
+ * @property \Modules\User\Models\Perm\Modules\Xot\Contracts\UserContract|null          $perm
+ * @property \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\Role>   $roles
+ * @property \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\Tenant> $tenants
  *
  * @phpstan-require-extends Model
  *
  * @mixin \Eloquent
  */
-interface UserContract extends CanResetPassword, FilamentUser, HasTeamsContract, ModelContract, MustVerifyEmail, PassportHasApiTokensContract
+interface UserContract extends Authorizable, Authenticatable, CanResetPassword, FilamentUser, HasTeamsContract, ModelContract, MustVerifyEmail, PassportHasApiTokensContract
 {
     /*
     public function isSuperAdmin();
@@ -90,6 +94,14 @@ interface UserContract extends CanResetPassword, FilamentUser, HasTeamsContract,
     public function assignRole(array|string|int|Role|\Illuminate\Support\Collection $roles = []);
 
     /**
+     * Revoke the given role from the model.
+     *
+     * @param string|int|Role|\BackedEnum $role
+     *
+     * @return self
+     */
+    public function removeRole($role);
+    /**
      * Get the current access token being used by the user.
      *
      * @return Token|\Laravel\Passport\TransientToken|null
@@ -100,4 +112,9 @@ interface UserContract extends CanResetPassword, FilamentUser, HasTeamsContract,
      * A model may have multiple roles.
      */
     public function roles(): BelongsToMany;
+
+    /**
+     * Get all of the tenants the user belongs to.
+     */
+    public function tenants(): BelongsToMany;
 }

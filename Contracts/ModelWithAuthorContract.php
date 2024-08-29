@@ -7,7 +7,6 @@ namespace Modules\Xot\Contracts;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Modules\User\Models\User;
 
 /**
  * Modules\Xot\Contracts\ModelWithAuthorContract.
@@ -23,8 +22,8 @@ use Modules\User\Models\User;
  * @property PivotContract|null $pivot
  * @property string             $tennant_name
  * @property int|null           $author_id
- * @property User|null          $user
- * @property User|null          $author
+ * @property UserContract|null  $user
+ * @property UserContract|null  $author
  *
  * @method mixed     getKey()
  * @method string    getRouteKey()

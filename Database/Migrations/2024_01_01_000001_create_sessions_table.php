@@ -5,11 +5,10 @@ declare(strict_types=1);
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Xot\Database\Migrations\XotBaseMigration;
 
-/**
+/*
  * Undocumented class.
  */
-class CreateSessionsTable extends XotBaseMigration
-{
+return new class extends XotBaseMigration {
     /**
      * Run the migrations.
      */
@@ -45,4 +44,4 @@ class CreateSessionsTable extends XotBaseMigration
             }
         );
     }
-}
+};

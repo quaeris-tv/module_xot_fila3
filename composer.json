@@ -17,20 +17,24 @@
     "require": {
         "php": "^8.2",
         "calebporzio/sushi": "^2.5",
+        "coolsam/panel-modules": "*",
         "doctrine/dbal": "*",
-        "coolsam/modules": "dev-dev",
         "fidum/laravel-eloquent-morph-to-one": "*",
-        "filament/filament": "^3.2",
+        "filament/filament": "^3.2.92",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
+        "filament/spatie-laravel-translatable-plugin": "^3.2",
         "guzzlehttp/guzzle": "*",
         "illuminate/contracts": "*",
         "illuminate/support": "*",
+        "laravel/folio": "^1.1",
+        "laravel/framework": "^11.9",
         "livewire/livewire": "*",
         "livewire/volt": "^1.6",
         "maatwebsite/excel": "^3.1",
-        "nwidart/laravel-modules": "*",
+        "nwidart/laravel-modules": "^11.0",
+        "predis/predis": "^2.2",
         "spatie/cpu-load-health-check": "^1.0",
-        "spatie/laravel-data": "*",
+        "spatie/laravel-data": "^4.7",
         "spatie/laravel-health": "^1.29",
         "spatie/laravel-model-status": "*",
         "spatie/laravel-package-tools": "*",
@@ -39,6 +43,7 @@
         "spatie/laravel-schemaless-attributes": "^2.5",
         "spatie/laravel-tags": "*",
         "spipu/html2pdf": "^5.2",
+        "staudenmeir/laravel-adjacency-list": "^1.22",
         "symfony/dom-crawler": "*",
         "thecodingmachine/safe": "^2.5",
         "tightenco/parental": "^1.4"
@@ -46,14 +51,21 @@
     "require_comment": {
         "laraxot/module_tenant_fila3": "*"
     },
-    "require-dev_comment": {
+    "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.13",
         "barryvdh/laravel-ide-helper": "*",
-        "enlightn/enlightn": "^2.7",
-        "fakerphp/faker": "*",
-        "friendsofphp/php-cs-fixer": "*",
-        "larastan/larastan": "*",
+        "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^2.9",
         "laravel/pint": "^1.13",
-        "nunomaduro/collision": "*",
+        "laravel/sail": "^1.26",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.0",
+        "pestphp/pest": "^2.34",
+        "spatie/laravel-error-solutions": "*",
+        "thecodingmachine/phpstan-safe-rule": "^1.2"
+    },
+    "require-dev_comment": {
+        "enlightn/enlightn": "^2.7",
         "nunomaduro/phpinsights": "^2.11",
         "orchestra/testbench": "*",
         "pestphp/pest": "*",
@@ -63,7 +75,6 @@
         "phpstan/phpstan-phpunit": "*",
         "spatie/laravel-ray": "*",
         "symplify/phpstan-rules": "*",
-        "thecodingmachine/phpstan-safe-rule": "^1.2",
         "tightenco/duster": "*",
         "vimeo/psalm": "*"
     },
@@ -109,8 +120,9 @@
         "laravel": {
             "providers": [
                 "Modules\\Xot\\Providers\\XotServiceProvider",
-                "Modules\\Xot\\Providers\\Filament\\ModulesServiceProvider"
-                
+                "Modules\\Xot\\Providers\\Filament\\ModulesServiceProvider",
+                "Modules\\Xot\\Providers\\Filament\\AdminPanelProvider"
+
 
             ],
             "aliases": {}
@@ -118,4 +130,5 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true
+
 }

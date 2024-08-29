@@ -46,9 +46,9 @@ class StoreAction
             // }
         }
 
-        $msg = 'created! ['.$model->getKey().']!';
+        // $msg = 'created! ['.$model->getKey().']!';
 
-        Session::flash('status', $msg); // .
+        // Session::flash('status', $msg); // .
 
         return $model;
     }

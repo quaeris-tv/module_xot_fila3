@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Modules\User\Models\User;
 use Spatie\ModelStatus\Status;
 
 /**
@@ -24,7 +23,7 @@ use Spatie\ModelStatus\Status;
  * @property string|null              $title
  * @property PivotContract|null       $pivot
  * @property string                   $tennant_name
- * @property User|null                $user
+ * @property UserContract|null        $user
  * @property string                   $status
  * @property Collection|array<Status> $statuses
  * @property int|null                 $statuses_count

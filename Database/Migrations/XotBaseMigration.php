@@ -27,6 +27,8 @@ abstract class XotBaseMigration extends Migration
 
     public function __construct()
     {
+        $trace = debug_backtrace();
+
         if (null == $this->model_class) {
             $this->model_class = $this->getModel();
         }
@@ -46,6 +48,7 @@ abstract class XotBaseMigration extends Migration
         if (Str::contains($name, '.php')) {
             $name = Str::of($name)
                 ->between('_create_', '_tables.php')
+                ->before('_table.php')
                 ->singular()
                 ->studly()
                 ->toString();
@@ -283,7 +286,7 @@ abstract class XotBaseMigration extends Migration
         /*
         if (! $this->hasColumn('user_id')) {
             $table->foreignIdFor(
-                model: User::class,
+                model: \Modules\Xot\Datas\XotData::make()->getUserClass(),
                 column: 'user_id',
             )
             ->nullable()

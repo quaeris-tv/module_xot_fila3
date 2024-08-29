@@ -31,6 +31,9 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Cache                                whereKey($value)
  * @method static Builder|Cache                                whereValue($value)
  *
+ * @property \Modules\Xot\Contracts\ProfileContract|null $creator
+ * @property \Modules\Xot\Contracts\ProfileContract|null $updater
+ *
  * @mixin \Eloquent
  */
 class Cache extends BaseModel
@@ -40,7 +43,7 @@ class Cache extends BaseModel
     /** @var string */
     protected $primaryKey = 'key';
 
-    /** @var array<int, string> */
+    /** @var list<string> */
     protected $fillable = [
         'key',
         'value',

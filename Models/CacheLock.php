@@ -31,11 +31,14 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|CacheLock                                whereKey($value)
  * @method static Builder|CacheLock                                whereOwner($value)
  *
+ * @property \Modules\Xot\Contracts\ProfileContract|null $creator
+ * @property \Modules\Xot\Contracts\ProfileContract|null $updater
+ *
  * @mixin \Eloquent
  */
 class CacheLock extends BaseModel
 {
-    /** @var array<int, string> */
+    /** @var list<string> */
     protected $fillable = [
         'key',
         'owner',

@@ -75,8 +75,7 @@ class GetTransKeyAction
         $res = collect($arr)
             ->skip(3)
             ->map($callable)
-            ->implode('.')
-        ;
+            ->implode('.');
 
         $tmp = $module_low.'::'.$model_low;
         if ('' !== $res) {

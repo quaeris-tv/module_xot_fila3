@@ -13,7 +13,9 @@ class ViewExport implements FromView
     use Exportable;
 
     public View $view;
+
     public ?array $fields = null;
+
     public ?string $transKey = null;
 
     public function __construct(View $view, ?string $transKey = null, ?array $fields = null)

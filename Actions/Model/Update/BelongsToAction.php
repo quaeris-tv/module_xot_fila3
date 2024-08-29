@@ -23,6 +23,7 @@ class BelongsToAction
 
         $rows = $relationDTO->rows;
 
+        /*$relationDTO->data e' un array
         if (! \is_array($relationDTO->data)) {
             $related = $rows->getRelated();
             $related = $related->find($relationDTO->data);
@@ -31,6 +32,7 @@ class BelongsToAction
 
             return;
         }
+        */
 
         if (! Arr::isAssoc($relationDTO->data) && 1 === \count($relationDTO->data)) {
             $related_id = $relationDTO->data[0];

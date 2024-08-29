@@ -33,7 +33,7 @@ protected $perPage = 30;
         'deleted_at',
        // 'published_at',
     ];
-     /** @var array<int, string> */
+      /** @var list<string> */
     protected $appends = [];
     protected $primaryKey = 'id';
     public $incrementing = true;
