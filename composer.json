@@ -94,7 +94,9 @@
     ],
     "autoload": {
         "psr-4": {
-            "Modules\\Xot\\": ""
+            "Modules\\Xot\\": "",
+            "Modules\\Xot\\Database\\Factories\\": "database/factories/",
+            "Modules\\Xot\\Database\\Seeders\\": "database/seeders/"
         },
         "files": [
             "Helpers/Helper.php"
