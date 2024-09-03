@@ -23,11 +23,14 @@ use Modules\Xot\Exceptions\Handlers\HandlersRepository;
 use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\View\Composers\XotComposer;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
 =======
 >>>>>>> 9f602e2 (up)
+=======
+>>>>>>> 6bebb798 (up)
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Webmozart\Assert\Assert;
