@@ -9,6 +9,7 @@ namespace Modules\Xot\Actions\Filament;
 
 use Illuminate\Support\Str;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -25,6 +26,10 @@ use function Safe\file;
 use Spatie\QueueableAction\QueueableAction;
 >>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
 >>>>>>> aebd4f2f (🔧 (ExportXlsStreamByLazyCollection.php): resolve conflict markers and remove duplicate entries in the file)
+=======
+
+use function Safe\file;
+>>>>>>> 3ed0eb1f (🔧 (SqlService.php): fix nullable parameters in getCoalesceDateRange method to ensure proper functionality and avoid potential errors)
 
 use Spatie\QueueableAction\QueueableAction;
 use Symfony\Component\Finder\SplFileInfo as File;

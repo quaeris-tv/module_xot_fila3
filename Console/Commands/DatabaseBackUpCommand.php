@@ -13,6 +13,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 use Webmozart\Assert\Assert;
@@ -27,6 +28,8 @@ use Webmozart\Assert\Assert;
 =======
 >>>>>>> 6bebb798 (up)
 >>>>>>> aebd4f2f (🔧 (ExportXlsStreamByLazyCollection.php): resolve conflict markers and remove duplicate entries in the file)
+=======
+>>>>>>> 3ed0eb1f (🔧 (SqlService.php): fix nullable parameters in getCoalesceDateRange method to ensure proper functionality and avoid potential errors)
 use function Safe\exec;
 
 use Webmozart\Assert\Assert;

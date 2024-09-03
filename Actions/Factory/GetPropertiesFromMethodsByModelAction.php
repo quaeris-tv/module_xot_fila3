@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 use Spatie\QueueableAction\QueueableAction;
@@ -31,6 +32,8 @@ use Spatie\QueueableAction\QueueableAction;
 =======
 >>>>>>> 6bebb798 (up)
 >>>>>>> aebd4f2f (🔧 (ExportXlsStreamByLazyCollection.php): resolve conflict markers and remove duplicate entries in the file)
+=======
+>>>>>>> 3ed0eb1f (🔧 (SqlService.php): fix nullable parameters in getCoalesceDateRange method to ensure proper functionality and avoid potential errors)
 use function Safe\preg_replace;
 
 use Spatie\QueueableAction\QueueableAction;
