@@ -14,17 +14,10 @@ class SqlService
 {
     public static function getCoalesceDateRange(
         Model $model,
-<<<<<<< HEAD
-        int $date_min = null,
-        int $date_max = null,
-        string $from_field = null,
-        string $to_field = null
-=======
         ?int $date_min = null,
         ?int $date_max = null,
         ?string $from_field = null,
         ?string $to_field = null,
->>>>>>> 828d45b1 (chore(ExportXlsByQuery.php): add missing comma at the end of the fields parameter)
     ): string {
         if (null === $from_field) {
             Assert::string($from_field = $model->getAttributeValue('from_field'));
