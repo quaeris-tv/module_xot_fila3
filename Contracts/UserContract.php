@@ -22,7 +22,6 @@ use Spatie\Permission\Contracts\Role;
 /**
  * Modules\User\Contracts\UserContract.
  *
-<<<<<<< HEAD
  * @property ProfileContract|null                                                       $profile
  * @property string                                                                     $id
  * @property string                                                                     $handle
@@ -36,29 +35,12 @@ use Spatie\Permission\Contracts\Role;
  * @property \Modules\User\Models\Perm\Modules\Xot\Contracts\UserContract|null          $perm
  * @property \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\Role>   $roles
  * @property \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\Tenant> $tenants
-=======
- * @property ProfileContract|null $profile
- * @property string $id
- * @property string $handle
- * @property string|null $first_name
- * @property string|null $last_name
- * @property string|null $full_name
- * @property string|null $current_team_id
- * @property string|null $phone
- * @property string|null $email
- * @property Collection|array<\Modules\User\Models\Area> $areas
- * @property \Modules\User\Models\PermUser|null $perm
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
  *
  * @phpstan-require-extends Model
  *
  * @mixin \Eloquent
  */
-<<<<<<< HEAD
 interface UserContract extends Authorizable, Authenticatable, CanResetPassword, FilamentUser, HasTeamsContract, ModelContract, MustVerifyEmail, PassportHasApiTokensContract
-=======
-interface UserContract extends Authorizable, CanResetPassword, FilamentUser, HasTeamsContract, ModelContract, MustVerifyEmail, PassportHasApiTokensContract
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
 {
     /*
     public function isSuperAdmin();
@@ -76,7 +58,8 @@ interface UserContract extends Authorizable, CanResetPassword, FilamentUser, Has
     /**
      * Get a relationship.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return mixed|null
      */
     public function getRelationValue($key);
@@ -84,8 +67,9 @@ interface UserContract extends Authorizable, CanResetPassword, FilamentUser, Has
     /**
      * Create a new instance of the given model.
      *
-     * @param  array  $attributes
-     * @param  bool  $exists
+     * @param array $attributes
+     * @param bool  $exists
+     *
      * @return static
      */
     public function newInstance($attributes = [], $exists = false);
@@ -100,7 +84,7 @@ interface UserContract extends Authorizable, CanResetPassword, FilamentUser, Has
     /**
      * Determine if the model has (one of) the given role(s).
      */
-    public function hasRole(string|int|array|Role|\Illuminate\Support\Collection $roles, ?string $guard = null): bool;
+    public function hasRole(string|int|array|Role|\Illuminate\Support\Collection $roles, string $guard = null): bool;
 
     /**
      * Assign the given role to the model.
