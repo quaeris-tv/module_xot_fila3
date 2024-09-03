@@ -9,12 +9,15 @@ namespace Modules\Xot\Actions\Filament;
 
 use Illuminate\Support\Str;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 use function Safe\file;
 =======
 =======
 >>>>>>> 9f602e2 (up)
+=======
+>>>>>>> 6bebb798 (up)
 use Spatie\QueueableAction\QueueableAction;
 >>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
 
