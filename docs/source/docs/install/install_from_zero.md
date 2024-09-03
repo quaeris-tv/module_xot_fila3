@@ -3,7 +3,7 @@
 ~~~ bash
 mkdir demo01
 cd demo01
-laravel new laravel (with breeze, blade, darkMode, Pest)
+laravel new laravel (with breeze, volt+class, darkMode, Pest, no git)
 mv laravel/public  public_html
 ~~~
 
