@@ -7,24 +7,6 @@ namespace Modules\Xot\Services;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
-use Webmozart\Assert\Assert;
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-use Webmozart\Assert\Assert;
-
-=======
->>>>>>> 9f602e2 (up)
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
-=======
->>>>>>> 6bebb798 (up)
->>>>>>> aebd4f2f (🔧 (ExportXlsStreamByLazyCollection.php): resolve conflict markers and remove duplicate entries in the file)
-=======
->>>>>>> 3ed0eb1f (🔧 (SqlService.php): fix nullable parameters in getCoalesceDateRange method to ensure proper functionality and avoid potential errors)
 use function Safe\preg_replace;
 
 use Webmozart\Assert\Assert;
@@ -263,7 +245,7 @@ class RouteDynService
         return ['as' => $as, 'uses' => $uses];
     }
 
-    public static function dynamic_route(array $array, string $namespace = null, string $namespace_start = null, string $curr = null): void
+    public static function dynamic_route(array $array, ?string $namespace = null, ?string $namespace_start = null, ?string $curr = null): void
     {
         if (null !== $namespace_start) {
             self::$namespace_start = $namespace_start;

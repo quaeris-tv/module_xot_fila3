@@ -7,27 +7,6 @@ namespace Modules\Xot\Actions\Export;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
-use Spatie\QueueableAction\QueueableAction;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Webmozart\Assert\Assert;
-
-use Spatie\QueueableAction\QueueableAction;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Webmozart\Assert\Assert;
-
-<<<<<<< HEAD
-=======
->>>>>>> 9f602e2 (up)
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
-=======
->>>>>>> 6bebb798 (up)
->>>>>>> aebd4f2f (🔧 (ExportXlsStreamByLazyCollection.php): resolve conflict markers and remove duplicate entries in the file)
-=======
->>>>>>> 3ed0eb1f (🔧 (SqlService.php): fix nullable parameters in getCoalesceDateRange method to ensure proper functionality and avoid potential errors)
 use function Safe\fclose;
 use function Safe\fopen;
 use function Safe\fputcsv;
@@ -43,13 +22,8 @@ class ExportXlsStreamByLazyCollection
     public function execute(
         LazyCollection $data,
         string $filename = 'test.csv',
-<<<<<<< HEAD
         ?string $transKey = null,
         ?array $fields = null,
-=======
-        string $transKey = null,
-        array $fields = null
->>>>>>> 3ed0eb1f (🔧 (SqlService.php): fix nullable parameters in getCoalesceDateRange method to ensure proper functionality and avoid potential errors)
     ): StreamedResponse {
         $headers = [
             'Content-Disposition' => 'attachment; filename='.$filename,
@@ -84,7 +58,7 @@ class ExportXlsStreamByLazyCollection
         );
     }
 
-    public function headings(LazyCollection $data, string $transKey = null): array
+    public function headings(LazyCollection $data, ?string $transKey = null): array
     {
         /**
          * @var array

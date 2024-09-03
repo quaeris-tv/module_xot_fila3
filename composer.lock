@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "19861b5c97f7e9b3124827304970ccd0",
+=======
+    "content-hash": "6f8b556e7d3e5dcb9670c77bcdbc6301",
+>>>>>>> 92e0c5e3 (.)
     "packages": [
         {
             "name": "amphp/amp",
@@ -1347,7 +1351,11 @@
         },
         {
             "name": "coolsam/panel-modules",
+<<<<<<< HEAD
             "version": "dev-dev",
+=======
+            "version": "dev-main",
+>>>>>>> 92e0c5e3 (.)
             "dist": {
                 "type": "path",
                 "url": "./packages/savannabits/filament-modules",
@@ -13465,6 +13473,7 @@
         },
         {
             "name": "phpstan/phpstan",
+<<<<<<< HEAD
             "version": "1.12.1",
             "source": {
                 "type": "git",
@@ -13475,6 +13484,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d8ed7fffa66de1db0d2972267d8ed1d8fa0fe5a2",
                 "reference": "d8ed7fffa66de1db0d2972267d8ed1d8fa0fe5a2",
+=======
+            "version": "1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan.git",
+                "reference": "384af967d35b2162f69526c7276acadce534d0e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/384af967d35b2162f69526c7276acadce534d0e1",
+                "reference": "384af967d35b2162f69526c7276acadce534d0e1",
+>>>>>>> 92e0c5e3 (.)
                 "shasum": ""
             },
             "require": {
@@ -13519,7 +13540,11 @@
                     "type": "github"
                 }
             ],
+<<<<<<< HEAD
             "time": "2024-09-03T19:55:22+00:00"
+=======
+            "time": "2024-08-27T09:18:05+00:00"
+>>>>>>> 92e0c5e3 (.)
         },
         {
             "name": "phpunit/php-code-coverage",
