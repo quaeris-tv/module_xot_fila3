@@ -101,11 +101,16 @@
             "Modules\\Xot\\": "",
             "Modules\\Xot\\Database\\Factories\\": "database/factories/",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "Modules\\Xot\\Database\\Seeders\\": "database/seeders/",
             "Coolsam\\FilamentModules\\": "packages/savannabits/filament-modules/src/"
 =======
             "Modules\\Xot\\Database\\Seeders\\": "database/seeders/"
 >>>>>>> 2cfdff1e (up)
+=======
+            "Modules\\Xot\\Database\\Seeders\\": "database/seeders/",
+            "Coolsam\\FilamentModules\\": "packages/savannabits/filament-modules/src/"
+>>>>>>> b7ed3d23 (up)
         },
         "files": [
             "Helpers/Helper.php"
