@@ -96,7 +96,8 @@
         "psr-4": {
             "Modules\\Xot\\": "",
             "Modules\\Xot\\Database\\Factories\\": "database/factories/",
-            "Modules\\Xot\\Database\\Seeders\\": "database/seeders/"
+            "Modules\\Xot\\Database\\Seeders\\": "database/seeders/",
+            "Coolsam\\FilamentModules\\": "packages/savannabits/filament-modules/src/"
         },
         "files": [
             "Helpers/Helper.php"
