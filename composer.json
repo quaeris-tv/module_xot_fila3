@@ -85,7 +85,7 @@
         },
         {
             "type": "path",
-            "url": "./packages/savannabits/filament-modules"
+            "url": "./packages/coolsam/panel-modules"
         },
         {
             "type": "composer",
