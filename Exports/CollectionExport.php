@@ -25,7 +25,7 @@ class CollectionExport implements FromCollection, ShouldQueue, WithHeadings, Wit
     public function __construct(
         public Collection $collection,
         ?string $transKey = null,
-        ?array $fields = null
+        ?array $fields = null,
     ) {
         $this->transKey = $transKey;
         $this->fields = $fields;
@@ -60,11 +60,11 @@ class CollectionExport implements FromCollection, ShouldQueue, WithHeadings, Wit
     }
 
     /**
-     * @param  \Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null  $item
+     * @param \Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null $item
      */
     public function map($item): array
     {
-        if ($this->fields === null) {
+        if (null === $this->fields) {
             return collect($item)->toArray();
         }
 

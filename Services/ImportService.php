@@ -26,9 +26,6 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface as ResponseContract;
 use Psr\Http\Message\UriInterface;
 use Request;
-use Storage;
-use Symfony\Component\DomCrawler\Crawler;
-use Webmozart\Assert\Assert;
 
 use function Safe\fclose;
 use function Safe\file_get_contents;
@@ -39,7 +36,10 @@ use function Safe\json_encode;
 use function Safe\parse_url;
 
 use Storage;
+use Storage;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\Crawler;
+use Webmozart\Assert\Assert;
 use Webmozart\Assert\Assert;
 
 // */
@@ -67,7 +67,7 @@ class ImportService
     public static function getInstance(): self
     {
         if (! self::$instance instanceof self) {
-            self::$instance = new self;
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -240,7 +240,7 @@ class ImportService
             //    $url .= '?'.$url_info['query'];
             // }
             $query = collect($url_info)->get('query');
-            if ($query !== '') {
+            if ('' !== $query) {
                 $url .= '?'.$query;
             }
         }
@@ -343,14 +343,14 @@ class ImportService
         if (! isset($this->client_options['base_uri'])) {
             Assert::isArray($parse_url = parse_url($url));
             $url_info = collect($parse_url);
-            if ($url_info->get('scheme') !== null && $url_info->get('host') !== null) {
+            if (null !== $url_info->get('scheme') && null !== $url_info->get('host')) {
                 $this->client_options['base_uri'] = $url_info->get('scheme').'://'.$url_info->get('host');
             } else {
                 $this->client_options['base_uri'] = '';
             }
 
             $url = $url_info->get('path');
-            if ($url_info->get('query') !== null) {
+            if (null !== $url_info->get('query')) {
                 $url .= '?'.$url_info->get('query');
             }
         }
@@ -386,7 +386,7 @@ class ImportService
             return [];
         }
 
-        $linked = new \stdClass;
+        $linked = new \stdClass();
         $location_url = config('services.google.url_location_api').'?address='.urlencode((string) $address).'&key='.config('services.google.maps_key');
         $loc_json = $this->cacheRequest('GET', $location_url);
 
@@ -471,7 +471,7 @@ class ImportService
         }
 
         $resource = fopen($filename, 'w');
-        if ($resource === false) {
+        if (false === $resource) {
             throw new \Exception('can open '.$filename);
         }
 
@@ -603,7 +603,7 @@ class ImportService
         // $data = Json::decode($urldata, Json::FORCE_ARRAY);
         // $data = (array) Json::decode($urldata, Json::FORCE_ARRAY);
 
-        if ($data['responseStatus'] !== 200) {
+        if (200 !== $data['responseStatus']) {
             /* if (true == $this->debug) {
                  if (403 == $data['responseStatus']) {
                      $details = ($data['responseDetails']);
