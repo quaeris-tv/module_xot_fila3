@@ -10,10 +10,6 @@ trait NavigationLabelTrait
 {
     use TransTrait;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 694641e6 (🔧 (NavigationLabelTrait.php): Remove unnecessary commented out code and fix styling issue)
     public static function getModelLabel(): string
     {
         return static::trans('navigation.name');

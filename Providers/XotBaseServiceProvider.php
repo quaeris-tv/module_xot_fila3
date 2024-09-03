@@ -69,10 +69,6 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             $this->registerCallback();
         }
         $this->registerBladeIcons();
-<<<<<<< HEAD
-=======
-
->>>>>>> 694641e6 (🔧 (NavigationLabelTrait.php): Remove unnecessary commented out code and fix styling issue)
 
         // echo '<h3>Time :'.class_basename($this).' '.(microtime(true) - LARAVEL_START).'</h3>';
         $this->registerBladeIcons();
