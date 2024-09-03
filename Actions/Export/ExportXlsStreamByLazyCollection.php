@@ -22,18 +22,8 @@ class ExportXlsStreamByLazyCollection
     public function execute(
         LazyCollection $data,
         string $filename = 'test.csv',
-<<<<<<< HEAD
         ?string $transKey = null,
         ?array $fields = null,
-=======
-<<<<<<< HEAD
-        string $transKey = null,
-        array $fields = null
-=======
-        ?string $transKey = null,
-        ?array $fields = null,
->>>>>>> 828d45b1 (chore(ExportXlsByQuery.php): add missing comma at the end of the fields parameter)
->>>>>>> 636ef8d0 (.)
     ): StreamedResponse {
         $headers = [
             'Content-Disposition' => 'attachment; filename='.$filename,
