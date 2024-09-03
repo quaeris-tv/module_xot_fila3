@@ -14,7 +14,6 @@ use Spatie\ModelStatus\Status;
 /**
  * Modules\Xot\Contracts\ModelWithStatusContract.
  *
-<<<<<<< HEAD
  * @property int                      $id
  * @property int|null                 $user_id
  * @property string|null              $post_type
@@ -27,40 +26,26 @@ use Spatie\ModelStatus\Status;
  * @property string                   $tennant_name
  * @property UserContract|null        $user
  * @property string                   $status
-=======
- * @property int $id
- * @property int|null $user_id
- * @property string|null $post_type
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property string|null $created_by
- * @property string|null $updated_by
- * @property string|null $title
- * @property PivotContract|null $pivot
- * @property string $tennant_name
- * @property User|null $user
- * @property string $status
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
  * @property Collection|array<Status> $statuses
- * @property int|null $statuses_count
+ * @property int|null                 $statuses_count
  *
- * @method mixed getKey()
- * @method string getRouteKey()
- * @method string getRouteKeyName()
- * @method string getTable()
- * @method mixed with($array)
- * @method array getFillable()
- * @method mixed fill($array)
- * @method mixed getConnection()
- * @method mixed update($params)
- * @method mixed delete()
- * @method mixed detach($params)
- * @method mixed attach($params)
- * @method mixed save($params)
- * @method array treeLabel()
- * @method array treeSons()
- * @method int treeSonsCount()
- * @method array toArray()
+ * @method mixed     getKey()
+ * @method string    getRouteKey()
+ * @method string    getRouteKeyName()
+ * @method string    getTable()
+ * @method mixed     with($array)
+ * @method array     getFillable()
+ * @method mixed     fill($array)
+ * @method mixed     getConnection()
+ * @method mixed     update($params)
+ * @method mixed     delete()
+ * @method mixed     detach($params)
+ * @method mixed     attach($params)
+ * @method mixed     save($params)
+ * @method array     treeLabel()
+ * @method array     treeSons()
+ * @method int       treeSonsCount()
+ * @method array     toArray()
  * @method BelongsTo user()
  *
  * @phpstan-require-extends Model
@@ -73,5 +58,5 @@ interface ModelWithStatusContract
 
     public function status(): ?Status;
 
-    public function setStatus(string $name, ?string $reason = null): self;
+    public function setStatus(string $name, string $reason = null): self;
 }
