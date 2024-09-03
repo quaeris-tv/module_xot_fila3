@@ -6,20 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Modules\Xot\Database\Migrations\XotBaseMigration;
 use Modules\Xot\Models\HealthCheckResultHistoryItem;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-return new class extends XotBaseMigration {
-=======
-<<<<<<< HEAD
-return new class () extends XotBaseMigration {
-=======
-return new class extends XotBaseMigration
-{
->>>>>>> 9f602e2 (up)
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
-=======
-return new class () extends XotBaseMigration {
->>>>>>> 6bebb798 (up)
+return new class() extends XotBaseMigration {
     protected ?string $model_class = HealthCheckResultHistoryItem::class;
 
     /**
