@@ -7,6 +7,24 @@ namespace Modules\Xot\Actions\Export;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 
+<<<<<<< HEAD
+=======
+=======
+use Spatie\QueueableAction\QueueableAction;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Webmozart\Assert\Assert;
+
+use Spatie\QueueableAction\QueueableAction;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Webmozart\Assert\Assert;
+
+<<<<<<< HEAD
+=======
+>>>>>>> 9f602e2 (up)
+>>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
+=======
+>>>>>>> 6bebb798 (up)
+>>>>>>> aebd4f2f (🔧 (ExportXlsStreamByLazyCollection.php): resolve conflict markers and remove duplicate entries in the file)
 use function Safe\fclose;
 use function Safe\fopen;
 use function Safe\fputcsv;

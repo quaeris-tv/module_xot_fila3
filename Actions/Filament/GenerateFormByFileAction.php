@@ -8,8 +8,23 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\Filament;
 
 use Illuminate\Support\Str;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> aebd4f2f (🔧 (ExportXlsStreamByLazyCollection.php): resolve conflict markers and remove duplicate entries in the file)
 
 use function Safe\file;
+<<<<<<< HEAD
+=======
+=======
+=======
+>>>>>>> 9f602e2 (up)
+=======
+>>>>>>> 6bebb798 (up)
+use Spatie\QueueableAction\QueueableAction;
+>>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
+>>>>>>> aebd4f2f (🔧 (ExportXlsStreamByLazyCollection.php): resolve conflict markers and remove duplicate entries in the file)
 
 use Spatie\QueueableAction\QueueableAction;
 use Symfony\Component\Finder\SplFileInfo as File;

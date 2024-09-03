@@ -7,6 +7,21 @@ namespace Modules\Xot\Services;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
+<<<<<<< HEAD
+=======
+=======
+use Webmozart\Assert\Assert;
+
+<<<<<<< HEAD
+<<<<<<< HEAD
+use Webmozart\Assert\Assert;
+
+=======
+>>>>>>> 9f602e2 (up)
+>>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
+=======
+>>>>>>> 6bebb798 (up)
+>>>>>>> aebd4f2f (🔧 (ExportXlsStreamByLazyCollection.php): resolve conflict markers and remove duplicate entries in the file)
 use function Safe\preg_replace;
 
 use Webmozart\Assert\Assert;

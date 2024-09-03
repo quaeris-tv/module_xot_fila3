@@ -22,7 +22,24 @@ use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
 use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\View\Composers\XotComposer;
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 9f602e2 (up)
+=======
+>>>>>>> 6bebb798 (up)
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use Webmozart\Assert\Assert;
+
+>>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
+>>>>>>> aebd4f2f (🔧 (ExportXlsStreamByLazyCollection.php): resolve conflict markers and remove duplicate entries in the file)
 use function Safe\realpath;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
