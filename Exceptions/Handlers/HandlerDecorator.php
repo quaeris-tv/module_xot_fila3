@@ -26,7 +26,7 @@ class HandlerDecorator implements ExceptionHandler
      */
     public function __construct(
         protected ExceptionHandler $defaultHandler,
-        HandlersRepository $repository
+        HandlersRepository $repository,
     ) {
         $this->repository = $repository;
     }

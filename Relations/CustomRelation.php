@@ -43,7 +43,7 @@ class CustomRelation extends Relation
         /**
          * The eager constraints model matcher.
          */
-        protected ?\Closure $eagerMatcher
+        protected ?\Closure $eagerMatcher,
     ) {
         parent::__construct($query, $model);
     }

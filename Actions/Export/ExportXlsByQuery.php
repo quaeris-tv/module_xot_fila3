@@ -20,7 +20,7 @@ class ExportXlsByQuery
         QueryBuilder|EloquentBuilder $query,
         string $filename = 'test.xlsx',
         ?string $transKey = null,
-        ?array $fields = null
+        ?array $fields = null,
     ): Response|BinaryFileResponse {
         $queryExport = new QueryExport($query, $transKey, $fields);
         // $queryExport->queue($filename); // Serialization of 'PDO' is not allowed

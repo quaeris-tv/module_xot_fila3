@@ -22,7 +22,7 @@ class XlsByModelClassAction
         array $where = [],
         array $includes = [],
         array $excludes = [],
-        ?callable $callback = null
+        ?callable $callback = null,
     ): BinaryFileResponse {
         $with = $this->getWithByIncludes($includes);
 
