@@ -85,7 +85,7 @@
         },
         {
             "type": "path",
-            "url": "../../packages/savannabits/filament-modules"
+            "url": "./packages/savannabits/filament-modules"
         },
         {
             "type": "composer",
