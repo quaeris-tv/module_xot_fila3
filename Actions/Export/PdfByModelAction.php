@@ -18,7 +18,7 @@ class PdfByModelAction
         Model $model,
         string $filename = 'my_doc.pdf',
         string $disk = 'cache',
-        string $out = 'download'
+        string $out = 'download',
     ): string|BinaryFileResponse {
         $model_class = $model::class;
         $model_name = class_basename($model_class);

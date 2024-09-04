@@ -20,7 +20,7 @@
         "coolsam/panel-modules": "*",
         "doctrine/dbal": "*",
         "fidum/laravel-eloquent-morph-to-one": "*",
-        "filament/filament": "^3.2.92",
+        "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "filament/spatie-laravel-translatable-plugin": "^3.2",
         "guzzlehttp/guzzle": "*",
@@ -85,7 +85,7 @@
         },
         {
             "type": "path",
-            "url": "./packages/savannabits/filament-modules"
+            "url": "./packages/coolsam/panel-modules"
         },
         {
             "type": "composer",
@@ -96,7 +96,8 @@
         "psr-4": {
             "Modules\\Xot\\": "",
             "Modules\\Xot\\Database\\Factories\\": "database/factories/",
-            "Modules\\Xot\\Database\\Seeders\\": "database/seeders/"
+            "Modules\\Xot\\Database\\Seeders\\": "database/seeders/",
+            "Coolsam\\FilamentModules\\": "packages/savannabits/filament-modules/src/"
         },
         "files": [
             "Helpers/Helper.php"
