@@ -26,9 +26,9 @@ curl.cainfo = "PATH/TO/cacert.pem"
 openssl.capath = "PATH/TO/cacert.pem"
 openssl.cafile = "PATH/TO/cacert.pem"
 
-var_dump(openssl_get_cert_locations());
-echo "openssl.cafile: ", ini_get('openssl.cafile'), "\n";
-echo "curl.cainfo: ", ini_get('curl.cainfo'), "\n";
+var_dump(openssl_get_cert_locations());  
+echo "openssl.cafile: ", ini_get('openssl.cafile'), "\n";  
+echo "curl.cainfo: ", ini_get('curl.cainfo'), "\n";  
 
 $http = new GuzzleHttp\Client(['verify' => '/path/to/cacert.pem']);
 $client = new Google_Client();
