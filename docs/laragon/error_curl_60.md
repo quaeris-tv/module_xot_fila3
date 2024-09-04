@@ -23,7 +23,7 @@ curl.cainfo = "PATH/TO/cacert.pem"
  
 
 [openssl]
-openssl.capath = "PATH/TO/cacert.pem"
+openssl.capath = "PATH/TO/cacert.pem"  
 openssl.cafile = "PATH/TO/cacert.pem"
 
 var_dump(openssl_get_cert_locations());  
