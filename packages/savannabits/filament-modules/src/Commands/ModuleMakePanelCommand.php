@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Coolsam\FilamentModules\Commands;
 
 use Filament\Support\Commands\Concerns\CanManipulateFiles;

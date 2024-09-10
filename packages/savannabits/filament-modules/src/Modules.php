@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Coolsam\FilamentModules;
 
 use Filament\Contracts\Plugin;
@@ -19,8 +21,9 @@ class Modules implements Plugin
 
     public function register(Panel $panel): void
     {
-        //
     }
 
-    public function boot(Panel $panel): void {}
+    public function boot(Panel $panel): void
+    {
+    }
 }

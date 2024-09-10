@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Coolsam\FilamentModules\Tests;
 
 use Coolsam\FilamentModules\ModulesServiceProvider;

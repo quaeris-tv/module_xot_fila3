@@ -58,7 +58,8 @@ interface UserContract extends Authorizable, Authenticatable, CanResetPassword, 
     /**
      * Get a relationship.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return mixed|null
      */
     public function getRelationValue($key);
@@ -66,8 +67,9 @@ interface UserContract extends Authorizable, Authenticatable, CanResetPassword, 
     /**
      * Create a new instance of the given model.
      *
-     * @param  array  $attributes
-     * @param  bool  $exists
+     * @param array $attributes
+     * @param bool  $exists
+     *
      * @return static
      */
     public function newInstance($attributes = [], $exists = false);
@@ -82,7 +84,7 @@ interface UserContract extends Authorizable, Authenticatable, CanResetPassword, 
     /**
      * Determine if the model has (one of) the given role(s).
      */
-    public function hasRole(string|int|array|Role|\Illuminate\Support\Collection $roles, string $guard = null): bool;
+    public function hasRole(string|int|array|Role|\Illuminate\Support\Collection $roles, ?string $guard = null): bool;
 
     /**
      * Assign the given role to the model.

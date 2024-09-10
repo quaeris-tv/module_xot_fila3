@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Coolsam\FilamentModules\Extensions;
 
 use Illuminate\Support\Facades\Log;
