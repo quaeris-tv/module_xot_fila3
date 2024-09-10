@@ -26,6 +26,13 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface as ResponseContract;
 use Psr\Http\Message\UriInterface;
 use Request;
+<<<<<<< HEAD
+=======
+use Storage;
+use Symfony\Component\DomCrawler\Crawler;
+use Webmozart\Assert\Assert;
+
+>>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
 use Storage;
 use Symfony\Component\DomCrawler\Crawler;
 use Webmozart\Assert\Assert;

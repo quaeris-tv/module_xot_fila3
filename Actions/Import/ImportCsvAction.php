@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+<<<<<<< HEAD
+=======
+use Spatie\QueueableAction\QueueableAction;
+
+>>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
 use Spatie\QueueableAction\QueueableAction;
 
 use function Safe\ini_set;
