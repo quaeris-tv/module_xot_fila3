@@ -15,6 +15,11 @@ namespace Modules\Xot\Actions\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
+<<<<<<< HEAD
+=======
+use Spatie\QueueableAction\QueueableAction;
+
+>>>>>>> 6bebb798 (up)
 use function Safe\preg_replace;
 
 use Spatie\QueueableAction\QueueableAction;

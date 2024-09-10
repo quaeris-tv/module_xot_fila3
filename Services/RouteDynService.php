@@ -6,6 +6,11 @@ namespace Modules\Xot\Services;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+<<<<<<< HEAD
+=======
+use Webmozart\Assert\Assert;
+
+>>>>>>> 6bebb798 (up)
 use function Safe\preg_replace;
 
 use Webmozart\Assert\Assert;
