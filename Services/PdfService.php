@@ -44,7 +44,7 @@ class PdfService
         include __DIR__.'/vendor/autoload.php';
         // $path = $this->get('path');
         if (! class_exists(PDFMerger::class)) {
-            throw new \Exception('['.__LINE__.']['.__FILE__.']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $pdfMerger = new PDFMerger;

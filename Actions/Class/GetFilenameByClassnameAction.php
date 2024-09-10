@@ -28,6 +28,6 @@ class GetFilenameByClassnameAction
         if (is_string($filename)) {
             return $filename;
         }
-        throw new \Exception('['.__LINE__.']['.__FILE__.']['.$class_name.']');
+        throw new \Exception('['.__LINE__.']['.class_basename($this).']['.$class_name.']');
     }
 }

@@ -9,6 +9,8 @@ use RuntimeException;
 use Illuminate\View\Component;
 use Modules\Xot\Actions\GetViewAction;
 use Illuminate\Contracts\Support\Renderable;
+use function Safe\ob_start;
+use function Safe\ob_end_clean;
 
 // use Modules\Xot\View\Components\XotBaseComponent;
 
@@ -62,7 +64,7 @@ class XDebug extends Component
 
         $out1 = ob_get_contents();
         ob_end_clean();
-        return $out1;
+        return (string)$out1;
     }
 
 }

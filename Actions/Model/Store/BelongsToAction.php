@@ -16,7 +16,7 @@ class BelongsToAction
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
         if (! $relationDTO->rows instanceof BelongsTo) {
-            throw new \Exception('['.__LINE__.']['.__FILE__.']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $related = $relationDTO->rows->create($relationDTO->data);

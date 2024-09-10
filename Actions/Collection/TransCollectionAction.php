@@ -50,7 +50,7 @@ class TransCollectionAction
             return $trans;
         }
 
-        Assert::string($item1 = Str::replace('.', '_', $item), '['.__LINE__.']['.__FILE__.']');
+        Assert::string($item1 = Str::replace('.', '_', $item), '['.__LINE__.']['.class_basename($this).']');
         $key = $transKey.'.'.$item1;
         $trans = trans($key);
         if ($trans !== $key) {

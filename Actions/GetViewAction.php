@@ -40,7 +40,7 @@ class GetViewAction
         )->implode('.');
 
         $pub_view = 'pub_theme::'.$tmp;
-        Assert::string($pub_view, '['.__LINE__.']['.__FILE__.']');
+        Assert::string($pub_view, '['.__LINE__.']['.class_basename($this).']');
 
         if ($tpl !== '') {
             $pub_view .= '.'.$tpl;
@@ -63,7 +63,7 @@ class GetViewAction
         }
 
         // }
-        Assert::string($view, '['.__LINE__.']['.__FILE__.']');
+        Assert::string($view, '['.__LINE__.']['.class_basename($this).']');
         if (! view()->exists($view)) {
             throw new \Exception('View ['.$view.'] not found');
         }

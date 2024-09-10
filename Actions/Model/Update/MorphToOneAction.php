@@ -21,7 +21,7 @@ class MorphToOneAction
     {
         // dddx(['row' => $row, 'relation' => $relation]);
         if (! $relationDTO->rows instanceof MorphToOne) {
-            throw new \Exception('['.__LINE__.']['.__FILE__.']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $rows = $relationDTO->rows;

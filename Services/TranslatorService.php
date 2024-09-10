@@ -176,7 +176,7 @@ class TranslatorService extends BaseTranslator
                     'data' => $data,
                 ]
             );
-            throw new \Exception('['.__LINE__.']['.__FILE__.']');
+            throw new \Exception('['.__LINE__.']['.class_basename(static::class).']');
         }
 
         $merged = collect($original)

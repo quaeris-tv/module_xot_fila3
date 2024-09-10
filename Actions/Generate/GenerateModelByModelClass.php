@@ -38,7 +38,7 @@ class GenerateModelByModelClass
         }
         $content = str_replace(' extends Model', ' extends BaseModel', $content);
         $content = str_replace('use HasFactory;', '', $content);
-        Assert::string($content, '['.__LINE__.']['.__FILE__.']');
+        Assert::string($content, '['.__LINE__.']['.class_basename($this).']');
 
         if ($content != $content_old) {
             File::put($filename, $content);
@@ -48,7 +48,7 @@ class GenerateModelByModelClass
     public function replaceDummyTable(string $value, string $content): string
     {
         $table_start = strpos($content, 'protected $table');
-        Assert::integer($fillable_start = strpos($content, 'protected $fillable'), '['.__LINE__.']['.__FILE__.']');
+        Assert::integer($fillable_start = strpos($content, 'protected $fillable'), '['.__LINE__.']['.class_basename($this).']');
         $fillable_end = strpos($content, '];', $fillable_start);
         if ($table_start === false) {
             $before = substr($content, 0, $fillable_end + 2);

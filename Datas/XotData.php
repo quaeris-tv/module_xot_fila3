@@ -76,6 +76,8 @@ class XotData extends Data implements Wireable
 
     public ?string $super_admin = null;
 
+    public string $video_player = 'html5';
+
     private static ?self $instance = null;
 
     /**
@@ -101,8 +103,8 @@ class XotData extends Data implements Wireable
         $class = config('auth.providers.users.model');
         Assert::stringNotEmpty($class, 'check config auth');
         Assert::classExists($class, 'check config auth');
-        Assert::implementsInterface($class, UserContract::class, '['.__LINE__.']['.__FILE__.']');
-        Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
+        Assert::implementsInterface($class, UserContract::class, '['.__LINE__.']['.class_basename($this).']');
+        Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
 
         return $class;
     }
@@ -112,11 +114,11 @@ class XotData extends Data implements Wireable
      */
     public function getTeamClass(): string
     {
-        Assert::classExists($class = $this->team_class, '['.__LINE__.']['.__FILE__.']');
-        // Assert::isInstanceOf($team_class, Model::class, '['.__LINE__.']['.__FILE__.']');
-        Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
-        Assert::implementsInterface($class, TeamContract::class, '['.__LINE__.']['.__FILE__.']');
-        Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
+        Assert::classExists($class = $this->team_class, '['.__LINE__.']['.class_basename($this).']');
+        // Assert::isInstanceOf($team_class, Model::class, '['.__LINE__.']['.class_basename($this).']');
+        Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
+        Assert::implementsInterface($class, TeamContract::class, '['.__LINE__.']['.class_basename($this).']');
+        Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
 
         return $class;
     }
@@ -128,11 +130,11 @@ class XotData extends Data implements Wireable
      */
     public function getTenantClass(): string
     {
-        Assert::classExists($class = $this->tenant_class, '['.$class.']['.__LINE__.']['.__FILE__.']');
-        // Assert::isInstanceOf($class, Model::class, '['.__LINE__.']['.__FILE__.']');
-        Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
-        Assert::implementsInterface($class, TenantContract::class, '['.__LINE__.']['.__FILE__.']');
-        Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
+        Assert::classExists($class = $this->tenant_class, '['.$class.']['.__LINE__.']['.class_basename($this).']');
+        // Assert::isInstanceOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']');
+        Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
+        Assert::implementsInterface($class, TenantContract::class, '['.__LINE__.']['.class_basename($this).']');
+        Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
 
         return $class;
     }
@@ -146,7 +148,7 @@ class XotData extends Data implements Wireable
             ->replace('\Models\\', '\Filament\Resources\\')
             ->append('Resource')
             ->toString();
-        Assert::classExists($class, '['.__LINE__.']['.__FILE__.']');
+        Assert::classExists($class, '['.$class.']['.__LINE__.']['.class_basename($this).']');
 
         return $class;
     }
@@ -154,7 +156,7 @@ class XotData extends Data implements Wireable
     public function getTenantPivotClass(): string
     {
         $class = $this->tenant_pivot_class;
-        Assert::classExists($class, '['.__LINE__.']['.__FILE__.']');
+        Assert::classExists($class, '['.__LINE__.']['.class_basename($this).']');
 
         return $class;
     }
@@ -162,7 +164,7 @@ class XotData extends Data implements Wireable
     public function getMembershipClass(): string
     {
         $class = $this->membership_class;
-        Assert::classExists($class, '['.__LINE__.']['.__FILE__.']');
+        Assert::classExists($class, '['.__LINE__.']['.class_basename($this).']');
 
         return $class;
     }
@@ -173,10 +175,10 @@ class XotData extends Data implements Wireable
     public function getProfileClass(): string
     {
         $class = 'Modules\\'.$this->main_module.'\Models\Profile';
-        Assert::classExists($class, '['.$class.']['.__LINE__.']['.__FILE__.']');
-        // Assert::isInstanceOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
-        Assert::isAOf($class, Model::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
-        Assert::implementsInterface($class, ProfileContract::class, '['.__LINE__.']['.__FILE__.']['.$class.']');
+        Assert::classExists($class, '['.$class.']['.__LINE__.']['.class_basename($this).']');
+        // Assert::isInstanceOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
+        Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
+        Assert::implementsInterface($class, ProfileContract::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
 
         return $class;
     }
@@ -216,7 +218,7 @@ class XotData extends Data implements Wireable
         }
         $user_id = (string) authId();
 
-        Assert::isInstanceOf($this->profile = $this->getProfileModelByUserId($user_id), ProfileContract::class, '['.__LINE__.']['.__FILE__.']');
+        Assert::isInstanceOf($this->profile = $this->getProfileModelByUserId($user_id), ProfileContract::class, '['.__LINE__.']['.class_basename($this).']');
 
         return $this->profile;
     }

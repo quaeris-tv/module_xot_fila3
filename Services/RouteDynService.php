@@ -68,11 +68,11 @@ class RouteDynService
 
         $as = mb_strtolower((string) $v['name']).'';
         $as = str_replace('/', '.', $as);
-        Assert::string($as = preg_replace('/{.*}./', '', $as), '['.__LINE__.']['.__FILE__.']');
+        Assert::string($as = preg_replace('/{.*}./', '', $as), '['.__LINE__.']['.class_basename(static::class).']');
 
         $as = str_replace('{', '', $as);
         $as = str_replace('}', '', $as);
-        Assert::string($as, '['.__LINE__.']['.__FILE__.']');
+        Assert::string($as, '['.__LINE__.']['.class_basename(static::class).']');
 
         return $as.'.';
     }

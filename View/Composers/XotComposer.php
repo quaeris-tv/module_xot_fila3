@@ -39,7 +39,7 @@ class XotComposer
             throw new \Exception('create a View\Composers\ThemeComposer.php inside a module with ['.$name.'] method');
         }
 
-        Assert::isInstanceOf($module, \Nwidart\Modules\Module::class, '['.__LINE__.']['.__FILE__.']');
+        Assert::isInstanceOf($module, \Nwidart\Modules\Module::class, '['.__LINE__.']['.class_basename($this).']');
         $class = '\Modules\\'.$module->getName().'\View\Composers\ThemeComposer';
         // Parameter #1 $callback of function call_user_func_array expects callable(): mixed, array{*NEVER*, string} given.
         $app = app($class);

@@ -54,6 +54,6 @@ class CoolModulesServiceProvider extends PackageServiceProvider
             }
         });
 
-        return parent::register();
+        parent::register();
     }
 }

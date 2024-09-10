@@ -421,7 +421,7 @@ if (! function_exists('getModelByName')) {
         $files_path = base_path('Modules').'/*/Models/*.php';
         $files = glob($files_path);
         if (false == $files) {
-            throw new Exception('['.__LINE__.']['.__FILE__.']');
+            throw new Exception('['.__LINE__.']['.class_basename($this).']');
         }
         $path = collect($files)->first(
             function ($file) use ($name) {
@@ -436,7 +436,7 @@ if (! function_exists('getModelByName')) {
         // dddx($registered);
 
         if (null === $path) {
-            throw new Exception('['.$name.'] not in morph_map ['.__LINE__.']['.__FILE__.']');
+            throw new Exception('['.$name.'] not in morph_map ['.__LINE__.']['.class_basename($this).']');
         }
         $path = FileService::fixPath($path);
         $info = pathinfo($path);
@@ -452,7 +452,7 @@ if (! function_exists('getUserClass')) {
     {
         $class = config('auth.providers.users.model');
         if (! is_string($class)) {
-            throw new Exception('['.__LINE__.']['.__FILE__.']');
+            throw new Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         return $class;
@@ -502,7 +502,7 @@ if (! function_exists('getModuleNameFromModelName')) {
     {
         $model_class = config('morph_map.'.$model_name);
         if (! is_string($model_class)) {
-            throw new Exception('['.__LINE__.']['.__FILE__.']');
+            throw new Exception('['.__LINE__.']['.class_basename($this).']');
         }
         $model = app($model_class);
 
@@ -595,7 +595,7 @@ if (! function_exists('xotModel')) {
         // return TenantService::model($name);
         $model_class = config('morph_map.'.$name);
         if (! is_string($model_class)) {
-            throw new Exception('['.__LINE__.']['.__FILE__.']');
+            throw new Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         return app($model_class);
@@ -734,7 +734,7 @@ if (! function_exists('transFields')) {
                 'e' => $e,
             ]);
             */
-            throw new Exception(''.PHP_EOL.'['.$name.']'.PHP_EOL.'['.$e->getMessage().']'.PHP_EOL.'['.__LINE__.']['.__FILE__.']');
+            throw new Exception(''.PHP_EOL.'['.$name.']'.PHP_EOL.'['.$e->getMessage().']'.PHP_EOL.'['.__LINE__.']['.class_basename($this).']');
         }
 
         return $ris;

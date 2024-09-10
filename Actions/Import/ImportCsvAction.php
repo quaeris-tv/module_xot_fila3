@@ -101,7 +101,7 @@ class ImportCsvAction
                 break;
             default:
                 echo '<h3>carattere non riconosciuto ['.$str1.']['.\ord($str1).']['.$str.'] Aggiungerlo </h3>';
-                exit('<hr/>['.__LINE__.']['.__FILE__.']');
+                exit('<hr/>['.__LINE__.']['.class_basename($this).']');
                 // break;
         }
 

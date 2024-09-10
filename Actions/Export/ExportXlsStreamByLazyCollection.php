@@ -37,7 +37,7 @@ class ExportXlsStreamByLazyCollection
 
                 foreach ($data as $key => $value) {
                     // if(!method_exists($value,'toArray')){
-                    //    throw new \Exception('WIP['.__LINE__.']['.__FILE__.']');
+                    //    throw new \Exception('WIP['.__LINE__.']['.class_basename($this).']');
                     // }
                     /** @phpstan-ignore-next-line */
                     $data = $value->toArray();
@@ -74,7 +74,7 @@ class ExportXlsStreamByLazyCollection
                         return $trans;
                     }
 
-                    Assert::string($item1 = Str::replace('.', '_', $item), '['.__LINE__.']['.__FILE__.']');
+                    Assert::string($item1 = Str::replace('.', '_', $item), '['.__LINE__.']['.__CLASS__.']');
                     $key = $transKey.'.fields.'.$item1;
                     $trans = trans($key);
                     if ($trans !== $key) {
