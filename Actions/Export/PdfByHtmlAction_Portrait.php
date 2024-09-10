@@ -17,7 +17,7 @@ class PdfByHtmlAction_Portrait
         string $html,
         string $filename = 'my_doc.pdf',
         string $disk = 'cache',
-        string $out = 'download'
+        string $out = 'download',
     ): string|BinaryFileResponse {
         $html2pdf = new Html2Pdf('P', 'A4', 'it');
         $html2pdf->setTestTdInOnePage(false);

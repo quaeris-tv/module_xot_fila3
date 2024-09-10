@@ -11,4 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @phpstan-require-extends Model
  */
-interface WithStateStatusContract {}
+interface WithStateStatusContract
+{
+}

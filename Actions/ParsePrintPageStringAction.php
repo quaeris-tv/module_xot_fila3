@@ -23,8 +23,8 @@ class ParsePrintPageStringAction
 
         $n = count($matches[0]);
         $res = [];
-        for ($i = 0; $i < $n; $i++) {
-            if ($matches[2][$i] === '') {
+        for ($i = 0; $i < $n; ++$i) {
+            if ('' === $matches[2][$i]) {
                 $res[] = (int) $matches[1][$i];
             } else {
                 $res = array_merge($res, self::fromTo((int) $matches[1][$i], (int) $matches[2][$i]));
@@ -37,7 +37,7 @@ class ParsePrintPageStringAction
     public static function fromTo(int $from, int $to): array
     {
         $res = [];
-        for ($i = $from; $i <= $to; $i++) {
+        for ($i = $from; $i <= $to; ++$i) {
             $res[] = $i;
         }
 

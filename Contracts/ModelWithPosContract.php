@@ -26,30 +26,32 @@ use Spatie\ModelStatus\Status;
  * @property UserContract|null        $user
  * @property string                   $status
  * @property Collection|array<Status> $statuses
- * @property int|null $statuses_count
- * @property int|null $pos
+ * @property int|null                 $statuses_count
+ * @property int|null                 $pos
  *
- * @method mixed getKey()
- * @method string getRouteKey()
- * @method string getRouteKeyName()
- * @method string getTable()
- * @method mixed with($array)
- * @method array getFillable()
- * @method mixed fill($array)
- * @method mixed getConnection()
- * @method mixed update($params)
- * @method mixed delete()
- * @method mixed detach($params)
- * @method mixed attach($params)
- * @method mixed save($params)
- * @method array treeLabel()
- * @method array treeSons()
- * @method int treeSonsCount()
- * @method array toArray()
+ * @method mixed     getKey()
+ * @method string    getRouteKey()
+ * @method string    getRouteKeyName()
+ * @method string    getTable()
+ * @method mixed     with($array)
+ * @method array     getFillable()
+ * @method mixed     fill($array)
+ * @method mixed     getConnection()
+ * @method mixed     update($params)
+ * @method mixed     delete()
+ * @method mixed     detach($params)
+ * @method mixed     attach($params)
+ * @method mixed     save($params)
+ * @method array     treeLabel()
+ * @method array     treeSons()
+ * @method int       treeSonsCount()
+ * @method array     toArray()
  * @method BelongsTo user()
  *
  * @phpstan-require-extends Model
  *
  * @mixin \Eloquent
  */
-interface ModelWithPosContract {}
+interface ModelWithPosContract
+{
+}

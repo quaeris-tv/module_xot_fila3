@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Xot\View\Components;
 
-use Safe\filter;
-use RuntimeException;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\View\Component;
 use Modules\Xot\Actions\GetViewAction;
-use Illuminate\Contracts\Support\Renderable;
-use function Safe\ob_start;
+use Safe\filter;
+
 use function Safe\ob_end_clean;
+use function Safe\ob_start;
 
 // use Modules\Xot\View\Components\XotBaseComponent;
 
@@ -22,7 +22,7 @@ class XDebug extends Component
     public function __construct(
         // public Post $article,
         // public bool $showAuthor = false,
-        public string $tpl = 'v1'
+        public string $tpl = 'v1',
     ) {
     }
 
@@ -44,14 +44,12 @@ class XDebug extends Component
     public function debugStack(): string
     {
         if (! extension_loaded('xdebug')) {
-            throw new RuntimeException('XDebug must be installed to use this function');
+            throw new \RuntimeException('XDebug must be installed to use this function');
         }
 
         ob_start();
 
-        echo "Hello ";
-
-
+        echo 'Hello ';
 
         // xdebug_set_filter(
         //     XDEBUG_FILTER_TRACING,
@@ -64,7 +62,7 @@ class XDebug extends Component
 
         $out1 = ob_get_contents();
         ob_end_clean();
-        return (string)$out1;
-    }
 
+        return (string) $out1;
+    }
 }
