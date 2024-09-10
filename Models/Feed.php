@@ -17,16 +17,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Feed newQuery()
  * @method static Builder|Feed query()
  *
- * @property-read \Modules\Fixcity\Models\Profile|null $creator
- * @property-read \Modules\Fixcity\Models\Profile|null $updater
-<<<<<<< HEAD
- *
- * @property \Modules\Fixcity\Models\Profile|null        $creator
- * @property \Modules\Fixcity\Models\Profile|null        $updater
  * @property \Modules\Xot\Contracts\ProfileContract|null $creator
  * @property \Modules\Xot\Contracts\ProfileContract|null $updater
-=======
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
  *
  * @mixin \Eloquent
  */

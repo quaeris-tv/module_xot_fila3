@@ -20,13 +20,8 @@ use Illuminate\Support\Carbon;
  * @property string|null $updated_by
  * @property string|null $title
  * @property PivotContract|null $pivot
-<<<<<<< HEAD
  * @property string             $tennant_name
  * @property UserContract|null  $user
-=======
- * @property string $tennant_name
- * @property User|null $user
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
  *
  * @method mixed getKey()
  * @method string getRouteKey()

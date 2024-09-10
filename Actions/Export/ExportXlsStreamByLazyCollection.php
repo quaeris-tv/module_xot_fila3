@@ -6,21 +6,7 @@ namespace Modules\Xot\Actions\Export;
 
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
-<<<<<<< HEAD
 
-=======
-use Spatie\QueueableAction\QueueableAction;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Webmozart\Assert\Assert;
-
-<<<<<<< HEAD
-use Spatie\QueueableAction\QueueableAction;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Webmozart\Assert\Assert;
-
-=======
->>>>>>> 9f602e2 (up)
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
 use function Safe\fclose;
 use function Safe\fopen;
 use function Safe\fputcsv;
@@ -36,8 +22,8 @@ class ExportXlsStreamByLazyCollection
     public function execute(
         LazyCollection $data,
         string $filename = 'test.csv',
-        ?string $transKey = null,
-        ?array $fields = null,
+        string $transKey = null,
+        array $fields = null,
     ): StreamedResponse {
         $headers = [
             'Content-Disposition' => 'attachment; filename='.$filename,
@@ -79,7 +65,7 @@ class ExportXlsStreamByLazyCollection
          */
         $head = $data->first();
         $headings = collect($head)->keys();
-        if ($transKey !== null) {
+        if (null !== $transKey) {
             $headings = $headings->map(
                 static function (string $item) use ($transKey) {
                     $key = $transKey.'.fields.'.$item;

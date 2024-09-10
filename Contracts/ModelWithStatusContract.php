@@ -14,7 +14,6 @@ use Spatie\ModelStatus\Status;
 /**
  * Modules\Xot\Contracts\ModelWithStatusContract.
  *
-<<<<<<< HEAD
  * @property int                      $id
  * @property int|null                 $user_id
  * @property string|null              $post_type
@@ -27,20 +26,6 @@ use Spatie\ModelStatus\Status;
  * @property string                   $tennant_name
  * @property UserContract|null        $user
  * @property string                   $status
-=======
- * @property int $id
- * @property int|null $user_id
- * @property string|null $post_type
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property string|null $created_by
- * @property string|null $updated_by
- * @property string|null $title
- * @property PivotContract|null $pivot
- * @property string $tennant_name
- * @property User|null $user
- * @property string $status
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
  * @property Collection|array<Status> $statuses
  * @property int|null $statuses_count
  *

@@ -19,21 +19,12 @@ class SqlService
         ?string $from_field = null,
         ?string $to_field = null,
     ): string {
-<<<<<<< HEAD
         if (null === $from_field) {
             Assert::string($from_field = $model->getAttributeValue('from_field'));
         }
 
         if (null === $to_field) {
             Assert::string($to_field = $model->getAttributeValue('to_field'));
-=======
-        if ($from_field === null) {
-            $from_field = $model->getAttributeValue('from_field');
-        }
-
-        if ($to_field === null) {
-            $to_field = $model->getAttributeValue('to_field');
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
         }
 
         if ($date_min !== null) {

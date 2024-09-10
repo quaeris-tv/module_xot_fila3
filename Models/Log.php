@@ -29,13 +29,8 @@ use Illuminate\Support\Facades\File;
  * @method static Builder|Log whereName($value)
  * @method static Builder|Log whereSize($value)
  *
-<<<<<<< HEAD
  * @property \Modules\Xot\Contracts\ProfileContract|null $creator
  * @property \Modules\Xot\Contracts\ProfileContract|null $updater
-=======
- * @property-read \Modules\Fixcity\Models\Profile|null $creator
- * @property-read \Modules\Fixcity\Models\Profile|null $updater
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
  *
  * @mixin \Eloquent
  */

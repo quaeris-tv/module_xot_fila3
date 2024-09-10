@@ -11,17 +11,6 @@ namespace Modules\Xot\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-<<<<<<< HEAD
-
-=======
-use Webmozart\Assert\Assert;
-
-<<<<<<< HEAD
-use Webmozart\Assert\Assert;
-
-=======
->>>>>>> 9f602e2 (up)
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
 use function Safe\exec;
 
 use Webmozart\Assert\Assert;

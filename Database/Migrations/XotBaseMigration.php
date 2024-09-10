@@ -27,13 +27,7 @@ abstract class XotBaseMigration extends Migration
 
     public function __construct()
     {
-<<<<<<< HEAD
-        $trace = debug_backtrace();
-
         if (null == $this->model_class) {
-=======
-        if ($this->model_class == null) {
->>>>>>> ea98aa92 (🔧 (gitignore): remove duplicate entries and resolve conflict markers in .gitignore file)
             $this->model_class = $this->getModel();
         }
         $this->model = app($this->model_class);
