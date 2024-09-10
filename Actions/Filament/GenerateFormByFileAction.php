@@ -8,13 +8,6 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\Filament;
 
 use Illuminate\Support\Str;
-<<<<<<< HEAD
-=======
-use Spatie\QueueableAction\QueueableAction;
-
-use Symfony\Component\Finder\SplFileInfo as File;
-use Webmozart\Assert\Assert;
->>>>>>> 6bebb798 (up)
 
 use function Safe\file;
 

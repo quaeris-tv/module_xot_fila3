@@ -11,11 +11,6 @@ namespace Modules\Xot\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-<<<<<<< HEAD
-=======
-use Webmozart\Assert\Assert;
-
->>>>>>> 6bebb798 (up)
 use function Safe\exec;
 
 use Webmozart\Assert\Assert;
