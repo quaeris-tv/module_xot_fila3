@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
+
 /**
  * Model Extra.
  *
@@ -12,13 +14,13 @@ namespace Modules\Xot\Models;
  * @property string|null                                       $model_type
  * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
  *
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel disableCache()
- * @method static \Modules\Xot\Database\Factories\ExtraFactory    factory($count = null, $state = [])
- * @method static Builder|Extra                                   newModelQuery()
- * @method static Builder|Extra                                   newQuery()
- * @method static Builder|Extra                                   query()
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel withCacheCooldownSeconds(?int $seconds = null)
- * @method static Builder|Extra                                   withExtraAttributes()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel       disableCache()
+ * @method static \Modules\Xot\Database\Factories\ExtraFactory          factory($count = null, $state = [])
+ * @method static \Illuminate\Contracts\Database\Eloquent\Builder|Extra newModelQuery()
+ * @method static Builder|Extra                                         newQuery()
+ * @method static Builder|Extra                                         query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel       withCacheCooldownSeconds(?int $seconds = null)
+ * @method static Builder|Extra                                         withExtraAttributes()
  *
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at

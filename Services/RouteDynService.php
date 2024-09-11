@@ -16,7 +16,7 @@ use Webmozart\Assert\Assert;
  */
 class RouteDynService
 {
-    private static ?string $namespace_start = '';
+    private static string $namespace_start = '';
 
     // :24    Static property Modules\Xot\Services\RouteDynService::$curr is never read, only written.
     // private static ?string $curr = null;
