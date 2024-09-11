@@ -164,7 +164,7 @@ if (! function_exists('dddx')) {
         $file = $tmp[0]['file'] ?? 'file-unknown';
         $file = str_replace('/', DIRECTORY_SEPARATOR, $file);
 
-        $doc_root = $_SERVER['DOCUMENT_ROOT'];
+        Assert::string($doc_root = $_SERVER['DOCUMENT_ROOT']);
         $doc_root = str_replace('/', DIRECTORY_SEPARATOR, (string) $doc_root);
 
         $dir_piece = explode(DIRECTORY_SEPARATOR, __DIR__);

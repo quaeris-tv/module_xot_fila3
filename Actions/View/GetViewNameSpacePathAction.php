@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\View;
 
+use Modules\Xot\Datas\XotData;
 use Spatie\QueueableAction\QueueableAction;
 
 class GetViewNameSpacePathAction
@@ -15,6 +16,7 @@ class GetViewNameSpacePathAction
      */
     public function execute(string $ns): string
     {
+        $xot = XotData::make();
         $finder = view()->getFinder();
         $viewHints = [];
         if (method_exists($finder, 'getHints')) {
@@ -26,7 +28,7 @@ class GetViewNameSpacePathAction
         }
 
         if (\in_array($ns, ['pub_theme', 'adm_theme'], false)) {
-            $theme_name = config('xra.'.$ns);
+            $theme_name = $xot->{$ns};
 
             return base_path('Themes/'.$theme_name);
         }

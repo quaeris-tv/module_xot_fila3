@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\Array\SaveArrayAction;
+use Modules\Xot\Datas\XotData;
 use Nwidart\Modules\Facades\Module;
 
 use function Safe\json_decode;
@@ -56,7 +57,7 @@ class FileService
             viewNamespaceToAsset    => http://example.com/images/prova.png
         */
         // dddx(\Module::asset('blog:img/logo.img')); //localhost/modules/blog/img/logo.img
-
+        $xot = XotData::make();
         if (Str::startsWith($path, 'https://')) {
             return $path;
         }
@@ -92,7 +93,7 @@ class FileService
         }
 
         if (\in_array($ns, ['pub_theme', 'adm_theme'], false)) {
-            $theme = config('xra.'.$ns);
+            $theme = $xot->{$ns};
 
             $filename_from = self::fixPath(base_path('Themes/'.$theme.'/Resources/'.$ns_after));
             // $filename_from = Str::replace('/Resources//', '/Resources/', $filename_from);
@@ -178,6 +179,7 @@ class FileService
 
     public static function getViewNameSpacePath(string $ns): ?string
     {
+        $xot = XotData::make();
         $finder = view()->getFinder();
         $viewHints = [];
         if (method_exists($finder, 'getHints')) {
@@ -189,7 +191,7 @@ class FileService
         }
 
         if (\in_array($ns, ['pub_theme', 'adm_theme'], false)) {
-            $theme_name = config('xra.'.$ns);
+            $theme_name = $xot->{$ns};
 
             return base_path('Themes/'.$theme_name);
         }
@@ -225,7 +227,7 @@ class FileService
             $path = self::getViewNameSpacePath($ns);
         } else {
             $module_path = Module::getModulePath($ns);
-            $view_dir = config('modules.paths.generator.views.path');
+            Assert::string($view_dir = config('modules.paths.generator.views.path'));
             $path = $module_path.$view_dir;
         }
 
@@ -374,10 +376,11 @@ class FileService
 
     public static function viewThemeNamespaceToAsset(string $key): string
     {
+        $xot = XotData::make();
         $ns_name = Str::before($key, '::');
         // $ns_dir = View::getFinder()->getHints()[$ns_name][0];
         $ns_dir = self::getViewNameSpacePath($ns_name);
-        $ns_name = config('xra.'.$ns_name);
+        $ns_name = $xot->{$ns_name};
         $tmp = Str::after($key, '::');
         $tmp0 = Str::before($tmp, '/');
         $tmp1 = Str::after($tmp, '/');
@@ -555,11 +558,12 @@ class FileService
 
     public static function getFileUrl(string $path): string
     {
+        // $xot=XotData::make();
         if (Str::startsWith($path, '//')) {
         } elseif (Str::startsWith($path, '/')) {
             $path = mb_substr($path, 1);
         }
-
+        /*
         $str = 'theme/bc/';
         if (Str::startsWith($path, $str)) {
             return asset('/bc/'.mb_substr($path, mb_strlen($str)));
@@ -576,6 +580,7 @@ class FileService
         if (Str::startsWith($path, $str)) {
             return asset('/themes/'.$theme.'/'.mb_substr($path, mb_strlen($str)));
         }
+            */
 
         return ''.$path;
     }
@@ -653,6 +658,7 @@ class FileService
 
     // */
 
+    /*
     public static function getRealFile(string $path): string
     {
         $filename = '';
@@ -708,6 +714,7 @@ class FileService
 
         return ''.$path;
     }
+    */
 
     public static function allDirectories(string $path, array $except = [], string $dir = ''): array
     {

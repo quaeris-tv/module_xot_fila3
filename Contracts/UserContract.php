@@ -9,7 +9,6 @@ use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -31,8 +30,6 @@ use Spatie\Permission\Contracts\Role;
  * @property string|int|null                                                            $current_team_id
  * @property string|null                                                                $phone
  * @property string|null                                                                $email
- * @property Collection|array<\Modules\User\Models\Area>                                $areas
- * @property \Modules\User\Models\Perm\Modules\Xot\Contracts\UserContract|null          $perm
  * @property \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\Role>   $roles
  * @property \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\Tenant> $tenants
  *
