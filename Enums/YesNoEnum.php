@@ -10,8 +10,8 @@ use Filament\Support\Contracts\HasLabel;
 
 enum YesNoEnum: string implements HasColor, HasIcon, HasLabel
 {
-    case YES = 'f';
-    case NO = 'm';
+    case YES = 'yes';
+    case NO = 'no';
 
     public function getLabel(): string
     {
