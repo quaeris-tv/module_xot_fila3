@@ -13,7 +13,7 @@ enum YesNoEnum: string implements HasColor, HasIcon, HasLabel
     case YES = 'f';
     case NO = 'm';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::YES => 'yes',
@@ -21,7 +21,7 @@ enum YesNoEnum: string implements HasColor, HasIcon, HasLabel
         };
     }
 
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::YES => 'success',
@@ -29,7 +29,7 @@ enum YesNoEnum: string implements HasColor, HasIcon, HasLabel
         };
     }
 
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::YES => 'fas-check',
