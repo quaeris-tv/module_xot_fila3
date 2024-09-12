@@ -400,7 +400,8 @@ if (! function_exists('params2ContainerItem')) {
         foreach ($params as $k => $v) {
             $pattern = '/(container|item)(\d+)/';
             preg_match($pattern, $k, $matches);
-            if (isset($matches[1]) && isset($matches[2])) {
+
+            if (is_array($matches) && isset($matches[1]) && isset($matches[2])) {
                 $sk = $matches[1];
                 $sv = $matches[2];
                 ${$sk}[$sv] = $v;
@@ -497,11 +498,6 @@ if (! function_exists('getModuleFromModel')) {
 if (! function_exists('getModuleNameFromModel')) {
     function getModuleNameFromModel(object $model): string
     {
-        if (! is_object($model)) {
-            dddx(['model' => $model]);
-            throw new Exception('model is not an object');
-        }
-
         $class = $model::class;
 
         return Str::before(Str::after($class, 'Modules\\'), '\\Models\\');

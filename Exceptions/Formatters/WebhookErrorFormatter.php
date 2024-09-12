@@ -19,13 +19,19 @@ class WebhookErrorFormatter
 
     public function format(): array
     {
+        $user = Auth::user();
+        $email = 'CLI User';
+        if (null != $user) {
+            $email = $user->email;
+        }
+
         return [
             'exception' => '`'.$this->exception::class.sprintf('` (Code `%s`)', $this->exception->getCode()),
             'thrown_in' => sprintf('`%s`:%d', $this->exception->getFile(), $this->exception->getLine()),
             'user' => sprintf(
                 '%d <%s>',
                 Auth::id(),
-                Auth::user()?->email ?? 'CLI User'
+                $email
             ),
             'ip' => request()->ip(),
             // Request::ip();

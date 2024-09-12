@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions;
 
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class GetModelClassByModelTypeAction
 {
@@ -24,6 +25,8 @@ class GetModelClassByModelTypeAction
             throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
-        return collect($morph_map)->get($model_type);
+        Assert::string($res = collect($morph_map)->get($model_type));
+
+        return $res;
     }
 }

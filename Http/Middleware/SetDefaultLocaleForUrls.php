@@ -20,7 +20,11 @@ class SetDefaultLocaleForUrls
      */
     public function handle(Request $request, \Closure $next): Response
     {
-        $lang = $request->user()?->locale ?? app()->getLocale();
+        $user = $request->user();
+        $lang = app()->getLocale();
+        if (null != $user) {
+            $lang = $user->lang ?? app()->getLocale();
+        }
 
         URL::defaults(['lang' => $lang]);
 
