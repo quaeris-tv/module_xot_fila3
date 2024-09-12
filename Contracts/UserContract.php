@@ -114,4 +114,6 @@ interface UserContract extends Authorizable, Authenticatable, CanResetPassword, 
      * Get all of the tenants the user belongs to.
      */
     public function tenants(): BelongsToMany;
+
+    public function canAccessSocialite(): bool;
 }
