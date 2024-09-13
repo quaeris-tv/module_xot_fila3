@@ -33,7 +33,7 @@ class GenerateFormByFileAction
         }
 
         $class_name = Str::replace(base_path('Modules/'), 'Modules/', $file->getPathname());
-        Assert::string($class_name = Str::replace('/', '\\', $class_name), '['.__LINE__.']['.__FILE__.']');
+        Assert::string($class_name = Str::replace('/', '\\', $class_name), '['.__LINE__.']['.class_basename($this).']');
         $class_name = Str::substr($class_name, 0, -4);
         $model_name = app($class_name)->getModel();
         $fillable = app($model_name)->getFillable();
@@ -44,7 +44,7 @@ class GenerateFormByFileAction
         $start_line = $form_method->getStartLine() - 1; // it's actually - 1, otherwise you wont get the function() block
         $end_line = $form_method->getEndLine();
         $length = $end_line - $start_line;
-        Assert::string($file_name = $form_method->getFileName(), '['.__LINE__.']['.__FILE__.']');
+        Assert::string($file_name = $form_method->getFileName(), '['.__LINE__.']['.class_basename($this).']');
         // $contents= $file->getContents();
         $source = file($file_name);
         $body = implode('', \array_slice($source, $start_line, $length));

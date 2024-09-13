@@ -7,6 +7,7 @@ namespace Modules\Xot\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -17,6 +18,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Modules\User\Filament\Pages\MyProfilePage;
 use Modules\Xot\Actions\Filament\GetModulesNavigationItems;
 use Modules\Xot\Datas\MetatagData;
 use Modules\Xot\Filament\Pages\MainDashboard;
@@ -53,6 +55,7 @@ abstract class XotBaseMainPanelProvider extends PanelProvider
             ->pages(
                 [
                     MainDashboard::class,
+                    MyProfilePage::class,
                 ]
             )
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
@@ -83,6 +86,14 @@ abstract class XotBaseMainPanelProvider extends PanelProvider
         $navs = app(GetModulesNavigationItems::class)->execute();
 
         $panel->navigationItems($navs);
+
+        $panel->userMenuItems([
+            // 'account' => MenuItem::make()->url($profile_url),
+            MenuItem::make()
+                ->label('Account')
+                ->url(fn (): string => MyProfilePage::getUrl(panel: $panel->getId()))
+                ->icon('heroicon-o-user'),
+        ]);
 
         return $panel;
     }

@@ -42,7 +42,7 @@ class GetFactoryAction
 
         $this->createFactory($model_class);
 
-        throw new \Exception('Generating Factory ['.$factory_class.'] press [F5] to refresh page ['.__LINE__.']['.__FILE__.']');
+        throw new \Exception('Generating Factory ['.$factory_class.'] press [F5] to refresh page ['.__LINE__.']['.class_basename($this).']');
     }
 
     public function getFactoryClass(string $model_class): string

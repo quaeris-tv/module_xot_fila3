@@ -102,7 +102,7 @@ class PdfData extends Data
 
     public function getContent(): string
     {
-        Assert::notNull($res = Storage::disk($this->disk)->get($this->filename), '['.__LINE__.']['.__FILE__.']');
+        Assert::notNull($res = Storage::disk($this->disk)->get($this->filename), '['.__LINE__.']['.class_basename($this).']');
 
         return $res;
     }

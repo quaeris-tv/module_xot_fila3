@@ -42,7 +42,7 @@ class GenerateTableColumnsByFileAction
         }
         $filename = $file->getPathname();
         $class_name = Str::replace(base_path('Modules/'), 'Modules/', $filename);
-        Assert::string($class_name = Str::replace('/', '\\', $class_name), '['.__LINE__.']['.__FILE__.']');
+        Assert::string($class_name = Str::replace('/', '\\', $class_name), '['.__LINE__.']['.class_basename($this).']');
         $class_name = Str::substr($class_name, 0, -4);
         $model_name = app($class_name)->getModel();
         $model = app($model_name);

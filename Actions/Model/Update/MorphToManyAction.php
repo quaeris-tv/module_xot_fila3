@@ -25,7 +25,7 @@ class MorphToManyAction
         $name = $relationDTO->name;
         $model = $row;
         if (! \is_array($data)) {
-            throw new \Exception('['.__LINE__.']['.__FILE__.']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         if (\in_array('to', array_keys($data), false) || \in_array('from', array_keys($data), false)) {

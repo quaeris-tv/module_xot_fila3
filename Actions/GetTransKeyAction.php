@@ -20,7 +20,7 @@ class GetTransKeyAction
     {
         if ('' === $class) {
             $backtrace = debug_backtrace();
-            Assert::string($class = Arr::get($backtrace, '1.class'), '['.__LINE__.']['.__FILE__.']');
+            Assert::string($class = Arr::get($backtrace, '1.class'), '['.__LINE__.']['.class_basename($this).']');
         }
 
         $class = Str::of($class)
@@ -33,13 +33,13 @@ class GetTransKeyAction
 
         $arr = explode('\\', $class);
         if ('Modules' !== $arr[0]) {
-            throw new \Exception('Invalid class name['.__LINE__.']['.__FILE__.']');
+            throw new \Exception('Invalid class name['.__LINE__.']['.class_basename($this).']');
         }
 
-        Assert::string($module = Arr::get($arr, '1'), '['.__LINE__.']['.__FILE__.']');
+        Assert::string($module = Arr::get($arr, '1'), '['.__LINE__.']['.class_basename($this).']');
         $module_low = strtolower($module);
 
-        Assert::string($model = Arr::get($arr, '2'), '['.__LINE__.']['.__FILE__.']');
+        Assert::string($model = Arr::get($arr, '2'), '['.__LINE__.']['.class_basename($this).']');
         $model = Str::before($model, 'Resource');
 
         if (Str::endsWith($model, 'Page') && \strlen($model) > 5) {

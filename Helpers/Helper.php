@@ -164,7 +164,7 @@ if (! function_exists('dddx')) {
         $file = $tmp[0]['file'] ?? 'file-unknown';
         $file = str_replace('/', DIRECTORY_SEPARATOR, $file);
 
-        $doc_root = $_SERVER['DOCUMENT_ROOT'];
+        Assert::string($doc_root = $_SERVER['DOCUMENT_ROOT']);
         $doc_root = str_replace('/', DIRECTORY_SEPARATOR, (string) $doc_root);
 
         $dir_piece = explode(DIRECTORY_SEPARATOR, __DIR__);
@@ -402,7 +402,8 @@ if (! function_exists('params2ContainerItem')) {
         foreach ($params as $k => $v) {
             $pattern = '/(container|item)(\d+)/';
             preg_match($pattern, $k, $matches);
-            if (isset($matches[1]) && isset($matches[2])) {
+
+            if (is_array($matches) && isset($matches[1]) && isset($matches[2])) {
                 $sk = $matches[1];
                 $sv = $matches[2];
                 ${$sk}[$sv] = $v;
@@ -499,11 +500,6 @@ if (! function_exists('getModuleFromModel')) {
 if (! function_exists('getModuleNameFromModel')) {
     function getModuleNameFromModel(object $model): string
     {
-        if (! is_object($model)) {
-            dddx(['model' => $model]);
-            throw new Exception('model is not an object');
-        }
-
         $class = $model::class;
 
         return Str::before(Str::after($class, 'Modules\\'), '\\Models\\');

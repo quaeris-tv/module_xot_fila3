@@ -168,7 +168,7 @@ function ($item, $key) use ($lang) {
                 echo '<h3>parametro non passato '.$key.'</h3><pre>';
                 \print_r($params);
                 echo '</pre>';
-                die('<br/>['.__LINE__.']['.__FILE__.']');
+                die('<br/>['.__LINE__.']['.class_basename($this).']');
             } else {
                 $value = $params[$key];
                 //self::indexIfNotExistsStatic($el, $tbl, $conn);
@@ -203,7 +203,7 @@ function ($item, $key) use ($lang) {
                     $date_field.' between '.\date('Ymd', $from_time).' and '.\date('Ymd', $to_time)
                 );
             } else {
-                die('solo single_date ['.__LINE__.']['.__FILE__.']');
+                die('solo single_date ['.__LINE__.']['.class_basename($this).']');
             }
         }
         //dddx($parz);
@@ -280,7 +280,7 @@ function ($item, $key) use ($lang) {
                 echo '<h3>parametro non passato '.$key.'</h3><pre>';
                 \print_r($params);
                 echo '</pre>';
-                die('<br/>['.__LINE__.']['.__FILE__.']');
+                die('<br/>['.__LINE__.']['.class_basename($this).']');
             } else {
                 $value = $params[$key];
                 //self::indexIfNotExistsStatic($el, $tbl, $conn);
@@ -316,10 +316,10 @@ function ($item, $key) use ($lang) {
                     $date_field.' between '.\date('Ymd', $from_time).' and '.\date('Ymd', $to_time)
                 );
             } else {
-                die('solo single_date ['.__LINE__.']['.__FILE__.']');
+                die('solo single_date ['.__LINE__.']['.class_basename($this).']');
             }
         }
-        //echo '<pre>'.$rows->toSql().'</pre>';die('['.__LINE__.']['.__FILE__.']');
+        //echo '<pre>'.$rows->toSql().'</pre>';die('['.__LINE__.']['.class_basename($this).']');
         return $rows;
     }
 

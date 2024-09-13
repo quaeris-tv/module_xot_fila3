@@ -55,7 +55,7 @@ class GetPropertiesFromMethodsByModelAction
                         if ($relationObj instanceof Relation) {
                             // $this->setProperty($relationObj->getForeignKeyName(), 'factory('.get_class($relationObj->getRelated()).'::class)');
                             if (! method_exists($relationObj, 'getForeignKeyName')) {
-                                throw new \Exception('[WIP]['.__LINE__.']['.__FILE__.']');
+                                throw new \Exception('[WIP]['.__LINE__.']['.class_basename($this).']');
                             }
                             $name = $relationObj->getForeignKeyName();
                             $type = 'factory('.get_class($relationObj->getRelated()).'::class)';
