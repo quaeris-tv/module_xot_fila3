@@ -18,7 +18,7 @@ class PdfByViewAction
         View $view,
         string $filename = 'my_doc.pdf',
         string $disk = 'cache',
-        string $out = 'download'
+        string $out = 'download',
     ): string|BinaryFileResponse {
         $html = $view->render();
 

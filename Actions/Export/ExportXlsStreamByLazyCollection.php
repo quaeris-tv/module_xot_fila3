@@ -23,7 +23,7 @@ class ExportXlsStreamByLazyCollection
         LazyCollection $data,
         string $filename = 'test.csv',
         ?string $transKey = null,
-        ?array $fields = null
+        ?array $fields = null,
     ): StreamedResponse {
         $headers = [
             'Content-Disposition' => 'attachment; filename='.$filename,
