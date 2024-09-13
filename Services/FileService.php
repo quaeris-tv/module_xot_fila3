@@ -46,7 +46,7 @@ class FileService
     }
 
     /**
-     * 18     Method Modules\Xot\Services\FileService::asset() should return string but return statement is missing.
+     * 18     Method Modules\Xot\Services\app(\Modules\Xot\Actions\File\AssetAction::class)->execute() should return string but return statement is missing.
      */
     public static function asset(string $path): string
     {
