@@ -76,7 +76,7 @@ public static function transPath(string $key): string
         $moduleNameLow = Str::lower(static::getModuleName());
         // $modelClass = static::$model ?? static::getModel();
         $modelClass = static::getModel();
-        Assert::notNull($modelClass,'['.__LINE__.']['.__FILE__.']');
+        Assert::notNull($modelClass,'['.__LINE__.']['.class_basename($this).']');
         $modelNameSlug = Str::kebab(class_basename($modelClass));
 
         return $moduleNameLow.'::'.$modelNameSlug.'.'.$key;

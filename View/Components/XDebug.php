@@ -8,6 +8,12 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\View\Component;
 use Modules\Xot\Actions\GetViewAction;
 use Safe\filter;
+<<<<<<< HEAD
+=======
+
+use function Safe\ob_end_clean;
+use function Safe\ob_start;
+>>>>>>> 0ffa67dd1155c8759a2c13bebc9f017bd62111e3
 
 // use Modules\Xot\View\Components\XotBaseComponent;
 
@@ -60,6 +66,10 @@ class XDebug extends Component
         $out1 = ob_get_contents();
         ob_end_clean();
 
+<<<<<<< HEAD
         return $out1;
+=======
+        return (string) $out1;
+>>>>>>> 0ffa67dd1155c8759a2c13bebc9f017bd62111e3
     }
 }

@@ -16,7 +16,7 @@ class LivewireService
      */
     public static function registerComponents(string $path, string $namespace, string $prefix = ''): void
     {
-        $comps = FileService::getComponents($path, $namespace.'\Http\Livewire', $prefix);
+        $comps = app(\Modules\Xot\Actions\File\GetComponentsAction::class)->execute($path, $namespace.'\Http\Livewire', $prefix);
         /*
         if(count($comps)>1){
             dddx([

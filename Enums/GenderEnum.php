@@ -13,7 +13,7 @@ enum GenderEnum: string implements HasColor, HasIcon, HasLabel
     case FEMALE = 'f';
     case MALE = 'm';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::FEMALE => 'Donna',
@@ -21,7 +21,7 @@ enum GenderEnum: string implements HasColor, HasIcon, HasLabel
         };
     }
 
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::FEMALE => 'danger',
@@ -29,7 +29,7 @@ enum GenderEnum: string implements HasColor, HasIcon, HasLabel
         };
     }
 
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::FEMALE => 'fas-female',

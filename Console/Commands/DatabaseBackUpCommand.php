@@ -50,8 +50,11 @@ class DatabaseBackUpCommand extends Command
         $filename = 'backup-'.Carbon::now()->format('Y-m-d').'.gz';
         $backup_path = storage_path('app/backup/'.$filename);
         Assert::string($backup_path = Str::replace(['/', '\\'], [\DIRECTORY_SEPARATOR, \DIRECTORY_SEPARATOR], $backup_path), 'wip');
-
-        $command = 'mysqldump --user='.env('DB_USERNAME').' --password='.env('DB_PASSWORD').' --host='.env('DB_HOST').' '.env('DB_DATABASE').'  | gzip > '.$backup_path;
+        Assert::string($user = env('DB_USERNAME'));
+        Assert::string($password = env('DB_PASSWORD'));
+        Assert::string($host = env('DB_HOST'));
+        Assert::string($database = env('DB_DATABASE'));
+        $command = 'mysqldump --user='.$user.' --password='.$password.' --host='.$host.' '.$database.'  | gzip > '.$backup_path;
 
         $returnVar = null;
         $output = null;

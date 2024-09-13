@@ -69,12 +69,20 @@ class EnvData extends Data implements Wireable
         $replace = $this->getLine($key, $value);
         $pos_start = strpos($env_content, $key.'=');
         if (false === $pos_start) {
+<<<<<<< HEAD
             // throw new \Exception('['.__LINE__.']['.__FILE__.']');
+=======
+            // throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+>>>>>>> 0ffa67dd1155c8759a2c13bebc9f017bd62111e3
             return $env_content."\n".$replace;
         }
         $pos_end = strpos($env_content, "\n", $pos_start);
         if (false === $pos_end) {
+<<<<<<< HEAD
             throw new \Exception('['.__LINE__.']['.__FILE__.']');
+=======
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+>>>>>>> 0ffa67dd1155c8759a2c13bebc9f017bd62111e3
         }
 
         $length = $pos_end - $pos_start;

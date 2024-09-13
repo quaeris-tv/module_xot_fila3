@@ -16,7 +16,7 @@ class MainDashboard extends Page
 
     public function mount(): void
     {
-        Assert::notNull($user = auth()->user(), '['.__LINE__.']['.__FILE__.']');
+        Assert::notNull($user = auth()->user(), '['.__LINE__.']['.class_basename($this).']');
         $modules = $user->roles->filter(
             static function ($item) {
                 return Str::endsWith($item->name, '::admin');
@@ -24,7 +24,11 @@ class MainDashboard extends Page
         );
 
         if (1 === $modules->count()) {
+<<<<<<< HEAD
             Assert::notNull($modules->first(), '['.__LINE__.']['.__FILE__.']');
+=======
+            Assert::notNull($modules->first(), '['.__LINE__.']['.class_basename($this).']');
+>>>>>>> 0ffa67dd1155c8759a2c13bebc9f017bd62111e3
             $panel_name = $modules->first()->name;
             $module_name = Str::before($panel_name, '::admin');
             $url = '/'.$module_name.'/admin';

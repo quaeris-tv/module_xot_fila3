@@ -27,7 +27,11 @@ class GetModelByModelTypeAction
         }
 
         if (null === $model) {
+<<<<<<< HEAD
             throw new \Exception('['.__LINE__.']['.__FILE__.']');
+=======
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+>>>>>>> 0ffa67dd1155c8759a2c13bebc9f017bd62111e3
         }
 
         return $model;

@@ -6,7 +6,6 @@ namespace Modules\Xot\Datas;
 
 use Livewire\Wireable;
 use Modules\Tenant\Services\TenantService;
-use Modules\Xot\Services\FileService;
 use Spatie\LaravelData\Concerns\WireableData;
 use Spatie\LaravelData\Data;
 
@@ -117,12 +116,12 @@ class MetatagData extends Data implements Wireable
 
     public function getLogoHeader(): string
     {
-        return FileService::asset($this->logo_header);
+        return app(\Modules\Xot\Actions\File\AssetAction::class)->execute($this->logo_header);
     }
 
     public function getLogoHeaderDark(): string
     {
-        return FileService::asset($this->logo_header_dark);
+        return app(\Modules\Xot\Actions\File\AssetAction::class)->execute($this->logo_header_dark);
     }
 
     public function getLogoHeight(): string
@@ -132,6 +131,6 @@ class MetatagData extends Data implements Wireable
 
     public function getFavicon(): string
     {
-        return FileService::asset($this->favicon);
+        return app(\Modules\Xot\Actions\File\AssetAction::class)->execute($this->favicon);
     }
 }

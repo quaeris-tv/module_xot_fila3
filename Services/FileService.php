@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\Array\SaveArrayAction;
+use Modules\Xot\Datas\XotData;
 use Nwidart\Modules\Facades\Module;
 
 use function Safe\json_decode;
@@ -45,7 +46,7 @@ class FileService
     }
 
     /**
-     * 18     Method Modules\Xot\Services\FileService::asset() should return string but return statement is missing.
+     * 18     Method Modules\Xot\Services\app(\Modules\Xot\Actions\File\AssetAction::class)->execute() should return string but return statement is missing.
      */
     public static function asset(string $path): string
     {
@@ -56,7 +57,7 @@ class FileService
             viewNamespaceToAsset    => http://example.com/images/prova.png
         */
         // dddx(\Module::asset('blog:img/logo.img')); //localhost/modules/blog/img/logo.img
-
+        $xot = XotData::make();
         if (Str::startsWith($path, 'https://')) {
             return $path;
         }
@@ -92,7 +93,7 @@ class FileService
         }
 
         if (\in_array($ns, ['pub_theme', 'adm_theme'], false)) {
-            $theme = config('xra.'.$ns);
+            $theme = $xot->{$ns};
 
             $filename_from = self::fixPath(base_path('Themes/'.$theme.'/Resources/'.$ns_after));
             // $filename_from = Str::replace('/Resources//', '/Resources/', $filename_from);
@@ -115,7 +116,7 @@ class FileService
                 }
             }
 
-            Assert::string($asset, '['.__LINE__.']['.__FILE__.']');
+            Assert::string($asset, '['.__LINE__.']['.class_basename(static::class).']');
 
             return $asset;
         }
@@ -145,7 +146,7 @@ class FileService
             File::copy($filename_from, $filename_to);
         }
 
-        Assert::string($asset, '['.__LINE__.']['.__FILE__.']');
+        Assert::string($asset, '['.__LINE__.']['.class_basename(static::class).']');
 
         return $asset;
 
@@ -178,6 +179,7 @@ class FileService
 
     public static function getViewNameSpacePath(string $ns): ?string
     {
+        $xot = XotData::make();
         $finder = view()->getFinder();
         $viewHints = [];
         if (method_exists($finder, 'getHints')) {
@@ -189,7 +191,7 @@ class FileService
         }
 
         if (\in_array($ns, ['pub_theme', 'adm_theme'], false)) {
-            $theme_name = config('xra.'.$ns);
+            $theme_name = $xot->{$ns};
 
             return base_path('Themes/'.$theme_name);
         }
@@ -225,7 +227,7 @@ class FileService
             $path = self::getViewNameSpacePath($ns);
         } else {
             $module_path = Module::getModulePath($ns);
-            $view_dir = config('modules.paths.generator.views.path');
+            Assert::string($view_dir = config('modules.paths.generator.views.path'));
             $path = $module_path.$view_dir;
         }
 
@@ -254,7 +256,7 @@ class FileService
             try {
                 File::makeDirectory(\dirname($filename_pub), 0755, true, true);
             } catch (\Exception $e) {
-                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.__FILE__.']');
+                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.class_basename(static::class).']');
             }
         }
 
@@ -263,7 +265,7 @@ class FileService
                 // echo '<hr>'.$filename.' >>>>  '.$filename_pub; //4 debug
                 File::copy($filename, $filename_pub);
             } catch (\Exception $e) {
-                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.__FILE__.']');
+                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.class_basename(static::class).']');
             }
         } else {
             $msg = [
@@ -303,7 +305,7 @@ class FileService
             try {
                 File::makeDirectory(\dirname($filename_pub), 0755, true, true);
             } catch (\Exception $e) {
-                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.__FILE__.']');
+                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.class_basename(static::class).']');
             }
         }
 
@@ -312,7 +314,7 @@ class FileService
                 // echo '<hr>'.$filename.' >>>>  '.$filename_pub; //4 debug
                 File::copy($filename, $filename_pub);
             } catch (\Exception $e) {
-                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.__FILE__.']');
+                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.class_basename(static::class).']');
             }
         } else {
             $filename = str_replace('/', \DIRECTORY_SEPARATOR, $filename);
@@ -354,7 +356,7 @@ class FileService
             try {
                 File::makeDirectory(\dirname($filename_pub), 0755, true, true);
             } catch (\Exception $e) {
-                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.__FILE__.']');
+                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.class_basename(static::class).']');
             }
         }
 
@@ -363,7 +365,7 @@ class FileService
                 // echo '<hr>'.$filename.' >>>>  '.$filename_pub; //4 debug
                 File::copy($filename, $filename_pub);
             } catch (\Exception $e) {
-                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.__FILE__.']');
+                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.class_basename(static::class).']');
             }
         }
 
@@ -374,10 +376,11 @@ class FileService
 
     public static function viewThemeNamespaceToAsset(string $key): string
     {
+        $xot = XotData::make();
         $ns_name = Str::before($key, '::');
         // $ns_dir = View::getFinder()->getHints()[$ns_name][0];
         $ns_dir = self::getViewNameSpacePath($ns_name);
-        $ns_name = config('xra.'.$ns_name);
+        $ns_name = $xot->{$ns_name};
         $tmp = Str::after($key, '::');
         $tmp0 = Str::before($tmp, '/');
         $tmp1 = Str::after($tmp, '/');
@@ -400,7 +403,7 @@ class FileService
             try {
                 File::makeDirectory($dir_to, 0755, true, true);
             } catch (\Exception $e) {
-                dddx(['Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.__FILE__.']']);
+                dddx(['Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.class_basename(static::class).']']);
             }
         }
 
@@ -433,7 +436,11 @@ class FileService
         */
         $ns_dir = self::getViewNameSpacePath($ns_name);
         if (null === $ns_dir) {
+<<<<<<< HEAD
             return '#['.$key.']['.__LINE__.']['.__FILE__.']';
+=======
+            return '#['.$key.']['.__LINE__.']['.class_basename(static::class).']';
+>>>>>>> 0ffa67dd1155c8759a2c13bebc9f017bd62111e3
         }
 
         // dddx([$key, $ns_name, $ns_dir, $ns_dir1]);
@@ -480,7 +487,7 @@ class FileService
             try {
                 File::makeDirectory($dir_to, 0755, true, true);
             } catch (\Exception $e) {
-                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.__FILE__.']');
+                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.class_basename(static::class).']');
             }
         }
 
@@ -555,11 +562,12 @@ class FileService
 
     public static function getFileUrl(string $path): string
     {
+        // $xot=XotData::make();
         if (Str::startsWith($path, '//')) {
         } elseif (Str::startsWith($path, '/')) {
             $path = mb_substr($path, 1);
         }
-
+        /*
         $str = 'theme/bc/';
         if (Str::startsWith($path, $str)) {
             return asset('/bc/'.mb_substr($path, mb_strlen($str)));
@@ -576,6 +584,7 @@ class FileService
         if (Str::startsWith($path, $str)) {
             return asset('/themes/'.$theme.'/'.mb_substr($path, mb_strlen($str)));
         }
+            */
 
         return ''.$path;
     }
@@ -627,7 +636,7 @@ class FileService
                         try {
                             File::makeDirectory(\dirname($new_path), 0755, true, true);
                         } catch (\Exception $e) {
-                            dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.__FILE__.']');
+                            dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.class_basename(static::class).']');
                         }
                     }
 
@@ -635,7 +644,7 @@ class FileService
                         try {
                             File::copy($old_path, $new_path);
                         } catch (\Exception $e) {
-                            dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.__FILE__.']');
+                            dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.class_basename(static::class).']');
                         }
                     }
 
@@ -653,6 +662,7 @@ class FileService
 
     // */
 
+    /*
     public static function getRealFile(string $path): string
     {
         $filename = '';
@@ -708,6 +718,7 @@ class FileService
 
         return ''.$path;
     }
+    */
 
     public static function allDirectories(string $path, array $except = [], string $dir = ''): array
     {
@@ -782,7 +793,7 @@ class FileService
         $ns_name = Str::before($key, '::');
         $stringable = Str::of($key)->after('::')->toString();
         $ns_dir = self::getViewNameSpacePath($ns_name);
-        Assert::string($group_dir = Str::replace('.', '/', $stringable), '['.__LINE__.']['.__FILE__.']');
+        Assert::string($group_dir = Str::replace('.', '/', $stringable), '['.__LINE__.']['.class_basename(static::class).']');
         $res = $ns_dir.'/'.$group_dir.'.blade.php';
 
         return self::fixPath($res);
@@ -808,7 +819,7 @@ class FileService
             try {
                 File::makeDirectory(\dirname($to), 0755, true, true);
             } catch (\Exception $e) {
-                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.__FILE__.']');
+                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.class_basename(static::class).']');
             }
         }
 
@@ -898,7 +909,7 @@ class FileService
      */
     public static function getComponents(string $path, string $namespace, string $prefix, bool $force_recreate = false): array
     {
-        Assert::string($namespace = Str::replace('/', '\\', $namespace), '['.__LINE__.']['.__FILE__.']');
+        Assert::string($namespace = Str::replace('/', '\\', $namespace), '['.__LINE__.']['.class_basename(static::class).']');
         $components_json = $path.'/_components.json';
         $components_json = self::fixPath($components_json);
 
@@ -913,7 +924,7 @@ class FileService
         $exists = File::exists($components_json);
 
         if ($exists && ! $force_recreate) {
-            Assert::string($content = File::get($components_json), '['.__LINE__.']['.__FILE__.']');
+            Assert::string($content = File::get($components_json), '['.__LINE__.']['.class_basename(static::class).']');
 
             // return (array) json_decode((string) $content, null, 512, JSON_THROW_ON_ERROR);
             // return (array) json_decode($content, false, 512, JSON_THROW_ON_ERROR);
@@ -929,13 +940,13 @@ class FileService
                 $class_name = $file->getFilenameWithoutExtension();
 
                 $tmp->class_name = $class_name;
-                Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '['.__LINE__.']['.__FILE__.']');
+                Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '['.__LINE__.']['.class_basename(static::class).']');
                 $tmp->comp_name = Str::slug(Str::snake($comp_name));
                 $tmp->comp_name = $prefix.$tmp->comp_name;
 
                 $tmp->comp_ns = $namespace.'\\'.$class_name;
                 $relative_path = $file->getRelativePath();
-                Assert::string($relative_path = Str::replace('/', '\\', $relative_path), '['.__LINE__.']['.__FILE__.']');
+                Assert::string($relative_path = Str::replace('/', '\\', $relative_path), '['.__LINE__.']['.class_basename(static::class).']');
 
                 if ('' !== $relative_path) {
                     $tmp->comp_name = '';
@@ -945,7 +956,7 @@ class FileService
                         )
                         ->implode('.');
                     $tmp->comp_name .= $piece;
-                    Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '['.__LINE__.']['.__FILE__.']');
+                    Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '['.__LINE__.']['.class_basename(static::class).']');
                     $tmp->comp_name .= '.'.Str::slug(Str::snake($comp_name));
                     $tmp->comp_name = $prefix.$tmp->comp_name;
                     $tmp->comp_ns = $namespace.'\\'.$relative_path.'\\'.$class_name;
