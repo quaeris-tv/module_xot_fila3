@@ -23,7 +23,7 @@ class HasOneAction
 
         $rows = $relationDTO->rows;
 
-        if (! Arr::isAssoc($relationDTO->data) && 1 === \count($relationDTO->data)) {
+        if (! Arr::isAssoc($relationDTO->data) && \count($relationDTO->data) === 1) {
             $related_id = $relationDTO->data[0];
             $related = $relationDTO->related->find($related_id);
             if (! $related instanceof Model) {

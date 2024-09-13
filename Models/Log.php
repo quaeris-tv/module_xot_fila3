@@ -13,16 +13,16 @@ use Illuminate\Support\Facades\File;
  * Modules\Xot\Models\Feed.
  *
  * @method static \Modules\Xot\Database\Factories\FeedFactory factory($count = null, $state = [])
- * @method static Builder|Feed                                newModelQuery()
- * @method static Builder|Feed                                newQuery()
- * @method static Builder|Feed                                query()
- * @method static Builder|Feed                                newModelQuery()
- * @method static Builder|Feed                                newQuery()
- * @method static Builder|Feed                                query()
+ * @method static Builder|Feed newModelQuery()
+ * @method static Builder|Feed newQuery()
+ * @method static Builder|Feed query()
+ * @method static Builder|Feed newModelQuery()
+ * @method static Builder|Feed newQuery()
+ * @method static Builder|Feed query()
  *
  * @property string|null $id
  * @property string|null $name
- * @property int|null    $size
+ * @property int|null $size
  * @property string|null $file_content
  *
  * @method static Builder|Log whereId($value)
@@ -64,7 +64,7 @@ class Log extends BaseModel
         $files = File::files(storage_path('logs'));
 
         foreach ($files as $file) {
-            if ('log' == $file->getExtension()) {
+            if ($file->getExtension() == 'log') {
                 $rows[] = [
                     'id' => $file->getFilenameWithoutExtension(),
                     'name' => $file->getFilenameWithoutExtension(),

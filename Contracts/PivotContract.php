@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $subtitle
  * @property string|null $price
  * @property string|null $price_currency
- * @property int|null    $status
+ * @property int|null $status
  *
  * @method mixed update($params)
  *
@@ -21,6 +21,4 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin \Eloquent
  */
-interface PivotContract
-{
-}
+interface PivotContract {}

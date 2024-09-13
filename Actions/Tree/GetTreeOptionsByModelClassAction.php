@@ -17,7 +17,7 @@ class GetTreeOptionsByModelClassAction
     /**
      * Summary of execute.
      *
-     * @param class-string $class
+     * @param  class-string  $class
      */
     public function execute(string $class): array
     {
