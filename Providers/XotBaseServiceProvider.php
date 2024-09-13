@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Modules\Xot\Services\BladeService;
-use Modules\Xot\Services\FileService;
 use Modules\Xot\Services\LivewireService;
 
 use function Safe\glob;
@@ -178,7 +177,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
     public function registerCommands(): void
     {
         $prefix = '';
-        $comps = FileService::getComponents(
+        $comps = app(\Modules\Xot\Actions\File\GetComponentsAction::class)->execute(
             $this->module_dir.'/../Console/Commands',
             Str::before($this->module_ns, '\Providers'),
             $prefix,
@@ -240,7 +239,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
                     ];
                     if (class_exists($event) && class_exists($listener)) {
                         // \Event::listen($event, $listener);
-                        $tmp = new \stdClass;
+                        $tmp = new \stdClass();
                         $tmp->event = $event;
                         $tmp->listener = $listener;
                         $events[] = $tmp;

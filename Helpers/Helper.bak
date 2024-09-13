@@ -135,14 +135,14 @@ if (! function_exists('dddx')) {
         $data = [
             '_' => $params,
             'line' => $tmp[0]['line'] ?? 'line-unknows',
-            'file' => FileService::fixPath($tmp[0]['file'] ?? 'file-unknown'),
+            'file' => app(\Modules\Xot\Actions\File\FixPathAction::class)->execute($tmp[0]['file'] ?? 'file-unknown'),
             'time' => microtime(true) - $start,
             // 'file_1' => $file, //da sistemare
         ];
-        if (File::exists($data['file']) && Str::startsWith($data['file'], FileService::fixPath(storage_path('framework/views')))) {
+        if (File::exists($data['file']) && Str::startsWith($data['file'], app(\Modules\Xot\Actions\File\FixPathAction::class)->execute(storage_path('framework/views')))) {
             // $data['extra'] = 'preso';
             $content = File::get($data['file']);
-            $data['view_file'] = FileService::fixPath(Str::between($content, '/**PATH ', ' ENDPATH**/'));
+            $data['view_file'] = app(\Modules\Xot\Actions\File\FixPathAction::class)->execute(Str::between($content, '/**PATH ', ' ENDPATH**/'));
         }
         dd(
             $data,
@@ -438,7 +438,7 @@ if (! function_exists('getModelByName')) {
         if (null === $path) {
             throw new Exception('['.$name.'] not in morph_map ['.__LINE__.']['.class_basename($this).']');
         }
-        $path = FileService::fixPath($path);
+        $path = app(\Modules\Xot\Actions\File\FixPathAction::class)->execute($path);
         $info = pathinfo($path);
         $module_name = Str::between($path, 'Modules'.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR.'Models');
 

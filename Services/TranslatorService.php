@@ -150,7 +150,7 @@ class TranslatorService extends BaseTranslator
         $path = collect($trans->getLoader()->namespaces())->flip()->search($namespace);
         $file_path = $path.\DIRECTORY_SEPARATOR.$lang.\DIRECTORY_SEPARATOR.$group.'.php';
 
-        return FileService::fixPath($file_path);
+        return app(\Modules\Xot\Actions\File\FixPathAction::class)->execute($file_path);
     }
 
     /**
@@ -223,9 +223,10 @@ class TranslatorService extends BaseTranslator
     /**
      * Get the translation for the given key.
      *
-     * @param  string  $key
-     * @param  string|null  $locale
-     * @param  bool  $fallback
+     * @param string      $key
+     * @param string|null $locale
+     * @param bool        $fallback
+     *
      * @return string|array
      */
     public function get($key, array $replace = [], $locale = null, $fallback = true)
@@ -235,7 +236,7 @@ class TranslatorService extends BaseTranslator
         // superdump([$key, $replace , $locale , $fallback ]);
 
         // *
-        if ($locale === null) {
+        if (null === $locale) {
             $locale = app()->getLocale();
         }
 
