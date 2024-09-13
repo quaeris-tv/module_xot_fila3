@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Xot\Actions\Generate;
+namespace Modules\Xot\Actions\File;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
