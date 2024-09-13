@@ -13,12 +13,11 @@ use Modules\Xot\Actions\Array\SaveArrayAction;
 use Modules\Xot\Datas\XotData;
 use Nwidart\Modules\Facades\Module;
 
-use Webmozart\Assert\Assert;
-
 use function Safe\json_decode;
 use function Safe\realpath;
-
 use function Safe\scandir;
+
+use Webmozart\Assert\Assert;
 
 /**
  * Class FileService.

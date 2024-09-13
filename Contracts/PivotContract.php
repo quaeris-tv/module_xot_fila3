@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Modules\Xot\Contracts\PivotContract.
  *
- *
  * @property string|null                         $title
  * @property string|null                         $subtitle
  * @property string|null                         $price
