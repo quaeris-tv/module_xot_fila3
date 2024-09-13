@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Modules\Xot\Datas\MetatagData;
 use Modules\Xot\Datas\XotData;
-use Modules\Xot\Services\FileService;
 use Nwidart\Modules\Facades\Module;
 use Webmozart\Assert\Assert;
 
@@ -65,7 +64,7 @@ class XotComposer
 
     public function asset(string $str): string
     {
-        return asset(FileService::asset($str));
+        return asset(app(\Modules\Xot\Actions\File\AssetAction::class)->execute($str));
     }
 
     public function metatag(string $str): string|bool

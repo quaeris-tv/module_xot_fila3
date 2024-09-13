@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Datas\XotData;
-use Modules\Xot\Services\FileService;
 use Modules\Xot\Services\ModuleService;
 use Nwidart\Modules\Facades\Module;
 
@@ -1147,7 +1146,7 @@ if (! function_exists('profile')) {
 if (! function_exists('cssInLine')) {
     function cssInLine(string $file): string
     {
-        return File::get(FileService::assetPath($file));
+        return File::get(app(Modules\Xot\Actions\File\AssetPathAction::class)->execute($file));
     }
 }
 
