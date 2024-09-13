@@ -13,11 +13,12 @@ use Modules\Xot\Actions\Array\SaveArrayAction;
 use Modules\Xot\Datas\XotData;
 use Nwidart\Modules\Facades\Module;
 
+use Webmozart\Assert\Assert;
+
 use function Safe\json_decode;
 use function Safe\realpath;
-use function Safe\scandir;
 
-use Webmozart\Assert\Assert;
+use function Safe\scandir;
 
 /**
  * Class FileService.
@@ -436,11 +437,7 @@ class FileService
         */
         $ns_dir = self::getViewNameSpacePath($ns_name);
         if (null === $ns_dir) {
-<<<<<<< HEAD
-            return '#['.$key.']['.__LINE__.']['.__FILE__.']';
-=======
             return '#['.$key.']['.__LINE__.']['.class_basename(static::class).']';
->>>>>>> 0ffa67dd1155c8759a2c13bebc9f017bd62111e3
         }
 
         // dddx([$key, $ns_name, $ns_dir, $ns_dir1]);

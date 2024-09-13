@@ -33,11 +33,7 @@ class GetTransKeyAction
 
         $arr = explode('\\', $class);
         if ('Modules' !== $arr[0]) {
-<<<<<<< HEAD
-            throw new \Exception('Invalid class name['.__LINE__.']['.__FILE__.']');
-=======
             throw new \Exception('Invalid class name['.__LINE__.']['.class_basename($this).']');
->>>>>>> 0ffa67dd1155c8759a2c13bebc9f017bd62111e3
         }
 
         Assert::string($module = Arr::get($arr, '1'), '['.__LINE__.']['.class_basename($this).']');

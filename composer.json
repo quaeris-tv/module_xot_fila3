@@ -68,7 +68,7 @@
     "require-dev_comment": {
         "enlightn/enlightn": "^2.7",
         "nunomaduro/phpinsights": "^2.11",
-        "orchestra/testbench": "*",
+        "orchestra/testbench": "^9.4",
         "pestphp/pest": "*",
         "pestphp/pest-plugin-arch": "*",
         "pestphp/pest-plugin-laravel": "*",

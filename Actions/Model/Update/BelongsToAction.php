@@ -47,11 +47,7 @@ class BelongsToAction
             $sub = $rows->firstOrCreate();
             // $sub = $rows->first() ?? $rows->getModel();
             if (null === $sub) {
-<<<<<<< HEAD
-                throw new \Exception('['.__LINE__.']['.__FILE__.']');
-=======
                 throw new \Exception('['.__LINE__.']['.class_basename($this).']');
->>>>>>> 0ffa67dd1155c8759a2c13bebc9f017bd62111e3
             }
 
             app(RelationAction::class)->execute($sub, $relationDTO->data);
