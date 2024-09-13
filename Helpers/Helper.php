@@ -183,6 +183,8 @@ if (! function_exists('dddx')) {
             'line' => $tmp[0]['line'] ?? 'line-unknows',
             'file' => FileService::fixPath($tmp[0]['file'] ?? 'file-unknown'),
             'time' => microtime(true) - $start,
+            'memory_taken' => round(memory_get_peak_usage() / (1024 * 1024), 2).' MB',
+
             // 'file_1' => $file, //da sistemare
         ];
         if (File::exists($data['file']) && Str::startsWith($data['file'], FileService::fixPath(storage_path('framework/views')))) {
