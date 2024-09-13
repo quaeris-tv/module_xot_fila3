@@ -14,11 +14,12 @@ use Modules\User\Models\Membership;
 use Modules\User\Models\Team;
 use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Contracts\UserContract;
+
+use function Safe\realpath;
+
 use Spatie\LaravelData\Concerns\WireableData;
 use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
-
-use function Safe\realpath;
 
 /**
  * Undocumented class.
@@ -203,7 +204,7 @@ class XotData extends Data implements Wireable
     public function iAmSuperAdmin(): bool
     {
         $user = auth()->user();
-        if ($user == null) {
+        if (null == $user) {
             return false;
         }
 
@@ -212,7 +213,7 @@ class XotData extends Data implements Wireable
 
     public function getProfileModel(): ProfileContract
     {
-        if ($this->profile != null) {
+        if (null != $this->profile) {
             return $this->profile;
         }
         $user_id = (string) authId();

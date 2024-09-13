@@ -89,7 +89,7 @@ class AssetAction
         }
 
         // dddx(app()->environment());// local
-        if (! File::exists($filename_to) || app()->environment() !== 'production') {
+        if (! File::exists($filename_to) || 'production' !== app()->environment()) {
             if (! File::exists(\dirname($filename_to))) {
                 File::makeDirectory(\dirname($filename_to), 0755, true, true);
             }

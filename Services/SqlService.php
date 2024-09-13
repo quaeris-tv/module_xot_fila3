@@ -19,21 +19,21 @@ class SqlService
         ?string $from_field = null,
         ?string $to_field = null,
     ): string {
-        if ($from_field === null) {
+        if (null === $from_field) {
             Assert::string($from_field = $model->getAttributeValue('from_field'));
         }
 
-        if ($to_field === null) {
+        if (null === $to_field) {
             Assert::string($to_field = $model->getAttributeValue('to_field'));
         }
 
-        if ($date_min !== null) {
+        if (null !== $date_min) {
             $dal = 'if('.$from_field.'=0 or '.$from_field.'<'.$date_min.' ,'.$date_min.','.$from_field.')';
         } else {
             $dal = $from_field;
         }
 
-        if ($date_max !== null) {
+        if (null !== $date_max) {
             $al = 'if('.$to_field.'=0 or '.$to_field.'>'.$date_max.' ,'.$date_max.','.$to_field.')';
         } else {
             $al = $from_field;

@@ -14,10 +14,10 @@ use Webmozart\Assert\Assert;
 /**
  * Modules\Xot\Models\HasExtraTrait.
  *
- * @property string $currency
- * @property float $price
- * @property string $price_complete
- * @property int $qty
+ * @property string             $currency
+ * @property float              $price
+ * @property string             $price_complete
+ * @property int                $qty
  * @property ExtraContract|null $extra
  */
 trait HasExtraTrait
@@ -52,13 +52,14 @@ trait HasExtraTrait
     }
 
     /**
-     * @param  int|float|string|array|bool|null  $value
+     * @param int|float|string|array|bool|null $value
+     *
      * @return void
      */
     public function setExtra(string $name, $value)
     {
         $extra = $this->extra;
-        if ($this->extra === null) {
+        if (null === $this->extra) {
             $extra = $this->extra()->firstOrCreate([], ['extra_attributes' => []]);
             Assert::implementsInterface($extra, ExtraContract::class, '['.__LINE__.']['.class_basename($this).']['.$extra.']');
         }

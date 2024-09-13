@@ -21,7 +21,7 @@ class WebhookErrorFormatter
     {
         $user = Auth::user();
         $email = 'CLI User';
-        if ($user != null) {
+        if (null != $user) {
             $email = $user->email;
         }
 

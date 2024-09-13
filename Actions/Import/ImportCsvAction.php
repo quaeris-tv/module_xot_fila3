@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Spatie\QueueableAction\QueueableAction;
 
 use function Safe\ini_set;
 use function Safe\preg_replace;
+
+use Spatie\QueueableAction\QueueableAction;
 
 class ImportCsvAction
 {
@@ -43,7 +44,7 @@ class ImportCsvAction
         foreach ($columns as $item) {
             $fieldname = $this->fixFieldName($item['name']);
             // if ('numero' === $item['tipo'] && $item['dec'] > 0) {
-            if ($item['type_name'] === 'decimal') {
+            if ('decimal' === $item['type_name']) {
                 $fieldname = '@'.$fieldname;
             }
 
@@ -57,7 +58,7 @@ class ImportCsvAction
         $sql_replace = [];
         foreach ($columns as $item) {
             // if ('numero' === $item['tipo'] && $item['dec'] > 0) {
-            if ($item['type_name'] === 'decimal') {
+            if ('decimal' === $item['type_name']) {
                 $fieldname = $this->fixFieldName($item['name']);
                 $sql_replace[] = $fieldname.' = REPLACE(@'.$fieldname.',"," , ".")';
             }
@@ -83,7 +84,7 @@ class ImportCsvAction
     public function fixFieldName(string $str): string
     {
         $str = trim($str);
-        if ($str === 'desc') {
+        if ('desc' === $str) {
             return 'desc1';
         } // descrizione;
         // preg_match_all(, subject, matches)

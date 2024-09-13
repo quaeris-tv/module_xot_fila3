@@ -8,11 +8,12 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\Filament;
 
 use Illuminate\Support\Str;
+
+use function Safe\file;
+
 use Spatie\QueueableAction\QueueableAction;
 use Symfony\Component\Finder\SplFileInfo as File;
 use Webmozart\Assert\Assert;
-
-use function Safe\file;
 
 class GenerateFormByFileAction
 {
