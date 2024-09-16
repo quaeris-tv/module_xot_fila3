@@ -82,12 +82,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             File::makeDirectory($svg_abs_path, 0755, true, true);
             File::put($svg_abs_path.'/.gitkeep', '');
         }
-        if ('edomo' == $this->module_name) {
-            dddx([
-                'svg_path' => $svg_path,
-                'module_name' => $this->module_name,
-            ]);
-        }
+
         Config::set('blade-icons.sets.'.$this->module_name.'.path', $svg_path);
         Config::set('blade-icons.sets.'.$this->module_name.'.prefix', $this->module_name);
     }
