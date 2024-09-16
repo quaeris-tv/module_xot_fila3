@@ -18,7 +18,7 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|ExtraContract newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ExtraContract newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ExtraContract query()
- * @method static Builder|ExtraContract                               withExtraAttributes()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExtraContract withExtraAttributes()
  *
  * @property int         $id
  * @property string      $model_type
