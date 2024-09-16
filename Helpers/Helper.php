@@ -736,12 +736,11 @@ if (! function_exists('getRelationships')) {
      */
     function getRelationships(Model $model): array
     {
-        // working
         $methods = get_class_methods($model);
         $data = [];
-        if (! is_array($methods)) {
-            return $data;
-        }
+        // if (! is_array($methods)) {
+        //     return $data;
+        // }
 
         foreach ($methods as $method) {
             $reflection = new ReflectionMethod($model, $method);
@@ -868,7 +867,8 @@ if (! function_exists('isJson')) {
     */
     function isJson(string $string): bool
     {
-        return is_string($string) && is_array(json_decode($string, true, 512, JSON_THROW_ON_ERROR));
+        // return is_string($string) && is_array(json_decode($string, true, 512, JSON_THROW_ON_ERROR));
+        return is_array(json_decode($string, true, 512, JSON_THROW_ON_ERROR));
     }
 }
 
@@ -1055,6 +1055,9 @@ if (! function_exists('getServerName')) {
         $server_name = $default;
         if (isset($_SERVER['SERVER_NAME']) && '127.0.0.1' !== $_SERVER['SERVER_NAME']) {
             $server_name = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
+        }
+        if (! is_string($server_name)) {
+            $server_name = $default;
         }
         $server_name = Str::of($server_name)->replace('www.', '')->toString();
 
