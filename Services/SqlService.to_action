@@ -20,11 +20,11 @@ class SqlService
         ?string $to_field = null,
     ): string {
         if (null === $from_field) {
-            Assert::string($from_field = $model->getAttributeValue('from_field'));
+            Assert::string($from_field = $model->from_field);
         }
 
         if (null === $to_field) {
-            Assert::string($to_field = $model->getAttributeValue('to_field'));
+            Assert::string($to_field = $model->to_field);
         }
 
         if (null !== $date_min) {
