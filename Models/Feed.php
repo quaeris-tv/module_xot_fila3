@@ -16,8 +16,10 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|Feed                                newModelQuery()
  * @method static Builder|Feed                                newQuery()
  * @method static Builder|Feed                                query()
+ *
  * @property \Modules\Xot\Contracts\ProfileContract|null $creator
  * @property \Modules\Xot\Contracts\ProfileContract|null $updater
+ *
  * @mixin \Eloquent
  */
 class Feed extends BaseModel
