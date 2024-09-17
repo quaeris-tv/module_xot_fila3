@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Database\Migrations;
 
-use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Modules\Xot\Datas\XotData;
 use Nwidart\Modules\Facades\Module;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Schema\Builder;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 /**
  * Class XotBaseMigration.
@@ -159,7 +158,6 @@ abstract class XotBaseMigration extends Migration
               AND constraint_type = 'PRIMARY KEY'";
 
         $result = $connection->selectOne($query, [$database, $table]);
-
 
         // Check if result is an array or object and handle accordingly
         if (is_array($result)) {
