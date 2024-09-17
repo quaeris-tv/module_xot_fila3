@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models\Traits;
 
-use Exception;
-use Illuminate\Support\Str;
-use Webmozart\Assert\Assert;
-use Modules\Xot\Models\Extra;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Xot\Contracts\ExtraContract;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Str;
+use Modules\Xot\Contracts\ExtraContract;
+use Modules\Xot\Models\Extra;
+use Webmozart\Assert\Assert;
 
 /**
  * Modules\Xot\Models\HasExtraTrait.
@@ -48,15 +47,14 @@ trait HasExtraTrait
     public function getExtra(string $name)
     {
         $value = $this->extra?->extra_attributes->get($name);
-        if(is_array($value) || is_integer($value)
-
-        //|| is_float($value)
+        if (is_array($value) || is_integer($value)
+        // || is_float($value)
         || is_null($value) || is_bool($value)
         || is_string($value)
         ) {
             return $value;
         }
-        throw new Exception('['.__LINE__.']['.__CLASS__.']');
+        throw new \Exception('['.__LINE__.']['.__CLASS__.']');
     }
 
     /**
