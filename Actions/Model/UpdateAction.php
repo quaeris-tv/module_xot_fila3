@@ -36,7 +36,7 @@ class UpdateAction
         }
 
         /**
-         * @phpstan-ignore-next-line.
+         * @phpstan-ignore method.notFound (.)
          */
         $model = tap($model)->update($data);
 
