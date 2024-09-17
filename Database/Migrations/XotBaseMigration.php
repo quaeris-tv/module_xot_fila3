@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Database\Migrations;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder;
-use Illuminate\Support\Facades\Schema;
+use Exception;
 use Illuminate\Support\Str;
 use Modules\Xot\Datas\XotData;
 use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Schema\Builder;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 /**
  * Class XotBaseMigration.
@@ -159,7 +160,19 @@ abstract class XotBaseMigration extends Migration
 
         $result = $connection->selectOne($query, [$database, $table]);
 
-        return $result->count > 0;
+
+        // Check if result is an array or object and handle accordingly
+        if (is_array($result)) {
+            return isset($result['count']) && $result['count'] > 0;
+        }
+
+        // If it's an object, access the property directly
+        if (is_object($result) && property_exists($result, 'count')) {
+            return $result->count > 0;
+        }
+
+        // If neither, handle the error or unexpected case
+        return false;
     }
 
     /**
