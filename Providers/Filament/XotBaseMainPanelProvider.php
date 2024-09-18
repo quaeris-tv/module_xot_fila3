@@ -38,9 +38,14 @@ abstract class XotBaseMainPanelProvider extends PanelProvider
             ->login()
             ->passwordReset()
             ->sidebarFullyCollapsibleOnDesktop()
+            ->spa()
+            ->profile(null, true)
+            // ->profile(MyProfilePage::class, false)
+            // ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors(
                 [
-                    'primary' => Color::Amber,
+                    // 'primary' => Color::Amber,
+                    'primary' => Color::Blue,
                 ]
             )
              // ---METATAG
