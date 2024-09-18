@@ -20,7 +20,7 @@ class GetTreeOptionsByModelClassAction
      *
      * @param class-string $class
      */
-    public function execute(string $class, Model|callable|null $where): array
+    public function execute(string $class, Model|callable|null $where = null): array
     {
         if (null == $where) {
             $rows = $class::tree()->get()->toTree();
