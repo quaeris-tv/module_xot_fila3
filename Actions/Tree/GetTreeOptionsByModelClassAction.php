@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Tree;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\QueueableAction\QueueableAction;
+use Illuminate\Support\Str;
 use Modules\Xot\Contracts\HasRecursiveRelationshipsContract;
+use Spatie\QueueableAction\QueueableAction;
 
 class GetTreeOptionsByModelClassAction
 {
@@ -22,7 +22,7 @@ class GetTreeOptionsByModelClassAction
      */
     public function execute(string $class, Model|callable|null $where): array
     {
-        if($where == null) {
+        if (null == $where) {
             $rows = $class::tree()->get()->toTree();
         } else {
             $rows = $class::treeOf($where)->get()->toTree();

@@ -249,9 +249,8 @@ interface HasRecursiveRelationshipsContract
      */
     public static function withMaxDepth(int $maxDepth, callable $query): mixed;
 
-
     /**
-     * added by XOT, viene utilizzato nelle options delle select
+     * added by XOT, viene utilizzato nelle options delle select.
      */
     public function getLabel(): string;
 }
