@@ -9,10 +9,8 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
-use Spatie\QueueableAction\QueueableAction;
 use Illuminate\Support\Facades\Schema;
+use Spatie\QueueableAction\QueueableAction;
 
 class HasColumnAction
 {
@@ -21,6 +19,7 @@ class HasColumnAction
     public function execute(Model $model, string $column): bool
     {
         $conn = Schema::connection($model->getConnectionName());
+
         return $conn->hasColumn($model->getTable(), $column);
     }
 }
