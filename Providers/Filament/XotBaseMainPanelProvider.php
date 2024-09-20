@@ -92,11 +92,17 @@ abstract class XotBaseMainPanelProvider extends PanelProvider
 
         $panel->navigationItems($navs);
 
+        try {
+            $profile_url = MyProfilePage::getUrl(panel:$panel->getId());
+        } catch (\Exception $e) {
+            $profile_url = '#';
+        }
+
         $panel->userMenuItems([
             // 'account' => MenuItem::make()->url($profile_url),
             MenuItem::make()
                 ->label('Account')
-                ->url(fn (): string => MyProfilePage::getUrl(panel: $panel->getId()))
+                ->url(fn (): string => $profile_url)
                 ->icon('heroicon-o-user'),
         ]);
 
