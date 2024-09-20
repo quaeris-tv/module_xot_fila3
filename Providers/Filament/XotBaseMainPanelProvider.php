@@ -93,7 +93,7 @@ abstract class XotBaseMainPanelProvider extends PanelProvider
         $panel->navigationItems($navs);
 
         try {
-            $profile_url = MyProfilePage::getUrl(panel:$panel->getId());
+            $profile_url = MyProfilePage::getUrl(panel: $panel->getId());
         } catch (\Exception $e) {
             $profile_url = '#';
         }
