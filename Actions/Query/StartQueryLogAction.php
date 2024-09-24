@@ -7,8 +7,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Query;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 use Spatie\QueueableAction\QueueableAction;
 
 class StartQueryLogAction
