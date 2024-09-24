@@ -21,7 +21,7 @@ abstract class XotBaseRelationManager extends RelationManager
     public static function trans(string $key): string
     {
         $moduleNameLow = Str::lower(static::getModuleName());
-        // Assert::notNull(static::$model,'['.__LINE__.']['.__FILE__.']');
+        // Assert::notNull(static::$model,'['.__LINE__.']['.class_basename($this).']');
         $p = Str::after(static::class, 'Filament\Resources\\');
         $p_arr = explode('\\', $p);
         /*

@@ -150,7 +150,7 @@ class TranslatorService extends BaseTranslator
         $path = collect($trans->getLoader()->namespaces())->flip()->search($namespace);
         $file_path = $path.\DIRECTORY_SEPARATOR.$lang.\DIRECTORY_SEPARATOR.$group.'.php';
 
-        return FileService::fixPath($file_path);
+        return app(\Modules\Xot\Actions\File\FixPathAction::class)->execute($file_path);
     }
 
     /**
@@ -176,7 +176,7 @@ class TranslatorService extends BaseTranslator
                     'data' => $data,
                 ]
             );
-            throw new \Exception('['.__LINE__.']['.__FILE__.']');
+            throw new \Exception('['.__LINE__.']['.class_basename(static::class).']');
         }
 
         $merged = collect($original)

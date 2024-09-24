@@ -7,7 +7,6 @@
     "require": {
         "kriswallsmith/assetic": "^1.4",
         "leafo/lessphp": "^0.5.0",
-        "scssphp/scssphp": "^0.8.2",
         "lmammino/jsmin4assetic": "^1.0",
         "maatwebsite/excel": "^3.1",
         "mrclay/jsmin-php": "^2.4",

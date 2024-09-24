@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Modules\Xot\Services\BladeService;
-use Modules\Xot\Services\FileService;
 use Modules\Xot\Services\LivewireService;
 
 use function Safe\glob;
@@ -83,6 +82,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             File::makeDirectory($svg_abs_path, 0755, true, true);
             File::put($svg_abs_path.'/.gitkeep', '');
         }
+
         Config::set('blade-icons.sets.'.$this->module_name.'.path', $svg_path);
         Config::set('blade-icons.sets.'.$this->module_name.'.prefix', $this->module_name);
     }
@@ -178,7 +178,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
     public function registerCommands(): void
     {
         $prefix = '';
-        $comps = FileService::getComponents(
+        $comps = app(\Modules\Xot\Actions\File\GetComponentsAction::class)->execute(
             $this->module_dir.'/../Console/Commands',
             Str::before($this->module_ns, '\Providers'),
             $prefix,

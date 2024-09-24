@@ -50,13 +50,14 @@ class SendMailByRecordAction
         // dddx($to);
         // $to = 'marco.sottana@gmail.com';
 
-        Assert::isInstanceOf($mailable = new $mail_class($record), \Illuminate\Contracts\Mail\Mailable::class, '['.__LINE__.']['.__FILE__.']');
+        Assert::isInstanceOf($mailable = new $mail_class($record), \Illuminate\Contracts\Mail\Mailable::class, '['.__LINE__.']['.class_basename($this).']');
         // $mailable = new $mail_class($record);
         if (null != $to) {
             Mail::to($to)->send($mailable);
             $record->myLogs()->create(['act' => 'sendMail']);
         } else {
-            throw new \Exception('Email is null matr['.$record->getTable().']['.$record->getKey().']');
+            // throw new \Exception('Email is null matr['.$record->getTable().']['.$record->getKey().']');
+            throw new \Exception('['.__LINE__.']['.__CLASS__.']');
         }
         /*
         $log_class::create([

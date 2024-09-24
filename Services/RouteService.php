@@ -171,7 +171,7 @@ class RouteService
             );
             }
 
-            return '#['.__LINE__.']['.__FILE__.']';
+            return '#['.__LINE__.']['.class_basename($this).']';
         }
 
         //--- aggiungo le query string all'url corrente
@@ -282,7 +282,7 @@ class RouteService
                 ]);
             }
 
-            return '#['.__LINE__.']['.__FILE__.']';
+            return '#['.__LINE__.']['.class_basename($this).']';
         }
 
         return $url;
@@ -346,7 +346,7 @@ class RouteService
             //dddx($route_params['item'.$i]->guidLang);
         }
         //dddx($route_params);
-        //return '/wip['.__LINE__.']['.__FILE__.']';
+        //return '/wip['.__LINE__.']['.class_basename($this).']';
         try {
             return route($route_name, $route_params);
         } catch (\Exception $e) {

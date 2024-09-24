@@ -3,10 +3,10 @@
 ~~~ bash
 mkdir demo01
 cd demo01
-laravel new laravel 
+laravel new laravel (with breeze, volt+class, darkMode, Pest, no git)
 mv laravel/public  public_html
 ~~~
-    
+
 edit public_html/index.php
 ~~~ php
 <?php
@@ -90,17 +90,9 @@ edit file composer.json
         "php": "^8.2",
         "filament/filament": "^3.2",
         "laravel/framework": "^11.9",
-        "nwidart/laravel-modules": "^11.0",
-        "symfony/http-client": "^7.1"
-    },
-    "require_comment": {
-
+        "nwidart/laravel-modules": "^11.0"
     },
     "require-dev": {
-
-    },
-    "require-dev_comment": {
-         "maantje/xhprof-buggregator-laravel": "^0.4.0"
 
     },
     "repositories_comment": [

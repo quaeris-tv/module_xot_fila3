@@ -35,6 +35,9 @@ class ArtisanService
     {
         // da fare anche in noconsole, e magari mettere un policy
         $module_name = Request::input('module', '');
+        if (! is_string($module_name)) {
+            $module_name = '';
+        }
         switch ($act) {
             case 'migrate':
                 DB::purge('mysql');
@@ -128,6 +131,9 @@ class ArtisanService
         $view = 'xot::acts.artisan.error-show';
         $files = File::files(storage_path('logs'));
         $log = request('log', '');
+        if (! is_string($log)) {
+            $log = '';
+        }
         $content = '';
         if ('' !== $log && File::exists(storage_path('logs/'.$log))) {
             $content = File::get(storage_path('logs/'.$log));

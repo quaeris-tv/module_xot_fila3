@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Modules\Xot\Datas\MetatagData;
 use Modules\Xot\Datas\XotData;
-use Modules\Xot\Services\FileService;
 use Nwidart\Modules\Facades\Module;
 use Webmozart\Assert\Assert;
 
@@ -39,7 +38,7 @@ class XotComposer
             throw new \Exception('create a View\Composers\ThemeComposer.php inside a module with ['.$name.'] method');
         }
 
-        Assert::isInstanceOf($module, \Nwidart\Modules\Module::class, '['.__LINE__.']['.__FILE__.']');
+        Assert::isInstanceOf($module, \Nwidart\Modules\Module::class, '['.__LINE__.']['.class_basename($this).']');
         $class = '\Modules\\'.$module->getName().'\View\Composers\ThemeComposer';
         // Parameter #1 $callback of function call_user_func_array expects callable(): mixed, array{*NEVER*, string} given.
         $app = app($class);
@@ -65,7 +64,7 @@ class XotComposer
 
     public function asset(string $str): string
     {
-        return asset(FileService::asset($str));
+        return asset(app(\Modules\Xot\Actions\File\AssetAction::class)->execute($str));
     }
 
     public function metatag(string $str): string|bool

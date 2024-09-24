@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Datas\XotData;
-use Modules\Xot\Services\FileService;
 use Modules\Xot\Services\ModuleService;
 use Nwidart\Modules\Facades\Module;
 
@@ -63,8 +62,8 @@ if (! function_exists('isRunningTestBench')) {
 
         return $res;
         */
-        $path = FileService::fixPath('\vendor\orchestra\testbench-core\laravel');
-        $base = FileService::fixPath(base_path());
+        $path = app(Modules\Xot\Actions\File\FixPathAction::class)->execute('\vendor\orchestra\testbench-core\laravel');
+        $base = app(Modules\Xot\Actions\File\FixPathAction::class)->execute(base_path());
         $res = Str::endsWith($base, $path);
 
         return $res;
@@ -164,7 +163,7 @@ if (! function_exists('dddx')) {
         $file = $tmp[0]['file'] ?? 'file-unknown';
         $file = str_replace('/', DIRECTORY_SEPARATOR, $file);
 
-        $doc_root = $_SERVER['DOCUMENT_ROOT'];
+        Assert::string($doc_root = $_SERVER['DOCUMENT_ROOT']);
         $doc_root = str_replace('/', DIRECTORY_SEPARATOR, (string) $doc_root);
 
         $dir_piece = explode(DIRECTORY_SEPARATOR, __DIR__);
@@ -181,14 +180,16 @@ if (! function_exists('dddx')) {
         $data = [
             '_' => $params,
             'line' => $tmp[0]['line'] ?? 'line-unknows',
-            'file' => FileService::fixPath($tmp[0]['file'] ?? 'file-unknown'),
+            'file' => app(Modules\Xot\Actions\File\FixPathAction::class)->execute($tmp[0]['file'] ?? 'file-unknown'),
             'time' => microtime(true) - $start,
+            'memory_taken' => round(memory_get_peak_usage() / (1024 * 1024), 2).' MB',
+
             // 'file_1' => $file, //da sistemare
         ];
-        if (File::exists($data['file']) && Str::startsWith($data['file'], FileService::fixPath(storage_path('framework/views')))) {
+        if (File::exists($data['file']) && Str::startsWith($data['file'], app(Modules\Xot\Actions\File\FixPathAction::class)->execute(storage_path('framework/views')))) {
             // $data['extra'] = 'preso';
             $content = File::get($data['file']);
-            $data['view_file'] = FileService::fixPath(Str::between($content, '/**PATH ', ' ENDPATH**/'));
+            $data['view_file'] = app(Modules\Xot\Actions\File\FixPathAction::class)->execute(Str::between($content, '/**PATH ', ' ENDPATH**/'));
         }
 
         dd(
@@ -400,7 +401,8 @@ if (! function_exists('params2ContainerItem')) {
         foreach ($params as $k => $v) {
             $pattern = '/(container|item)(\d+)/';
             preg_match($pattern, $k, $matches);
-            if (isset($matches[1]) && isset($matches[2])) {
+
+            if (is_array($matches) && isset($matches[1]) && isset($matches[2])) {
                 $sk = $matches[1];
                 $sv = $matches[2];
                 ${$sk}[$sv] = $v;
@@ -452,7 +454,7 @@ if (! function_exists('getModelByName')) {
             throw new Exception('['.$name.'] not in morph_map ['.__LINE__.']['.__FILE__.']');
         }
 
-        $path = FileService::fixPath($path);
+        $path = app(Modules\Xot\Actions\File\FixPathAction::class)->execute($path);
         $info = pathinfo($path);
         $module_name = Str::between($path, 'Modules'.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR.'Models');
 
@@ -497,11 +499,6 @@ if (! function_exists('getModuleFromModel')) {
 if (! function_exists('getModuleNameFromModel')) {
     function getModuleNameFromModel(object $model): string
     {
-        if (! is_object($model)) {
-            dddx(['model' => $model]);
-            throw new Exception('model is not an object');
-        }
-
         $class = $model::class;
 
         return Str::before(Str::after($class, 'Modules\\'), '\\Models\\');
@@ -739,12 +736,11 @@ if (! function_exists('getRelationships')) {
      */
     function getRelationships(Model $model): array
     {
-        // working
         $methods = get_class_methods($model);
         $data = [];
-        if (! is_array($methods)) {
-            return $data;
-        }
+        // if (! is_array($methods)) {
+        //     return $data;
+        // }
 
         foreach ($methods as $method) {
             $reflection = new ReflectionMethod($model, $method);
@@ -871,7 +867,8 @@ if (! function_exists('isJson')) {
     */
     function isJson(string $string): bool
     {
-        return is_string($string) && is_array(json_decode($string, true, 512, JSON_THROW_ON_ERROR));
+        // return is_string($string) && is_array(json_decode($string, true, 512, JSON_THROW_ON_ERROR));
+        return is_array(json_decode($string, true, 512, JSON_THROW_ON_ERROR));
     }
 }
 
@@ -1059,6 +1056,9 @@ if (! function_exists('getServerName')) {
         if (isset($_SERVER['SERVER_NAME']) && '127.0.0.1' !== $_SERVER['SERVER_NAME']) {
             $server_name = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
         }
+        if (! is_string($server_name)) {
+            $server_name = $default;
+        }
         $server_name = Str::of($server_name)->replace('www.', '')->toString();
 
         return $server_name;
@@ -1149,7 +1149,7 @@ if (! function_exists('profile')) {
 if (! function_exists('cssInLine')) {
     function cssInLine(string $file): string
     {
-        return File::get(FileService::assetPath($file));
+        return File::get(app(Modules\Xot\Actions\File\AssetPathAction::class)->execute($file));
     }
 }
 
