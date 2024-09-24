@@ -99,7 +99,5 @@ class AssetAction
         Assert::string($asset, '['.__LINE__.']['.class_basename(static::class).']');
 
         return $asset;
-
-        // return asset(self::viewNamespaceToAsset($path));
     }
 }

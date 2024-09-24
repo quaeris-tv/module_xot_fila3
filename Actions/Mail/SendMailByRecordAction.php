@@ -46,7 +46,7 @@ class SendMailByRecordAction
         */
         // $to = $record->attributes['email'] ?? null;
 
-        $to = $record->getAttributeValue('email') ?? null;
+        $to = $record->email ?? null;
         // dddx($to);
         // $to = 'marco.sottana@gmail.com';
 

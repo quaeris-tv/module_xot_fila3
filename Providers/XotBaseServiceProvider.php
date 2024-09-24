@@ -138,26 +138,9 @@ abstract class XotBaseServiceProvider extends ServiceProvider
 
     public function registerBladeComponents(): void
     {
-        /*
-        $module = Module::find($this->module_name);
-        if (null == $module) {
-            throw new \Exception('['.$this->module_name.'] is not found');
-        }
-
-        $namespace = 'Modules\\'.$module->getName().'\View\Components';
-
-        Blade::componentNamespace($namespace, $module->getLowerName());
-        */
         $namespace = $this->module_ns.'\View\Components';
         Blade::componentNamespace($namespace, $this->module_name);
-        /*
-        dddx([
-            'module_ns'=>$this->module_ns,
-            'module_dir'=>$this->module_dir,
-            'this'=>$this,
-        ])
-        ;
-        */
+
         BladeService::registerComponents($this->module_dir.'/../View/Components', $this->module_ns);
     }
 

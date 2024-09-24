@@ -248,4 +248,9 @@ interface HasRecursiveRelationshipsContract
      * Execute a query with a maximum depth constraint for the recursive query.
      */
     public static function withMaxDepth(int $maxDepth, callable $query): mixed;
+
+    /**
+     * added by XOT, viene utilizzato nelle options delle select.
+     */
+    public function getLabel(): string;
 }

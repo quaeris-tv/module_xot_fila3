@@ -14,7 +14,7 @@ class ListLogs extends ListRecords
 {
     protected static string $resource = LogResource::class;
 
-    public TableLayoutEnum $layoutView = TableLayoutEnum::GRID;
+    public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     protected function getTableHeaderActions(): array
     {

@@ -24,7 +24,7 @@ class ListModules extends ListRecords
 {
     protected static string $resource = ModuleResource::class;
 
-    public TableLayoutEnum $layoutView = TableLayoutEnum::GRID;
+    public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     protected function getTableHeaderActions(): array
     {

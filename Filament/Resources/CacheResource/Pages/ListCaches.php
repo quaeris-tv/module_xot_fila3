@@ -21,7 +21,7 @@ class ListCaches extends ListRecords
 {
     protected static string $resource = CacheResource::class;
 
-    public TableLayoutEnum $layoutView = TableLayoutEnum::GRID;
+    public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     protected function getTableHeaderActions(): array
     {

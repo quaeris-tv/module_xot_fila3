@@ -67,7 +67,7 @@ abstract class BaseProfile extends BaseModel implements ProfileContract
      */
     // private string $guard_name = 'web';
 
-    /** @var array<int, string> */
+    /** @var list<string> */
     protected $fillable = [
         'id',
         'user_id',
