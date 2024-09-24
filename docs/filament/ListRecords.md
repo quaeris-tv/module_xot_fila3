@@ -30,7 +30,7 @@ class ListXXX extends ListRecords
 {
     use TransTrait;
 
-    public TableLayoutEnum $layoutView = TableLayoutEnum::GRID;
+    public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     protected function getTableHeaderActions(): array
     {
