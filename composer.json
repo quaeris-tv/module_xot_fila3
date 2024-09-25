@@ -43,6 +43,7 @@
         "spatie/laravel-permission": "*",
         "spatie/laravel-queueable-action": "*",
         "spatie/laravel-schemaless-attributes": "^2.5",
+        "spatie/laravel-sluggable": "^3.6",
         "spatie/laravel-tags": "*",
         "spipu/html2pdf": "^5.2",
         "staudenmeir/laravel-adjacency-list": "^1.22",
