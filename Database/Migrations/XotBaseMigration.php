@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Database\Migrations;
 
+use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Modules\Xot\Datas\XotData;
@@ -299,4 +303,40 @@ abstract class XotBaseMigration extends Migration
             $table->renameColumn('id', 'uuid');
         }
     }
-}
+
+    /**
+     * Get the migration connection name.
+     */
+    public function getConnection(): ?string
+    {
+        return Config::get('pulse.storage.database.connection');
+    }
+
+    /**
+     * Determine if the migration should run.
+     */
+    protected function shouldRun(): bool
+    {
+        if (in_array($this->driver(), ['mariadb', 'mysql', 'pgsql', 'sqlite'])) {
+            return true;
+        }
+
+        if (! App::environment('testing')) {
+            throw new \RuntimeException("Pulse does not support the [{$this->driver()}] database driver.");
+        }
+
+        if (Config::get('pulse.enabled')) {
+            throw new \RuntimeException("Pulse does not support the [{$this->driver()}] database driver. You can disable Pulse in your testsuite by adding `<env name=\"PULSE_ENABLED\" value=\"false\"/>` to your project's `phpunit.xml` file.");
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the database connection driver.
+     */
+    protected function driver(): string
+    {
+        return DB::connection($this->getConnection())->getDriverName();
+    }
+}// end XotBaseMigration

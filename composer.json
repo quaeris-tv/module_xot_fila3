@@ -28,6 +28,7 @@
         "illuminate/support": "*",
         "laravel/folio": "^1.1",
         "laravel/framework": "^11.9",
+        "laravel/pulse": "^1.2",
         "livewire/livewire": "*",
         "livewire/volt": "^1.6",
         "maatwebsite/excel": "^3.1",
