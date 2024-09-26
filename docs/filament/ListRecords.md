@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace Modules\XXX\Filament\Resources\XXXResource\Pages;
 
 use Exception;
+use Filament\Actions;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Actions\Action;
@@ -32,6 +33,15 @@ class ListXXX extends ListRecords
 
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
+    protected static string $resource = XXXResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make(),
+        ];
+    }
+
     protected function getTableHeaderActions(): array
     {
         return [
@@ -39,12 +49,7 @@ class ListXXX extends ListRecords
         ];
     }
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            CreateAction::make(),
-        ];
-    }
+  
 
     public function getGridTableColumns(): array
     {
