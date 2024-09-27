@@ -309,7 +309,10 @@ abstract class XotBaseMigration extends Migration
      */
     public function getConnection(): ?string
     {
-        return Config::get('pulse.storage.database.connection');
+        /** @var string */
+        $pulse_connection = Config::get('pulse.storage.database.connection');
+
+        return $pulse_connection;
     }
 
     /**
