@@ -54,6 +54,9 @@ trait RelationX
         ;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\Pivot
+     */
     public function guessPivot(string $related)
     {
         $model_names = [
