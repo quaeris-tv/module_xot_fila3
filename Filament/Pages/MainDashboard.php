@@ -31,6 +31,11 @@ class MainDashboard extends Page
             redirect($url);
         }
 
+        if (0 === $modules->count()) {
+            $url = '/'.app()->getLocale();
+            redirect($url);
+        }
+
         /*
         if (! $user?->hasRole('super-admin')) {
             redirect('/admin');
