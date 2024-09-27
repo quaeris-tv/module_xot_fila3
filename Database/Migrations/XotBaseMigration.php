@@ -126,7 +126,11 @@ abstract class XotBaseMigration extends Migration
 
     public function getColumnType(string $column): string
     {
-        return $this->getConn()->getColumnType($this->getTable(), $column);
+        try {
+            return $this->getConn()->getColumnType($this->getTable(), $column);
+        } catch (\Exception $e) {
+            return 'not-exists';
+        }
     }
 
     public function isColumnType(string $column, string $type): bool
