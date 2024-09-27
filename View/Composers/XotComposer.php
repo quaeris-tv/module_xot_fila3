@@ -60,6 +60,7 @@ class XotComposer
         if (Auth::check()) {
             $profile = XotData::make()->getProfileModel();
             $view->with('_profile', $profile);
+            $view->with('_user', auth()->user());
         }
     }
 
