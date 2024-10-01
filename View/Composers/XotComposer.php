@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\View\Composers;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Modules\Xot\Datas\MetatagData;
@@ -56,9 +57,10 @@ class XotComposer
         $lang = app()->getLocale();
         $view->with('lang', $lang);
         $view->with('_theme', $this);
-        if (\Auth::check()) {
+        if (Auth::check()) {
             $profile = XotData::make()->getProfileModel();
             $view->with('_profile', $profile);
+            $view->with('_user', auth()->user());
         }
     }
 

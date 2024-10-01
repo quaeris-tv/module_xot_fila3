@@ -42,13 +42,19 @@ trait HasExtraTrait
     }
 
     /**
-     * @return mixed|null
+     * @return array|bool|int|string|null
      */
     public function getExtra(string $name)
     {
         $value = $this->extra?->extra_attributes->get($name);
-
-        return $value;
+        if (is_array($value) || is_integer($value)
+        // || is_float($value)
+        || is_null($value) || is_bool($value)
+        || is_string($value)
+        ) {
+            return $value;
+        }
+        throw new \Exception('['.__LINE__.']['.__CLASS__.']');
     }
 
     /**

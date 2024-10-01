@@ -6,6 +6,7 @@ namespace Modules\Xot\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Xot\Contracts\ExtraContract;
 use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 use Spatie\SchemalessAttributes\SchemalessAttributesTrait;
 use Webmozart\Assert\Assert;
@@ -46,7 +47,7 @@ use Webmozart\Assert\Assert;
  *
  * @mixin \Eloquent
  */
-abstract class BaseExtra extends Model
+abstract class BaseExtra extends BaseModel implements ExtraContract
 {
     use SchemalessAttributesTrait;
 

@@ -116,12 +116,12 @@ class MetatagData extends Data implements Wireable
 
     public function getLogoHeader(): string
     {
-        return app(\Modules\Xot\Actions\File\AssetAction::class)->execute($this->logo_header);
+        return asset(app(\Modules\Xot\Actions\File\AssetAction::class)->execute($this->logo_header));
     }
 
     public function getLogoHeaderDark(): string
     {
-        return app(\Modules\Xot\Actions\File\AssetAction::class)->execute($this->logo_header_dark);
+        return asset(app(\Modules\Xot\Actions\File\AssetAction::class)->execute($this->logo_header_dark));
     }
 
     public function getLogoHeight(): string

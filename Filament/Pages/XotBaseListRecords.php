@@ -16,7 +16,7 @@ use Modules\Xot\Filament\Actions\Header\ExportXlsAction;
  */
 abstract class XotBaseListRecords extends ListRecords
 {
-    public TableLayoutEnum $layoutView = TableLayoutEnum::GRID;
+    public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     protected function getTableHeaderActions(): array
     {

@@ -83,7 +83,7 @@ class LazyCollectionExport implements FromIterator, ShouldQueue, WithHeadings, W
      */
     public function iterator(): \Iterator
     {
-        /* @phpstan-ignore-next-line */
+        /* @phpstan-ignore return.type */
         return $this->collection->getIterator();
     }
 }

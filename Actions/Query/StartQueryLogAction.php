@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Query;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueueableAction\QueueableAction;
 
@@ -16,7 +17,7 @@ class StartQueryLogAction
 
     public function execute(): void
     {
-        \Event::listen('Illuminate\Database\Events\QueryExecuted', function ($query) {
+        Event::listen('Illuminate\Database\Events\QueryExecuted', function ($query) {
             $sql = $query->sql;
             $time = $query->time;
             $connection = $query->connection->getName();

@@ -6,10 +6,18 @@ namespace Modules\Xot\Providers;
 
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Field;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\TimePicker;
+use Filament\Infolists\Components\Entry;
+use Filament\Support\Components\Component;
+use Filament\Support\Concerns\Configurable;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\BaseFilter;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\MigrationsEnded;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
@@ -20,7 +28,7 @@ use Illuminate\Support\Facades\View;
 use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
 use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
-use Modules\Xot\Providers\Traits\TranslatorTrait;
+// use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\View\Composers\XotComposer;
 
 use function Safe\realpath;
@@ -33,7 +41,7 @@ use Webmozart\Assert\Assert;
  */
 class XotServiceProvider extends XotBaseServiceProvider
 {
-    use TranslatorTrait;
+    // use TranslatorTrait; TO LANG
 
     public string $module_name = 'xot';
 
@@ -44,11 +52,14 @@ class XotServiceProvider extends XotBaseServiceProvider
     public function bootCallback(): void
     {
         $this->redirectSSL();
-        $this->registerTranslator();
+        // $this->registerTranslator(); to lang
         $this->registerViewComposers(); // rompe filament
         $this->registerEvents();
         $this->registerExceptionHandler();
         $this->registerTimezone();
+        // Model::shouldBeStrict(! app()->isProduction());
+
+        $this->translatableComponents();
         $this->registerProviders();
     }
 
@@ -77,6 +88,18 @@ class XotServiceProvider extends XotBaseServiceProvider
         DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone)->displayFormat($date_format));
         TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
+    }
+
+    protected function translatableComponents(): void
+    {
+        $components = [Field::class, BaseFilter::class, Placeholder::class, Column::class, Entry::class];
+        foreach ($components as $component) {
+            /* @var Configurable $component */
+            $component::configureUsing(function (Component $translatable): void {
+                /* @phpstan-ignore method.notFound */
+                $translatable->translateLabel();
+            });
+        }
     }
 
     /**

@@ -39,7 +39,7 @@ class ExportXlsStreamByLazyCollection
                     // if(!method_exists($value,'toArray')){
                     //    throw new \Exception('WIP['.__LINE__.']['.class_basename($this).']');
                     // }
-                    /** @phpstan-ignore-next-line */
+                    /** @phpstan-ignore method.nonObject */
                     $data = $value->toArray();
 
                     fputcsv($file, $data);

@@ -80,7 +80,7 @@ class HandlersRepository
         // protected function handlesException(Closure $handler, \Throwable $e)
         // Parameter #1 $function of class ReflectionFunction constructor expects Closure|string, callable(): mixed
         //  given.
-        /** @phpstan-ignore-next-line */
+        /** @phpstan-ignore argument.type */
         $reflection = new \ReflectionFunction($handler);
 
         if (! $params = $reflection->getParameters()) {
