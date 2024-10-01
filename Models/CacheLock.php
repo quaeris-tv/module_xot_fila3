@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models;
 
-use Illuminate\Database\Eloquent\Builder;
-
 /**
  * Modules\Xot\Models\CacheLock.
  *
@@ -14,22 +12,22 @@ use Illuminate\Database\Eloquent\Builder;
  * @property int    $expiration
  *
  * @method static \Modules\Xot\Database\Factories\CacheLockFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|CacheLock                                newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|CacheLock                                newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|CacheLock                                query()
- * @method static \Illuminate\Database\Eloquent\Builder|CacheLock                                whereExpiration($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CacheLock                                whereKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CacheLock                                whereOwner($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereExpiration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereOwner($value)
  *
  * @property int $expiration
  *
  * @method static \Modules\Xot\Database\Factories\CacheLockFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|CacheLock                                newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|CacheLock                                newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|CacheLock                                query()
- * @method static \Illuminate\Database\Eloquent\Builder|CacheLock                                whereExpiration($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CacheLock                                whereKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CacheLock                                whereOwner($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereExpiration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereOwner($value)
  *
  * @property \Modules\Xot\Contracts\ProfileContract|null $creator
  * @property \Modules\Xot\Contracts\ProfileContract|null $updater

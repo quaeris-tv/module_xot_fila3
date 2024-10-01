@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
-
 /**
  * Model Extra.
  *
@@ -17,10 +15,10 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel       disableCache()
  * @method static \Modules\Xot\Database\Factories\ExtraFactory          factory($count = null, $state = [])
  * @method static \Illuminate\Contracts\Database\Eloquent\Builder|Extra newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Extra                                         newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Extra                                         query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra           newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra           query()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel       withCacheCooldownSeconds(?int $seconds = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Extra                                         withExtraAttributes()
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra           withExtraAttributes()
  *
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at

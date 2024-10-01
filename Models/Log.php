@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\File;
 
 // --- services
@@ -13,12 +12,12 @@ use Illuminate\Support\Facades\File;
  * Modules\Xot\Models\Feed.
  *
  * @method static \Modules\Xot\Database\Factories\FeedFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Feed                                newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Feed                                newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Feed                                query()
- * @method static \Illuminate\Database\Eloquent\Builder|Feed                                newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Feed                                newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Feed                                query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  query()
  *
  * @property string|null $id
  * @property string|null $name
