@@ -85,7 +85,8 @@ class QueryExport implements FromQuery, ShouldQueue, WithChunkReading, WithHeadi
      */
     public function query(): QueryBuilder|EloquentBuilder|Relation
     {
-        return $this->query;//->orderBy('id');
+        return $this->query;
+        //->orderBy('id');
     }
 
     public function chunkSize(): int
