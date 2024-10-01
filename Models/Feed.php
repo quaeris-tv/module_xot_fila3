@@ -14,8 +14,10 @@ namespace Modules\Xot\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|Feed  newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Feed  newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Feed  query()
+ *
  * @property \Modules\Xot\Contracts\ProfileContract|null $creator
  * @property \Modules\Xot\Contracts\ProfileContract|null $updater
+ *
  * @mixin \Eloquent
  */
 class Feed extends BaseModel
