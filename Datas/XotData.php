@@ -103,7 +103,7 @@ class XotData extends Data implements Wireable
         $class = config('auth.providers.users.model');
         Assert::stringNotEmpty($class, 'check config auth');
         Assert::classExists($class, 'check config auth');
-        Assert::implementsInterface($class, UserContract::class, '['.__LINE__.']['.class_basename($this).']');
+        Assert::implementsInterface($class, UserContract::class, 'class '.$class.' not implements UserContract['.__LINE__.']['.class_basename($this).']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
 
         return $class;
