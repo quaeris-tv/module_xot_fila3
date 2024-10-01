@@ -21,11 +21,11 @@ use Webmozart\Assert\Assert;
  *
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel disableCache()
  * @method static \Modules\Xot\Database\Factories\ExtraFactory    factory($count = null, $state = [])
- * @method static Builder|Extra                                   newModelQuery()
- * @method static Builder|Extra                                   newQuery()
- * @method static Builder|Extra                                   query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra                                   newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra                                   newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra                                   query()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel withCacheCooldownSeconds(?int $seconds = null)
- * @method static Builder|Extra                                   withExtraAttributes()
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra                                   withExtraAttributes()
  *
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -34,16 +34,16 @@ use Webmozart\Assert\Assert;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property string|null                     $deleted_by
  *
- * @method static Builder|Extra whereCreatedAt($value)
- * @method static Builder|Extra whereCreatedBy($value)
- * @method static Builder|Extra whereDeletedAt($value)
- * @method static Builder|Extra whereDeletedBy($value)
- * @method static Builder|Extra whereExtraAttributes($value)
- * @method static Builder|Extra whereId($value)
- * @method static Builder|Extra whereModelId($value)
- * @method static Builder|Extra whereModelType($value)
- * @method static Builder|Extra whereUpdatedAt($value)
- * @method static Builder|Extra whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra whereExtraAttributes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra whereModelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra whereModelType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Extra whereUpdatedBy($value)
  *
  * @mixin \Eloquent
  */
