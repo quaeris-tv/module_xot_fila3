@@ -51,7 +51,6 @@ class FileService
     public static function asset(string $path): string
     {
         /*
-            to DOOOO
             viewNamespaceToPath     => /images/prova.png
             viewNamespaceToDir      => c:\var\wwww\test\images\prova.png
             viewNamespaceToAsset    => http://example.com/images/prova.png
