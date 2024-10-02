@@ -9,11 +9,13 @@
     ],
     "homepage": "https://github.com/laraxot/module_xot_fila3",
     "license": "MIT",
-    "authors": [{
-        "name": "marco sottana",
-        "email": "marco.sottana@gmail.com",
-        "role": "Developer"
-    }],
+    "authors": [
+        {
+            "name": "marco sottana",
+            "email": "marco.sottana@gmail.com",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^8.2",
         "calebporzio/sushi": "^2.5",
@@ -30,10 +32,10 @@
         "laravel/framework": "^11.9",
         "laravel/pennant": "^1.11",
         "laravel/pulse": "^1.2",
-        "livewire/livewire": "*",
+        "livewire/livewire": "^3.4",
         "livewire/volt": "^1.6",
         "maatwebsite/excel": "^3.1",
-        "nwidart/laravel-modules": "^11.0",
+        "nwidart/laravel-modules": "^11.1",
         "predis/predis": "^2.2",
         "spatie/cpu-load-health-check": "^1.0",
         "spatie/laravel-data": "^4.7",
@@ -65,7 +67,8 @@
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
         "orchestra/testbench": "^9.4",
-        "pestphp/pest": "^2.34",
+        "pestphp/pest": "^3.2",
+        "pestphp/pest-plugin-laravel": "^3.0",
         "spatie/laravel-error-solutions": "*",
         "thecodingmachine/phpstan-safe-rule": "^1.2"
     },
@@ -109,7 +112,6 @@
         ]
     },
     "scripts": {
-
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
@@ -130,13 +132,10 @@
                 "Modules\\Xot\\Providers\\XotServiceProvider",
                 "Modules\\Xot\\Providers\\Filament\\ModulesServiceProvider",
                 "Modules\\Xot\\Providers\\Filament\\AdminPanelProvider"
-
-
             ],
             "aliases": {}
         }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
-
 }
