@@ -56,20 +56,6 @@ abstract class XotBasePage extends Page
         return __($res);
     }
 
-    public function getModel(): string
-    {
-        // if (null != static::$model) {
-        //    return static::$model;
-        // }
-        $moduleName = static::getModuleName();
-        $modelName = Str::before(class_basename(static::class), 'Resource');
-        $res = 'Modules\\'.$moduleName.'\Models\\'.$modelName;
-        $this->model = $res;
-        // self::$model = $res;
-
-        return $res;
-    }
-
     public static function getPluralModelLabel(): string
     {
         return static::trans('navigation.plural');
@@ -84,5 +70,19 @@ abstract class XotBasePage extends Page
     public static function getNavigationGroup(): string
     {
         return static::trans('navigation.group.name');
+    }
+
+    public function getModel(): string
+    {
+        // if (null != static::$model) {
+        //    return static::$model;
+        // }
+        $moduleName = static::getModuleName();
+        $modelName = Str::before(class_basename(static::class), 'Resource');
+        $res = 'Modules\\'.$moduleName.'\Models\\'.$modelName;
+        $this->model = $res;
+        // self::$model = $res;
+
+        return $res;
     }
 }

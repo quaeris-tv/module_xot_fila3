@@ -14,23 +14,9 @@ use Modules\Xot\Filament\Resources\ExtraResource;
 
 class ListExtras extends ListRecords
 {
-    protected static string $resource = ExtraResource::class;
-
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            TableLayoutToggleTableAction::make(),
-        ];
-    }
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
+    protected static string $resource = ExtraResource::class;
 
     public function getTableColumns(): array
     {
@@ -69,4 +55,18 @@ class ListExtras extends ListRecords
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions());
     }
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            TableLayoutToggleTableAction::make(),
+        ];
+        }
+
+        protected function getHeaderActions(): array
+        {
+            return [
+                Actions\CreateAction::make(),
+            ];
+        }
 }

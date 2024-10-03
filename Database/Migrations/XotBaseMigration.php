@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Database\Migrations;
 
+use const DIRECTORY_SEPARATOR;
+
+use Closure;
+use Exception;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Migrations\Migration;
@@ -16,6 +20,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Modules\Xot\Datas\XotData;
 use Nwidart\Modules\Facades\Module;
+use ReflectionClass;
+use RuntimeException;
 
 /**
  * Class XotBaseMigration.
@@ -23,6 +29,7 @@ use Nwidart\Modules\Facades\Module;
 abstract class XotBaseMigration extends Migration
 {
     protected Model $model;
+
     protected ?string $model_class = null;
 
     public function __construct()
@@ -36,7 +43,7 @@ abstract class XotBaseMigration extends Migration
      */
     public function getModelClass(): string
     {
-        if (null !== $this->model_class) {
+        if ($this->model_class !== null) {
             return $this->model_class;
         }
 
@@ -52,19 +59,19 @@ abstract class XotBaseMigration extends Migration
                 ->toString();
         }
 
-        $reflectionClass = new \ReflectionClass($this);
+        $reflectionClass = new ReflectionClass($this);
         $filename = $reflectionClass->getFilename();
         $mod_path = Module::getPath();
 
         // Controllo che $filename sia valido prima di passarlo a Str::of()
-        $mod_name = false !== $filename
+        $mod_name = $filename !== false
             ? Str::of($filename)
                 ->after($mod_path)
-                ->explode(\DIRECTORY_SEPARATOR)[1]
+                ->explode(DIRECTORY_SEPARATOR)[1]
             : ''; // Fallback nel caso in cui $filename non sia valido.
 
         $this->model_class = Str::of('\Modules\\'.$mod_name.'\Models\\'.$name)
-            ->replace('/', \DIRECTORY_SEPARATOR)
+            ->replace('/', DIRECTORY_SEPARATOR)
             ->toString();
 
         return $this->model_class;
@@ -102,9 +109,9 @@ abstract class XotBaseMigration extends Migration
     /**
      * Get the table indexes using Doctrine's schema manager.
      *
-     * @throws \Doctrine\DBAL\Exception
-     *
      * @return array<\Doctrine\DBAL\Schema\Index>
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     // public function getTableIndexes(): array
     // {
@@ -128,7 +135,7 @@ abstract class XotBaseMigration extends Migration
     {
         try {
             return $this->getConn()->getColumnType($this->getTable(), $column);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return 'not-exists';
         }
     }
@@ -212,14 +219,14 @@ abstract class XotBaseMigration extends Migration
         });
     }
 
-    public function tableCreate(\Closure $next): void
+    public function tableCreate(Closure $next): void
     {
         if (! $this->tableExists()) {
             $this->getConn()->create($this->getTable(), $next);
         }
     }
 
-    public function tableUpdate(\Closure $next): void
+    public function tableUpdate(Closure $next): void
     {
         $this->getConn()->table($this->getTable(), $next);
     }
@@ -273,11 +280,11 @@ abstract class XotBaseMigration extends Migration
         $methodName = 'updateUserKey'.Str::studly($this->model->getKeyType());
         $this->{$methodName}($table);
 
-        if ($this->hasColumn('model_id') && 'bigint' === $this->getColumnType('model_id')) {
+        if ($this->hasColumn('model_id') && $this->getColumnType('model_id') === 'bigint') {
             $table->string('model_id', 36)->index()->change();
         }
 
-        if ($this->hasColumn('team_id') && 'bigint' === $this->getColumnType('team_id')) {
+        if ($this->hasColumn('team_id') && $this->getColumnType('team_id') === 'bigint') {
             $table->uuid('team_id')->nullable()->change();
         }
     }
@@ -288,11 +295,11 @@ abstract class XotBaseMigration extends Migration
             $table->uuid('id')->primary()->first();
         }
 
-        if ($this->hasColumn('id') && 'bigint' === $this->getColumnType('id')) {
+        if ($this->hasColumn('id') && $this->getColumnType('id') === 'bigint') {
             $table->uuid('id')->change();
         }
 
-        if ($this->hasColumn('user_id') && 'bigint' === $this->getColumnType('user_id')) {
+        if ($this->hasColumn('user_id') && $this->getColumnType('user_id') === 'bigint') {
             $table->uuid('user_id')->change();
         }
     }
@@ -329,11 +336,11 @@ abstract class XotBaseMigration extends Migration
         }
 
         if (! App::environment('testing')) {
-            throw new \RuntimeException("Pulse does not support the [{$this->driver()}] database driver.");
+            throw new RuntimeException("Pulse does not support the [{$this->driver()}] database driver.");
         }
 
         if (Config::get('pulse.enabled')) {
-            throw new \RuntimeException("Pulse does not support the [{$this->driver()}] database driver. You can disable Pulse in your testsuite by adding `<env name=\"PULSE_ENABLED\" value=\"false\"/>` to your project's `phpunit.xml` file.");
+            throw new RuntimeException("Pulse does not support the [{$this->driver()}] database driver. You can disable Pulse in your testsuite by adding `<env name=\"PULSE_ENABLED\" value=\"false\"/>` to your project's `phpunit.xml` file.");
         }
 
         return false;

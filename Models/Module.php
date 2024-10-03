@@ -10,11 +10,11 @@ use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Sushi\Sushi;
 
 /**
- * @property int         $id
+ * @property int $id
  * @property string|null $name
  * @property string|null $description
- * @property bool|null   $status
- * @property int|null    $priority
+ * @property bool|null $status
+ * @property int|null $priority
  * @property string|null $path
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Module newModelQuery()
@@ -42,14 +42,6 @@ class Module extends Model
         'path',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'status' => 'boolean',
-            'priority' => 'integer',
-        ];
-    }
-
     /**
      * @return array
      */
@@ -68,5 +60,13 @@ class Module extends Model
         });
 
         return array_values($modules);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean',
+            'priority' => 'integer',
+        ];
     }
 }

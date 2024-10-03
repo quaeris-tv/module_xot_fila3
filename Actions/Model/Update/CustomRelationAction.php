@@ -9,6 +9,8 @@ use Modules\Xot\Actions\Model\UpdateAction;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
 
+use function in_array;
+
 class CustomRelationAction
 {
     use QueueableAction;
@@ -24,7 +26,7 @@ class CustomRelationAction
         $related = $relationDTO->related;
         $keyName = $relationDTO->related->getKeyName();
         foreach ($relationDTO->data as $data) {
-            if (\in_array($keyName, array_keys($data), false)) {
+            if (in_array($keyName, array_keys($data), false)) {
                 $res = app(UpdateAction::class)->execute($related, $data, []);
                 $ids[] = $res->getKey();
                 $models[] = $res;

@@ -10,10 +10,16 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Relations;
 
+use Closure;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+
+use function call_user_func;
+use function count;
+use function is_callable;
 
 /**
  * Class CustomRelation.
@@ -35,15 +41,15 @@ class CustomRelation extends Relation
         /**
          * The baseConstraints callback.
          */
-        protected \Closure $baseConstraints,
+        protected Closure $baseConstraints,
         /**
          * The eagerConstraints callback.
          */
-        protected ?\Closure $eagerConstraints,
+        protected ?Closure $eagerConstraints,
         /**
          * The eager constraints model matcher.
          */
-        protected ?\Closure $eagerMatcher,
+        protected ?Closure $eagerMatcher,
     ) {
         parent::__construct($query, $model);
     }
@@ -53,7 +59,7 @@ class CustomRelation extends Relation
      */
     public function addConstraints(): void
     {
-        \call_user_func($this->baseConstraints, $this);
+        call_user_func($this->baseConstraints, $this);
     }
 
     /**
@@ -62,17 +68,17 @@ class CustomRelation extends Relation
     public function addEagerConstraints(array $models): void
     {
         // Parameter #1 $function of function call_user_func expects callable(): mixed, Closure|null given.
-        if (! \is_callable($this->eagerConstraints)) {
-            throw new \Exception('eagerConstraints is not callable');
+        if (! is_callable($this->eagerConstraints)) {
+            throw new Exception('eagerConstraints is not callable');
         }
 
-        \call_user_func($this->eagerConstraints, $this, $models);
+        call_user_func($this->eagerConstraints, $this, $models);
     }
 
     /**
      * Initialize the relation on a set of models.
      *
-     * @param string $relation
+     * @param  string  $relation
      */
     public function initRelation(array $models, $relation): array
     {
@@ -86,13 +92,13 @@ class CustomRelation extends Relation
     /**
      * Match the eagerly loaded results to their parents.
      *
-     * @param string $relation
+     * @param  string  $relation
      */
     public function match(array $models, Collection $collection, $relation): array
     {
         // Trying to invoke Closure|null but it might not be a callable.
-        if (! \is_callable($this->eagerMatcher)) {
-            throw new \Exception('eagerMatcher is not callable');
+        if (! is_callable($this->eagerMatcher)) {
+            throw new Exception('eagerMatcher is not callable');
         }
 
         return ($this->eagerMatcher)($models, $collection, $relation, $this);
@@ -111,7 +117,7 @@ class CustomRelation extends Relation
     /**
      * Execute the query as a "select" statement.
      *
-     * @param array $columns
+     * @param  array  $columns
      */
     public function get($columns = ['*']): Collection
     {
@@ -128,7 +134,7 @@ class CustomRelation extends Relation
         // If we actually found models we will also eager load any relationships that
         // have been specified as needing to be eager loaded. This will solve the
         // n + 1 query problem for the developer and also increase performance.
-        if ((is_countable($models) ? \count($models) : 0) > 0) {
+        if ((is_countable($models) ? count($models) : 0) > 0) {
             $models = $query->eagerLoadRelations($models);
         }
 

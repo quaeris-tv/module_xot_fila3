@@ -30,11 +30,11 @@ use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
 // use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\View\Composers\XotComposer;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
+use Webmozart\Assert\Assert;
 
 use function Safe\realpath;
-
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Webmozart\Assert\Assert;
 
 /**
  * Class XotServiceProvider..
@@ -90,18 +90,6 @@ class XotServiceProvider extends XotBaseServiceProvider
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
     }
 
-    protected function translatableComponents(): void
-    {
-        $components = [Field::class, BaseFilter::class, Placeholder::class, Column::class, Entry::class];
-        foreach ($components as $component) {
-            /* @var Configurable $component */
-            $component::configureUsing(function (Component $translatable): void {
-                /* @phpstan-ignore method.notFound */
-                $translatable->translateLabel();
-            });
-        }
-    }
-
     /**
      * @see https://github.com/cerbero90/exception-handler
      */
@@ -110,7 +98,7 @@ class XotServiceProvider extends XotBaseServiceProvider
         $exceptionHandler = $this->app->make(ExceptionHandler::class);
 
         $exceptionHandler->reporter(
-            static function (\Throwable $e): void {
+            static function (Throwable $e): void {
                 $data = (new WebhookErrorFormatter($e))->format();
                 if ($e instanceof AuthenticationException) {
                     return;
@@ -121,7 +109,7 @@ class XotServiceProvider extends XotBaseServiceProvider
 
                 if (
                     is_string(config('logging.channels.slack_errors.url'))
-                    && strlen(config('logging.channels.slack_errors.url')) > 5
+                    && mb_strlen(config('logging.channels.slack_errors.url')) > 5
                 ) {
                     Log::channel('slack_errors')
                         ->error(
@@ -160,15 +148,27 @@ class XotServiceProvider extends XotBaseServiceProvider
     {
         $files = File::files($path);
         foreach ($files as $file) {
-            if ('php' !== $file->getExtension()) {
+            if ($file->getExtension() !== 'php') {
                 continue;
             }
 
-            if (false === $file->getRealPath()) {
+            if ($file->getRealPath() === false) {
                 continue;
             }
 
             include_once $file->getRealPath();
+        }
+    }
+
+    protected function translatableComponents(): void
+    {
+        $components = [Field::class, BaseFilter::class, Placeholder::class, Column::class, Entry::class];
+        foreach ($components as $component) {
+            /* @var Configurable $component */
+            $component::configureUsing(function (Component $translatable): void {
+                /* @phpstan-ignore method.notFound */
+                $translatable->translateLabel();
+            });
         }
     }
 
@@ -198,8 +198,8 @@ class XotServiceProvider extends XotBaseServiceProvider
     private function redirectSSL(): void
     {
         // --- meglio ficcare un controllo anche sull'env
-        if (config('xra.forcessl') && (isset($_SERVER['SERVER_NAME']) && 'localhost' !== $_SERVER['SERVER_NAME']
-            && isset($_SERVER['REQUEST_SCHEME']) && 'http' === $_SERVER['REQUEST_SCHEME'])
+        if (config('xra.forcessl') && (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== 'localhost'
+            && isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'http')
         ) {
             URL::forceScheme('https');
             /*

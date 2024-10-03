@@ -19,32 +19,14 @@ use Modules\Xot\Filament\Widgets\Clock;
 
 class ListCaches extends ListRecords
 {
-    protected static string $resource = CacheResource::class;
-
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            TableLayoutToggleTableAction::make(),
-        ];
-    }
+    protected static string $resource = CacheResource::class;
 
     public function getHeaderWidgets(): array
     {
         return [
             // Clock::make(),
-        ];
-    }
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-            ArtisanHeaderAction::make('route:list'),
-            ArtisanHeaderAction::make('icons:cache'),
-            ArtisanHeaderAction::make('filament:cache-components'),
-            ArtisanHeaderAction::make('filament:clear-cached-components'),
         ];
     }
 
@@ -105,5 +87,23 @@ class ListCaches extends ListRecords
         //    column: 'created_at',
         //    direction: 'DESC',
         // )
+    }
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            TableLayoutToggleTableAction::make(),
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make(),
+            ArtisanHeaderAction::make('route:list'),
+            ArtisanHeaderAction::make('icons:cache'),
+            ArtisanHeaderAction::make('filament:cache-components'),
+            ArtisanHeaderAction::make('filament:clear-cached-components'),
+        ];
     }
 }

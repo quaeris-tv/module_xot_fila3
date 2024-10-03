@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Traits;
 
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Xot\Relations\CustomRelation;
 use Webmozart\Assert\Assert;
@@ -20,7 +21,7 @@ use Webmozart\Assert\Assert;
  */
 trait HasCustomRelations
 {
-    public function customRelation(string $related, \Closure $baseConstraints, ?\Closure $eagerConstraints = null, ?\Closure $eagerMatcher = null): CustomRelation
+    public function customRelation(string $related, Closure $baseConstraints, ?Closure $eagerConstraints = null, ?Closure $eagerMatcher = null): CustomRelation
     {
         $instance = new $related();
         // Call to an undefined method object::newQuery()

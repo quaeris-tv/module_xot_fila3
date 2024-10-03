@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\File;
 
+use Exception;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Facades\Module;
+use Spatie\QueueableAction\QueueableAction;
 
 use function Safe\scandir;
-
-use Spatie\QueueableAction\QueueableAction;
 
 class GetModulePathAction
 {
@@ -20,7 +20,7 @@ class GetModulePathAction
     {
         try {
             $module_path = Module::getModulePath($moduleName);
-        } catch (\Exception) {
+        } catch (Exception) {
             $modulesPath = base_path('Modules');
             if (! File::exists($modulesPath)) {
                 return __DIR__.'/../';

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions;
 
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Spatie\QueueableAction\QueueableAction;
@@ -18,7 +19,7 @@ class GetTransKeyAction
      */
     public function execute(string $class = ''): string
     {
-        if ('' === $class) {
+        if ($class === '') {
             $backtrace = debug_backtrace();
             Assert::string($class = Arr::get($backtrace, '1.class'), '['.__LINE__.']['.class_basename($this).']');
         }
@@ -32,17 +33,17 @@ class GetTransKeyAction
             ->toString();
 
         $arr = explode('\\', $class);
-        if ('Modules' !== $arr[0]) {
-            throw new \Exception('Invalid class name['.__LINE__.']['.class_basename($this).']');
+        if ($arr[0] !== 'Modules') {
+            throw new Exception('Invalid class name['.__LINE__.']['.class_basename($this).']');
         }
 
         Assert::string($module = Arr::get($arr, '1'), '['.__LINE__.']['.class_basename($this).']');
-        $module_low = strtolower($module);
+        $module_low = mb_strtolower($module);
 
         Assert::string($model = Arr::get($arr, '2'), '['.__LINE__.']['.class_basename($this).']');
         $model = Str::before($model, 'Resource');
 
-        if (Str::endsWith($model, 'Page') && \strlen($model) > 5) {
+        if (Str::endsWith($model, 'Page') && mb_strlen($model) > 5) {
             $model = Str::before($model, 'Page');
         }
         // $model_low = strtolower($model);
@@ -64,7 +65,7 @@ class GetTransKeyAction
             if (Str::endsWith($item, 'Managers')) {
                 $item = Str::before($item, 'Managers');
             }
-            if (Str::endsWith($item, 'Page') && \strlen($item) > 5) {
+            if (Str::endsWith($item, 'Page') && mb_strlen($item) > 5) {
                 $item = Str::before($item, 'Page');
             }
 
@@ -78,7 +79,7 @@ class GetTransKeyAction
             ->implode('.');
 
         $tmp = $module_low.'::'.$model_low;
-        if ('' !== $res) {
+        if ($res !== '') {
             $tmp .= '.'.$res;
         }
         $piece = explode('.', $tmp);

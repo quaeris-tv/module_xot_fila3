@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
 // use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Support\LazyCollection;
+use Iterator;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromIterator;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -36,7 +37,7 @@ class LazyCollectionExport implements FromIterator, ShouldQueue, WithHeadings, W
     /**
      * Undocumented function.
      *
-     * @param Collection $item
+     * @param  Collection  $item
      */
     public function map($item): array
     {
@@ -81,7 +82,7 @@ class LazyCollectionExport implements FromIterator, ShouldQueue, WithHeadings, W
     /**
      * Returns an iterator for the current collection.
      */
-    public function iterator(): \Iterator
+    public function iterator(): Iterator
     {
         /* @phpstan-ignore return.type */
         return $this->collection->getIterator();

@@ -51,7 +51,7 @@ class FakeSeederAction
             ->send();
 
         if ($qty > $max) {
-            app(FakeSeederAction::class)
+            app(self::class)
                 ->onQueue()
                 ->execute($modelClass, $qty - $max);
         }

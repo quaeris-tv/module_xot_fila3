@@ -22,9 +22,9 @@ class PdfByModelAction
     ): string|BinaryFileResponse {
         $model_class = $model::class;
         $model_name = class_basename($model_class);
-        $model_name_low = strtolower($model_name);
+        $model_name_low = mb_strtolower($model_name);
         $module = Str::between($model_class, 'Modules\\', '\Models');
-        $module_low = strtolower($module);
+        $module_low = mb_strtolower($module);
         $view_name = $module_low.'::'.Str::kebab($model_name).'.show.pdf';
 
         $view_params = [

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Model\Update;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Facades\App;
@@ -22,7 +23,7 @@ class MorphOneAction
         /* con update or create crea sempre uno nuovo, con update e basta se non esiste non va a crearlo */
         // $rows = $model->$name();
         if (! $relationDTO->rows instanceof MorphOne) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $rows = $relationDTO->rows;

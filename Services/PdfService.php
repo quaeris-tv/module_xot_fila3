@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Services;
 
+use Exception;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Jurosh\PDFMerge\PDFMerger;
@@ -25,7 +26,7 @@ class PdfService
 
     public static function getInstance(): self
     {
-        if (! self::$instance instanceof PdfService) {
+        if (! self::$instance instanceof self) {
             self::$instance = new self();
         }
 
@@ -44,12 +45,12 @@ class PdfService
         include __DIR__.'/vendor/autoload.php';
         // $path = $this->get('path');
         if (! class_exists(PDFMerger::class)) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $pdfMerger = new PDFMerger();
         $pdf_files = collect(File::files($path))->filter(
-            static fn ($file, $key): bool => 'pdf' === $file->getExtension() && ! Str::startsWith($file->getBasename(), '_')
+            static fn ($file, $key): bool => $file->getExtension() === 'pdf' && ! Str::startsWith($file->getBasename(), '_')
         );
         foreach ($this->filenames as $filename) {
             // $pdf->addPDF($filename.'.pdf');

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\QueryFilters;
 
+use Closure;
 use Illuminate\Support\Facades\Request;
 
 /**
@@ -27,7 +28,7 @@ class RoleFilter
      *
      * @return mixed => you need to return your filtered data to next element
      */
-    public function handle(Request $request, \Closure $next): mixed
+    public function handle(Request $request, Closure $next): mixed
     {
         if (! request()->has('role')) {
             return $next($request);
