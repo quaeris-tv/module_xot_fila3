@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\View\Composers;
 
-use Exception;
+use function call_user_func_array;
+
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -14,9 +15,6 @@ use Modules\Xot\Datas\XotData;
 use Nwidart\Modules\Facades\Module;
 use Webmozart\Assert\Assert;
 
-use function call_user_func_array;
-use function is_object;
-
 /**
  * Class XotComposer.
  */
@@ -25,7 +23,7 @@ class XotComposer
     /**
      * Undocumented function.
      *
-     * @param  array<mixed|void>  $arguments
+     * @param array<mixed|void> $arguments
      */
     public function __call(string $name, array $arguments): mixed
     {
@@ -39,8 +37,8 @@ class XotComposer
                 return method_exists($class, $name);
             }
         );
-        if (! is_object($module)) {
-            throw new Exception('create a View\Composers\ThemeComposer.php inside a module with ['.$name.'] method');
+        if (! \is_object($module)) {
+            throw new \Exception('create a View\Composers\ThemeComposer.php inside a module with ['.$name.'] method');
         }
 
         Assert::isInstanceOf($module, \Nwidart\Modules\Module::class, '['.__LINE__.']['.class_basename($this).']');
@@ -50,7 +48,7 @@ class XotComposer
         $callback = [$app, $name];
         Assert::isCallable($callback);
 
-        return call_user_func_array($callback, $arguments);
+        return \call_user_func_array($callback, $arguments);
     }
 
     /**

@@ -61,12 +61,12 @@ class ListExtras extends ListRecords
         return [
             TableLayoutToggleTableAction::make(),
         ];
-        }
+    }
 
-        protected function getHeaderActions(): array
-        {
-            return [
-                Actions\CreateAction::make(),
-            ];
-        }
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make(),
+        ];
+    }
 }

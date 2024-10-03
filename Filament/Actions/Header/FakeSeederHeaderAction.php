@@ -34,7 +34,7 @@ class FakeSeederHeaderAction extends Action
                     $resource = $livewire->getResource();
                     $modelClass = $resource::getModel();
 
-                    $qty = (int) ($data['qty']);
+                    $qty = (int) $data['qty'];
 
                     app(FakeSeederAction::class)
                         ->onQueue()

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions;
 
-use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Spatie\QueueableAction\QueueableAction;
@@ -19,7 +18,7 @@ class GetTransKeyAction
      */
     public function execute(string $class = ''): string
     {
-        if ($class === '') {
+        if ('' === $class) {
             $backtrace = debug_backtrace();
             Assert::string($class = Arr::get($backtrace, '1.class'), '['.__LINE__.']['.class_basename($this).']');
         }
@@ -33,8 +32,8 @@ class GetTransKeyAction
             ->toString();
 
         $arr = explode('\\', $class);
-        if ($arr[0] !== 'Modules') {
-            throw new Exception('Invalid class name['.__LINE__.']['.class_basename($this).']');
+        if ('Modules' !== $arr[0]) {
+            throw new \Exception('Invalid class name['.__LINE__.']['.class_basename($this).']');
         }
 
         Assert::string($module = Arr::get($arr, '1'), '['.__LINE__.']['.class_basename($this).']');
@@ -79,7 +78,7 @@ class GetTransKeyAction
             ->implode('.');
 
         $tmp = $module_low.'::'.$model_low;
-        if ($res !== '') {
+        if ('' !== $res) {
             $tmp .= '.'.$res;
         }
         $piece = explode('.', $tmp);
