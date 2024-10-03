@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\File;
 
 // --- services
@@ -13,21 +12,21 @@ use Illuminate\Support\Facades\File;
  * Modules\Xot\Models\Feed.
  *
  * @method static \Modules\Xot\Database\Factories\FeedFactory factory($count = null, $state = [])
- * @method static Builder|Feed                                newModelQuery()
- * @method static Builder|Feed                                newQuery()
- * @method static Builder|Feed                                query()
- * @method static Builder|Feed                                newModelQuery()
- * @method static Builder|Feed                                newQuery()
- * @method static Builder|Feed                                query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  query()
  *
  * @property string|null $id
  * @property string|null $name
  * @property int|null    $size
  * @property string|null $file_content
  *
- * @method static Builder|Log whereId($value)
- * @method static Builder|Log whereName($value)
- * @method static Builder|Log whereSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Log whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Log whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Log whereSize($value)
  *
  * @property \Modules\Xot\Contracts\ProfileContract|null $creator
  * @property \Modules\Xot\Contracts\ProfileContract|null $updater
