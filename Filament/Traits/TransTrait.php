@@ -9,6 +9,9 @@ use Modules\Xot\Actions\GetTransKeyAction;
 
 trait TransTrait
 {
+    /**
+     * Summary of trans.
+     */
     public static function trans(string $key): string
     {
         $transKey = app(GetTransKeyAction::class)->execute(static::class);
