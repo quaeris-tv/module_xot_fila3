@@ -65,7 +65,7 @@ class ImportCsvAction
         }
 
         $sql_replace = implode(', '.\chr(13), $sql_replace);
-        if (\strlen($sql_replace) > 3) {
+        if (mb_strlen($sql_replace) > 3) {
             $sql = $sql.'SET '.$sql_replace.';';
         }
 

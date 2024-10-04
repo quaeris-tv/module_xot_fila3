@@ -39,6 +39,29 @@ class Log extends BaseModel
 
     protected $fillable = ['id', 'name', 'size'];
 
+    public function getRows(): array
+    {
+        $rows = [];
+        $files = File::files(storage_path('logs'));
+
+        foreach ($files as $file) {
+            if ('log' === $file->getExtension()) {
+                $rows[] = [
+                    'id' => $file->getFilenameWithoutExtension(),
+                    'name' => $file->getFilenameWithoutExtension(),
+                    'size' => $file->getSize(),
+                ];
+            }
+        }
+
+        return $rows;
+    }
+
+    public function getFileContentAttribute(?string $value): ?string
+    {
+        return File::get(storage_path('logs/'.$this->id.'.log'));
+    }
+
     /** @return array<string, string> */
     protected function casts(): array
     {
@@ -55,29 +78,6 @@ class Log extends BaseModel
             'created_by' => 'string',
             'deleted_by' => 'string',
         ];
-    }
-
-    public function getRows(): array
-    {
-        $rows = [];
-        $files = File::files(storage_path('logs'));
-
-        foreach ($files as $file) {
-            if ('log' == $file->getExtension()) {
-                $rows[] = [
-                    'id' => $file->getFilenameWithoutExtension(),
-                    'name' => $file->getFilenameWithoutExtension(),
-                    'size' => $file->getSize(),
-                ];
-            }
-        }
-
-        return $rows;
-    }
-
-    public function getFileContentAttribute(?string $value): ?string
-    {
-        return File::get(storage_path('logs/'.$this->id.'.log'));
     }
 }
 

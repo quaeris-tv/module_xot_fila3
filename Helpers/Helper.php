@@ -126,13 +126,13 @@ if (! function_exists('hex2rgba')) {
 
         // Sanitize $color if "#" is provided
         if ('#' === $color[0]) {
-            $color = substr($color, 1);
+            $color = mb_substr($color, 1);
         }
 
         // Check if color has 6 or 3 characters and get values
-        if (6 === strlen($color)) {
+        if (6 === mb_strlen($color)) {
             $hex = [$color[0].$color[1], $color[2].$color[3], $color[4].$color[5]];
-        } elseif (3 === strlen($color)) {
+        } elseif (3 === mb_strlen($color)) {
             $hex = [$color[0].$color[0], $color[1].$color[1], $color[2].$color[2]];
         } else {
             return $default;
@@ -351,7 +351,7 @@ if (! function_exists('fullTextWildcards')) {
              * applying + operator (required word) only big words
              * because smaller ones are not indexed by mysql
              */
-            if (strlen($word) >= 3) {
+            if (mb_strlen($word) >= 3) {
                 $words[$key] = '+'.$word.'*';
             }
         }
@@ -1163,10 +1163,10 @@ if (! function_exists('authId')) {
         } catch (Error $e) {
             return null;
         }
-        if (null == $id) {
+        if (null === $id) {
             return null;
         }
 
-        return strval($id);
+        return (string) $id;
     }
 }

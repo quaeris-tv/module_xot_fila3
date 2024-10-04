@@ -37,12 +37,12 @@ class GetTransKeyAction
         }
 
         Assert::string($module = Arr::get($arr, '1'), '['.__LINE__.']['.class_basename($this).']');
-        $module_low = strtolower($module);
+        $module_low = mb_strtolower($module);
 
         Assert::string($model = Arr::get($arr, '2'), '['.__LINE__.']['.class_basename($this).']');
         $model = Str::before($model, 'Resource');
 
-        if (Str::endsWith($model, 'Page') && \strlen($model) > 5) {
+        if (Str::endsWith($model, 'Page') && mb_strlen($model) > 5) {
             $model = Str::before($model, 'Page');
         }
         // $model_low = strtolower($model);
@@ -64,7 +64,7 @@ class GetTransKeyAction
             if (Str::endsWith($item, 'Managers')) {
                 $item = Str::before($item, 'Managers');
             }
-            if (Str::endsWith($item, 'Page') && \strlen($item) > 5) {
+            if (Str::endsWith($item, 'Page') && mb_strlen($item) > 5) {
                 $item = Str::before($item, 'Page');
             }
 
@@ -84,9 +84,6 @@ class GetTransKeyAction
         $piece = explode('.', $tmp);
 
         $tmp = Str::of($tmp)->replace('.pages.list.', '.')->toString();
-        // $tmp = Str::of($tmp)->replace('.pages.create.', '.')->toString();
-        // $tmp = Str::of($tmp)->replace('.pages.edit.', '.')->toString();
-        // $tmp = Str::of($tmp)->replace('.pages.view.', '.')->toString();
         $tmp = Str::of($tmp)->replace('::enums.', '::')->toString();
         $tmp = Str::of($tmp)->replace('.relation.', '.')->toString();
 

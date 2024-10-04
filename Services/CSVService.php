@@ -28,7 +28,7 @@ class CSVService
      */
     public static function getInstance(): self
     {
-        if (! self::$instance instanceof CSVService) {
+        if (! self::$instance instanceof self) {
             self::$instance = new self();
         }
 

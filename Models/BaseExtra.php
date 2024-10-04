@@ -61,6 +61,13 @@ abstract class BaseExtra extends BaseModel implements ExtraContract
         'extra_attributes',
     ];
 
+    public function scopeWithExtraAttributes(): Builder
+    {
+        Assert::notNull($this->extra_attributes, '['.__FILE__.']['.__LINE__.']');
+
+        return $this->extra_attributes->modelScope();
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -79,12 +86,5 @@ abstract class BaseExtra extends BaseModel implements ExtraContract
             'created_by' => 'string',
             'deleted_by' => 'string',
         ];
-    }
-
-    public function scopeWithExtraAttributes(): Builder
-    {
-        Assert::notNull($this->extra_attributes, '['.__FILE__.']['.__LINE__.']');
-
-        return $this->extra_attributes->modelScope();
     }
 }

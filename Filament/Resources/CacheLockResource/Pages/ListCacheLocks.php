@@ -12,9 +12,9 @@ use Modules\Xot\Filament\Resources\CacheLockResource;
 
 class ListCacheLocks extends ListRecords
 {
-    protected static string $resource = CacheLockResource::class;
-
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
+
+    protected static string $resource = CacheLockResource::class;
 
     protected function getTableHeaderActions(): array
     {

@@ -10,9 +10,9 @@ use Filament\Widgets\Widget;
 
 class Clock extends Widget
 {
-    protected static string $view = 'xot::filament.widgets.clock';
-
     public string $start = '';
+
+    protected static string $view = 'xot::filament.widgets.clock';
 
     public function begin(): void
     {

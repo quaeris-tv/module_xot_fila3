@@ -211,7 +211,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
                 $event_name = $info['filename'];
                 $str = 'Event';
                 if (Str::endsWith($event_name, $str)) {
-                    $listener_name = substr($event_name, 0, -\strlen($str)).'Listener';
+                    $listener_name = mb_substr($event_name, 0, -mb_strlen($str)).'Listener';
 
                     $event = $this->module_base_ns.'\\Events\\'.$event_name;
                     $listener = $this->module_base_ns.'\\Listeners\\'.$listener_name;

@@ -34,7 +34,7 @@ trait RelationX
 
         $pivotDbName = $pivot->getConnection()->getDatabaseName();
         $dbName = $this->getConnection()->getDatabaseName();
-        if ($pivotDbName != $dbName) {
+        if ($pivotDbName !== $dbName) {
             $table = $pivotDbName.'.'.$table;
         }
 
@@ -49,9 +49,8 @@ trait RelationX
         )
             ->using($pivot::class)
             ->withPivot($pivotFields)
-            ->withTimestamps()
-            // ->as('membership')
-        ;
+            ->withTimestamps();
+        // ->as('membership')
     }
 
     /**

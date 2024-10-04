@@ -90,18 +90,6 @@ class XotServiceProvider extends XotBaseServiceProvider
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
     }
 
-    protected function translatableComponents(): void
-    {
-        $components = [Field::class, BaseFilter::class, Placeholder::class, Column::class, Entry::class];
-        foreach ($components as $component) {
-            /* @var Configurable $component */
-            $component::configureUsing(function (Component $translatable): void {
-                /* @phpstan-ignore method.notFound */
-                $translatable->translateLabel();
-            });
-        }
-    }
-
     /**
      * @see https://github.com/cerbero90/exception-handler
      */
@@ -121,7 +109,7 @@ class XotServiceProvider extends XotBaseServiceProvider
 
                 if (
                     is_string(config('logging.channels.slack_errors.url'))
-                    && strlen(config('logging.channels.slack_errors.url')) > 5
+                    && mb_strlen(config('logging.channels.slack_errors.url')) > 5
                 ) {
                     Log::channel('slack_errors')
                         ->error(
@@ -169,6 +157,18 @@ class XotServiceProvider extends XotBaseServiceProvider
             }
 
             include_once $file->getRealPath();
+        }
+    }
+
+    protected function translatableComponents(): void
+    {
+        $components = [Field::class, BaseFilter::class, Placeholder::class, Column::class, Entry::class];
+        foreach ($components as $component) {
+            /* @var Configurable $component */
+            $component::configureUsing(function (Component $translatable): void {
+                /* @phpstan-ignore method.notFound */
+                $translatable->translateLabel();
+            });
         }
     }
 

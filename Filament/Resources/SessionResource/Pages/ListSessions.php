@@ -21,23 +21,9 @@ use Modules\Xot\Filament\Resources\SessionResource;
 
 class ListSessions extends ListRecords
 {
-    protected static string $resource = SessionResource::class;
-
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            TableLayoutToggleTableAction::make(),
-        ];
-    }
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
+    protected static string $resource = SessionResource::class;
 
     public function getGridTableColumns(): array
     {
@@ -109,5 +95,19 @@ class ListSessions extends ListRecords
                 column: 'created_at',
                 direction: 'DESC',
             );
+    }
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            TableLayoutToggleTableAction::make(),
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make(),
+        ];
     }
 }

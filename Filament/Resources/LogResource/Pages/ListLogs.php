@@ -12,9 +12,9 @@ use Modules\Xot\Filament\Resources\LogResource;
 
 class ListLogs extends ListRecords
 {
-    protected static string $resource = LogResource::class;
-
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
+
+    protected static string $resource = LogResource::class;
 
     protected function getTableHeaderActions(): array
     {

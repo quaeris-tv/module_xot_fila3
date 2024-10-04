@@ -22,41 +22,17 @@ class EnvWidget extends Widget implements HasForms
 {
     use InteractsWithForms;
 
-    protected static string $view = 'xot::filament.widgets.env';
-
     public ?array $data = [];
 
     public array $only = [];
+
+    protected static string $view = 'xot::filament.widgets.env';
 
     public function mount(): void
     {
         $this->data = EnvData::make()->toArray();
 
         $this->form->fill($this->data);
-    }
-
-    protected function getFormSchema(): array
-    {
-        $all = [
-            'app_url' => TextInput::make('app_url')
-                ->label('URL')
-                ->placeholder('http://localhost')
-                ->helperText('Required for file uploads and other internal configs')
-                ->required(),
-            'debugbar_enabled' => Toggle::make('debugbar_enabled')
-                ->label('Is Enabled')
-                ->helperText('Enable/Disable debug mode to help debug errors'),
-            'google_maps_api_key' => TextInput::make('google_maps_api_key')
-                ->placeholder('AIzaSyAuB_...')
-                ->helperText('google maps api key'),
-            'telegram_bot_token' => TextInput::make('telegram_bot_token')
-                ->placeholder('AIzaSyAuB_...')
-                ->helperText('telegram_bot_token'),
-        ];
-
-        $fields = Arr::only($all, $this->only);
-
-        return $fields;
     }
 
     public function form(Forms\Form $form): Forms\Form
@@ -83,5 +59,29 @@ class EnvWidget extends Widget implements HasForms
             // 'data1' => $this->form->getState(),
         ]);
         */
+    }
+
+    protected function getFormSchema(): array
+    {
+        $all = [
+            'app_url' => TextInput::make('app_url')
+                ->label('URL')
+                ->placeholder('http://localhost')
+                ->helperText('Required for file uploads and other internal configs')
+                ->required(),
+            'debugbar_enabled' => Toggle::make('debugbar_enabled')
+                ->label('Is Enabled')
+                ->helperText('Enable/Disable debug mode to help debug errors'),
+            'google_maps_api_key' => TextInput::make('google_maps_api_key')
+                ->placeholder('AIzaSyAuB_...')
+                ->helperText('google maps api key'),
+            'telegram_bot_token' => TextInput::make('telegram_bot_token')
+                ->placeholder('AIzaSyAuB_...')
+                ->helperText('telegram_bot_token'),
+        ];
+
+        $fields = Arr::only($all, $this->only);
+
+        return $fields;
     }
 }

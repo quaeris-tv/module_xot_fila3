@@ -10,6 +10,17 @@ use Spatie\Health\ResultStores\ResultStore;
 
 class HealthOverviewWidget extends BaseWidget
 {
+    public function iconColor(string $status): string
+    {
+        return match ($status) {
+            \Spatie\Health\Enums\Status::ok()->value => 'success',
+            \Spatie\Health\Enums\Status::warning()->value => 'warning',
+            \Spatie\Health\Enums\Status::skipped()->value => 'warning',
+            \Spatie\Health\Enums\Status::failed()->value, \Spatie\Health\Enums\Status::crashed()->value => 'danger',
+            default => 'secondary',
+        };
+    }
+
     protected function getStats(): array
     {
         $stats = [];
@@ -35,16 +46,5 @@ class HealthOverviewWidget extends BaseWidget
         ];
         */
         return $stats;
-    }
-
-    public function iconColor(string $status): string
-    {
-        return match ($status) {
-            \Spatie\Health\Enums\Status::ok()->value => 'success',
-            \Spatie\Health\Enums\Status::warning()->value => 'warning',
-            \Spatie\Health\Enums\Status::skipped()->value => 'warning',
-            \Spatie\Health\Enums\Status::failed()->value, \Spatie\Health\Enums\Status::crashed()->value => 'danger',
-            default => 'secondary',
-        };
     }
 }

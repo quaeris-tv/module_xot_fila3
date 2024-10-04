@@ -16,8 +16,6 @@ class EnvData extends Data implements Wireable
 {
     use WireableData;
 
-    private static ?self $instance = null;
-
     public string $app_url = 'http://localhost';
 
     public bool $debugbar_enabled = false;
@@ -26,24 +24,25 @@ class EnvData extends Data implements Wireable
 
     public string $telegram_bot_token = '';
 
+    private static ?self $instance = null;
+
     public static function make(): self
     {
         if (! self::$instance) {
             $data = [];
 
             foreach ($_ENV as $k => $v) {
-                $k = strtolower($k);
-                if ('false' == $v) {
+                $k = mb_strtolower($k);
+                if ('false' === $v) {
                     $v = false;
                 }
-                if ('true' == $v) {
+                if ('true' === $v) {
                     $v = true;
                 }
                 $data[$k] = $v;
             }
 
             self::$instance = self::from($data);
-        } else {
         }
 
         return self::$instance;
@@ -55,7 +54,7 @@ class EnvData extends Data implements Wireable
 
         $env_content = File::get($env_path);
         foreach ($data as $k => $v) {
-            if ($this->$k != $v) {
+            if ($this->$k !== $v) {
                 $env_content = $this->updateVar($k, $v, $env_content);
             }
         }
@@ -67,18 +66,18 @@ class EnvData extends Data implements Wireable
     {
         $key = str($key)->upper()->toString();
         $replace = $this->getLine($key, $value);
-        $pos_start = strpos($env_content, $key.'=');
+        $pos_start = mb_strpos($env_content, $key.'=');
         if (false === $pos_start) {
             // throw new \Exception('['.__LINE__.']['.class_basename($this).']');
             return $env_content."\n".$replace;
         }
-        $pos_end = strpos($env_content, "\n", $pos_start);
+        $pos_end = mb_strpos($env_content, "\n", $pos_start);
         if (false === $pos_end) {
             throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $length = $pos_end - $pos_start;
-        $find = substr($env_content, $pos_start, $length + 1);
+        $find = mb_substr($env_content, $pos_start, $length + 1);
 
         $env_content = str($env_content)->replace($find, $replace)->toString();
 

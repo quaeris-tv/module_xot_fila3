@@ -7,6 +7,7 @@ namespace Modules\Xot\Services;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Facades\Module;
+use ReflectionClass;
 
 // ----------- Requests ----------
 
@@ -26,7 +27,7 @@ class ModuleService
      */
     public static function getInstance(): self
     {
-        if (! self::$_instance instanceof ModuleService) {
+        if (! self::$_instance instanceof self) {
             self::$_instance = new self();
         }
 
@@ -79,7 +80,7 @@ class ModuleService
             if (Str::endsWith($filename, $ext)) {
                 $tmp = new \stdClass();
 
-                $name = substr($filename, 0, -\strlen($ext));
+                $name = mb_substr($filename, 0, -mb_strlen($ext));
 
                 // dddx(['name' => $name, 'name1' => $file->getFilenameWithoutExtension()]);
                 /**

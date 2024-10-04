@@ -42,14 +42,6 @@ class Module extends Model
         'path',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'status' => 'boolean',
-            'priority' => 'integer',
-        ];
-    }
-
     /**
      * @return array
      */
@@ -68,5 +60,13 @@ class Module extends Model
         });
 
         return array_values($modules);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean',
+            'priority' => 'integer',
+        ];
     }
 }
