@@ -27,6 +27,7 @@ use Spatie\Permission\Contracts\Role;
  * @property string|null                                                                $first_name
  * @property string|null                                                                $last_name
  * @property string|null                                                                $full_name
+ * @property string|null                                                                $password
  * @property string|int|null                                                            $current_team_id
  * @property string|null                                                                $phone
  * @property string|null                                                                $email

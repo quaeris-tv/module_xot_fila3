@@ -84,9 +84,6 @@ class GetTransKeyAction
         $piece = explode('.', $tmp);
 
         $tmp = Str::of($tmp)->replace('.pages.list.', '.')->toString();
-        // $tmp = Str::of($tmp)->replace('.pages.create.', '.')->toString();
-        // $tmp = Str::of($tmp)->replace('.pages.edit.', '.')->toString();
-        // $tmp = Str::of($tmp)->replace('.pages.view.', '.')->toString();
         $tmp = Str::of($tmp)->replace('::enums.', '::')->toString();
         $tmp = Str::of($tmp)->replace('.relation.', '.')->toString();
 

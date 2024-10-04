@@ -109,6 +109,18 @@ class XotData extends Data implements Wireable
         return $class;
     }
 
+    public function getUserByEmail(string $email): UserContract
+    {
+        $user_class = $this->getUserClass();
+        $user = $user_class::firstWhere('email', $email);
+        if (! $user) {
+            throw new \Exception('user not found for email '.$email);
+        }
+        Assert::implementsInterface($user, UserContract::class, '['.__LINE__.']['.class_basename($this).']');
+
+        return $user;
+    }
+
     /**
      * @return class-string<Model&TeamContract>
      */
@@ -198,6 +210,14 @@ class XotData extends Data implements Wireable
         $res = $profile->firstOrCreate(['user_id' => $user_id]);
 
         return $res;
+    }
+
+    public function getProfileByEmail(string $email): ProfileContract
+    {
+        $user = $this->getUserByEmail($email);
+        $profile = $this->getProfileModelByUserId($user->id);
+
+        return $profile;
     }
 
     public function iAmSuperAdmin(): bool
