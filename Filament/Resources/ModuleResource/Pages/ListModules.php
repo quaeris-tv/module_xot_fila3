@@ -29,17 +29,7 @@ class ListModules extends ListRecords
     public function getGridTableColumns(): array
     {
         return [
-            Stack::make([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->searchable()
-                    ->sortable()
-                    ->wrap(),
-                Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('priority'),
-            ]),
+            Stack::make($this->getListTableColumns()),
         ];
     }
 
