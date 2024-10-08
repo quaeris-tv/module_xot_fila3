@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Spatie\QueueableAction\QueueableAction;
 
+use function chr;
+use function ord;
 use function Safe\ini_set;
 use function Safe\preg_replace;
-
-use Spatie\QueueableAction\QueueableAction;
 
 class ImportCsvAction
 {
@@ -44,7 +45,7 @@ class ImportCsvAction
         foreach ($columns as $item) {
             $fieldname = $this->fixFieldName($item['name']);
             // if ('numero' === $item['tipo'] && $item['dec'] > 0) {
-            if ('decimal' === $item['type_name']) {
+            if ($item['type_name'] === 'decimal') {
                 $fieldname = '@'.$fieldname;
             }
 
@@ -54,17 +55,17 @@ class ImportCsvAction
         $fields_up_list = implode(', ', $fields_up);
 
         $sql = "LOAD DATA LOW_PRIORITY LOCAL INFILE '".$path."'
-	 INTO TABLE `".$db.'`.`'.$tbl."` character set latin1 FIELDS TERMINATED BY ';' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY '\"' LINES TERMINATED BY '\r\n' (".$fields_up_list.')'.\chr(13);
+	 INTO TABLE `".$db.'`.`'.$tbl."` character set latin1 FIELDS TERMINATED BY ';' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY '\"' LINES TERMINATED BY '\r\n' (".$fields_up_list.')'.chr(13);
         $sql_replace = [];
         foreach ($columns as $item) {
             // if ('numero' === $item['tipo'] && $item['dec'] > 0) {
-            if ('decimal' === $item['type_name']) {
+            if ($item['type_name'] === 'decimal') {
                 $fieldname = $this->fixFieldName($item['name']);
                 $sql_replace[] = $fieldname.' = REPLACE(@'.$fieldname.',"," , ".")';
             }
         }
 
-        $sql_replace = implode(', '.\chr(13), $sql_replace);
+        $sql_replace = implode(', '.chr(13), $sql_replace);
         if (mb_strlen($sql_replace) > 3) {
             $sql = $sql.'SET '.$sql_replace.';';
         }
@@ -84,7 +85,7 @@ class ImportCsvAction
     public function fixFieldName(string $str): string
     {
         $str = trim($str);
-        if ('desc' === $str) {
+        if ($str === 'desc') {
             return 'desc1';
         } // descrizione;
         // preg_match_all(, subject, matches)
@@ -94,14 +95,14 @@ class ImportCsvAction
 
         $str1 = (string) preg_replace('/[0-9a-z]/i', '', $str);
 
-        switch (\ord($str1)) {
+        switch (ord($str1)) {
             case 0:break;
             case 167: $str = str_replace($str1, '10', $str);
                 break;
             case 239: $str = str_replace($str1, '_', $str);
                 break;
             default:
-                echo '<h3>carattere non riconosciuto ['.$str1.']['.\ord($str1).']['.$str.'] Aggiungerlo </h3>';
+                echo '<h3>carattere non riconosciuto ['.$str1.']['.ord($str1).']['.$str.'] Aggiungerlo </h3>';
                 exit('<hr/>['.__LINE__.']['.class_basename($this).']');
                 // break;
         }

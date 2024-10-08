@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Xot\Datas\XotData;
 
+use function in_array;
+
 /**
  * Trait Updater.
  * https://dev.to/hasanmn/automatically-update-createdby-and-updatedby-in-laravel-using-bootable-traits-28g9.
@@ -78,7 +80,7 @@ trait Updater
          */
         static::deleting(
             static function ($model): void {
-                if (\in_array('deleted_by', array_keys($model->attributes), false)) {
+                if (in_array('deleted_by', array_keys($model->attributes), false)) {
                     $model->deleted_by = authId();
                     $model->save();
                 }

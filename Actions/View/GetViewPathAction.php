@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\View;
 
+use const DIRECTORY_SEPARATOR;
+
 use Illuminate\Support\Str;
 use Spatie\QueueableAction\QueueableAction;
 
@@ -21,7 +23,7 @@ class GetViewPathAction
         $pack_dir = app(GetViewNameSpacePathAction::class)->execute($ns);
         $view_dir = $pack_dir.'/'.$relative_path;
 
-        $res = str_replace('/', \DIRECTORY_SEPARATOR, $view_dir);
+        $res = str_replace('/', DIRECTORY_SEPARATOR, $view_dir);
         $res .= '.blade.php';
 
         return $res;
