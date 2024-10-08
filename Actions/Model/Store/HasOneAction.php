@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Model\Store;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Arr;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
-
-use function count;
 
 class HasOneAction
 {
@@ -21,16 +18,16 @@ class HasOneAction
     {
         // dddx(['row' => $row, 'relation' => $relation]);
         if (! $relationDTO->rows instanceof HasOne) {
-            throw new Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $rows = $relationDTO->rows;
 
-        if (! Arr::isAssoc($relationDTO->data) && count($relationDTO->data) === 1) {
+        if (! Arr::isAssoc($relationDTO->data) && 1 === \count($relationDTO->data)) {
             $related_id = $relationDTO->data[0];
             $related = $relationDTO->related->find($related_id);
             if (! $related instanceof Model) {
-                throw new Exception('['.__LINE__.']['.class_basename($this).']');
+                throw new \Exception('['.__LINE__.']['.class_basename($this).']');
             }
 
             $rows->save($related);

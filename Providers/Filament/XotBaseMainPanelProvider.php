@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Providers\Filament;
 
-use Exception;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -95,7 +94,7 @@ abstract class XotBaseMainPanelProvider extends PanelProvider
 
         try {
             $profile_url = MyProfilePage::getUrl(panel: $panel->getId());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $profile_url = '#';
         }
 

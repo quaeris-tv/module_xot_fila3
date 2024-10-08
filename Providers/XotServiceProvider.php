@@ -30,11 +30,11 @@ use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
 // use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\View\Composers\XotComposer;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Throwable;
-use Webmozart\Assert\Assert;
 
 use function Safe\realpath;
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Webmozart\Assert\Assert;
 
 /**
  * Class XotServiceProvider..
@@ -98,7 +98,7 @@ class XotServiceProvider extends XotBaseServiceProvider
         $exceptionHandler = $this->app->make(ExceptionHandler::class);
 
         $exceptionHandler->reporter(
-            static function (Throwable $e): void {
+            static function (\Throwable $e): void {
                 $data = (new WebhookErrorFormatter($e))->format();
                 if ($e instanceof AuthenticationException) {
                     return;
@@ -148,11 +148,11 @@ class XotServiceProvider extends XotBaseServiceProvider
     {
         $files = File::files($path);
         foreach ($files as $file) {
-            if ($file->getExtension() !== 'php') {
+            if ('php' !== $file->getExtension()) {
                 continue;
             }
 
-            if ($file->getRealPath() === false) {
+            if (false === $file->getRealPath()) {
                 continue;
             }
 
@@ -198,8 +198,8 @@ class XotServiceProvider extends XotBaseServiceProvider
     private function redirectSSL(): void
     {
         // --- meglio ficcare un controllo anche sull'env
-        if (config('xra.forcessl') && (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== 'localhost'
-            && isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'http')
+        if (config('xra.forcessl') && (isset($_SERVER['SERVER_NAME']) && 'localhost' !== $_SERVER['SERVER_NAME']
+            && isset($_SERVER['REQUEST_SCHEME']) && 'http' === $_SERVER['REQUEST_SCHEME'])
         ) {
             URL::forceScheme('https');
             /*
