@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Dummy;
 
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Spatie\QueueableAction\QueueableAction;
@@ -16,7 +17,7 @@ class GetProductsArrayDummyAction
     /**
      * Execute the function with the given model class.
      *
-     * @throws \Exception Generating Factory [factory_class] press [F5] to refresh page [__LINE__][__FILE__]
+     * @throws Exception Generating Factory [factory_class] press [F5] to refresh page [__LINE__][__FILE__]
      */
     public function execute(): array
     {

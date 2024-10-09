@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\View;
 
+use Exception;
 use Modules\Xot\Datas\XotData;
 use Spatie\QueueableAction\QueueableAction;
+
+use function in_array;
 
 class GetViewNameSpacePathAction
 {
@@ -27,11 +30,11 @@ class GetViewNameSpacePathAction
             return $viewHints[$ns][0];
         }
 
-        if (\in_array($ns, ['pub_theme', 'adm_theme'], false)) {
+        if (in_array($ns, ['pub_theme', 'adm_theme'], false)) {
             $theme_name = $xot->{$ns};
 
             return base_path('Themes/'.$theme_name);
         }
-        throw new \Exception('View namespace not found['.$ns.'].');
+        throw new Exception('View namespace not found['.$ns.'].');
     }
 }

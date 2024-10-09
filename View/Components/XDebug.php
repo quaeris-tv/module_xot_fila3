@@ -7,6 +7,7 @@ namespace Modules\Xot\View\Components;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\View\Component;
 use Modules\Xot\Actions\GetViewAction;
+use RuntimeException;
 use Safe\filter;
 
 use function Safe\ob_end_clean;
@@ -23,8 +24,7 @@ class XDebug extends Component
         // public Post $article,
         // public bool $showAuthor = false,
         public string $tpl = 'v1',
-    ) {
-    }
+    ) {}
 
     public function render(): Renderable
     {
@@ -44,7 +44,7 @@ class XDebug extends Component
     public function debugStack(): string
     {
         if (! extension_loaded('xdebug')) {
-            throw new \RuntimeException('XDebug must be installed to use this function');
+            throw new RuntimeException('XDebug must be installed to use this function');
         }
 
         ob_start();

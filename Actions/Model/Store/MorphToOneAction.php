@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Model\Store;
 
+use Exception;
 use Fidum\EloquentMorphToOne\MorphToOne;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
@@ -18,7 +19,7 @@ class MorphToOneAction
     {
         // dddx(['row' => $row, 'relation' => $relation, 'relation_data' => $relation->data]);
         if (! $relationDTO->rows instanceof MorphToOne) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $rows = $relationDTO->rows;

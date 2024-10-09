@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Services;
 
-use function count;
-
+use Exception;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+
+use function count;
+use function in_array;
+use function is_string;
 
 /**
  * Class RouteService.
@@ -30,13 +33,13 @@ class RouteService
             return config()->get('in_admin');
         }
         */
-        if ('admin' === Request::segment(1)) {
+        if (Request::segment(1) === 'admin') {
             return true;
         }
 
         $segments = Request::segments();
 
-        return (is_countable($segments) ? \count($segments) : 0) > 0 && 'livewire' === $segments[0] && true === session('in_admin');
+        return (is_countable($segments) ? count($segments) : 0) > 0 && $segments[0] === 'livewire' && session('in_admin') === true;
     }
 
     // --- sarebbe deprecata ma il mal di testa
@@ -60,8 +63,8 @@ class RouteService
         // Cannot call method getName() on mixed.
         $routename = ''; // Request::route()->getName();
         $old_act_route = last(explode('.', $routename));
-        if (! \is_string($old_act_route)) {
-            throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
+        if (! is_string($old_act_route)) {
+            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
         }
 
         $routename_act = Str::before($routename, $old_act_route).''.$act;
@@ -203,7 +206,7 @@ class RouteService
             $tmp[] = 'admin';
         }
 
-        for ($i = 0; $i <= $n; ++$i) {
+        for ($i = 0; $i <= $n; $i++) {
             $tmp[] = 'container'.$i;
         }
 
@@ -360,13 +363,13 @@ class RouteService
     /**
      * Function getAct.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAct(): string
     {
         $route_action = Route::currentRouteAction();
-        if (null === $route_action) {
-            throw new \Exception('$route_action is null');
+        if ($route_action === null) {
+            throw new Exception('$route_action is null');
         }
 
         $act = Str::after($route_action, '@');
@@ -386,13 +389,13 @@ class RouteService
     /**
      * Function.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getModuleName(): string
     {
         $route_action = Route::currentRouteAction();
-        if (null === $route_action) {
-            throw new \Exception('$route_action is null');
+        if ($route_action === null) {
+            throw new Exception('$route_action is null');
         }
 
         return Str::between($route_action, 'Modules\\', '\Http');
@@ -401,13 +404,13 @@ class RouteService
     /**
      * Function.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getControllerName(): string
     {
         $route_action = Route::currentRouteAction();
-        if (null === $route_action) {
-            throw new \Exception('$route_action is null');
+        if ($route_action === null) {
+            throw new Exception('$route_action is null');
         }
 
         return Str::between($route_action, 'Http\Controllers\\', 'Controller');
@@ -425,7 +428,7 @@ class RouteService
 
         return collect($tmp_arr)
             ->filter(
-                static fn ($item): bool => ! \in_array($item, ['Module', 'Item'], false)
+                static fn ($item): bool => ! in_array($item, ['Module', 'Item'], false)
             )
             ->map(
                 static function ($item) use ($params) {
