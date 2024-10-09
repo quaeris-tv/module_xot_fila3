@@ -9,12 +9,15 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Colors\Color;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Modules\Xot\Datas\MetatagData;
@@ -40,7 +43,7 @@ abstract class XotBasePanelProvider extends PanelProvider
         $main_module = Str::lower(XotData::make()->main_module);
         $default = ($main_module === $moduleLow);
 
-        return $panel
+        $panel = $panel
             ->default($default)
             ->login()
             // ->registration()
@@ -66,11 +69,11 @@ abstract class XotBasePanelProvider extends PanelProvider
             // ->tenant($teamClass)
             ->id($moduleLow.'::admin')
             ->path($moduleLow.'/admin')
-            ->colors(
-                [
-                    // 'primary' => Color::Teal,
-                ]
-            )
+            // ->colors(
+            //    [
+            //        // 'primary' => Color::Teal,
+            //    ]
+            // )
 
             ->discoverResources(
                 in: base_path('Modules/'.$this->module.'/Filament/Resources'),
@@ -127,6 +130,31 @@ abstract class XotBasePanelProvider extends PanelProvider
                     Authenticate::class,
                 ]
             );
+
+        $config_path = 'Modules/'.$this->module.'/Config/config.php';
+        $data = File::getRequire(base_path($config_path));
+        $colors = Arr::get($data, 'colors', null);
+        /*
+        if (is_array($colors)) {
+            $colors = Arr::map($colors, function ($color) {
+                $all = Color::all();
+                $color = Arr::get($all, $color['value'], null);
+
+            });
+            dddx($colors);
+            // $panel = $panel->colors($colors);
+        }
+            */
+        $panel = $panel->colors(
+            [
+                // 'primary' => Color::hex('#ff0000'),
+                // 'primary' => Color::Blue,
+                // 'primary' => Color::rgb('rgb(255, 0, 0)'),
+                // 'indigo' => Color::Indigo,
+            ]
+        );
+
+        return $panel;
 
         /*
         $adminPanel = Filament::getPanel('admin');

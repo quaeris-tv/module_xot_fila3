@@ -80,7 +80,7 @@ class XotServiceProvider extends XotBaseServiceProvider
         Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin', '['.__LINE__.']['.class_basename($this).']');
         Assert::string($date_format = config('app.date_format') ?? 'd/m/Y', '['.__LINE__.']['.class_basename($this).']');
         Assert::string($locale = config('app.locale') ?? 'it', '['.__LINE__.']['.class_basename($this).']');
-
+        app()->setLocale($locale);
         Carbon::setLocale($locale);
         date_default_timezone_set($timezone);
 
@@ -88,18 +88,6 @@ class XotServiceProvider extends XotBaseServiceProvider
         DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone)->displayFormat($date_format));
         TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
-    }
-
-    protected function translatableComponents(): void
-    {
-        $components = [Field::class, BaseFilter::class, Placeholder::class, Column::class, Entry::class];
-        foreach ($components as $component) {
-            /* @var Configurable $component */
-            $component::configureUsing(function (Component $translatable): void {
-                /* @phpstan-ignore method.notFound */
-                $translatable->translateLabel();
-            });
-        }
     }
 
     /**
@@ -121,7 +109,7 @@ class XotServiceProvider extends XotBaseServiceProvider
 
                 if (
                     is_string(config('logging.channels.slack_errors.url'))
-                    && strlen(config('logging.channels.slack_errors.url')) > 5
+                    && mb_strlen(config('logging.channels.slack_errors.url')) > 5
                 ) {
                     Log::channel('slack_errors')
                         ->error(
@@ -169,6 +157,18 @@ class XotServiceProvider extends XotBaseServiceProvider
             }
 
             include_once $file->getRealPath();
+        }
+    }
+
+    protected function translatableComponents(): void
+    {
+        $components = [Field::class, BaseFilter::class, Placeholder::class, Column::class, Entry::class];
+        foreach ($components as $component) {
+            /* @var Configurable $component */
+            $component::configureUsing(function (Component $translatable): void {
+                /* @phpstan-ignore method.notFound */
+                $translatable->translateLabel();
+            });
         }
     }
 

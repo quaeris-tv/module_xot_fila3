@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Services;
 
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +17,7 @@ use Nwidart\Modules\Facades\Module;
 use function Safe\json_decode;
 use function Safe\realpath;
 use function Safe\scandir;
+use function strlen;
 
 use Webmozart\Assert\Assert;
 
@@ -51,7 +53,6 @@ class FileService
     public static function asset(string $path): string
     {
         /*
-            to DOOOO
             viewNamespaceToPath     => /images/prova.png
             viewNamespaceToDir      => c:\var\wwww\test\images\prova.png
             viewNamespaceToAsset    => http://example.com/images/prova.png
@@ -238,7 +239,7 @@ class FileService
         // }
 
         if (Str::startsWith($filename, $public_path)) {
-            $url = substr($filename, \strlen($public_path));
+            $url = mb_substr($filename, mb_strlen($public_path));
             $url = str_replace(\DIRECTORY_SEPARATOR, '/', $url);
 
             return asset($url);
@@ -348,7 +349,7 @@ class FileService
 
         $filename = $path;
         $ns_dir = (string) self::getViewNameSpacePath($ns);
-        $path1 = substr($path, \strlen($ns_dir));
+        $path1 = mb_substr($path, mb_strlen($ns_dir));
         $path_pub = 'assets_packs/'.$ns.'/'.$path1;
         $filename_pub = public_path($path_pub);
 

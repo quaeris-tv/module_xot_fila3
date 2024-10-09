@@ -22,7 +22,7 @@ class SetDefaultLocaleForUrls
     {
         $user = $request->user();
         $lang = app()->getLocale();
-        if (null != $user) {
+        if (null !== $user) {
             $lang = $user->lang ?? app()->getLocale();
         }
 

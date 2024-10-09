@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Providers;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
@@ -97,18 +98,6 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         } catch (\Exception $e) {
             throw new \Exception('realpath not find dir ['.$this->module_dir.'/../Resources/views]');
         }
-        /*
-        $viewPath = resource_path('views/modules/'.$this->module_name);
-
-
-        $this->publishes([
-            $sourcePath => $viewPath
-        ],'views');
-
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/'.$this->module_name;
-        }, \Config::get('view.paths')), [$sourcePath]), $this->module_name);
-        */
         $this->loadViewsFrom($sourcePath, $this->module_name);
     }
 
@@ -211,7 +200,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
                 $event_name = $info['filename'];
                 $str = 'Event';
                 if (Str::endsWith($event_name, $str)) {
-                    $listener_name = substr($event_name, 0, -\strlen($str)).'Listener';
+                    $listener_name = mb_substr($event_name, 0, -mb_strlen($str)).'Listener';
 
                     $event = $this->module_base_ns.'\\Events\\'.$event_name;
                     $listener = $this->module_base_ns.'\\Listeners\\'.$listener_name;
@@ -273,8 +262,25 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             'config'
         );
         */
+        $path = $this->module_dir.'/../Config';
+        $filenames = glob($path.'/*.php');
+        foreach ($filenames as $filename) {
+            $info = pathinfo($filename);
+            $name = Arr::get($info, 'filename', null);
+            if (null === $name) {
+                continue;
+            }
+            $data = File::getRequire($filename);
+            if (! is_array($data)) {
+                continue;
+            }
+            $name = $this->module_name.'::'.$name;
+
+            Config::set($name, $data);
+        }
+
         $this->mergeConfigFrom(
-            $this->module_dir.'/../Config/config.php',
+            $path.'/config.php',
             $this->module_name
         );
     }

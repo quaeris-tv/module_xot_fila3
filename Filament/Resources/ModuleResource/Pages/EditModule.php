@@ -6,6 +6,8 @@ namespace Modules\Xot\Filament\Resources\ModuleResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\File;
+use Modules\Xot\Actions\Array\SaveArrayAction;
 use Modules\Xot\Filament\Resources\ModuleResource;
 
 class EditModule extends EditRecord
@@ -15,7 +17,48 @@ class EditModule extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            //    Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        // Se vuoi modificare i dati prima di salvarli, puoi farlo qui.
+        return $data;
+    }
+
+    protected function afterSave(): void
+    {
+        // Salva i colori in un file di configurazione dopo il salvataggio
+        $module = $this->record; // Ottiene il record corrente
+        $config_path = $module->path.'/Config/config.php';
+        $data = File::getRequire($config_path);
+        $data = array_merge($data, $module->toArray());
+        unset($data['path']);
+        app(SaveArrayAction::class)->execute($data, $config_path);
+
+        /*
+        $configPath = config_path('modules/colors.php');
+
+        // Prepara l'array di colori
+        $colorsConfig = [
+            $module->name => [
+                'colors' => $module->colors,
+                'icon' => $module->icon,
+            ],
+        ];
+
+        // Se il file di configurazione esiste già, unisci i colori
+        if (File::exists($configPath)) {
+            $existingConfig = include $configPath;
+            $colorsConfig = array_merge($existingConfig, $colorsConfig);
+        }
+
+        // Salva il nuovo file di configurazione
+        File::put($configPath, '<?php return ' . var_export($colorsConfig, true) . ';');
+
+        // Richiama il file di configurazione per essere sicuro che i colori siano caricati
+        Config::set('modules.colors', $colorsConfig);
+        */
     }
 }

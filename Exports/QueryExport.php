@@ -8,7 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
-// use Laravel\Scout\Builder as ScoutBuilder;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -86,7 +85,8 @@ class QueryExport implements FromQuery, ShouldQueue, WithChunkReading, WithHeadi
      */
     public function query(): QueryBuilder|EloquentBuilder|Relation
     {
-        return $this->query->orderBy('id');
+        return $this->query;
+        // ->orderBy('id');
     }
 
     public function chunkSize(): int

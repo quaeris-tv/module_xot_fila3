@@ -22,7 +22,7 @@ class PolicyService
 
     public static function getInstance(): self
     {
-        if (! self::$policyService instanceof PolicyService) {
+        if (! self::$policyService instanceof self) {
             self::$policyService = new self();
         }
 
@@ -43,7 +43,7 @@ class PolicyService
         // self::$obj = $obj;
         $class = $obj::class;
         $class_name = class_basename($obj);
-        $class_ns = substr($class, 0, -(\strlen($class_name) + 1));
+        $class_ns = mb_substr($class, 0, -(mb_strlen($class_name) + 1));
 
         self::$in_vars['class_name'] = $class_name;
         self::$in_vars['class_type'] = '';

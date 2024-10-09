@@ -62,7 +62,7 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
         $langs = ['it', 'en'];
         $user = request()->user();
         $lang = app()->getLocale();
-        if (null != $user) {
+        if (null !== $user) {
             $lang = $user->lang ?? $lang;
         }
         $locales = config('laravellocalization.supportedLocales');

@@ -15,37 +15,6 @@ use Modules\Xot\Datas\XotData;
 trait Updater
 {
     /**
-     * bootUpdater function.
-     */
-    protected static function bootUpdater(): void
-    {
-        static::creating(
-            static function ($model): void {
-                $model->created_by = authId();
-                $model->updated_by = authId();
-            }
-        );
-
-        static::updating(
-            static function ($model): void {
-                $model->updated_by = authId();
-            }
-        );
-        /*
-         * Deleting a model is slightly different than creating or deleting.
-         * For deletes we need to save the model first with the deleted_by field
-         */
-        static::deleting(
-            static function ($model): void {
-                if (\in_array('deleted_by', array_keys($model->attributes), false)) {
-                    $model->deleted_by = authId();
-                    $model->save();
-                }
-            }
-        );
-    }
-
-    /**
      * Summary of creator.
      */
     public function creator(): BelongsTo
@@ -83,6 +52,37 @@ trait Updater
             $profile_class,
             'updated_by',
             'user_id'
+        );
+    }
+
+    /**
+     * bootUpdater function.
+     */
+    protected static function bootUpdater(): void
+    {
+        static::creating(
+            static function ($model): void {
+                $model->created_by = authId();
+                $model->updated_by = authId();
+            }
+        );
+
+        static::updating(
+            static function ($model): void {
+                $model->updated_by = authId();
+            }
+        );
+        /*
+         * Deleting a model is slightly different than creating or deleting.
+         * For deletes we need to save the model first with the deleted_by field
+         */
+        static::deleting(
+            static function ($model): void {
+                if (\in_array('deleted_by', array_keys($model->attributes), false)) {
+                    $model->deleted_by = authId();
+                    $model->save();
+                }
+            }
         );
     }
 }// end trait Updater

@@ -7,6 +7,7 @@ namespace Modules\Xot\Services;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
+use function is_array;
 use function Safe\preg_replace;
 
 use Webmozart\Assert\Assert;

@@ -24,7 +24,7 @@ class UrlService
 
     public static function getInstance(): self
     {
-        if (! self::$instance instanceof UrlService) {
+        if (! self::$instance instanceof self) {
             self::$instance = new self();
         }
 

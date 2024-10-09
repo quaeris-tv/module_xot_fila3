@@ -49,21 +49,6 @@ abstract class BaseModel extends Model
         'id',
     ];
 
-    /** @return array<string, string> */
-    protected function casts(): array
-    {
-        return [
-            'published_at' => 'datetime',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
-            'deleted_at' => 'datetime',
-
-            'updated_by' => 'string',
-            'created_by' => 'string',
-            'deleted_by' => 'string',
-        ];
-    }
-
     /** @var string */
     protected $primaryKey = 'id';
 
@@ -81,5 +66,20 @@ abstract class BaseModel extends Model
     {
         // return app(\Modules\Xot\Actions\Factory\GetFactoryAction::class)->execute(static::class);
         return app(GetFactoryAction::class)->execute(static::class);
+    }
+
+    /** @return array<string, string> */
+    protected function casts(): array
+    {
+        return [
+            'published_at' => 'datetime',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+            'deleted_at' => 'datetime',
+
+            'updated_by' => 'string',
+            'created_by' => 'string',
+            'deleted_by' => 'string',
+        ];
     }
 }

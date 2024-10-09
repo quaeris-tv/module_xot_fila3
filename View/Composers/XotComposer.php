@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\View\Composers;
 
+use function call_user_func_array;
+
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;

@@ -26,7 +26,7 @@ class ConfigService
      */
     public static function getInstance(): self
     {
-        if (! self::$instance instanceof ConfigService) {
+        if (! self::$instance instanceof self) {
             self::$instance = new self();
         }
 

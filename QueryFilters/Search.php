@@ -29,7 +29,7 @@ class Search
         Assert::string($q = request('q', ''), '['.__LINE__.']['.class_basename($this).']');
         $search_fields = $model->getFillable();
         // $table = $model->getTable();
-        if (\strlen($q) > 1) {
+        if (mb_strlen($q) > 1) {
             $query = $query->where(
                 static function ($subquery) use ($search_fields, $q): void {
                     foreach ($search_fields as $search_field) {

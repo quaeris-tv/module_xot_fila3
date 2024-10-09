@@ -44,6 +44,11 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\Relations\Siblings;
 interface HasRecursiveRelationshipsContract
 {
     /**
+     * Execute a query with a maximum depth constraint for the recursive query.
+     */
+    public static function withMaxDepth(int $maxDepth, callable $query): mixed;
+
+    /**
      * Get the name of the parent key column.
      *
      * @return string
@@ -243,11 +248,6 @@ interface HasRecursiveRelationshipsContract
      * @return bool
      */
     public function isIntegerAttribute($attribute);
-
-    /**
-     * Execute a query with a maximum depth constraint for the recursive query.
-     */
-    public static function withMaxDepth(int $maxDepth, callable $query): mixed;
 
     /**
      * added by XOT, viene utilizzato nelle options delle select.

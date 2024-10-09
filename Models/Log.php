@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\File;
 
 // --- services
@@ -13,21 +12,21 @@ use Illuminate\Support\Facades\File;
  * Modules\Xot\Models\Feed.
  *
  * @method static \Modules\Xot\Database\Factories\FeedFactory factory($count = null, $state = [])
- * @method static Builder|Feed                                newModelQuery()
- * @method static Builder|Feed                                newQuery()
- * @method static Builder|Feed                                query()
- * @method static Builder|Feed                                newModelQuery()
- * @method static Builder|Feed                                newQuery()
- * @method static Builder|Feed                                query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Feed  query()
  *
  * @property string|null $id
  * @property string|null $name
  * @property int|null    $size
  * @property string|null $file_content
  *
- * @method static Builder|Log whereId($value)
- * @method static Builder|Log whereName($value)
- * @method static Builder|Log whereSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Log whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Log whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Log whereSize($value)
  *
  * @property \Modules\Xot\Contracts\ProfileContract|null $creator
  * @property \Modules\Xot\Contracts\ProfileContract|null $updater
@@ -39,6 +38,29 @@ class Log extends BaseModel
     use \Sushi\Sushi;
 
     protected $fillable = ['id', 'name', 'size'];
+
+    public function getRows(): array
+    {
+        $rows = [];
+        $files = File::files(storage_path('logs'));
+
+        foreach ($files as $file) {
+            if ('log' === $file->getExtension()) {
+                $rows[] = [
+                    'id' => $file->getFilenameWithoutExtension(),
+                    'name' => $file->getFilenameWithoutExtension(),
+                    'size' => $file->getSize(),
+                ];
+            }
+        }
+
+        return $rows;
+    }
+
+    public function getFileContentAttribute(?string $value): ?string
+    {
+        return File::get(storage_path('logs/'.$this->id.'.log'));
+    }
 
     /** @return array<string, string> */
     protected function casts(): array
@@ -56,29 +78,6 @@ class Log extends BaseModel
             'created_by' => 'string',
             'deleted_by' => 'string',
         ];
-    }
-
-    public function getRows(): array
-    {
-        $rows = [];
-        $files = File::files(storage_path('logs'));
-
-        foreach ($files as $file) {
-            if ('log' == $file->getExtension()) {
-                $rows[] = [
-                    'id' => $file->getFilenameWithoutExtension(),
-                    'name' => $file->getFilenameWithoutExtension(),
-                    'size' => $file->getSize(),
-                ];
-            }
-        }
-
-        return $rows;
-    }
-
-    public function getFileContentAttribute(?string $value): ?string
-    {
-        return File::get(storage_path('logs/'.$this->id.'.log'));
     }
 }
 

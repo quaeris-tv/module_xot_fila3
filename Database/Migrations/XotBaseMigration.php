@@ -23,6 +23,7 @@ use Nwidart\Modules\Facades\Module;
 abstract class XotBaseMigration extends Migration
 {
     protected Model $model;
+
     protected ?string $model_class = null;
 
     public function __construct()

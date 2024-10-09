@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\QueryFilters;
 
+use Closure;
 use Illuminate\Support\Facades\Request;
 
 /**

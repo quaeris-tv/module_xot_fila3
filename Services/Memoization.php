@@ -21,7 +21,7 @@ class Memoization
      */
     public static function getInstance(): self
     {
-        if (! self::$_instance instanceof Memoization) {
+        if (! self::$_instance instanceof self) {
             self::$_instance = new self();
         }
 

@@ -103,10 +103,22 @@ class XotData extends Data implements Wireable
         $class = config('auth.providers.users.model');
         Assert::stringNotEmpty($class, 'check config auth');
         Assert::classExists($class, 'check config auth');
-        Assert::implementsInterface($class, UserContract::class, '['.__LINE__.']['.class_basename($this).']');
+        Assert::implementsInterface($class, UserContract::class, 'class '.$class.' not implements UserContract['.__LINE__.']['.class_basename($this).']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
 
         return $class;
+    }
+
+    public function getUserByEmail(string $email): UserContract
+    {
+        $user_class = $this->getUserClass();
+        $user = $user_class::firstWhere('email', $email);
+        if (! $user) {
+            throw new \Exception('user not found for email '.$email);
+        }
+        Assert::implementsInterface($user, UserContract::class, '['.__LINE__.']['.class_basename($this).']');
+
+        return $user;
     }
 
     /**
@@ -117,8 +129,7 @@ class XotData extends Data implements Wireable
         Assert::classExists($class = $this->team_class, '['.__LINE__.']['.class_basename($this).']');
         // Assert::isInstanceOf($team_class, Model::class, '['.__LINE__.']['.class_basename($this).']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
-        Assert::implementsInterface($class, TeamContract::class, '['.__LINE__.']['.class_basename($this).']');
-        Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
+        Assert::implementsInterface($class, TeamContract::class, '['.$class.']['.__LINE__.']['.class_basename($this).']');
 
         return $class;
     }
@@ -201,10 +212,18 @@ class XotData extends Data implements Wireable
         return $res;
     }
 
+    public function getProfileByEmail(string $email): ProfileContract
+    {
+        $user = $this->getUserByEmail($email);
+        $profile = $this->getProfileModelByUserId($user->id);
+
+        return $profile;
+    }
+
     public function iAmSuperAdmin(): bool
     {
         $user = auth()->user();
-        if (null == $user) {
+        if (null === $user) {
             return false;
         }
 
@@ -213,7 +232,7 @@ class XotData extends Data implements Wireable
 
     public function getProfileModel(): ProfileContract
     {
-        if (null != $this->profile) {
+        if (null !== $this->profile) {
             return $this->profile;
         }
         $user_id = (string) authId();

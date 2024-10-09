@@ -20,7 +20,7 @@ class ParsePrintPageStringAction
         // $pattern = '(\d+)(?:(?:-)(\d+))?(?:,(?!$))?';
         $pattern = '/(\d+)(?:(?:-)(\d+))?(?:,(?!$))?/';
         preg_match_all($pattern, $str, $matches);
-        if (null == $matches) {
+        if (null === $matches) {
             return [];
         }
         $n = count($matches[0]);

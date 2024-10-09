@@ -40,15 +40,9 @@ class Module extends Model
         'status',
         'priority',
         'path',
+        'icon',
+        'colors',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'status' => 'boolean',
-            'priority' => 'integer',
-        ];
-    }
 
     /**
      * @return array
@@ -56,7 +50,10 @@ class Module extends Model
     public function getRows()
     {
         $modules = ModuleFacade::all();
-        $modules = Arr::map($modules, function ($module) {
+        $modules = Arr::map($modules, function ($module): array {
+            $config = config('tenant::config');
+            $colors = Arr::get($config, 'colors', []);
+
             return [
                 'name' => $module->getName(),
                 // 'alias' => $module->getAlias(),
@@ -64,9 +61,24 @@ class Module extends Model
                 'status' => $module->isEnabled(),
                 'priority' => $module->get('priority', 0),
                 'path' => $module->getPath(),
+                'icon' => Arr::get($config, 'icon', 'heroicon-o-question-mark-circle'),
+                'colors' => json_encode($colors),
             ];
         });
 
         return array_values($modules);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'name' => 'string',
+            'description' => 'string',
+            'status' => 'boolean',
+            'priority' => 'integer',
+            'path' => 'string',
+            'icon' => 'string',
+            'colors' => 'array',
+        ];
     }
 }

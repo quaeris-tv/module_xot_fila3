@@ -32,35 +32,6 @@ class HealthPage extends Page
 
     protected static string $view = 'xot::filament.pages.health';
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Action::make('refresh')
-                ->label('')
-                ->tooltip('refresh')
-                ->icon('heroicon-o-arrow-path')
-                ->button()
-                ->action('refresh'),
-        ];
-    }
-
-    protected function getHeaderWidgets(): array
-    {
-        return [
-            Widgets\HealthOverviewWidget::make(),
-        ];
-    }
-
-    protected function getViewData(): array
-    {
-        $checkResults = app(ResultStore::class)->latestResults();
-
-        return [
-            'lastRanAt' => new Carbon($checkResults?->finishedAt),
-            'checkResults' => $checkResults,
-        ];
-    }
-
     public function refresh(): void
     {
         $checks = [
@@ -102,5 +73,34 @@ class HealthPage extends Page
             ->title('Health check results refreshed')
             ->success()
             ->send();
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('refresh')
+                ->label('')
+                ->tooltip('refresh')
+                ->icon('heroicon-o-arrow-path')
+                ->button()
+                ->action('refresh'),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            Widgets\HealthOverviewWidget::make(),
+        ];
+    }
+
+    protected function getViewData(): array
+    {
+        $checkResults = app(ResultStore::class)->latestResults();
+
+        return [
+            'lastRanAt' => new Carbon($checkResults?->finishedAt),
+            'checkResults' => $checkResults,
+        ];
     }
 }

@@ -22,38 +22,14 @@ use Nwidart\Modules\Facades\Module;
 
 class ListModules extends ListRecords
 {
-    protected static string $resource = ModuleResource::class;
-
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            TableLayoutToggleTableAction::make(),
-        ];
-    }
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
+    protected static string $resource = ModuleResource::class;
 
     public function getGridTableColumns(): array
     {
         return [
-            Stack::make([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->searchable()
-                    ->sortable()
-                    ->wrap(),
-                Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('priority'),
-            ]),
+            Stack::make($this->getListTableColumns()),
         ];
     }
 
@@ -123,5 +99,19 @@ class ListModules extends ListRecords
                 column: 'created_at',
                 direction: 'DESC',
             );
+    }
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            TableLayoutToggleTableAction::make(),
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make(),
+        ];
     }
 }

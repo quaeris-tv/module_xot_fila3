@@ -25,7 +25,7 @@ class PdfService
 
     public static function getInstance(): self
     {
-        if (! self::$instance instanceof PdfService) {
+        if (! self::$instance instanceof self) {
             self::$instance = new self();
         }
 
