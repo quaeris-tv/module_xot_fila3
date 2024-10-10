@@ -7,8 +7,6 @@ namespace Modules\Xot\Filament\Traits;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\GetTransKeyAction;
 
-use function is_string;
-
 trait TransTrait
 {
     /**
@@ -34,7 +32,7 @@ trait TransTrait
 
         $tmp = $transKey.'.'.$key;
         $res = trans($tmp);
-        if (is_string($res)) {
+        if (\is_string($res)) {
             return $res;
         }
 

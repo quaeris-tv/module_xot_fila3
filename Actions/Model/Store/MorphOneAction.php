@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Model\Store;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Modules\Xot\Datas\RelationData as RelationDTO;
@@ -20,7 +19,7 @@ class MorphOneAction
         //    $relation->data = json_decode($relation->data, true);
         // }
         if (! $relationDTO->rows instanceof MorphOne) {
-            throw new Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $rows = $relationDTO->rows;

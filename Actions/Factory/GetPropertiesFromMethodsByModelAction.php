@@ -12,15 +12,13 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Factory;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
-use ReflectionMethod;
-use Spatie\QueueableAction\QueueableAction;
-use SplFileObject;
 
 use function Safe\preg_replace;
+
+use Spatie\QueueableAction\QueueableAction;
 
 /**
  * @see https://github.com/mpociot/laravel-test-factory-helper/blob/master/src/Console/GenerateCommand.php#L213
@@ -36,10 +34,10 @@ class GetPropertiesFromMethodsByModelAction
         foreach ($methods as $method) {
             if (! Str::startsWith($method, 'get') && ! method_exists('Illuminate\Database\Eloquent\Model', $method)) {
                 // Use reflection to inspect the code, based on Illuminate/Support/SerializableClosure.php
-                $reflection = new ReflectionMethod($model, $method);
+                $reflection = new \ReflectionMethod($model, $method);
                 /** @var string */
                 $filename = $reflection->getFileName();
-                $file = new SplFileObject($filename);
+                $file = new \SplFileObject($filename);
                 $file->seek($reflection->getStartLine() - 1);
                 $code = '';
                 while ($file->key() < $reflection->getEndLine()) {
@@ -57,7 +55,7 @@ class GetPropertiesFromMethodsByModelAction
                         if ($relationObj instanceof Relation) {
                             // $this->setProperty($relationObj->getForeignKeyName(), 'factory('.get_class($relationObj->getRelated()).'::class)');
                             if (! method_exists($relationObj, 'getForeignKeyName')) {
-                                throw new Exception('[WIP]['.__LINE__.']['.class_basename($this).']');
+                                throw new \Exception('[WIP]['.__LINE__.']['.class_basename($this).']');
                             }
                             $name = $relationObj->getForeignKeyName();
                             $type = 'factory('.get_class($relationObj->getRelated()).'::class)';
