@@ -7,6 +7,9 @@ namespace Modules\Xot\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
+
+use function Safe\json_encode;
+
 use Sushi\Sushi;
 
 /**
@@ -52,6 +55,9 @@ class Module extends Model
         $modules = ModuleFacade::all();
         $modules = Arr::map($modules, function ($module): array {
             $config = config('tenant::config');
+            if (! is_array($config)) {
+                $config = [];
+            }
             $colors = Arr::get($config, 'colors', []);
 
             return [

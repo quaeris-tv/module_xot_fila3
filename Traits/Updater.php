@@ -55,44 +55,6 @@ trait Updater
         );
     }
 
-    public function creator(): BelongsTo
-    {
-        $profile_class = XotData::make()->getProfileClass();
-
-        /*
-        return $this->belongsTo(
-            User::class,
-            'created_by',
-        );
-        */
-        return $this->belongsTo(
-            $profile_class,
-            'updated_by',
-            'user_id'
-        );
-    }
-
-    /**
-     * Defines a relation to obtain the last user who
-     * manipulated the Entity instance.
-     */
-    public function updater(): BelongsTo
-    {
-        $profile_class = XotData::make()->getProfileClass();
-
-        /*
-        return $this->belongsTo(
-            User::class,
-            'updated_by',
-        );
-        */
-        return $this->belongsTo(
-            $profile_class,
-            'updated_by',
-            'user_id'
-        );
-    }
-
     /**
      * bootUpdater function.
      */

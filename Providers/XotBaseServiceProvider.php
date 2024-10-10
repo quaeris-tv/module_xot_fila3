@@ -267,7 +267,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         foreach ($filenames as $filename) {
             $info = pathinfo($filename);
             $name = Arr::get($info, 'filename', null);
-            if (null === $name) {
+            if (! is_string($name)) {
                 continue;
             }
             $data = File::getRequire($filename);
