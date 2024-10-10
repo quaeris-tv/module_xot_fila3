@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Session;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
 
-use function in_array;
-
 class BelongsToManyAction
 {
     use QueueableAction;
@@ -22,7 +20,7 @@ class BelongsToManyAction
             'row' => $row,
             'relation' => $relation, ]);
         */
-        if (in_array('to', array_keys($relationDTO->data), false) || in_array('from', array_keys($relationDTO->data), false)) {
+        if (\in_array('to', array_keys($relationDTO->data), false) || \in_array('from', array_keys($relationDTO->data), false)) {
             // $this->saveMultiselectTwoSides($row, $relation->name, $relation->data);
             $to = $relationDTO->data['to'] ?? [];
             $model->{$relationDTO->name}()->sync($to);

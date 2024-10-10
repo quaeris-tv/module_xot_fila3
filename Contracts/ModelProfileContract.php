@@ -14,10 +14,10 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 /**
  * Modules\Xot\Contracts\ModelProfileContract.
  *
- * @property string $id
- * @property string $email
+ * @property string                $id
+ * @property string                $email
  * @property Collection<int, Role> $roles
- * @property int|null $roles_count
+ * @property int|null              $roles_count
  *
  * @phpstan-require-extends Model
  *
@@ -61,7 +61,8 @@ interface ModelProfileContract extends ModelContract
     /**
      * Create a new Eloquent query builder for the model.
      *
-     * @param  Builder  $query
+     * @param Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function newEloquentBuilder($query);

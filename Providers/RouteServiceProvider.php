@@ -10,8 +10,6 @@ use Illuminate\Support\Str;
 use Modules\Xot\Http\Middleware\SetDefaultLocaleForUrls;
 use Modules\Xot\Http\Middleware\SetDefaultTenantForUrlsMiddleware;
 
-use function in_array;
-
 // public function boot(\Illuminate\Routing\Router $router)
 
 // --- bases -----
@@ -64,7 +62,7 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
         $langs = ['it', 'en'];
         $user = request()->user();
         $lang = app()->getLocale();
-        if ($user !== null) {
+        if (null !== $user) {
             $lang = $user->lang ?? $lang;
         }
         $locales = config('laravellocalization.supportedLocales');
@@ -76,9 +74,9 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
         //    throw new \Exception('[.__LINE__.]['.class_basename(__CLASS__).']');
         // }
 
-        if (in_array(request()->segment(1), $langs, false)) {
+        if (\in_array(request()->segment(1), $langs, false)) {
             $lang = request()->segment(1);
-            if ($lang !== null) {
+            if (null !== $lang) {
                 app()->setLocale($lang);
             }
         }
