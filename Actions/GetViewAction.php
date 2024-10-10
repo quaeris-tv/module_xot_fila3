@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions;
 
+use Exception;
 use Illuminate\Support\Str;
 use Spatie\QueueableAction\QueueableAction;
 use Webmozart\Assert\Assert;
@@ -14,7 +15,7 @@ class GetViewAction
 
     public function execute(string $tpl = '', string $file0 = ''): string
     {
-        if ('' === $file0) {
+        if ($file0 === '') {
             $backtrace = debug_backtrace();
             $file0 = app(File\FixPathAction::class)->execute($backtrace[0]['file'] ?? '');
         }
@@ -22,7 +23,7 @@ class GetViewAction
         $file0 = Str::after($file0, base_path());
         $arr = explode(DIRECTORY_SEPARATOR, $file0);
 
-        if ('' === $arr[0]) {
+        if ($arr[0] === '') {
             $arr = array_slice($arr, 1);
             $arr = array_values($arr);
         }
@@ -41,7 +42,7 @@ class GetViewAction
         $pub_view = 'pub_theme::'.$tmp;
         Assert::string($pub_view, '['.__LINE__.']['.class_basename($this).']');
 
-        if ('' !== $tpl) {
+        if ($tpl !== '') {
             $pub_view .= '.'.$tpl;
         }
         if (view()->exists($pub_view)) {
@@ -50,7 +51,7 @@ class GetViewAction
 
         $view = Str::lower($mod).'::'.$tmp;
 
-        if ('' !== $tpl) {
+        if ($tpl !== '') {
             $view .= '.'.$tpl;
         }
 
@@ -64,7 +65,7 @@ class GetViewAction
         // }
         Assert::string($view, '['.__LINE__.']['.class_basename($this).']');
         if (! view()->exists($view)) {
-            throw new \Exception('View ['.$view.'] not found');
+            throw new Exception('View ['.$view.'] not found');
         }
 
         return $view;

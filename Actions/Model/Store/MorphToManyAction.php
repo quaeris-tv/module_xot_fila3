@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Model\Store;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Arr;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
+
+use function in_array;
 
 class MorphToManyAction
 {
@@ -17,11 +20,11 @@ class MorphToManyAction
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
         if (! $relationDTO->rows instanceof MorphToMany) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $data = $relationDTO->data;
-        if (\in_array('to', array_keys($data), false) || \in_array('from', array_keys($data), false)) {
+        if (in_array('to', array_keys($data), false) || in_array('from', array_keys($data), false)) {
             if (! isset($data['to'])) {
                 $data['to'] = [];
             }

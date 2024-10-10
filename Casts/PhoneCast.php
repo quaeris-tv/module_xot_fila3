@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Casts;
 
+use Exception;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use InvalidArgumentException;
 use Modules\Xot\ValueObjects\PhoneValueObject;
 
 class PhoneCast implements CastsAttributes
@@ -12,12 +14,12 @@ class PhoneCast implements CastsAttributes
     /**
      * Cast the given value.
      *
-     * @param array<string, mixed> $attributes
+     * @param  array<string, mixed>  $attributes
      */
     public function get($model, string $key, mixed $value, array $attributes): PhoneValueObject
     {
         if (! is_string($value)) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         return PhoneValueObject::fromString($value);
@@ -26,12 +28,12 @@ class PhoneCast implements CastsAttributes
     /**
      * Prepare the given value for storage.
      *
-     * @param array<string, mixed> $attributes
+     * @param  array<string, mixed>  $attributes
      */
     public function set($model, string $key, mixed $value, array $attributes): string
     {
         if (! $value instanceof PhoneValueObject) {
-            throw new \InvalidArgumentException('The given value is not an Phone instance.');
+            throw new InvalidArgumentException('The given value is not an Phone instance.');
         }
 
         return $value->toString();

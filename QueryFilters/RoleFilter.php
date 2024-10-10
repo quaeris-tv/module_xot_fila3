@@ -28,7 +28,7 @@ class RoleFilter
      *
      * @return mixed => you need to return your filtered data to next element
      */
-    public function handle(Request $request, \Closure $next): mixed
+    public function handle(Request $request, Closure $next): mixed
     {
         if (! request()->has('role')) {
             return $next($request);
