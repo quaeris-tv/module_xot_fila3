@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Traits;
 
+<<<<<<< Updated upstream
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Xot\Datas\XotData;
+=======
+use Modules\Xot\Datas\XotData;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+>>>>>>> Stashed changes
 
 /**
  * Trait Updater.
@@ -83,6 +88,42 @@ trait Updater
                     $model->save();
                 }
             }
+        );
+    }
+
+    public function creator(): BelongsTo
+    {
+        $profile_class = XotData::make()->getProfileClass();
+        /*
+        return $this->belongsTo(
+            User::class,
+            'created_by',
+        );
+        */
+        return $this->belongsTo(
+            $profile_class,
+            'updated_by',
+            'user_id'
+        );
+    }
+
+    /**
+     * Defines a relation to obtain the last user who
+     * manipulated the Entity instance.
+     */
+    public function updater(): BelongsTo
+    {
+        $profile_class = XotData::make()->getProfileClass();
+        /*
+        return $this->belongsTo(
+            User::class,
+            'updated_by',
+        );
+        */
+        return $this->belongsTo(
+            $profile_class,
+            'updated_by',
+            'user_id'
         );
     }
 }// end trait Updater
