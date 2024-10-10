@@ -12,9 +12,6 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Modules\Xot\Actions\Collection\TransCollectionAction;
 
-use function is_array;
-use function is_object;
-
 class CollectionExport implements FromCollection, ShouldQueue, WithHeadings, WithMapping
 {
     use Exportable;
@@ -36,7 +33,7 @@ class CollectionExport implements FromCollection, ShouldQueue, WithHeadings, Wit
 
     public function getHead(): Collection
     {
-        if (is_array($this->fields)) {
+        if (\is_array($this->fields)) {
             return collect($this->fields);
         }
 
@@ -63,11 +60,11 @@ class CollectionExport implements FromCollection, ShouldQueue, WithHeadings, Wit
     }
 
     /**
-     * @param  \Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null  $item
+     * @param \Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null $item
      */
     public function map($item): array
     {
-        if ($this->fields === null) {
+        if (null === $this->fields) {
             return collect($item)->toArray();
         }
 
@@ -75,7 +72,7 @@ class CollectionExport implements FromCollection, ShouldQueue, WithHeadings, Wit
         $data = [];
         foreach ($this->fields as $field) {
             $value = data_get($item, $field);
-            if (is_object($value)) {
+            if (\is_object($value)) {
                 if (enum_exists($value::class) && method_exists($value, 'getLabel')) {
                     $value = $value->getLabel();
                 }
