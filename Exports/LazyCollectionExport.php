@@ -37,7 +37,7 @@ class LazyCollectionExport implements FromIterator, ShouldQueue, WithHeadings, W
     /**
      * Undocumented function.
      *
-     * @param Collection $item
+     * @param  Collection  $item
      */
     public function map($item): array
     {
@@ -82,7 +82,7 @@ class LazyCollectionExport implements FromIterator, ShouldQueue, WithHeadings, W
     /**
      * Returns an iterator for the current collection.
      */
-    public function iterator(): \Iterator
+    public function iterator(): Iterator
     {
         /* @phpstan-ignore return.type */
         return $this->collection->getIterator();

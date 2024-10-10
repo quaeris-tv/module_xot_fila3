@@ -9,6 +9,9 @@ namespace Modules\Xot\Exceptions\Handlers;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Response;
+use Throwable;
+
+use function call_user_func_array;
 
 /**
  * The exception handler decorator.
@@ -41,17 +44,17 @@ class HandlerDecorator implements ExceptionHandler
          */
         $callable = [$this->defaultHandler, $name];
 
-        return \call_user_func_array($callable, $parameters);
+        return call_user_func_array($callable, $parameters);
     }
 
     /**
      * Report or log an exception.
      *
-     * @throws \Throwable
-     *
      * @return void|mixed
+     *
+     * @throws Throwable
      */
-    public function report(\Throwable $e)
+    public function report(Throwable $e)
     {
         foreach ($this->repository->getReportersByException($e) as $reporter) {
             if ($report = $reporter($e)) {
@@ -75,13 +78,12 @@ class HandlerDecorator implements ExceptionHandler
      *
      * @see laravel\vendor\laravel\framework\src\Illuminate\Contracts\Debug\ExceptionHandler.php
      *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @throws \Throwable
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws Throwable
      */
-    public function render($request, \Throwable $e)
+    public function render($request, Throwable $e)
     {
         foreach ($this->repository->getRenderersByException($e) as $renderer) {
             if ($render = $renderer($e, $request)) {
@@ -103,13 +105,12 @@ class HandlerDecorator implements ExceptionHandler
     /**
      * Render an exception to the console.
      *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @return void|mixed
      *
      * @internal this method is not meant to be used or overwritten outside the framework
      */
-    public function renderForConsole($output, \Throwable $e)
+    public function renderForConsole($output, Throwable $e)
     {
         foreach ($this->repository->getConsoleRenderersByException($e) as $renderer) {
             if ($render = $renderer($e, $output)) {
@@ -133,7 +134,7 @@ class HandlerDecorator implements ExceptionHandler
      *
      * @return bool
      */
-    public function shouldReport(\Throwable $e)
+    public function shouldReport(Throwable $e)
     {
         return $this->defaultHandler->shouldReport($e);
     }

@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Model\Update;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
+
+use function in_array;
+use function is_array;
 
 class MorphToManyAction
 {
@@ -25,7 +29,7 @@ class MorphToManyAction
         $name = $relationDTO->name;
         $model = $row;
 
-        if (\in_array('to', array_keys($data), false) || \in_array('from', array_keys($data), false)) {
+        if (in_array('to', array_keys($data), false) || in_array('from', array_keys($data), false)) {
             if (! isset($data['to'])) {
                 $data['to'] = [];
             }
@@ -33,8 +37,8 @@ class MorphToManyAction
             $data = $data['to'];
         }
 
-        if (! \is_array($data)) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+        if (! is_array($data)) {
+            throw new Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         if (! Arr::isAssoc($data)) {
@@ -43,7 +47,7 @@ class MorphToManyAction
         }
 
         foreach ($data as $k => $v) {
-            if (\is_array($v)) {
+            if (is_array($v)) {
                 if (! isset($v['pivot'])) {
                     $v['pivot'] = [];
                 }

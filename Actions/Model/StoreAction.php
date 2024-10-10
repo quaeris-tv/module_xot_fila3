@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Spatie\QueueableAction\QueueableAction;
 
+use function in_array;
+
 class StoreAction
 {
     use QueueableAction;
 
     public function execute(Model $model, array $data, array $rules): Model
     {
-        if (! isset($data['lang']) && \in_array('lang', $model->getFillable(), false)) {
+        if (! isset($data['lang']) && in_array('lang', $model->getFillable(), false)) {
             $data['lang'] = app()->getLocale();
         }
         $data['updated_by'] = authId();
