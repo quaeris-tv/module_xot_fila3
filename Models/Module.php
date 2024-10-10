@@ -13,11 +13,11 @@ use function Safe\json_encode;
 use Sushi\Sushi;
 
 /**
- * @property int $id
+ * @property int         $id
  * @property string|null $name
  * @property string|null $description
- * @property bool|null $status
- * @property int|null $priority
+ * @property bool|null   $status
+ * @property int|null    $priority
  * @property string|null $path
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Module newModelQuery()

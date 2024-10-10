@@ -6,8 +6,6 @@ namespace Modules\Xot\Actions\Class;
 
 // use Modules\Xot\Services\ArrayService;
 
-use Exception;
-use ReflectionClass;
 use Spatie\QueueableAction\QueueableAction;
 
 class GetFilenameByClassnameAction
@@ -19,10 +17,10 @@ class GetFilenameByClassnameAction
         $filename = null;
         try {
             if (class_exists($class_name)) {
-                $reflector = new ReflectionClass($class_name);
+                $reflector = new \ReflectionClass($class_name);
                 $filename = $reflector->getFileName();
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $filename = str_replace('\\', '/', $class_name);
             $filename = base_path($filename).'.php';
         }
@@ -30,6 +28,6 @@ class GetFilenameByClassnameAction
         if (is_string($filename)) {
             return $filename;
         }
-        throw new Exception('['.__LINE__.']['.class_basename($this).']['.$class_name.']');
+        throw new \Exception('['.__LINE__.']['.class_basename($this).']['.$class_name.']');
     }
 }

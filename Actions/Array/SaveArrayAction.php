@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Spatie\QueueableAction\QueueableAction;
 
-use function chr;
-use function dirname;
-
 class SaveArrayAction
 {
     use QueueableAction;
@@ -22,9 +19,9 @@ class SaveArrayAction
         // HHVM fails at __set_state, so just use object cast for now
         $content = str_replace('stdClass::__set_state', '(object)', $content);
 
-        $content = '<?php '.chr(13).'return '.$content.';'.chr(13);
+        $content = '<?php '.\chr(13).'return '.$content.';'.\chr(13);
         // $content = str_replace('stdClass::__set_state', '(object)', $content);
-        File::makeDirectory(dirname((string) $filename), 0775, true, true);
+        File::makeDirectory(\dirname((string) $filename), 0775, true, true);
         File::put($filename, $content);
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models\Traits;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
@@ -15,10 +14,10 @@ use Webmozart\Assert\Assert;
 /**
  * Modules\Xot\Models\HasExtraTrait.
  *
- * @property string $currency
- * @property float $price
- * @property string $price_complete
- * @property int $qty
+ * @property string             $currency
+ * @property float              $price
+ * @property string             $price_complete
+ * @property int                $qty
  * @property ExtraContract|null $extra
  */
 trait HasExtraTrait
@@ -55,17 +54,18 @@ trait HasExtraTrait
         ) {
             return $value;
         }
-        throw new Exception('['.__LINE__.']['.__CLASS__.']');
+        throw new \Exception('['.__LINE__.']['.__CLASS__.']');
     }
 
     /**
-     * @param  int|float|string|array|bool|null  $value
+     * @param int|float|string|array|bool|null $value
+     *
      * @return void
      */
     public function setExtra(string $name, $value)
     {
         $extra = $this->extra;
-        if ($this->extra === null) {
+        if (null === $this->extra) {
             $extra = $this->extra()->firstOrCreate([], ['extra_attributes' => []]);
             Assert::implementsInterface($extra, ExtraContract::class, '['.__LINE__.']['.class_basename($this).']['.$extra.']');
         }

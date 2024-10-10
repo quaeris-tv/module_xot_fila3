@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Model\Update;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Xot\Actions\Model\UpdateAction;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
-
-use function in_array;
 
 class HasManyAction
 {
@@ -23,7 +20,7 @@ class HasManyAction
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
         if (! $relationDTO->rows instanceof HasMany) {
-            throw new Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         if (isset($relationDTO->data['from']) && isset($relationDTO->data['to'])) {
@@ -63,7 +60,7 @@ class HasManyAction
         // dddx(get_class_methods($relationDTO->rows));
 
         foreach ($relationDTO->data as $data) {
-            if (in_array($keyName, array_keys($data), false)) {
+            if (\in_array($keyName, array_keys($data), false)) {
                 $data[$foreignKeyName] = $parentKey;
                 $res = app(UpdateAction::class)->execute($related, $data, []);
 
