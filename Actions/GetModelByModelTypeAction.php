@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\QueueableAction\QueueableAction;
 
@@ -22,12 +23,12 @@ class GetModelByModelTypeAction
     {
         $model_class = app(GetModelClassByModelTypeAction::class)->execute($model_type);
         $model = app($model_class);
-        if (null !== $model_id) {
+        if ($model_id !== null) {
             $model = $model->find($model_id);
         }
 
-        if (null === $model) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+        if ($model === null) {
+            throw new Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         return $model;

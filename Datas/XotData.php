@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Datas;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Livewire\Wireable;
@@ -14,12 +15,11 @@ use Modules\User\Models\Membership;
 use Modules\User\Models\Team;
 use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Contracts\UserContract;
-
-use function Safe\realpath;
-
 use Spatie\LaravelData\Concerns\WireableData;
 use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
+
+use function Safe\realpath;
 
 /**
  * Undocumented class.
@@ -114,7 +114,7 @@ class XotData extends Data implements Wireable
         $user_class = $this->getUserClass();
         $user = $user_class::firstWhere('email', $email);
         if (! $user) {
-            throw new \Exception('user not found for email '.$email);
+            throw new Exception('user not found for email '.$email);
         }
         Assert::implementsInterface($user, UserContract::class, '['.__LINE__.']['.class_basename($this).']');
 
@@ -204,7 +204,7 @@ class XotData extends Data implements Wireable
         $profileClass = $this->getProfileClass();
         $profile = app($profileClass);
         if (! in_array('user_id', $profile->getFillable())) {
-            throw new \Exception('add user_id to fillable on class '.$profileClass);
+            throw new Exception('add user_id to fillable on class '.$profileClass);
         }
 
         $res = $profile->firstOrCreate(['user_id' => $user_id]);
@@ -223,7 +223,7 @@ class XotData extends Data implements Wireable
     public function iAmSuperAdmin(): bool
     {
         $user = auth()->user();
-        if (null === $user) {
+        if ($user === null) {
             return false;
         }
 
@@ -232,7 +232,7 @@ class XotData extends Data implements Wireable
 
     public function getProfileModel(): ProfileContract
     {
-        if (null !== $this->profile) {
+        if ($this->profile !== null) {
             return $this->profile;
         }
         $user_id = (string) authId();
@@ -263,8 +263,8 @@ class XotData extends Data implements Wireable
         $path0 = base_path('Themes/'.$theme.'/Resources/views/'.$key);
         try {
             $path = realpath($path0);
-        } catch (\Exception $e) {
-            throw new \Exception('realpath not find dir['.$path0.']'.PHP_EOL.'['.$e->getMessage().']');
+        } catch (Exception $e) {
+            throw new Exception('realpath not find dir['.$path0.']'.PHP_EOL.'['.$e->getMessage().']');
         }
 
         return $path;

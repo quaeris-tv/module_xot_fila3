@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Factory;
 
+use Exception;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use Spatie\QueueableAction\QueueableAction;
@@ -26,11 +27,10 @@ class GetFactoryAction
     /**
      * Execute the function with the given model class.
      *
-     * @param string $model_class the class name of the model
-     *
-     * @throws \Exception Generating Factory [factory_class] press [F5] to refresh page [__LINE__][__FILE__]
-     *
+     * @param  string  $model_class  the class name of the model
      * @return \Illuminate\Database\Eloquent\Factories\Factory
+     *
+     * @throws Exception Generating Factory [factory_class] press [F5] to refresh page [__LINE__][__FILE__]
      */
     public function execute(string $model_class)
     {
@@ -42,7 +42,7 @@ class GetFactoryAction
 
         $this->createFactory($model_class);
 
-        throw new \Exception('Generating Factory ['.$factory_class.'] press [F5] to refresh page ['.__LINE__.']['.class_basename($this).']');
+        throw new Exception('Generating Factory ['.$factory_class.'] press [F5] to refresh page ['.__LINE__.']['.class_basename($this).']');
     }
 
     public function getFactoryClass(string $model_class): string
@@ -61,8 +61,7 @@ class GetFactoryAction
     /**
      * Create a factory for the given model class.
      *
-     * @param string $model_class The class name of the model to create the factory for
-     *
+     * @param  string  $model_class  The class name of the model to create the factory for
      * @return void
      */
     public function createFactory(string $model_class)

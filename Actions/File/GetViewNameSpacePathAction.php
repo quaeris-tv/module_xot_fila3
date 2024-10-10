@@ -7,6 +7,8 @@ namespace Modules\Xot\Actions\File;
 use Modules\Xot\Datas\XotData;
 use Spatie\QueueableAction\QueueableAction;
 
+use function in_array;
+
 class GetViewNameSpacePathAction
 {
     use QueueableAction;
@@ -24,7 +26,7 @@ class GetViewNameSpacePathAction
             return $viewHints[$ns][0];
         }
 
-        if (\in_array($ns, ['pub_theme'], false)) {
+        if (in_array($ns, ['pub_theme'], false)) {
             $theme_name = $xot->{$ns};
 
             return base_path('Themes/'.$theme_name);

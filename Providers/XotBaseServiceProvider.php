@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Providers;
 
+use Exception;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
@@ -14,7 +15,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Modules\Xot\Services\BladeService;
 use Modules\Xot\Services\LivewireService;
+use stdClass;
 
+use function count;
 use function Safe\glob;
 use function Safe\json_decode;
 use function Safe\json_encode;
@@ -95,8 +98,8 @@ abstract class XotBaseServiceProvider extends ServiceProvider
     {
         try {
             $sourcePath = realpath($this->module_dir.'/../Resources/views');
-        } catch (\Exception $e) {
-            throw new \Exception('realpath not find dir ['.$this->module_dir.'/../Resources/views]');
+        } catch (Exception $e) {
+            throw new Exception('realpath not find dir ['.$this->module_dir.'/../Resources/views]');
         }
         $this->loadViewsFrom($sourcePath, $this->module_name);
     }
@@ -108,8 +111,8 @@ abstract class XotBaseServiceProvider extends ServiceProvider
     {
         try {
             $langPath = realpath($this->module_dir.'/../Resources/lang');
-        } catch (\Exception $e) {
-            throw new \Exception('realpath not find dir['.$this->module_dir.'/../Resources/lang]');
+        } catch (Exception $e) {
+            throw new Exception('realpath not find dir['.$this->module_dir.'/../Resources/lang]');
         }
 
         $this->loadTranslationsFrom($langPath, $this->module_name);
@@ -155,7 +158,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             Str::before($this->module_ns, '\Providers'),
             $prefix,
         );
-        if (\count($comps) > 0) {
+        if (count($comps) > 0) {
             $commands = collect($comps)->map(
                 function ($item) {
                     return $this->module_ns.'\Console\Commands\\'.$item->class_name;
@@ -212,7 +215,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
                     ];
                     if (class_exists($event) && class_exists($listener)) {
                         // \Event::listen($event, $listener);
-                        $tmp = new \stdClass();
+                        $tmp = new stdClass();
                         $tmp->event = $event;
                         $tmp->listener = $listener;
                         $events[] = $tmp;
@@ -226,7 +229,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
                 //    throw new \Exception('can not encode json');
                 // }
                 File::put($events_file, $events_content);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 dd($e);
             }
         } else {
@@ -267,7 +270,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         foreach ($filenames as $filename) {
             $info = pathinfo($filename);
             $name = Arr::get($info, 'filename', null);
-            if (null === $name) {
+            if ($name === null) {
                 continue;
             }
             $data = File::getRequire($filename);
