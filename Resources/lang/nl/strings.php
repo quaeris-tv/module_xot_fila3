@@ -57,7 +57,7 @@ return [
             'error' => 'Oeps!',
             'greeting' => 'Hallo!',
             'regards' => 'Groet,',
-            'trouble_clicking_button' => 'Als u problemen heeft met de ":action_text" button, kopieer en plak dan de onderstaande URL in uw web browser:',
+            'trouble_clicking_button' => 'Als u problemen heeft met de ":actionText" button, kopieer en plak dan de onderstaande URL in uw web browser:',
             'thank_you_for_using_app' => 'Dank u voor het gebruik van onze applicatie!',
             'password_reset_subject' => 'Uw Wachtwoord Reset Link',
             'password_cause_of_email' => 'U ontvangt deze email omdat we een wachtwoord reset verzoek hebben ontvangen voor uw account',
