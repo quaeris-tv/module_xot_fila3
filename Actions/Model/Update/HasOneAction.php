@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Model\Update;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Xot\Datas\RelationData as RelationDTO;
@@ -20,7 +19,7 @@ class HasOneAction
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
         if (! $relationDTO->rows instanceof HasOne) {
-            throw new Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $rows = $relationDTO->rows;
@@ -32,7 +31,7 @@ class HasOneAction
             // backtrace(true);
             // dddx([$model, $name, $data]);
             $model->{$relationDTO->name}->update($relationDTO->data);
-            // }
+        // }
         } else {
             dddx(['err' => 'wip']);
             // $this->storeRelationshipsHasOne($params);
