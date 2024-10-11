@@ -57,7 +57,7 @@ return [
             'error' => 'Oops!',
             'greeting' => 'Olá!',
             'regards' => 'Nossos cumprimentos,',
-            'trouble_clicking_button' => 'Se você está com problemas para clicar no botão ":action_text", copie e cole a URL abaixo no seu navegador:',
+            'trouble_clicking_button' => 'Se você está com problemas para clicar no botão ":actionText", copie e cole a URL abaixo no seu navegador:',
             'thank_you_for_using_app' => 'Obrigado por utilizar o nosso sistema!',
             'password_reset_subject' => 'Seu link para redefinição de senha',
             'password_cause_of_email' => 'Você recebeu este email porque nós recebemos uma solicitação de redefinição de senha para a sua conta.',

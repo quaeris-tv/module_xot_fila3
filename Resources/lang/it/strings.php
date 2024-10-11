@@ -63,7 +63,7 @@ return [
             'error' => 'Ops!',
             'greeting' => 'Ciao!',
             'regards' => 'Saluti,',
-            'trouble_clicking_button' => 'Se hai problemi a cliccare il pulsante ":action_text", copia e incolla l\'URL qui sotto nel tuo browser:',
+            'trouble_clicking_button' => 'Se hai problemi a cliccare il pulsante ":actionText", copia e incolla l\'URL qui sotto nel tuo browser:',
             'thank_you_for_using_app' => 'Grazie per aver utilizzato la nostra applicazione!',
             'password_reset_subject' => 'Il tuo link per il reset della password',
             'password_cause_of_email' => 'Hai ricevuto questa email perché abbiamo ricevuto una richiesta di reset della password per il tuo account.',
