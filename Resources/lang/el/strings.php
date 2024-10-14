@@ -57,7 +57,7 @@ return [
             'error' => 'Whoops!',
             'greeting' => 'Hello!',
             'regards' => 'Regards,',
-            'trouble_clicking_button' => 'If you’re having trouble clicking the ":action_text" button, copy and paste the URL below into your web browser:',
+            'trouble_clicking_button' => 'If you’re having trouble clicking the ":actionText" button, copy and paste the URL below into your web browser:',
             'thank_you_for_using_app' => 'Thank you for using our application!',
             'password_reset_subject' => 'Reset Password',
             'password_cause_of_email' => 'You are receiving this email because we received a password reset request for your account.',

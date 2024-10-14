@@ -7,14 +7,17 @@ namespace Modules\Xot\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
+
+use function Safe\json_encode;
+
 use Sushi\Sushi;
 
 /**
- * @property int $id
+ * @property int         $id
  * @property string|null $name
  * @property string|null $description
- * @property bool|null $status
- * @property int|null $priority
+ * @property bool|null   $status
+ * @property int|null    $priority
  * @property string|null $path
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Module newModelQuery()
@@ -52,6 +55,9 @@ class Module extends Model
         $modules = ModuleFacade::all();
         $modules = Arr::map($modules, function ($module): array {
             $config = config('tenant::config');
+            if (! is_array($config)) {
+                $config = [];
+            }
             $colors = Arr::get($config, 'colors', []);
 
             return [

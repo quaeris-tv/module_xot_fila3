@@ -9,7 +9,11 @@ use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\File;
 use Modules\Xot\Actions\Array\SaveArrayAction;
 use Modules\Xot\Filament\Resources\ModuleResource;
+use Modules\Xot\Models\Module;
 
+/**
+ * @property Module $record
+ */
 class EditModule extends EditRecord
 {
     protected static string $resource = ModuleResource::class;
@@ -23,16 +27,17 @@ class EditModule extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        // Se vuoi modificare i dati prima di salvarli, puoi farlo qui.
         return $data;
     }
 
     protected function afterSave(): void
     {
-        // Salva i colori in un file di configurazione dopo il salvataggio
         $module = $this->record; // Ottiene il record corrente
         $config_path = $module->path.'/Config/config.php';
         $data = File::getRequire($config_path);
+        if (! is_array($data)) {
+            $data = [];
+        }
         $data = array_merge($data, $module->toArray());
         unset($data['path']);
         app(SaveArrayAction::class)->execute($data, $config_path);

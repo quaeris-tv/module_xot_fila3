@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Exceptions\Handlers;
 
-use ReflectionClass;
 use ReflectionFunction;
-use Throwable;
 
 /**
  * The handlers repository.
@@ -55,7 +53,7 @@ class HandlersRepository
     /**
      * Retrieve all reporters handling the given exception.
      */
-    public function getReportersByException(Throwable $e): array
+    public function getReportersByException(\Throwable $e): array
     {
         return array_filter($this->reporters, fn (callable $handler) => $this->handlesException($handler, $e));
     }
@@ -63,7 +61,7 @@ class HandlersRepository
     /**
      * Retrieve all renderers handling the given exception.
      */
-    public function getRenderersByException(Throwable $e): array
+    public function getRenderersByException(\Throwable $e): array
     {
         return array_filter($this->renderers, fn (callable $handler) => $this->handlesException($handler, $e));
     }
@@ -71,7 +69,7 @@ class HandlersRepository
     /**
      * Retrieve all console renderers handling the given exception.
      */
-    public function getConsoleRenderersByException(Throwable $e): array
+    public function getConsoleRenderersByException(\Throwable $e): array
     {
         return array_filter($this->consoleRenderers, fn (callable $handler) => $this->handlesException($handler, $e));
     }
@@ -79,18 +77,18 @@ class HandlersRepository
     /**
      * Determine whether the given handler can handle the provided exception.
      */
-    protected function handlesException(callable $handler, Throwable $e): bool
+    protected function handlesException(callable $handler, \Throwable $e): bool
     {
         // protected function handlesException(Closure $handler, \Throwable $e)
         // Parameter #1 $function of class ReflectionFunction constructor expects Closure|string, callable(): mixed
         //  given.
         /** @phpstan-ignore argument.type */
-        $reflection = new ReflectionFunction($handler);
+        $reflection = new \ReflectionFunction($handler);
 
         if (! $params = $reflection->getParameters()) {
             return false;
         }
 
-        return $params[0]->getClass() instanceof ReflectionClass ? $params[0]->getClass()->isInstance($e) : true;
+        return $params[0]->getClass() instanceof \ReflectionClass ? $params[0]->getClass()->isInstance($e) : true;
     }
 }

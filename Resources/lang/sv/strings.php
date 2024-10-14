@@ -60,7 +60,7 @@ Denna boilerplate kommer med fullt funktionerande <em>Access Control Library</em
             'error' => 'Hoppsan!',
             'greeting' => 'Hej!',
             'regards' => 'Hälsningar',
-            'trouble_clicking_button' => 'Fungerar inte knappen ":action_text"? Kopiera då länken nedan och klistra in den i din webbläsare.',
+            'trouble_clicking_button' => 'Fungerar inte knappen ":actionText"? Kopiera då länken nedan och klistra in den i din webbläsare.',
             'thank_you_for_using_app' => 'Tack för att du använder vår hemsida!',
             'password_reset_subject' => 'Återställ lösenord',
             'password_cause_of_email' => 'Du får detta meddelande eftersom det begärts en återställning av lösenord för ditt konto.',

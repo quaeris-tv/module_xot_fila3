@@ -57,7 +57,7 @@ return [
             'error' => 'Ups!',
             'greeting' => 'Hola!',
             'regards' => 'Saludos,',
-            'trouble_clicking_button' => 'Si está presentando problemas haciendo clic en el botón ":action_text", copia y pega el enlace en su navegador:',
+            'trouble_clicking_button' => 'Si está presentando problemas haciendo clic en el botón ":actionText", copia y pega el enlace en su navegador:',
             'thank_you_for_using_app' => 'Gracias por utilizar nuestra aplicación!',
             'password_reset_subject' => 'Su enlace de reinicio de contraseña',
             'password_cause_of_email' => 'Usted está recibiendo este correo porque hemos recibido una solicitud de reinicio de contraseña para su cuenta.',

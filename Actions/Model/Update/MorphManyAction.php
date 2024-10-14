@@ -9,8 +9,6 @@ use Modules\Xot\Actions\Model\UpdateAction;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
 
-use function in_array;
-
 class MorphManyAction
 {
     use QueueableAction;
@@ -20,7 +18,7 @@ class MorphManyAction
      */
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
-        if ($relationDTO->data === []) {
+        if ([] === $relationDTO->data) {
             // dddx(['model'=>$model,'relationDTO'=>$relationDTO]);
             // save Model
             $model->{$relationDTO->name}()->saveMany($relationDTO->data);
@@ -33,7 +31,7 @@ class MorphManyAction
         $models = [];
         $ids = [];
         foreach ($relationDTO->data as $data) {
-            if (in_array($keyName, array_keys($data), false)) {
+            if (\in_array($keyName, array_keys($data), false)) {
                 /*
                 $related_id = $data[$keyName];
                 $row = $related->firstOrCreate([$keyName => $related_id]);

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Xot\Exceptions\Formatters;
 
 use Illuminate\Support\Facades\Auth;
-use Throwable;
 
 // use Symfony\Component\HttpFoundation\Request;
 
@@ -13,7 +12,7 @@ class WebhookErrorFormatter
 {
     // private Request $request;
 
-    public function __construct(private readonly Throwable $exception)
+    public function __construct(private readonly \Throwable $exception)
     {
         // $this->request = $request;
     }
@@ -22,7 +21,7 @@ class WebhookErrorFormatter
     {
         $user = Auth::user();
         $email = 'CLI User';
-        if ($user !== null) {
+        if (null !== $user) {
             $email = $user->email;
         }
 
