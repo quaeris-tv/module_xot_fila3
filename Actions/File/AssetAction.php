@@ -93,7 +93,15 @@ class AssetAction
             if (! File::exists(\dirname($filename_to))) {
                 File::makeDirectory(\dirname($filename_to), 0755, true, true);
             }
-            File::copy($filename_from, $filename_to);
+            try {
+                File::copy($filename_from, $filename_to);
+            } catch (\Exception $e) {
+                throw new \Exception('message:['.$e->getMessage().']
+                    public_path ['.public_path().']
+                    path ['.$path.']
+                    file from ['.$filename_from.']
+                    file to ['.$filename_to.']', $e->getCode(), $e);
+            }
         }
 
         Assert::string($asset, '['.__LINE__.']['.class_basename(static::class).']');
