@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Modules\Xot\Contracts\PivotContract.
  *
-<<<<<<< HEAD
+ * <<<<<<< HEAD
+ *
  * @property string|null                         $title
  * @property string|null                         $subtitle
  * @property string|null                         $price
@@ -17,18 +18,18 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null                            $status
  * @property Collection|array<ProductContract>   $products
  * @property Collection|array<ChangeCatContract> $changeCats
-=======
- * @property string|null $title
- * @property string|null $subtitle
- * @property string|null $price
- * @property string|null $price_currency
- * @property int|null    $status
- * @property string|null $title
- * @property string|null $subtitle
- * @property string|null $price
- * @property string|null $price_currency
- * @property int|null    $status
->>>>>>> 9a1e719aa93e06137cb8175cb55e169573197018
+ *                                                               =======
+ * @property string|null                         $title
+ * @property string|null                         $subtitle
+ * @property string|null                         $price
+ * @property string|null                         $price_currency
+ * @property int|null                            $status
+ * @property string|null                         $title
+ * @property string|null                         $subtitle
+ * @property string|null                         $price
+ * @property string|null                         $price_currency
+ * @property int|null                            $status
+ *                                                               >>>>>>> 9a1e719aa93e06137cb8175cb55e169573197018
  *
  * @method mixed update($params)
  *
