@@ -24,11 +24,7 @@ class MainDashboard extends Page
         );
 
         if (1 === $modules->count()) {
-<<<<<<< HEAD
-            Assert::notNull($modules->first(), '['.__LINE__.']['.__FILE__.']');
-=======
             Assert::notNull($modules->first(), '['.__LINE__.']['.class_basename($this).']');
->>>>>>> 9a1e719aa93e06137cb8175cb55e169573197018
             $panel_name = $modules->first()->name;
             $module_name = Str::before($panel_name, '::admin');
             $url = '/'.$module_name.'/admin';

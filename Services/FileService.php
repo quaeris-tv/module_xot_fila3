@@ -437,11 +437,7 @@ class FileService
         */
         $ns_dir = self::getViewNameSpacePath($ns_name);
         if (null === $ns_dir) {
-<<<<<<< HEAD
-            return '#['.$key.']['.__LINE__.']['.__FILE__.']';
-=======
             return '#['.$key.']['.__LINE__.']['.class_basename(static::class).']';
->>>>>>> 9a1e719aa93e06137cb8175cb55e169573197018
         }
 
         // dddx([$key, $ns_name, $ns_dir, $ns_dir1]);
