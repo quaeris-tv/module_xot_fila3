@@ -53,6 +53,7 @@
         "tightenco/parental": "^1.4"
     },
     "require_comment": {
+        
         "laraxot/module_tenant_fila3": "*"
     },
     "require-dev": {

@@ -132,8 +132,8 @@ abstract class XotBasePanelProvider extends PanelProvider
             );
 
         $config_path = 'Modules/'.$this->module.'/Config/config.php';
-        $data = File::getRequire(base_path($config_path));
-        $colors = Arr::get($data, 'colors', null);
+        // $data = File::getRequire(base_path($config_path));
+        // $colors = Arr::get($data, 'colors', null);
         /*
         if (is_array($colors)) {
             $colors = Arr::map($colors, function ($color) {
