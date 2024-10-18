@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Spatie\QueueableAction\QueueableAction;
 
-use function dirname;
-
 class GetViewsSiblingsAndSelfAction
 {
     use QueueableAction;
@@ -24,7 +22,7 @@ class GetViewsSiblingsAndSelfAction
     {
         $path = app(GetViewPathAction::class)->execute($view);
 
-        $dir = dirname($path);
+        $dir = \dirname($path);
         $files = File::files($dir);
         $views = [];
         foreach ($files as $file) {

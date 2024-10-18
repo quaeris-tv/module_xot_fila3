@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\File;
 
-use Exception;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Modules\Xot\Datas\XotData;
 use Spatie\QueueableAction\QueueableAction;
 use Webmozart\Assert\Assert;
-
-use function dirname;
-use function in_array;
 
 class AssetAction
 {
@@ -46,7 +42,7 @@ class AssetAction
             $ns_after = Str::after($ns_after, '/');
         }
 
-        if (in_array($ns, ['pub_theme', 'adm_theme'], false)) {
+        if (\in_array($ns, ['pub_theme', 'adm_theme'], false)) {
             $theme = $xot->{$ns};
 
             $filename_from = app(FixPathAction::class)->execute(base_path('Themes/'.$theme.'/Resources/'.$ns_after));
@@ -56,14 +52,14 @@ class AssetAction
             $asset = Str::replace(url(''), '', asset($asset));
 
             if (! File::exists($filename_to)) {
-                if (! File::exists(dirname($filename_to))) {
-                    File::makeDirectory(dirname($filename_to), 0755, true, true);
+                if (! File::exists(\dirname($filename_to))) {
+                    File::makeDirectory(\dirname($filename_to), 0755, true, true);
                 }
 
                 try {
                     File::copy($filename_from, $filename_to);
-                } catch (Exception $e) {
-                    throw new Exception('message:['.$e->getMessage().']
+                } catch (\Exception $e) {
+                    throw new \Exception('message:['.$e->getMessage().']
                         path :['.$path.']
                         file from ['.$filename_from.']
                         file to ['.$filename_to.']', $e->getCode(), $e);
@@ -89,18 +85,18 @@ class AssetAction
             if (isRunningTestBench()) {
                 return $path;
             }
-            throw new Exception('file ['.$filename_from.'] not Exists , path ['.$path.']');
+            throw new \Exception('file ['.$filename_from.'] not Exists , path ['.$path.']');
         }
 
         // dddx(app()->environment());// local
-        if (! File::exists($filename_to) || app()->environment() !== 'production') {
-            if (! File::exists(dirname($filename_to))) {
-                File::makeDirectory(dirname($filename_to), 0755, true, true);
+        if (! File::exists($filename_to) || 'production' !== app()->environment()) {
+            if (! File::exists(\dirname($filename_to))) {
+                File::makeDirectory(\dirname($filename_to), 0755, true, true);
             }
             try {
                 File::copy($filename_from, $filename_to);
-            } catch (Exception $e) {
-                throw new Exception('message:['.$e->getMessage().']
+            } catch (\Exception $e) {
+                throw new \Exception('message:['.$e->getMessage().']
                     public_path ['.public_path().']
                     path ['.$path.']
                     file from ['.$filename_from.']
