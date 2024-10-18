@@ -8,13 +8,14 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Console\Commands;
 
-use Carbon\Carbon;
+use const DIRECTORY_SEPARATOR;
+
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Webmozart\Assert\Assert;
 
 use function Safe\exec;
-
-use Webmozart\Assert\Assert;
 
 class DatabaseBackUpCommand extends Command
 {
@@ -49,7 +50,7 @@ class DatabaseBackUpCommand extends Command
     {
         $filename = 'backup-'.Carbon::now()->format('Y-m-d').'.gz';
         $backup_path = storage_path('app/backup/'.$filename);
-        Assert::string($backup_path = Str::replace(['/', '\\'], [\DIRECTORY_SEPARATOR, \DIRECTORY_SEPARATOR], $backup_path), 'wip');
+        Assert::string($backup_path = Str::replace(['/', '\\'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $backup_path), 'wip');
         Assert::string($user = env('DB_USERNAME'));
         Assert::string($password = env('DB_PASSWORD'));
         Assert::string($host = env('DB_HOST'));

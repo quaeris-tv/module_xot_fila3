@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Rules;
 
-use Carbon\Carbon;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Carbon;
 
 /**
  * Class DateTimeRule.
@@ -15,8 +16,8 @@ class DateTimeRule implements Rule
     /**
      * Undocumented function.
      *
-     * @param string $attribute
-     * @param string $value
+     * @param  string  $attribute
+     * @param  string  $value
      */
     public function passes($attribute, $value): bool
     {
@@ -27,7 +28,7 @@ class DateTimeRule implements Rule
         $format = 'd/m/Y H:i';
         try {
             $value_new = Carbon::createFromFormat($format, $value);
-        } catch (\Exception) {
+        } catch (Exception) {
             return false;
         }
 

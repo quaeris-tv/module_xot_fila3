@@ -5,7 +5,7 @@ namespace XRA\Extend\Traits;
 use XRA\Extend\Library\Resource;
 use XRA\Extend\Library\SweetAlert;
 use Auth;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;;
 use Illuminate\Http\Request;
 
 trait CrudTrait

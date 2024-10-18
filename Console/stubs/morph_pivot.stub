@@ -1,7 +1,7 @@
 <?php
 namespace DummyNamespace;
 
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
 
 use Modules\Xot\Traits\Updater;

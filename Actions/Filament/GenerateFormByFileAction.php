@@ -8,12 +8,14 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\Filament;
 
 use Illuminate\Support\Str;
-
-use function Safe\file;
-
+use ReflectionClass;
 use Spatie\QueueableAction\QueueableAction;
 use Symfony\Component\Finder\SplFileInfo as File;
 use Webmozart\Assert\Assert;
+
+use function array_slice;
+use function in_array;
+use function Safe\file;
 
 class GenerateFormByFileAction
 {
@@ -28,7 +30,7 @@ class GenerateFormByFileAction
         if (! $file->isFile()) {
             return 0;
         }
-        if (! \in_array($file->getExtension(), ['php'], false)) {
+        if (! in_array($file->getExtension(), ['php'], false)) {
             return 0;
         }
 
@@ -38,7 +40,7 @@ class GenerateFormByFileAction
         $model_name = app($class_name)->getModel();
         $fillable = app($model_name)->getFillable();
         Assert::classExists($class_name);
-        $reflection_class = new \ReflectionClass($class_name);
+        $reflection_class = new ReflectionClass($class_name);
         $form_method = $reflection_class->getMethod('form');
 
         $start_line = $form_method->getStartLine() - 1; // it's actually - 1, otherwise you wont get the function() block
@@ -47,7 +49,7 @@ class GenerateFormByFileAction
         Assert::string($file_name = $form_method->getFileName(), '['.__LINE__.']['.class_basename($this).']');
         // $contents= $file->getContents();
         $source = file($file_name);
-        $body = implode('', \array_slice($source, $start_line, $length));
+        $body = implode('', array_slice($source, $start_line, $length));
 
         dd(
             [

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Services\Trend\Adapters;
 
+use Error;
+
 class MySqlAdapter extends AbstractAdapter
 {
     public function format(string $column, string $interval): string
@@ -14,7 +16,7 @@ class MySqlAdapter extends AbstractAdapter
             'day' => '%Y-%m-%d',
             'month' => '%Y-%m',
             'year' => '%Y',
-            default => throw new \Error('Invalid interval.'),
+            default => throw new Error('Invalid interval.'),
         };
 
         return sprintf("date_format(%s, '%s')", $column, $format);
