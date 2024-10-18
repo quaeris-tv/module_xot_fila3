@@ -7,16 +7,17 @@ namespace Modules\Xot\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
-use Sushi\Sushi;
 
 use function Safe\json_encode;
 
+use Sushi\Sushi;
+
 /**
- * @property int $id
+ * @property int         $id
  * @property string|null $name
  * @property string|null $description
- * @property bool|null $status
- * @property int|null $priority
+ * @property bool|null   $status
+ * @property int|null    $priority
  * @property string|null $path
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Module newModelQuery()
@@ -30,7 +31,7 @@ use function Safe\json_encode;
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereStatus($value)
  *
  * @property string|null $icon
- * @property array|null $colors
+ * @property array|null  $colors
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereColors($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereIcon($value)
