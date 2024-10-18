@@ -37,6 +37,14 @@ class BelongsToAction
         if (! Arr::isAssoc($relationDTO->data) && 1 === \count($relationDTO->data)) {
             $related_id = $relationDTO->data[0];
             $related = $relationDTO->related->find($related_id);
+            // Verifica che $related non sia una Collection, ma un singolo modello
+            if ($related instanceof \Illuminate\Database\Eloquent\Collection) {
+                $related = $related->first(); // Prendi il primo modello della collezione
+            }
+
+            if (! $related instanceof Model) {
+                throw new \Exception('Expected a single model, got null or invalid object.');
+            }
             $res = $rows->associate($related);
             $res->save();
 
