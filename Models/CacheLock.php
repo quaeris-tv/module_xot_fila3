@@ -29,6 +29,8 @@ namespace Modules\Xot\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereOwner($value)
  *
+ * @property \Modules\Fixcity\Models\Profile|null        $creator
+ * @property \Modules\Fixcity\Models\Profile|null        $updater
  * @property \Modules\Xot\Contracts\ProfileContract|null $creator
  * @property \Modules\Xot\Contracts\ProfileContract|null $updater
  *
