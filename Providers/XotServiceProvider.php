@@ -36,7 +36,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Webmozart\Assert\Assert;
 
 /**
- * Class XotServiceProvider..
+ * Class XotServiceProvider.
  */
 class XotServiceProvider extends XotBaseServiceProvider
 {
