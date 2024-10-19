@@ -12,8 +12,6 @@ use Modules\Xot\Datas\RelationData;
 use Spatie\LaravelData\DataCollection;
 use Spatie\QueueableAction\QueueableAction;
 
-use function in_array;
-
 class FilterRelationsAction
 {
     use QueueableAction;
@@ -29,7 +27,7 @@ class FilterRelationsAction
                 static function ($value, $item) use ($methods): bool {
                     $method = Str::camel($item);
 
-                    return in_array($method, $methods, false);
+                    return \in_array($method, $methods, false);
                 }
             )
             ->filter(
