@@ -28,7 +28,6 @@ use Illuminate\Support\Facades\View;
 use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
 use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
-// use Modules\Xot\Providers\Traits\TranslatorTrait;
 use Modules\Xot\View\Composers\XotComposer;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -37,12 +36,10 @@ use Webmozart\Assert\Assert;
 use function Safe\realpath;
 
 /**
- * Class XotServiceProvider..
+ * Class XotServiceProvider.
  */
 class XotServiceProvider extends XotBaseServiceProvider
 {
-    // use TranslatorTrait; TO LANG
-
     public string $module_name = 'xot';
 
     protected string $module_dir = __DIR__;
