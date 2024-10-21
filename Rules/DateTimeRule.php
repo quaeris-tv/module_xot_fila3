@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Rules;
 
-use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Carbon;
 
 /**
  * Class DateTimeRule.

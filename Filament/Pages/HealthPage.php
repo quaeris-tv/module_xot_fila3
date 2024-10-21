@@ -7,10 +7,10 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Pages;
 
-use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
 use Modules\Xot\Filament\Widgets;

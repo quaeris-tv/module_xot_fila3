@@ -8,6 +8,9 @@ use Filament\Pages\Page;
 use Illuminate\Support\Str;
 use Webmozart\Assert\Assert;
 
+/**
+ * Class Modules\Xot\Filament\Pages\MainDashboard.
+ */
 class MainDashboard extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';

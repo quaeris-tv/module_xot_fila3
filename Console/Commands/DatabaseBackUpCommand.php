@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Console\Commands;
 
-use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 use function Safe\exec;
