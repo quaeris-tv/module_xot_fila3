@@ -4,18 +4,23 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-use Filament\Actions;
-use Filament\Notifications\Notification;
 use Filament\Tables;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Columns\Layout\Stack;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Enums\FiltersLayout;
+use Filament\Actions;
 use Filament\Tables\Table;
+use Modules\UI\Enums\TableLayoutEnum;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Notifications\Notification;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Columns\Layout\Stack;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 
+/**
+ * Summary of HasXotTable
+ * @property TableLayoutEnum $layoutView
+ */
 trait HasXotTable
 {
     /**
@@ -27,11 +32,11 @@ trait HasXotTable
             TableLayoutToggleTableAction::make(),
             Tables\Actions\AssociateAction::make()
                 ->label('')
-                ->icon('heroicon-o-link')
+                ->icon('heroicon-o-paper-clip')
                 ->tooltip(__('user::actions.associate_user')),
             Tables\Actions\AttachAction::make()
                 ->label('')
-                ->icon('heroicon-o-paper-clip')
+                ->icon('heroicon-o-link')
                 ->tooltip(__('user::actions.attach_user')),
         ];
     }
@@ -39,12 +44,14 @@ trait HasXotTable
     protected function getHeaderActions(): array
     {
         return [
-            Tables\Actions\CreateAction::make()
+            Actions\CreateAction::make()
                 ->label('') // Empty label
                 ->tooltip(__('Create User')), // Move label to tooltip
-            Tables\Actions\AssociateAction::make()
+            /*
+            \Filament\Tables\Actions\AssociateAction::make()
                 ->label('') // Empty label
                 ->tooltip(__('Associate User')), // Move label to tooltip
+            */
         ];
     }
 
@@ -83,6 +90,15 @@ trait HasXotTable
             Stack::make($this->getListTableColumns()),
         ];
     }
+
+     /*
+     * Define table columns in a separate, strongly-typed method.
+     *
+     * @return array<Column>
+     */
+    //protected function getListTableColumns(): array
+    
+        
 
     protected function getTableFilters(): array
     {
@@ -153,9 +169,11 @@ trait HasXotTable
     {
         if (method_exists($this, 'getRelationship')) {
             $model = $this->getRelationship()->getModel();
+            return $model::class;
         }
+        throw new \Exception('['.__LINE__.']['.class_basename(__CLASS__).']'.__FUNCTION__.' Error: no model found');
 
-        return $model::class;
+        
     }
 
     protected function tableExists(): bool
