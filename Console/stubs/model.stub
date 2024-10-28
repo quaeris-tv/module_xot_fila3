@@ -37,7 +37,7 @@ class DummyClass extends BaseModel {
      * The attributes that should be casted to native types.
      * da fare
      * @return array<string, string> */
-    protected function casts(): array
+    public function casts(): array
     {
         return [
             'created_at' => 'datetime',
