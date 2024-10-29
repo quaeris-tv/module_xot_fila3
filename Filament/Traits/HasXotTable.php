@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-use Filament\Tables;
 use Filament\Actions;
-use Filament\Tables\Table;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Notifications\Notification;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Actions\DeleteBulkAction;
 
 /**
  * Trait HasXotTable
@@ -27,8 +27,6 @@ trait HasXotTable
 {
     /**
      * Configure table header actions.
-     *
-     * @return array
      */
     protected function getTableHeaderActions(): array
     {
@@ -47,8 +45,6 @@ trait HasXotTable
 
     /**
      * Configure general header actions.
-     *
-     * @return array
      */
     protected function getHeaderActions(): array
     {
@@ -62,14 +58,12 @@ trait HasXotTable
 
     /**
      * Define the main table structure.
-     *
-     * @param Table $table
-     * @return Table
      */
     public function table(Table $table): Table
     {
         if (! $this->tableExists()) {
             $this->notifyTableMissing();
+
             return $this->configureEmptyTable($table);
         }
 
@@ -89,8 +83,6 @@ trait HasXotTable
 
     /**
      * Define grid layout columns.
-     *
-     * @return array
      */
     public function getGridTableColumns(): array
     {
@@ -101,8 +93,6 @@ trait HasXotTable
 
     /**
      * Define table filters.
-     *
-     * @return array
      */
     protected function getTableFilters(): array
     {
@@ -111,8 +101,6 @@ trait HasXotTable
 
     /**
      * Define row-level actions with translations.
-     *
-     * @return array
      */
     protected function getTableActions(): array
     {
@@ -140,8 +128,6 @@ trait HasXotTable
 
     /**
      * Define bulk actions with translations.
-     *
-     * @return array
      */
     protected function getTableBulkActions(): array
     {
@@ -157,8 +143,6 @@ trait HasXotTable
 
     /**
      * Retrieve the default sorting column.
-     *
-     * @return string
      */
     protected function getDefaultSort(): string
     {
@@ -168,33 +152,30 @@ trait HasXotTable
     /**
      * Get the model class from the relationship or throw an exception if not found.
      *
-     * @return string
      * @throws \Exception
      */
     public function getModelClass(): string
     {
         if (method_exists($this, 'getRelationship')) {
             $model = $this->getRelationship()->getModel();
+
             return $model::class;
         }
-        throw new \Exception("No model found in " . class_basename(__CLASS__) . "::" . __FUNCTION__);
+        throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
     /**
      * Check if the model's table exists in the database.
-     *
-     * @return bool
      */
     protected function tableExists(): bool
     {
         $model = $this->getModelClass();
+
         return app($model)->getConnection()->getSchemaBuilder()->hasTable(app($model)->getTable());
     }
 
     /**
      * Notify the user if the table is missing.
-     *
-     * @return void
      */
     protected function notifyTableMissing(): void
     {
@@ -210,9 +191,6 @@ trait HasXotTable
 
     /**
      * Configure an empty table in case the actual table is missing.
-     *
-     * @param Table $table
-     * @return Table
      */
     protected function configureEmptyTable(Table $table): Table
     {
