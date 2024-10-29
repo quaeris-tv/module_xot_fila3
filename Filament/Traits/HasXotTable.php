@@ -177,6 +177,9 @@ trait HasXotTable
             $model = $this->getRelationship()->getModel();
             return $model::class;
         }
+         if (method_exists($this, 'getModel')) {
+        return $this->getModel();
+         }
         throw new \Exception("No model found in " . class_basename(__CLASS__) . "::" . __FUNCTION__);
     }
 
