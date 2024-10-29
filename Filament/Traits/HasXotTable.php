@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-use Filament\Actions;
-use Filament\Notifications\Notification;
 use Filament\Tables;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Columns\Layout\Stack;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Enums\FiltersLayout;
+use Filament\Actions;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Modules\UI\Enums\TableLayoutEnum;
+use Filament\Notifications\Notification;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Columns\Layout\Stack;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Enums\ActionsPosition;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
+use Filament\Tables\Actions\DeleteBulkAction;
 
 /**
  * Trait HasXotTable
+ * 
  * Provides enhanced table functionality with translations and optimized structure.
  *
  * @property TableLayoutEnum $layoutView
@@ -26,31 +27,31 @@ use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 trait HasXotTable
 {
     /**
-     * Configure table header actions.
+     * Get header actions for the table, including custom action for table layout toggle.
      */
     protected function getTableHeaderActions(): array
     {
         return [
             TableLayoutToggleTableAction::make(),
             Tables\Actions\AssociateAction::make()
-                ->label('')
+                ->label('') 
                 ->icon('heroicon-o-paper-clip')
                 ->tooltip(__('user::actions.associate_user')),
             Tables\Actions\AttachAction::make()
-                ->label('')
+                ->label('') 
                 ->icon('heroicon-o-link')
                 ->tooltip(__('user::actions.attach_user')),
         ];
     }
 
     /**
-     * Configure general header actions.
+     * Get global header actions, optimized with tooltips instead of labels.
      */
     protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make()
-                ->label('')
+                ->label('') 
                 ->tooltip(__('user::actions.create_user'))
                 ->icon('heroicon-o-plus'),
         ];
@@ -63,7 +64,6 @@ trait HasXotTable
     {
         if (! $this->tableExists()) {
             $this->notifyTableMissing();
-
             return $this->configureEmptyTable($table);
         }
 
@@ -157,9 +157,7 @@ trait HasXotTable
     public function getModelClass(): string
     {
         if (method_exists($this, 'getRelationship')) {
-            $model = $this->getRelationship()->getModel();
-
-            return $model::class;
+            return $this->getRelationship()->getModel()::class;
         }
         throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
@@ -170,7 +168,6 @@ trait HasXotTable
     protected function tableExists(): bool
     {
         $model = $this->getModelClass();
-
         return app($model)->getConnection()->getSchemaBuilder()->hasTable(app($model)->getTable());
     }
 

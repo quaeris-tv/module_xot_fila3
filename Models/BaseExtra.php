@@ -73,7 +73,7 @@ abstract class BaseExtra extends BaseModel implements ExtraContract
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    public function casts(): array
     {
         return [
             'extra_attributes' => SchemalessAttributes::class,
