@@ -111,20 +111,22 @@ trait HasXotTable
             Tables\Actions\ViewAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.view'))
-                ->icon('heroicon-o-eye')
-                ->color('info'),
+            // ->icon('heroicon-o-eye')
+            // ->color('info')
+            ,
 
             Tables\Actions\EditAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.edit'))
-                ->icon('heroicon-o-pencil')
-                ->color('warning'),
+            // ->icon('heroicon-o-pencil')
+            // ->color('warning')
+            ,
 
             Tables\Actions\DetachAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.detach'))
                 ->icon('heroicon-o-link-slash')
-                ->color('danger')
+                // ->color('danger')
                 ->requiresConfirmation(),
         ];
     }
