@@ -81,7 +81,7 @@ class Module extends Model
         return array_values($modules);
     }
 
-    public function casts(): array
+    protected function casts(): array
     {
         return [
             'name' => 'string',
