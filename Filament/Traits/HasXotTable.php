@@ -32,19 +32,65 @@ trait HasXotTable
      */
     protected function getTableHeaderActions(): array
     {
-        return [
+        $actions = [
             TableLayoutToggleTableAction::make(),
-            Tables\Actions\AssociateAction::make()
+        ];
+
+        // Aggiunge AssociateAction solo se una relazione è disponibile
+        if ($this->shouldShowAssociateAction()) {
+            $actions[] = Tables\Actions\AssociateAction::make()
                 ->label('')
                 ->icon('heroicon-o-paper-clip')
-                ->tooltip(__('user::actions.associate_user')),
-            Tables\Actions\AttachAction::make()
+                ->tooltip(__('user::actions.associate_user'));
+        }
+
+        // Aggiunge AttachAction solo se applicabile
+        if ($this->shouldShowAttachAction()) {
+            $actions[] = Tables\Actions\AttachAction::make()
                 ->label('')
                 ->icon('heroicon-o-link')
-                ->tooltip(__('user::actions.attach_user')),
-        ];
+                ->tooltip(__('user::actions.attach_user'));
+        }
+
+        return $actions;
     }
 
+    /**
+     * Determina se visualizzare l'azione AssociateAction.
+     *
+     * @return bool
+     */
+    protected function shouldShowAssociateAction(): bool
+    {
+        // Logica personalizzata per determinare quando mostrare AssociateAction
+        return false; // Cambia con la tua condizione
+    }
+
+    /**
+     * Determina se visualizzare l'azione AttachAction.
+     *
+     * @return bool
+     */
+    protected function shouldShowAttachAction(): bool
+    {
+        if (!method_exists($this, 'getRelationship')) {
+            return false;
+        }
+        // Logica personalizzata per determinare quando mostrare AttachAction
+        return true; // Cambia con la tua condizione
+    }
+
+    /**
+    * Determina se visualizzare l'azione DetachAction.
+    *
+    * @return bool
+    */
+    protected function shouldShowDetachAction(): bool
+    {
+        // Logica personalizzata per determinare quando mostrare DetachAction
+        // Ad esempio, solo se esiste una relazione associata
+        return method_exists($this, 'getRelationship') && $this->getRelationship()->exists();
+    }
     /**
      * Configure general header actions.
      *
@@ -116,7 +162,7 @@ trait HasXotTable
      */
     protected function getTableActions(): array
     {
-        return [
+        $actions = [
             Tables\Actions\ViewAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.view'))
@@ -128,14 +174,19 @@ trait HasXotTable
                 ->tooltip(__('user::actions.edit'))
                 ->icon('heroicon-o-pencil')
                 ->color('warning'),
+        ];
 
-            Tables\Actions\DetachAction::make()
+        // Aggiunge DetachAction solo se applicabile
+        if ($this->shouldShowDetachAction()) {
+            $actions[] = Tables\Actions\DetachAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.detach'))
                 ->icon('heroicon-o-link-slash')
                 ->color('danger')
-                ->requiresConfirmation(),
-        ];
+                ->requiresConfirmation();
+        }
+
+        return $actions;
     }
 
     /**
@@ -177,9 +228,9 @@ trait HasXotTable
             $model = $this->getRelationship()->getModel();
             return $model::class;
         }
-         if (method_exists($this, 'getModel')) {
-        return $this->getModel();
-         }
+        if (method_exists($this, 'getModel')) {
+            return $this->getModel();
+        }
         throw new \Exception("No model found in " . class_basename(__CLASS__) . "::" . __FUNCTION__);
     }
 
