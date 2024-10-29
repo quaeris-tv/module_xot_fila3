@@ -68,6 +68,12 @@ trait RelationX
             ->beforeLast('\\')
             ->append('\\'.$pivot_name)
             ->toString();
+        if (! class_exists($pivot_class)) {
+            $pivot_class = Str::of($related)
+                ->beforeLast('\\')
+                ->append('\\'.$pivot_name)
+                ->toString();
+        }
         $pivot = app($pivot_class);
 
         return $pivot;
