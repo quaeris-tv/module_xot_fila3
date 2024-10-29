@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-use Filament\Tables;
 use Filament\Actions;
-use Filament\Tables\Table;
-use Modules\UI\Enums\TableLayoutEnum;
 use Filament\Notifications\Notification;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Columns\Layout\Stack;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Enums\ActionsPosition;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
+use Filament\Tables;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Modules\UI\Enums\TableLayoutEnum;
+use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 
 /**
- * Trait HasXotTable
- * 
+ * Trait HasXotTable.
+ *
  * Provides enhanced table functionality with translations and optimized structure.
  *
  * @property TableLayoutEnum $layoutView
@@ -34,11 +34,11 @@ trait HasXotTable
         return [
             TableLayoutToggleTableAction::make(),
             Tables\Actions\AssociateAction::make()
-                ->label('') 
+                ->label('')
                 ->icon('heroicon-o-paper-clip')
                 ->tooltip(__('user::actions.associate_user')),
             Tables\Actions\AttachAction::make()
-                ->label('') 
+                ->label('')
                 ->icon('heroicon-o-link')
                 ->tooltip(__('user::actions.attach_user')),
         ];
@@ -51,7 +51,7 @@ trait HasXotTable
     {
         return [
             Actions\CreateAction::make()
-                ->label('') 
+                ->label('')
                 ->tooltip(__('user::actions.create_user'))
                 ->icon('heroicon-o-plus'),
         ];
@@ -64,6 +64,7 @@ trait HasXotTable
     {
         if (! $this->tableExists()) {
             $this->notifyTableMissing();
+
             return $this->configureEmptyTable($table);
         }
 
@@ -168,6 +169,7 @@ trait HasXotTable
     protected function tableExists(): bool
     {
         $model = $this->getModelClass();
+
         return app($model)->getConnection()->getSchemaBuilder()->hasTable(app($model)->getTable());
     }
 
