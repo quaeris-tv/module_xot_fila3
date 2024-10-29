@@ -8,58 +8,62 @@ use Filament\Tables;
 use Filament\Actions;
 use Filament\Tables\Table;
 use Modules\UI\Enums\TableLayoutEnum;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Notifications\Notification;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Columns\Layout\Stack;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
+use Filament\Tables\Actions\DeleteBulkAction;
 
 /**
- * Summary of HasXotTable
+ * Trait HasXotTable
+ * 
+ * Provides enhanced table functionality with translations and optimized structure.
+ *
  * @property TableLayoutEnum $layoutView
  */
 trait HasXotTable
 {
     /**
-     * Get header actions.
+     * Get header actions for the table, including custom action for table layout toggle.
      */
     protected function getTableHeaderActions(): array
     {
         return [
             TableLayoutToggleTableAction::make(),
             Tables\Actions\AssociateAction::make()
-                ->label('')
+                ->label('') 
                 ->icon('heroicon-o-paper-clip')
                 ->tooltip(__('user::actions.associate_user')),
             Tables\Actions\AttachAction::make()
-                ->label('')
+                ->label('') 
                 ->icon('heroicon-o-link')
                 ->tooltip(__('user::actions.attach_user')),
         ];
     }
 
+    /**
+     * Get global header actions, optimized with tooltips instead of labels.
+     */
     protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make()
-                ->label('') // Empty label
-                ->tooltip(__('Create User')), // Move label to tooltip
-            /*
-            \Filament\Tables\Actions\AssociateAction::make()
-                ->label('') // Empty label
-                ->tooltip(__('Associate User')), // Move label to tooltip
-            */
+                ->label('') 
+                ->tooltip(__('user::actions.create_user'))
+                ->icon('heroicon-o-plus'),
         ];
     }
 
+    /**
+     * Define the main table structure.
+     */
     public function table(Table $table): Table
     {
         if (! $this->tableExists()) {
             $this->notifyTableMissing();
-
             return $this->configureEmptyTable($table);
         }
 
@@ -74,15 +78,11 @@ trait HasXotTable
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
             ->actionsPosition(ActionsPosition::BeforeColumns)
-            // ->defaultSort($this->getDefaultSort())
-            ->striped()
-            // ->paginated([10, 25, 50, 100])
-            // ->poll('60s')
-        ;
+            ->striped();
     }
 
     /**
-     * Get grid layout columns.
+     * Define grid layout columns.
      */
     public function getGridTableColumns(): array
     {
@@ -91,22 +91,16 @@ trait HasXotTable
         ];
     }
 
-     /*
-     * Define table columns in a separate, strongly-typed method.
-     *
-     * @return array<Column>
+    /**
+     * Define table filters.
      */
-    //protected function getListTableColumns(): array
-    
-        
-
     protected function getTableFilters(): array
     {
         return [];
     }
 
     /**
-     * Get row-level actions.
+     * Define row-level actions with translations.
      */
     protected function getTableActions(): array
     {
@@ -133,7 +127,7 @@ trait HasXotTable
     }
 
     /**
-     * Get bulk actions.
+     * Define bulk actions with translations.
      */
     protected function getTableBulkActions(): array
     {
@@ -147,42 +141,39 @@ trait HasXotTable
         ];
     }
 
-    protected function getBulkActions(): array
-    {
-        return [
-            DeleteBulkAction::make()
-                ->label('') // Empty label
-                ->tooltip(__('Delete Selected')), // Move label to tooltip
-        ];
-    }
-
+    /**
+     * Retrieve the default sorting column.
+     */
     protected function getDefaultSort(): string
     {
         return 'id';
     }
 
-    // protected function getTableQuery(): Builder
-    // {
-    //     return static::getModel()::query();
-    // }
+    /**
+     * Get the model class from the relationship or throw an exception if not found.
+     *
+     * @throws \Exception
+     */
     public function getModelClass(): string
     {
         if (method_exists($this, 'getRelationship')) {
-            $model = $this->getRelationship()->getModel();
-            return $model::class;
+            return $this->getRelationship()->getModel()::class;
         }
-        throw new \Exception('['.__LINE__.']['.class_basename(__CLASS__).']'.__FUNCTION__.' Error: no model found');
-
-        
+        throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
+    /**
+     * Check if the model's table exists in the database.
+     */
     protected function tableExists(): bool
     {
         $model = $this->getModelClass();
-
         return app($model)->getConnection()->getSchemaBuilder()->hasTable(app($model)->getTable());
     }
 
+    /**
+     * Notify the user if the table is missing.
+     */
     protected function notifyTableMissing(): void
     {
         $model = $this->getModelClass();
@@ -195,19 +186,20 @@ trait HasXotTable
             ->send();
     }
 
+    /**
+     * Configure an empty table in case the actual table is missing.
+     */
     protected function configureEmptyTable(Table $table): Table
     {
-        $model = $this->getModelClass();
-
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $model::query()->where('id', null))
+            ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('id'))
             ->columns([
                 TextColumn::make('message')
                     ->label(__('user::fields.message.label'))
                     ->default(__('user::fields.message.default'))
                     ->html(),
             ])
-            ->headerActions([]) // Nessuna azione header
-            ->actions([]); // Nessuna azione footer
+            ->headerActions([])
+            ->actions([]);
     }
 }
