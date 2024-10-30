@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-use Filament\Tables;
 use Filament\Actions;
-use Filament\Tables\Table;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Notifications\Notification;
-use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Actions\DeleteBulkAction;
 
 /**
- * Trait HasXotTable
+ * Trait HasXotTable.
+ *
  * Provides enhanced table functionality with translations and optimized structure.
  *
  * @property TableLayoutEnum $layoutView
@@ -26,9 +26,9 @@ use Filament\Tables\Actions\DeleteBulkAction;
 trait HasXotTable
 {
     /**
-     * Configure table header actions.
+     * Get header actions for the table, including custom action for table layout toggle.
      *
-     * @return array
+     * @return array<Tables\Actions\Action>
      */
     protected function getTableHeaderActions(): array
     {
@@ -36,7 +36,7 @@ trait HasXotTable
             TableLayoutToggleTableAction::make(),
         ];
 
-        // Aggiunge AssociateAction solo se una relazione è disponibile
+        // Conditionally add actions based on availability of relationships
         if ($this->shouldShowAssociateAction()) {
             $actions[] = Tables\Actions\AssociateAction::make()
                 ->label('')
@@ -44,7 +44,6 @@ trait HasXotTable
                 ->tooltip(__('user::actions.associate_user'));
         }
 
-        // Aggiunge AttachAction solo se applicabile
         if ($this->shouldShowAttachAction()) {
             $actions[] = Tables\Actions\AttachAction::make()
                 ->label('')
@@ -56,45 +55,41 @@ trait HasXotTable
     }
 
     /**
-     * Determina se visualizzare l'azione AssociateAction.
+     * Determine whether to display the AssociateAction.
      *
      * @return bool
      */
     protected function shouldShowAssociateAction(): bool
     {
-        // Logica personalizzata per determinare quando mostrare AssociateAction
-        return false; // Cambia con la tua condizione
+        // Custom logic for showing AssociateAction
+        return false; // Change this to your condition
     }
 
     /**
-     * Determina se visualizzare l'azione AttachAction.
+     * Determine whether to display the AttachAction.
      *
      * @return bool
      */
     protected function shouldShowAttachAction(): bool
     {
-        if (!method_exists($this, 'getRelationship')) {
-            return false;
-        }
-        // Logica personalizzata per determinare quando mostrare AttachAction
-        return true; // Cambia con la tua condizione
+        return method_exists($this, 'getRelationship'); // Ensure relationship method exists
     }
 
     /**
-    * Determina se visualizzare l'azione DetachAction.
-    *
-    * @return bool
-    */
+     * Determine whether to display the DetachAction.
+     *
+     * @return bool
+     */
     protected function shouldShowDetachAction(): bool
     {
-        // Logica personalizzata per determinare quando mostrare DetachAction
-        // Ad esempio, solo se esiste una relazione associata
+        // Show DetachAction only if an associated relationship exists
         return method_exists($this, 'getRelationship') && $this->getRelationship()->exists();
     }
+
     /**
-     * Configure general header actions.
+     * Get global header actions, optimized with tooltips instead of labels.
      *
-     * @return array
+     * @return array<Actions\Action>
      */
     protected function getHeaderActions(): array
     {
@@ -108,14 +103,12 @@ trait HasXotTable
 
     /**
      * Define the main table structure.
-     *
-     * @param Table $table
-     * @return Table
      */
     public function table(Table $table): Table
     {
-        if (! $this->tableExists()) {
+        if (!$this->tableExists()) {
             $this->notifyTableMissing();
+
             return $this->configureEmptyTable($table);
         }
 
@@ -134,31 +127,19 @@ trait HasXotTable
     }
 
     /**
-     * Define grid layout columns.
-     *
-     * @return array
-     */
-    public function getGridTableColumns(): array
-    {
-        return [
-            Stack::make($this->getListTableColumns()),
-        ];
-    }
-
-    /**
      * Define table filters.
      *
-     * @return array
+     * @return array<Tables\Filters\Filter>
      */
     protected function getTableFilters(): array
     {
-        return [];
+        return []; // Implement any specific filters needed
     }
 
     /**
      * Define row-level actions with translations.
      *
-     * @return array
+     * @return array<Tables\Actions\Action>
      */
     protected function getTableActions(): array
     {
@@ -176,7 +157,6 @@ trait HasXotTable
                 ->color('warning'),
         ];
 
-        // Aggiunge DetachAction solo se applicabile
         if ($this->shouldShowDetachAction()) {
             $actions[] = Tables\Actions\DetachAction::make()
                 ->label('')
@@ -192,7 +172,7 @@ trait HasXotTable
     /**
      * Define bulk actions with translations.
      *
-     * @return array
+     * @return array<Tables\Actions\BulkAction>
      */
     protected function getTableBulkActions(): array
     {
@@ -207,48 +187,31 @@ trait HasXotTable
     }
 
     /**
-     * Retrieve the default sorting column.
-     *
-     * @return string
-     */
-    protected function getDefaultSort(): string
-    {
-        return 'id';
-    }
-
-    /**
      * Get the model class from the relationship or throw an exception if not found.
      *
-     * @return string
      * @throws \Exception
      */
     public function getModelClass(): string
     {
         if (method_exists($this, 'getRelationship')) {
-            $model = $this->getRelationship()->getModel();
-            return $model::class;
+            return $this->getRelationship()->getModel()::class;
         }
-        if (method_exists($this, 'getModel')) {
-            return $this->getModel();
-        }
-        throw new \Exception("No model found in " . class_basename(__CLASS__) . "::" . __FUNCTION__);
+
+        throw new \Exception('No model found in ' . class_basename(__CLASS__) . '::' . __FUNCTION__);
     }
 
     /**
      * Check if the model's table exists in the database.
-     *
-     * @return bool
      */
     protected function tableExists(): bool
     {
         $model = $this->getModelClass();
+
         return app($model)->getConnection()->getSchemaBuilder()->hasTable(app($model)->getTable());
     }
 
     /**
      * Notify the user if the table is missing.
-     *
-     * @return void
      */
     protected function notifyTableMissing(): void
     {
@@ -264,14 +227,11 @@ trait HasXotTable
 
     /**
      * Configure an empty table in case the actual table is missing.
-     *
-     * @param Table $table
-     * @return Table
      */
     protected function configureEmptyTable(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('id'))
+            ->modifyQueryUsing(fn(Builder $query) => $query->whereNull('id'))
             ->columns([
                 TextColumn::make('message')
                     ->label(__('user::fields.message.label'))
