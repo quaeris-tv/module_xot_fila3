@@ -18,44 +18,97 @@ use Modules\UI\Enums\TableLayoutEnum;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 
 /**
- * Summary of HasXotTable.
+ * Trait HasXotTable.
+ *
+ * Provides enhanced table functionality with translations and optimized structure.
  *
  * @property TableLayoutEnum $layoutView
  */
 trait HasXotTable
 {
     /**
-     * Get header actions.
+     * Get header actions for the table, including custom action for table layout toggle.
+     *
+     * @return array<Tables\Actions\Action>
      */
     protected function getTableHeaderActions(): array
     {
-        return [
+        $actions = [
             TableLayoutToggleTableAction::make(),
-            Tables\Actions\AssociateAction::make()
+        ];
+
+        // Conditionally add actions based on availability of relationships
+        if ($this->shouldShowAssociateAction()) {
+            $actions[] = Tables\Actions\AssociateAction::make()
                 ->label('')
                 ->icon('heroicon-o-paper-clip')
-                ->tooltip(__('user::actions.associate_user')),
-            Tables\Actions\AttachAction::make()
+                ->tooltip(__('user::actions.associate_user'));
+        }
+
+        if ($this->shouldShowAttachAction()) {
+            $actions[] = Tables\Actions\AttachAction::make()
                 ->label('')
                 ->icon('heroicon-o-link')
-                ->tooltip(__('user::actions.attach_user')),
-        ];
+                ->tooltip(__('user::actions.attach_user'));
+        }
+
+        return $actions;
     }
 
+    /**
+     * Determine whether to display the AssociateAction.
+     */
+    protected function shouldShowAssociateAction(): bool
+    {
+        // Custom logic for showing AssociateAction
+        return false; // Change this to your condition
+    }
+
+    /**
+     * Determine whether to display the AttachAction.
+     */
+    protected function shouldShowAttachAction(): bool
+    {
+        return method_exists($this, 'getRelationship'); // Ensure relationship method exists
+    }
+
+    /**
+     * Determine whether to display the DetachAction.
+     */
+    protected function shouldShowDetachAction(): bool
+    {
+        // Show DetachAction only if an associated relationship exists
+        return method_exists($this, 'getRelationship') && $this->getRelationship()->exists();
+    }
+
+    /**
+     * Get global header actions, optimized with tooltips instead of labels.
+     *
+     * @return array<Actions\Action>
+     */
     protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make()
-                ->label('') // Empty label
-                ->tooltip(__('Create User')), // Move label to tooltip
-            /*
-            \Filament\Tables\Actions\AssociateAction::make()
-                ->label('') // Empty label
-                ->tooltip(__('Associate User')), // Move label to tooltip
-            */
+                ->label('')
+                ->tooltip(__('user::actions.create_user'))
+                ->icon('heroicon-o-plus'),
         ];
     }
 
+    /**
+     * Get table columns for grid layout.
+     */
+    public function getGridTableColumns(): array
+    {
+        return [
+            Stack::make($this->getListTableColumns()),
+        ];
+    }
+
+    /**
+     * Define the main table structure.
+     */
     public function table(Table $table): Table
     {
         if (! $this->tableExists()) {
@@ -75,41 +128,27 @@ trait HasXotTable
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
             ->actionsPosition(ActionsPosition::BeforeColumns)
-            // ->defaultSort($this->getDefaultSort())
-            ->striped()
-            // ->paginated([10, 25, 50, 100])
-            // ->poll('60s')
-        ;
+            ->striped();
     }
 
     /**
-     * Get grid layout columns.
+     * Define table filters.
+     *
+     * @return array<Tables\Filters\Filter>
      */
-    public function getGridTableColumns(): array
-    {
-        return [
-            Stack::make($this->getListTableColumns()),
-        ];
-    }
-
-    /*
-    * Define table columns in a separate, strongly-typed method.
-    *
-    * @return array<Column>
-    */
-    // protected function getListTableColumns(): array
-
     protected function getTableFilters(): array
     {
-        return [];
+        return []; // Implement any specific filters needed
     }
 
     /**
-     * Get row-level actions.
+     * Define row-level actions with translations.
+     *
+     * @return array<Tables\Actions\Action>
      */
     protected function getTableActions(): array
     {
-        return [
+        $actions = [
             Tables\Actions\ViewAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.view'))
@@ -121,18 +160,24 @@ trait HasXotTable
                 ->tooltip(__('user::actions.edit'))
                 ->icon('heroicon-o-pencil')
                 ->color('warning'),
+        ];
 
-            Tables\Actions\DetachAction::make()
+        if ($this->shouldShowDetachAction()) {
+            $actions[] = Tables\Actions\DetachAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.detach'))
                 ->icon('heroicon-o-link-slash')
                 ->color('danger')
-                ->requiresConfirmation(),
-        ];
+                ->requiresConfirmation();
+        }
+
+        return $actions;
     }
 
     /**
-     * Get bulk actions.
+     * Define bulk actions with translations.
+     *
+     * @return array<Tables\Actions\BulkAction>
      */
     protected function getTableBulkActions(): array
     {
@@ -146,39 +191,25 @@ trait HasXotTable
         ];
     }
 
-    protected function getBulkActions(): array
-    {
-        return [
-            DeleteBulkAction::make()
-                ->label('') // Empty label
-                ->tooltip(__('Delete Selected')), // Move label to tooltip
-        ];
-    }
-
-    protected function getDefaultSort(): string
-    {
-        return 'id';
-    }
-
-    // protected function getTableQuery(): Builder
-    // {
-    //     return static::getModel()::query();
-    // }
+    /**
+     * Get the model class from the relationship or throw an exception if not found.
+     *
+     * @throws \Exception
+     */
     public function getModelClass(): string
     {
         if (method_exists($this, 'getRelationship')) {
-            $model = $this->getRelationship()->getModel();
-
-            return $model::class;
+            return $this->getRelationship()->getModel()::class;
         }
         if (method_exists($this, 'getModel')) {
-            $model = $this->getModel();
-
-            return $model;
+            return $this->getModel();
         }
-        throw new \Exception('['.__LINE__.']['.class_basename(__CLASS__).']'.__FUNCTION__.' Error: no model found');
+        throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
+    /**
+     * Check if the model's table exists in the database.
+     */
     protected function tableExists(): bool
     {
         $model = $this->getModelClass();
@@ -186,6 +217,9 @@ trait HasXotTable
         return app($model)->getConnection()->getSchemaBuilder()->hasTable(app($model)->getTable());
     }
 
+    /**
+     * Notify the user if the table is missing.
+     */
     protected function notifyTableMissing(): void
     {
         $model = $this->getModelClass();
@@ -198,19 +232,20 @@ trait HasXotTable
             ->send();
     }
 
+    /**
+     * Configure an empty table in case the actual table is missing.
+     */
     protected function configureEmptyTable(Table $table): Table
     {
-        $model = $this->getModelClass();
-
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $model::query()->where('id', null))
+            ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('id'))
             ->columns([
                 TextColumn::make('message')
                     ->label(__('user::fields.message.label'))
                     ->default(__('user::fields.message.default'))
                     ->html(),
             ])
-            ->headerActions([]) // Nessuna azione header
-            ->actions([]); // Nessuna azione footer
+            ->headerActions([])
+            ->actions([]);
     }
 }
