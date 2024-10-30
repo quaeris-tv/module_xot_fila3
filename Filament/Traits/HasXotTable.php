@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-use Filament\Tables;
 use Filament\Actions;
-use Filament\Tables\Table;
-use Modules\UI\Enums\TableLayoutEnum;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Notifications\Notification;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Columns\Layout\Stack;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Modules\UI\Enums\TableLayoutEnum;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 
 /**
- * Summary of HasXotTable
+ * Summary of HasXotTable.
+ *
  * @property TableLayoutEnum $layoutView
  */
 trait HasXotTable
@@ -91,14 +92,12 @@ trait HasXotTable
         ];
     }
 
-     /*
-     * Define table columns in a separate, strongly-typed method.
-     *
-     * @return array<Column>
-     */
-    //protected function getListTableColumns(): array
-    
-        
+    /*
+    * Define table columns in a separate, strongly-typed method.
+    *
+    * @return array<Column>
+    */
+    // protected function getListTableColumns(): array
 
     protected function getTableFilters(): array
     {
@@ -169,11 +168,15 @@ trait HasXotTable
     {
         if (method_exists($this, 'getRelationship')) {
             $model = $this->getRelationship()->getModel();
+
             return $model::class;
         }
-        throw new \Exception('['.__LINE__.']['.class_basename(__CLASS__).']'.__FUNCTION__.' Error: no model found');
+        if (method_exists($this, 'getModel')) {
+            $model = $this->getModel();
 
-        
+            return $model;
+        }
+        throw new \Exception('['.__LINE__.']['.class_basename(__CLASS__).']'.__FUNCTION__.' Error: no model found');
     }
 
     protected function tableExists(): bool
