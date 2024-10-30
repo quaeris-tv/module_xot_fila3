@@ -8,6 +8,7 @@ use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
@@ -62,7 +63,7 @@ trait HasXotTable
         // Custom logic for showing AssociateAction
         return false; // Change this to your condition
     }
-
+  
     /**
      * Determine whether to display the AttachAction.
      */
@@ -92,6 +93,16 @@ trait HasXotTable
                 ->label('')
                 ->tooltip(__('user::actions.create_user'))
                 ->icon('heroicon-o-plus'),
+        ];
+    }
+
+    /**
+     * Get table columns for grid layout.
+     */
+    public function getGridTableColumns(): array
+    {
+        return [
+            Stack::make($this->getListTableColumns()),
         ];
     }
 
@@ -190,7 +201,9 @@ trait HasXotTable
         if (method_exists($this, 'getRelationship')) {
             return $this->getRelationship()->getModel()::class;
         }
-
+        if (method_exists($this, 'getModel')) {
+            return $this->getModel();
+        }
         throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
