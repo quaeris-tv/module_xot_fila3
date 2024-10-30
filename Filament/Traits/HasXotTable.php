@@ -56,8 +56,6 @@ trait HasXotTable
 
     /**
      * Determine whether to display the AssociateAction.
-     *
-     * @return bool
      */
     protected function shouldShowAssociateAction(): bool
     {
@@ -67,8 +65,6 @@ trait HasXotTable
 
     /**
      * Determine whether to display the AttachAction.
-     *
-     * @return bool
      */
     protected function shouldShowAttachAction(): bool
     {
@@ -77,8 +73,6 @@ trait HasXotTable
 
     /**
      * Determine whether to display the DetachAction.
-     *
-     * @return bool
      */
     protected function shouldShowDetachAction(): bool
     {
@@ -106,7 +100,7 @@ trait HasXotTable
      */
     public function table(Table $table): Table
     {
-        if (!$this->tableExists()) {
+        if (! $this->tableExists()) {
             $this->notifyTableMissing();
 
             return $this->configureEmptyTable($table);
@@ -197,7 +191,7 @@ trait HasXotTable
             return $this->getRelationship()->getModel()::class;
         }
 
-        throw new \Exception('No model found in ' . class_basename(__CLASS__) . '::' . __FUNCTION__);
+        throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
     /**
@@ -231,7 +225,7 @@ trait HasXotTable
     protected function configureEmptyTable(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn(Builder $query) => $query->whereNull('id'))
+            ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('id'))
             ->columns([
                 TextColumn::make('message')
                     ->label(__('user::fields.message.label'))

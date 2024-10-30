@@ -38,7 +38,6 @@ trait RelationX
             $table = $pivotDbName.'.'.$table;
         }
 
-
         return $this->belongsToMany(
             related: $related,
             table: $table,
