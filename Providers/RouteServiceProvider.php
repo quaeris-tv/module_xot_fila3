@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Providers;
 
+use Filament\Facades\Filament;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
@@ -81,7 +82,10 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
             }
         }
 
-        URL::defaults(['lang' => $lang]);
+        URL::defaults([
+            // 'tenant' => Filament::getTenant(),
+            'lang' => $lang,
+        ]);
     }
 
     public function registerRoutePattern(Router $router): void
