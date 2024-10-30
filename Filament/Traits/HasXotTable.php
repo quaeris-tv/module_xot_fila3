@@ -123,12 +123,18 @@ trait HasXotTable
             ->headerActions($this->getTableHeaderActions())
             ->filters($this->getTableFilters())
             ->filtersLayout(FiltersLayout::AboveContent)
-            ->filtersFormColumns(3)
+            ->filtersFormColumns(1)
             ->persistFiltersInSession()
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
             ->actionsPosition(ActionsPosition::BeforeColumns)
             ->striped();
+        /*
+        ->defaultSort(
+            column: 'created_at',
+            direction: 'Desc',
+        )
+        */
     }
 
     /**
