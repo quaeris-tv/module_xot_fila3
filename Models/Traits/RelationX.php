@@ -75,6 +75,7 @@ trait RelationX
                 ->toString();
         }
         $pivot = app($pivot_class);
+        
 
         return $pivot;
     }

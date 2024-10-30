@@ -28,6 +28,8 @@ trait HasXotTable
 {
     /**
      * Get header actions for the table, including custom action for table layout toggle.
+     *
+     * @return array<Tables\Actions\Action>
      */
     protected function getTableHeaderActions(): array
     {
@@ -46,6 +48,8 @@ trait HasXotTable
 
     /**
      * Get global header actions, optimized with tooltips instead of labels.
+     *
+     * @return array<Actions\Action>
      */
     protected function getHeaderActions(): array
     {
@@ -62,9 +66,8 @@ trait HasXotTable
      */
     public function table(Table $table): Table
     {
-        if (! $this->tableExists()) {
+        if (!$this->tableExists()) {
             $this->notifyTableMissing();
-
             return $this->configureEmptyTable($table);
         }
 
@@ -83,17 +86,9 @@ trait HasXotTable
     }
 
     /**
-     * Define grid layout columns.
-     */
-    public function getGridTableColumns(): array
-    {
-        return [
-            Stack::make($this->getListTableColumns()),
-        ];
-    }
-
-    /**
      * Define table filters.
+     *
+     * @return array<Tables\Filters\Filter>
      */
     protected function getTableFilters(): array
     {
@@ -102,6 +97,8 @@ trait HasXotTable
 
     /**
      * Define row-level actions with translations.
+     *
+     * @return array<Tables\Actions\Action>
      */
     protected function getTableActions(): array
     {
@@ -129,6 +126,8 @@ trait HasXotTable
 
     /**
      * Define bulk actions with translations.
+     *
+     * @return array<Tables\Actions\BulkAction>
      */
     protected function getTableBulkActions(): array
     {
@@ -143,14 +142,6 @@ trait HasXotTable
     }
 
     /**
-     * Retrieve the default sorting column.
-     */
-    protected function getDefaultSort(): string
-    {
-        return 'id';
-    }
-
-    /**
      * Get the model class from the relationship or throw an exception if not found.
      *
      * @throws \Exception
@@ -160,7 +151,7 @@ trait HasXotTable
         if (method_exists($this, 'getRelationship')) {
             return $this->getRelationship()->getModel()::class;
         }
-        throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
+        throw new \Exception('No model found in ' . class_basename(__CLASS__) . '::' . __FUNCTION__);
     }
 
     /**
@@ -169,7 +160,6 @@ trait HasXotTable
     protected function tableExists(): bool
     {
         $model = $this->getModelClass();
-
         return app($model)->getConnection()->getSchemaBuilder()->hasTable(app($model)->getTable());
     }
 
