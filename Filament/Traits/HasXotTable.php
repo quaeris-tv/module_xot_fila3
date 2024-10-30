@@ -63,7 +63,7 @@ trait HasXotTable
         // Custom logic for showing AssociateAction
         return false; // Change this to your condition
     }
-  
+
     /**
      * Determine whether to display the AttachAction.
      */
