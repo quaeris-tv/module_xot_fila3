@@ -32,17 +32,58 @@ trait HasXotTable
      */
     protected function getTableHeaderActions(): array
     {
-        return [
+        $actions = [
             TableLayoutToggleTableAction::make(),
-            Tables\Actions\AssociateAction::make()
+        ];
+
+        // Conditionally add actions based on availability of relationships
+        if ($this->shouldShowAssociateAction()) {
+            $actions[] = Tables\Actions\AssociateAction::make()
                 ->label('')
                 ->icon('heroicon-o-paper-clip')
-                ->tooltip(__('user::actions.associate_user')),
-            Tables\Actions\AttachAction::make()
+                ->tooltip(__('user::actions.associate_user'));
+        }
+
+        if ($this->shouldShowAttachAction()) {
+            $actions[] = Tables\Actions\AttachAction::make()
                 ->label('')
                 ->icon('heroicon-o-link')
-                ->tooltip(__('user::actions.attach_user')),
-        ];
+                ->tooltip(__('user::actions.attach_user'));
+        }
+
+        return $actions;
+    }
+
+    /**
+     * Determine whether to display the AssociateAction.
+     *
+     * @return bool
+     */
+    protected function shouldShowAssociateAction(): bool
+    {
+        // Custom logic for showing AssociateAction
+        return false; // Change this to your condition
+    }
+
+    /**
+     * Determine whether to display the AttachAction.
+     *
+     * @return bool
+     */
+    protected function shouldShowAttachAction(): bool
+    {
+        return method_exists($this, 'getRelationship'); // Ensure relationship method exists
+    }
+
+    /**
+     * Determine whether to display the DetachAction.
+     *
+     * @return bool
+     */
+    protected function shouldShowDetachAction(): bool
+    {
+        // Show DetachAction only if an associated relationship exists
+        return method_exists($this, 'getRelationship') && $this->getRelationship()->exists();
     }
 
     /**
@@ -65,7 +106,7 @@ trait HasXotTable
      */
     public function table(Table $table): Table
     {
-        if (! $this->tableExists()) {
+        if (!$this->tableExists()) {
             $this->notifyTableMissing();
 
             return $this->configureEmptyTable($table);
@@ -92,7 +133,7 @@ trait HasXotTable
      */
     protected function getTableFilters(): array
     {
-        return [];
+        return []; // Implement any specific filters needed
     }
 
     /**
@@ -102,7 +143,7 @@ trait HasXotTable
      */
     protected function getTableActions(): array
     {
-        return [
+        $actions = [
             Tables\Actions\ViewAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.view'))
@@ -114,14 +155,18 @@ trait HasXotTable
                 ->tooltip(__('user::actions.edit'))
                 ->icon('heroicon-o-pencil')
                 ->color('warning'),
+        ];
 
-            Tables\Actions\DetachAction::make()
+        if ($this->shouldShowDetachAction()) {
+            $actions[] = Tables\Actions\DetachAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.detach'))
                 ->icon('heroicon-o-link-slash')
                 ->color('danger')
-                ->requiresConfirmation(),
-        ];
+                ->requiresConfirmation();
+        }
+
+        return $actions;
     }
 
     /**
@@ -151,7 +196,8 @@ trait HasXotTable
         if (method_exists($this, 'getRelationship')) {
             return $this->getRelationship()->getModel()::class;
         }
-        throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
+
+        throw new \Exception('No model found in ' . class_basename(__CLASS__) . '::' . __FUNCTION__);
     }
 
     /**
@@ -185,7 +231,7 @@ trait HasXotTable
     protected function configureEmptyTable(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('id'))
+            ->modifyQueryUsing(fn(Builder $query) => $query->whereNull('id'))
             ->columns([
                 TextColumn::make('message')
                     ->label(__('user::fields.message.label'))
