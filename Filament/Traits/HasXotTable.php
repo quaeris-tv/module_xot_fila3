@@ -152,8 +152,9 @@ trait HasXotTable
             Tables\Actions\ViewAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.view'))
-                ->icon('heroicon-o-eye')
-                ->color('info'),
+            // ->icon('heroicon-o-eye')
+            // ->color('info')
+            ,
 
             Tables\Actions\EditAction::make()
                 ->label('')

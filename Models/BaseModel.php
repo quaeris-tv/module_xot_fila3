@@ -71,7 +71,7 @@ abstract class BaseModel extends Model
     }
 
     /** @return array<string, string> */
-    public function casts(): array
+    protected function casts(): array
     {
         return [
             'published_at' => 'datetime',

@@ -50,7 +50,7 @@ abstract class BaseMorphPivot extends MorphPivot
     ];
 
     /** @return array<string, string> */
-    public function casts(): array
+    protected function casts(): array
     {
         return [
             'id' => 'string', // must be string else primary key of related model will be typed as int
