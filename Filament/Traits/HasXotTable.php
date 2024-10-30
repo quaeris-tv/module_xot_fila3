@@ -8,7 +8,6 @@ use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
@@ -66,8 +65,9 @@ trait HasXotTable
      */
     public function table(Table $table): Table
     {
-        if (!$this->tableExists()) {
+        if (! $this->tableExists()) {
             $this->notifyTableMissing();
+
             return $this->configureEmptyTable($table);
         }
 
@@ -151,7 +151,7 @@ trait HasXotTable
         if (method_exists($this, 'getRelationship')) {
             return $this->getRelationship()->getModel()::class;
         }
-        throw new \Exception('No model found in ' . class_basename(__CLASS__) . '::' . __FUNCTION__);
+        throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
     /**
@@ -160,6 +160,7 @@ trait HasXotTable
     protected function tableExists(): bool
     {
         $model = $this->getModelClass();
+
         return app($model)->getConnection()->getSchemaBuilder()->hasTable(app($model)->getTable());
     }
 
