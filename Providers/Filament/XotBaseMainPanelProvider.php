@@ -35,7 +35,7 @@ abstract class XotBaseMainPanelProvider extends PanelProvider
             // ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            // ->login()
             ->passwordReset()
             ->sidebarFullyCollapsibleOnDesktop()
             ->spa()
