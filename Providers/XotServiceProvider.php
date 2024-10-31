@@ -86,7 +86,7 @@ class XotServiceProvider extends XotBaseServiceProvider
         DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone)->displayFormat($date_format));
         TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
-        TextInput::configureUsing(fn (TextInput $field) => $field->validationMessages(__('user::validation')));
+        TextInput::configureUsing(fn (TextInput $component) => $component->validationMessages(__('user::validation')));
         // ->validationMessages(__('xot::validation'))
     }
 
