@@ -26,6 +26,7 @@ use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
  */
 trait HasXotTable
 {
+    public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
     /**
      * Get header actions for the table, including custom action for table layout toggle.
      *
