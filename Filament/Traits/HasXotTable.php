@@ -8,6 +8,7 @@ use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
@@ -25,6 +26,8 @@ use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
  */
 trait HasXotTable
 {
+    public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
+
     /**
      * Get header actions for the table, including custom action for table layout toggle.
      *
@@ -56,8 +59,6 @@ trait HasXotTable
 
     /**
      * Determine whether to display the AssociateAction.
-     *
-     * @return bool
      */
     protected function shouldShowAssociateAction(): bool
     {
@@ -67,8 +68,6 @@ trait HasXotTable
 
     /**
      * Determine whether to display the AttachAction.
-     *
-     * @return bool
      */
     protected function shouldShowAttachAction(): bool
     {
@@ -77,8 +76,6 @@ trait HasXotTable
 
     /**
      * Determine whether to display the DetachAction.
-     *
-     * @return bool
      */
     protected function shouldShowDetachAction(): bool
     {
@@ -102,11 +99,21 @@ trait HasXotTable
     }
 
     /**
+     * Get table columns for grid layout.
+     */
+    public function getGridTableColumns(): array
+    {
+        return [
+            Stack::make($this->getListTableColumns()),
+        ];
+    }
+
+    /**
      * Define the main table structure.
      */
     public function table(Table $table): Table
     {
-        if (!$this->tableExists()) {
+        if (! $this->tableExists()) {
             $this->notifyTableMissing();
 
             return $this->configureEmptyTable($table);
@@ -118,12 +125,18 @@ trait HasXotTable
             ->headerActions($this->getTableHeaderActions())
             ->filters($this->getTableFilters())
             ->filtersLayout(FiltersLayout::AboveContent)
-            ->filtersFormColumns(3)
+            ->filtersFormColumns(1)
             ->persistFiltersInSession()
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
             ->actionsPosition(ActionsPosition::BeforeColumns)
             ->striped();
+        /*
+        ->defaultSort(
+            column: 'created_at',
+            direction: 'Desc',
+        )
+        */
     }
 
     /**
@@ -147,8 +160,9 @@ trait HasXotTable
             Tables\Actions\ViewAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.view'))
-                ->icon('heroicon-o-eye')
-                ->color('info'),
+            // ->icon('heroicon-o-eye')
+            // ->color('info')
+            ,
 
             Tables\Actions\EditAction::make()
                 ->label('')
@@ -196,8 +210,10 @@ trait HasXotTable
         if (method_exists($this, 'getRelationship')) {
             return $this->getRelationship()->getModel()::class;
         }
-
-        throw new \Exception('No model found in ' . class_basename(__CLASS__) . '::' . __FUNCTION__);
+        if (method_exists($this, 'getModel')) {
+            return $this->getModel();
+        }
+        throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
     /**
@@ -231,7 +247,7 @@ trait HasXotTable
     protected function configureEmptyTable(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn(Builder $query) => $query->whereNull('id'))
+            ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('id'))
             ->columns([
                 TextColumn::make('message')
                     ->label(__('user::fields.message.label'))

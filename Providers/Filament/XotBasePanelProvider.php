@@ -45,7 +45,7 @@ abstract class XotBasePanelProvider extends PanelProvider
 
         $panel = $panel
             ->default($default)
-            ->login()
+            // ->login()
             // ->registration()
             ->passwordReset()
             // ->emailVerification()

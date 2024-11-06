@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources;
 
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Illuminate\Support\Str;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
@@ -24,10 +25,16 @@ abstract class XotBaseResource extends Resource
     // protected static bool $shouldRegisterNavigation = false;
     // protected static ?string $navigationGroup = 'Parametri di Sistema';
     protected static ?int $navigationSort = 3;
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     public static function getModuleName(): string
     {
         return Str::between(static::class, 'Modules\\', '\Filament');
+    }
+
+    public function hasCombinedRelationManagerTabsWithContent(): bool
+    {
+        return true;
     }
 
     public static function getModel(): string

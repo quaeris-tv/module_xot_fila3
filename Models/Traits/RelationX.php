@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
+/**
+ * Trait Modules\Xot\Models\Traits\RelationX.
+ */
 trait RelationX
 {
     /**
@@ -37,7 +40,6 @@ trait RelationX
         if ($pivotDbName !== $dbName) {
             $table = $pivotDbName.'.'.$table;
         }
-
 
         return $this->belongsToMany(
             related: $related,

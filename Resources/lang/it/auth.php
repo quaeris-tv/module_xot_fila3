@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'failed' => 'Le credenziali non corrispondono a quelle registrate.',
+    'failed' => 'Le credenziali non corrispondono a quelle registrate!',
     'general_error' => 'Non hai diritti sufficienti per questa operazione.',
     'socialite' => [
         'unacceptable' => ':provider non è supportato.',
