@@ -161,6 +161,13 @@ trait HasXotTable
                 ->tooltip(__('user::actions.edit'))
                 ->icon('heroicon-o-pencil')
                 ->color('warning'),
+            
+            Tables\Actions\DeleteAction::make()
+                ->label('')
+                ->tooltip(__('user::actions.delete'))
+                //->icon('heroicon-o-pencil')
+                //->color('danger')
+                ,
         ];
 
         if ($this->shouldShowDetachAction()) {
