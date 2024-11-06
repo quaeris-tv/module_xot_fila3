@@ -11,16 +11,14 @@ class GetTransFilenameAction
 {
     public function execute(string $filename): string
     {
-        $lang=app()->getLocale();
-        $ns=Str::before($filename,'::');
-        $file=Str::between($filename,'::','.');
+        $lang = app()->getLocale();
+        $ns = Str::before($filename, '::');
+        $file = Str::between($filename, '::', '.');
 
-        $module_path=Module::getModulePath($ns);
-        $lang_path=config('modules.paths.generator.lang.path');
-        $lang_path_full=$module_path.''.$lang_path.'/'.$lang.'/'.$file.'.php';
+        $module_path = Module::getModulePath($ns);
+        $lang_path = config('modules.paths.generator.lang.path');
+        $lang_path_full = $module_path.''.$lang_path.'/'.$lang.'/'.$file.'.php';
         $lang_path_full = str_replace(['\\', '/'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $lang_path_full);
-
-
 
         $filename = $lang_path_full;
 
