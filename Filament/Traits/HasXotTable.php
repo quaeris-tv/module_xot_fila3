@@ -28,10 +28,10 @@ trait HasXotTable
 {
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
+
     /**
-     * Get header actions for the table, including custom action for table layout toggle.
      *
-     * @return array<Tables\Actions\Action>
+     * @return array<Action | BulkAction | ActionGroup>
      */
     protected function getTableHeaderActions(): array
     {
@@ -213,6 +213,14 @@ trait HasXotTable
         if (method_exists($this, 'getModel')) {
             return $this->getModel();
         }
+        //if (method_exists($this, 'getMountedTableActionRecord')) {
+        //    dddx($this->getMountedTableActionRecord());
+        //}
+        //if (method_exists($this, 'getTable')) {
+        //    dddx( $this->getTable()->getModel());
+        //}
+
+        //->model($this->getMountedTableActionRecord() ?? $this->getTable()->getModel())
         throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
