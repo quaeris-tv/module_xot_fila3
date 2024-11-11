@@ -5,23 +5,26 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\String;
 
 use Illuminate\Support\Str;
+
+use function Safe\preg_replace;
+
 use Spatie\QueueableAction\QueueableAction;
 
 class SanitizeAction
 {
     use QueueableAction;
-    
+
     public function execute(string $str): string
     {
         $str = strip_tags($str);
         $str = html_entity_decode($str);
         $str = trim($str);
         $str = preg_replace('/\s+/', ' ', $str);
-        if(Str::startsWith($str, '-')){
-            $str=Str::after($str,'-');
-            $str=$this->execute($str);
+        if (Str::startsWith($str, '-')) {
+            $str = Str::after($str, '-');
+            $str = $this->execute($str);
         }
-        
+
         return $str;
     }
 }

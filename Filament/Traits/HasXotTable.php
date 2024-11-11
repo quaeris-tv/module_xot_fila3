@@ -100,12 +100,24 @@ trait HasXotTable
 
     /**
      * Get table columns for grid layout.
+     *
+     * @return array<Tables\Columns\Column|Stack>
      */
     public function getGridTableColumns(): array
     {
         return [
             Stack::make($this->getListTableColumns()),
         ];
+    }
+
+    /**
+     * Get list table columns.
+     *
+     * @return array<Tables\Columns\Column>
+     */
+    public function getListTableColumns(): array
+    {
+        return [];
     }
 
     /**
@@ -214,9 +226,11 @@ trait HasXotTable
      */
     public function getModelClass(): string
     {
+        // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
         if (method_exists($this, 'getRelationship')) {
             return $this->getRelationship()->getModel()::class;
         }
+        // @phpstan-ignore function.impossibleType, function.impossibleType
         if (method_exists($this, 'getModel')) {
             return $this->getModel();
         }

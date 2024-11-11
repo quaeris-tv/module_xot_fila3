@@ -16,6 +16,8 @@ trait Updater
 {
     /**
      * Summary of creator.
+     *
+     * @return BelongsTo<Model, $this>
      */
     public function creator(): BelongsTo
     {
@@ -37,6 +39,8 @@ trait Updater
     /**
      * Defines a relation to obtain the last user who
      * manipulated the Entity instance.
+     *
+     * @return BelongsTo<Model, $this>
      */
     public function updater(): BelongsTo
     {

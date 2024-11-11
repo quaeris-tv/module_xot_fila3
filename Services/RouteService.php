@@ -18,6 +18,11 @@ use Illuminate\Support\Str;
  */
 class RouteService
 {
+    /**
+     * Summary of inAdmin.
+     *
+     * @param array<string,string> $params
+     */
     public static function inAdmin(array $params = []): mixed
     {
         if (isset($params['in_admin'])) {
@@ -39,8 +44,9 @@ class RouteService
         return (is_countable($segments) ? \count($segments) : 0) > 0 && 'livewire' === $segments[0] && true === session('in_admin');
     }
 
-    // --- sarebbe deprecata ma il mal di testa
-
+    /**
+     * @param array<string,string> $params
+     */
     public static function urlAct(array $params): string
     {
         $query = [];
@@ -190,7 +196,9 @@ class RouteService
     */
     // se n=0 => 'container0'
     // se n=1 => 'containers.container1'
-
+    /**
+     * @param array<string,string> $params
+     */
     public static function getRoutenameN(array $params): string
     {
         // default vars
@@ -290,7 +298,9 @@ class RouteService
         return $url;
     }
     */
-
+    /**
+     * @param array<string,string> $params
+     */
     public static function urlLang(array $params = []): string
     {
         extract($params);
