@@ -28,10 +28,8 @@ trait HasXotTable
 {
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
-
     /**
-     *
-     * @return array<Action | BulkAction | ActionGroup>
+     * @return array<Action|BulkAction|ActionGroup>
      */
     protected function getTableHeaderActions(): array
     {
@@ -234,14 +232,14 @@ trait HasXotTable
         if (method_exists($this, 'getModel')) {
             return $this->getModel();
         }
-        //if (method_exists($this, 'getMountedTableActionRecord')) {
+        // if (method_exists($this, 'getMountedTableActionRecord')) {
         //    dddx($this->getMountedTableActionRecord());
-        //}
-        //if (method_exists($this, 'getTable')) {
+        // }
+        // if (method_exists($this, 'getTable')) {
         //    dddx( $this->getTable()->getModel());
-        //}
+        // }
 
-        //->model($this->getMountedTableActionRecord() ?? $this->getTable()->getModel())
+        // ->model($this->getMountedTableActionRecord() ?? $this->getTable()->getModel())
         throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
