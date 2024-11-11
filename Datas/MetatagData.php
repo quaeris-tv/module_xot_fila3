@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Datas;
 
+use Filament\Support\Colors\Color;
 use Livewire\Wireable;
 use Modules\Tenant\Services\TenantService;
 use Spatie\LaravelData\Concerns\WireableData;
@@ -132,5 +133,13 @@ class MetatagData extends Data implements Wireable
     public function getFavicon(): string
     {
         return app(\Modules\Xot\Actions\File\AssetAction::class)->execute($this->favicon);
+    }
+
+    public function getColors(): array
+    {
+        return [
+            // 'primary' => Color::Amber,
+            'primary' => Color::Blue,
+        ];
     }
 }
