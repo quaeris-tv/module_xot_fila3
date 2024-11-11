@@ -22,8 +22,9 @@ abstract class XotBaseThemeServiceProvider
 
     public string $ns = '';
 
-    public function bootCallback(): void
+    public function boot(): void
     {
+        parent::boot();
         /*
         $blade_component_path = '\Themes\LaravelIo\View\Components';
         foreach ($this->blade_components as $name => $class) {

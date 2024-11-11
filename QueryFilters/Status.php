@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Modules\Xot\QueryFilters;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 class Status
 {
@@ -20,8 +21,14 @@ class Status
      */
     public function handle(Builder $query, \Closure $next): \Closure
     {
-        if (request()->has('status')) {
-            $query->where('status', request('status'));
+        // if (request()->has('status')) {
+        //    $query->where('status', request('status'));
+        // }
+        $status = Arr::get(request()->all(), 'status');
+
+        // Assicuriamoci che il valore di status sia valido prima di applicare il filtro
+        if (! is_null($status)) {
+            $query->where('status', '=', $status);
         }
 
         // $next($query);
