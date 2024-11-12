@@ -9,18 +9,14 @@ namespace Modules\Xot\Filament\Actions\Header;
 
 // Header actions must be an instance of Filament\Actions\Action, or Filament\Actions\ActionGroup.
 // use Filament\Tables\Actions\Action;
-use Illuminate\Support\Str;
 use Filament\Actions\Action;
-use Webmozart\Assert\Assert;
-use Illuminate\Support\Facades\Artisan;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Modules\Xot\Actions\String\SanitizeAction;
 
 class SanitizeFieldsHeaderAction extends Action
 {
-
-    public array $fields=[];
+    public array $fields = [];
 
     protected function setUp(): void
     {
@@ -34,37 +30,37 @@ class SanitizeFieldsHeaderAction extends Action
                 function (ListRecords $livewire) {
                     $resource = $livewire->getResource();
                     $modelClass = $resource::getModel();
-                    $rows=$modelClass::get();
-                    $c=0;
-                    foreach($rows as $row){
-                        $save=false;
-                        foreach($this->fields as $field){
-                            $item=$row->{$field};
-                            $string=app(SanitizeAction::class)->execute($item);
-                            
-                            if($string != $item){
-                                $row->{$field}=$string;
-                                $save=true;
-                                $c++;
+                    $rows = $modelClass::get();
+                    $c = 0;
+                    foreach ($rows as $row) {
+                        $save = false;
+                        foreach ($this->fields as $field) {
+                            $item = $row->{$field};
+                            $string = app(SanitizeAction::class)->execute($item);
+
+                            if ($string != $item) {
+                                $row->{$field} = $string;
+                                $save = true;
+                                ++$c;
                             }
-                            
                         }
-                        if($save){
+                        if ($save) {
                             $row->save();
                         }
-                        
                     }
                     Notification::make()
                         ->title(''.$c.' record sanitized')
                         ->success()
                         ->send()
-                        ;
+                    ;
                 }
             );
     }
 
-    public function setFields(array $fields):self{
-        $this->fields=$fields;
+    public function setFields(array $fields): self
+    {
+        $this->fields = $fields;
+
         return $this;
     }
 
