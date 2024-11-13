@@ -22,7 +22,7 @@ use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
 
 /**
- * Undocumented class.
+ * Class Modules\Xot\Datas\XotData.
  */
 class XotData extends Data implements Wireable
 {
