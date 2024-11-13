@@ -49,7 +49,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         $this->registerLivewireComponents();
         // Illuminate\Contracts\Container\BindingResolutionException: Target class [modules] does not exist.
         $this->registerBladeComponents();
-        // $this->registerCommands();
+        $this->registerCommands();
     }
 
     /**
