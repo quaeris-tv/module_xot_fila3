@@ -23,7 +23,7 @@ use Webmozart\Assert\Assert;
 
 /**
  * Class Modules\Xot\Datas\XotData.
- * ----
+ * ----.
  */
 class XotData extends Data implements Wireable
 {

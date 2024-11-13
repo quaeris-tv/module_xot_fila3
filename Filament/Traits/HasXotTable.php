@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-use Filament\Tables;
 use Filament\Actions;
-use Filament\Tables\Table;
-use Modules\UI\Enums\TableLayoutEnum;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Notifications\Notification;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Columns\Layout\Stack;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Enums\ActionsPosition;
-use Modules\Xot\Filament\Traits\TransTrait;
+use Filament\Tables;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Modules\UI\Enums\TableLayoutEnum;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 
 /**
@@ -38,7 +37,6 @@ trait HasXotTable
         $actions = [
             TableLayoutToggleTableAction::make(),
         ];
-
 
         if ($this->shouldShowAssociateAction()) {
             $actions[] = Tables\Actions\AssociateAction::make()
@@ -121,7 +119,8 @@ trait HasXotTable
         return [];
     }
 
-    public function getTableRecordTitleAttribute(): string{
+    public function getTableRecordTitleAttribute(): string
+    {
         return 'name';
     }
 
@@ -179,8 +178,7 @@ trait HasXotTable
                 ->label('')
                 ->tooltip(__('user::actions.view'))
             // ->icon('heroicon-o-eye')
-                ->color('info')
-            ,
+                ->color('info'),
 
             Tables\Actions\EditAction::make()
                 ->label('')
@@ -188,7 +186,7 @@ trait HasXotTable
                 ->icon('heroicon-o-pencil')
                 ->color('warning'),
         ];
-        if (!$this->shouldShowDetachAction()) {
+        if (! $this->shouldShowDetachAction()) {
             $actions[] = Tables\Actions\DeleteAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.delete'));
