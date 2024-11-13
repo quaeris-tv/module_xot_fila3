@@ -123,7 +123,7 @@ trait HasXotTable
     {
         return 1;
     }
-  
+
     public function getTableRecordTitleAttribute(): string
     {
         return 'name';
