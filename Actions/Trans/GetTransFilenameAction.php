@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\Trans;
 
 use Illuminate\Support\Str;
+use Webmozart\Assert\Assert;
 use Nwidart\Modules\Facades\Module;
 
 class GetTransFilenameAction
@@ -16,7 +17,7 @@ class GetTransFilenameAction
         $file = Str::between($filename, '::', '.');
 
         $module_path = Module::getModulePath($ns);
-        $lang_path = config('modules.paths.generator.lang.path');
+        Assert::string($lang_path = config('modules.paths.generator.lang.path'));
         $lang_path_full = $module_path.''.$lang_path.'/'.$lang.'/'.$file.'.php';
         $lang_path_full = str_replace(['\\', '/'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $lang_path_full);
 
