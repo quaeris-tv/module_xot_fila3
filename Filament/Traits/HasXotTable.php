@@ -119,6 +119,11 @@ trait HasXotTable
         return [];
     }
 
+    public function getTableFiltersFormColumns(): int
+    {
+        return 1;
+    }
+  
     public function getTableRecordTitleAttribute(): string
     {
         return 'name';
@@ -142,7 +147,7 @@ trait HasXotTable
             ->headerActions($this->getTableHeaderActions())
             ->filters($this->getTableFilters())
             ->filtersLayout(FiltersLayout::AboveContent)
-            ->filtersFormColumns(1)
+            ->filtersFormColumns($this->getTableFiltersFormColumns())
             ->persistFiltersInSession()
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
