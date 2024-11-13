@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-use Filament\Actions;
-use Filament\Notifications\Notification;
 use Filament\Tables;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Columns\Layout\Stack;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Enums\FiltersLayout;
+use Filament\Actions;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Modules\UI\Enums\TableLayoutEnum;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Notifications\Notification;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Columns\Layout\Stack;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Enums\ActionsPosition;
+use Modules\Xot\Filament\Traits\TransTrait;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 
 /**
@@ -26,6 +27,7 @@ use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
  */
 trait HasXotTable
 {
+    use TransTrait;
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     /**
@@ -37,7 +39,7 @@ trait HasXotTable
             TableLayoutToggleTableAction::make(),
         ];
 
-        // Conditionally add actions based on availability of relationships
+
         if ($this->shouldShowAssociateAction()) {
             $actions[] = Tables\Actions\AssociateAction::make()
                 ->label('')
@@ -49,7 +51,8 @@ trait HasXotTable
             $actions[] = Tables\Actions\AttachAction::make()
                 ->label('')
                 ->icon('heroicon-o-link')
-                ->tooltip(__('user::actions.attach_user'));
+                ->tooltip(__('user::actions.attach_user'))
+                ->preloadRecordSelect();
         }
 
         return $actions;
@@ -118,6 +121,10 @@ trait HasXotTable
         return [];
     }
 
+    public function getTableRecordTitleAttribute(): string{
+        return 'name';
+    }
+
     /**
      * Define the main table structure.
      */
@@ -130,6 +137,7 @@ trait HasXotTable
         }
 
         return $table
+            ->recordTitleAttribute($this->getTableRecordTitleAttribute())
             ->columns($this->layoutView->getTableColumns())
             ->contentGrid($this->layoutView->getTableContentGrid())
             ->headerActions($this->getTableHeaderActions())
@@ -171,7 +179,7 @@ trait HasXotTable
                 ->label('')
                 ->tooltip(__('user::actions.view'))
             // ->icon('heroicon-o-eye')
-            // ->color('info')
+                ->color('info')
             ,
 
             Tables\Actions\EditAction::make()
@@ -179,14 +187,12 @@ trait HasXotTable
                 ->tooltip(__('user::actions.edit'))
                 ->icon('heroicon-o-pencil')
                 ->color('warning'),
-
-            Tables\Actions\DeleteAction::make()
-                ->label('')
-                ->tooltip(__('user::actions.delete'))
-            // ->icon('heroicon-o-pencil')
-            // ->color('danger')
-            ,
         ];
+        if (!$this->shouldShowDetachAction()) {
+            $actions[] = Tables\Actions\DeleteAction::make()
+                ->label('')
+                ->tooltip(__('user::actions.delete'));
+        }
 
         if ($this->shouldShowDetachAction()) {
             $actions[] = Tables\Actions\DetachAction::make()
