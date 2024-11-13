@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\Trans;
 
 use Illuminate\Support\Str;
-use Webmozart\Assert\Assert;
 use Nwidart\Modules\Facades\Module;
+use Webmozart\Assert\Assert;
 
 class GetTransFilenameAction
 {
