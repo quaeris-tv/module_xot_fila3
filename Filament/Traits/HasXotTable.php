@@ -35,7 +35,7 @@ trait HasXotTable
     protected function getTableHeaderActions(): array
     {
         $actions = [
-            TableLayoutToggleTableAction::make(),
+            // TableLayoutToggleTableAction::make(),
         ];
 
         if ($this->shouldShowAssociateAction()) {
@@ -94,7 +94,8 @@ trait HasXotTable
         return [
             Actions\CreateAction::make()
                 ->label('')
-                ->tooltip(__('user::actions.create_user'))
+                //->tooltip(__('user::actions.create_user'))
+                ->tooltip(static::trans('actions.create.tooltip'))
                 ->icon('heroicon-o-plus'),
         ];
     }
