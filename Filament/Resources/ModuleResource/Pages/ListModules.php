@@ -20,7 +20,7 @@ use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Filament\Resources\ModuleResource;
 use Nwidart\Modules\Facades\Module;
 
-class ListModules extends ListRecords
+class ListModules extends \Modules\Xot\Filament\Pages\XotBaseListRecords
 {
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 

@@ -10,7 +10,7 @@ use Modules\UI\Enums\TableLayoutEnum;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Filament\Resources\LogResource;
 
-class ListLogs extends ListRecords
+class ListLogs extends \Modules\Xot\Filament\Pages\XotBaseListRecords
 {
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 

@@ -35,7 +35,7 @@ trait HasXotTable
     protected function getTableHeaderActions(): array
     {
         $actions = [
-            TableLayoutToggleTableAction::make(),
+            // TableLayoutToggleTableAction::make(),
         ];
 
         if ($this->shouldShowAssociateAction()) {
@@ -70,6 +70,7 @@ trait HasXotTable
      */
     protected function shouldShowAttachAction(): bool
     {
+        // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
         return method_exists($this, 'getRelationship'); // Ensure relationship method exists
     }
 
@@ -79,6 +80,7 @@ trait HasXotTable
     protected function shouldShowDetachAction(): bool
     {
         // Show DetachAction only if an associated relationship exists
+        // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
         return method_exists($this, 'getRelationship') && $this->getRelationship()->exists();
     }
 
@@ -92,7 +94,8 @@ trait HasXotTable
         return [
             Actions\CreateAction::make()
                 ->label('')
-                ->tooltip(__('user::actions.create_user'))
+                //->tooltip(__('user::actions.create_user'))
+                ->tooltip(static::trans('actions.create.tooltip'))
                 ->icon('heroicon-o-plus'),
         ];
     }

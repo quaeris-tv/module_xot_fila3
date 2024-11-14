@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources\CacheLockResource\Pages;
 
 use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
 use Modules\UI\Enums\TableLayoutEnum;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
+use Filament\Resources\Pages\ListRecords;
+use Modules\Xot\Filament\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\CacheLockResource;
+use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 
-class ListCacheLocks extends ListRecords
+class ListCacheLocks extends XotBaseListRecords
 {
-    public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
-
+    
     protected static string $resource = CacheLockResource::class;
 
     protected function getTableHeaderActions(): array
