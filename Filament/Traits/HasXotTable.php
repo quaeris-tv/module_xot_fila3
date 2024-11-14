@@ -26,12 +26,11 @@ use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
  */
 trait HasXotTable
 {
+    use TransTrait;
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     /**
-     * Get header actions for the table, including custom action for table layout toggle.
-     *
-     * @return array<Tables\Actions\Action>
+     * @return array<Action|BulkAction|ActionGroup>
      */
     protected function getTableHeaderActions(): array
     {
@@ -39,7 +38,6 @@ trait HasXotTable
             TableLayoutToggleTableAction::make(),
         ];
 
-        // Conditionally add actions based on availability of relationships
         if ($this->shouldShowAssociateAction()) {
             $actions[] = Tables\Actions\AssociateAction::make()
                 ->label('')
@@ -51,7 +49,8 @@ trait HasXotTable
             $actions[] = Tables\Actions\AttachAction::make()
                 ->label('')
                 ->icon('heroicon-o-link')
-                ->tooltip(__('user::actions.attach_user'));
+                ->tooltip(__('user::actions.attach_user'))
+                ->preloadRecordSelect();
         }
 
         return $actions;
@@ -100,12 +99,34 @@ trait HasXotTable
 
     /**
      * Get table columns for grid layout.
+     *
+     * @return array<Tables\Columns\Column|Stack>
      */
     public function getGridTableColumns(): array
     {
         return [
             Stack::make($this->getListTableColumns()),
         ];
+    }
+
+    /**
+     * Get list table columns.
+     *
+     * @return array<Tables\Columns\Column>
+     */
+    public function getListTableColumns(): array
+    {
+        return [];
+    }
+
+    public function getTableFiltersFormColumns(): int
+    {
+        return 1;
+    }
+
+    public function getTableRecordTitleAttribute(): string
+    {
+        return 'name';
     }
 
     /**
@@ -120,12 +141,13 @@ trait HasXotTable
         }
 
         return $table
+            ->recordTitleAttribute($this->getTableRecordTitleAttribute())
             ->columns($this->layoutView->getTableColumns())
             ->contentGrid($this->layoutView->getTableContentGrid())
             ->headerActions($this->getTableHeaderActions())
             ->filters($this->getTableFilters())
             ->filtersLayout(FiltersLayout::AboveContent)
-            ->filtersFormColumns(1)
+            ->filtersFormColumns($this->getTableFiltersFormColumns())
             ->persistFiltersInSession()
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
@@ -161,8 +183,7 @@ trait HasXotTable
                 ->label('')
                 ->tooltip(__('user::actions.view'))
             // ->icon('heroicon-o-eye')
-            // ->color('info')
-            ,
+                ->color('info'),
 
             Tables\Actions\EditAction::make()
                 ->label('')
@@ -170,6 +191,11 @@ trait HasXotTable
                 ->icon('heroicon-o-pencil')
                 ->color('warning'),
         ];
+        if (! $this->shouldShowDetachAction()) {
+            $actions[] = Tables\Actions\DeleteAction::make()
+                ->label('')
+                ->tooltip(__('user::actions.delete'));
+        }
 
         if ($this->shouldShowDetachAction()) {
             $actions[] = Tables\Actions\DetachAction::make()
@@ -207,12 +233,22 @@ trait HasXotTable
      */
     public function getModelClass(): string
     {
+        // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
         if (method_exists($this, 'getRelationship')) {
             return $this->getRelationship()->getModel()::class;
         }
+        // @phpstan-ignore function.impossibleType, function.impossibleType
         if (method_exists($this, 'getModel')) {
             return $this->getModel();
         }
+        // if (method_exists($this, 'getMountedTableActionRecord')) {
+        //    dddx($this->getMountedTableActionRecord());
+        // }
+        // if (method_exists($this, 'getTable')) {
+        //    dddx( $this->getTable()->getModel());
+        // }
+
+        // ->model($this->getMountedTableActionRecord() ?? $this->getTable()->getModel())
         throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
