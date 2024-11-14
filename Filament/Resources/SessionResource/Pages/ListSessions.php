@@ -5,24 +5,24 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources\SessionResource\Pages;
 
 use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\Layout\Stack;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Modules\UI\Enums\TableLayoutEnum;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Resources\Pages\ListRecords;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Modules\Xot\Filament\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\SessionResource;
+use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 
-class ListSessions extends ListRecords
+class ListSessions extends XotBaseListRecords
 {
-    public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
-
+    
     protected static string $resource = SessionResource::class;
 
     public function getGridTableColumns(): array

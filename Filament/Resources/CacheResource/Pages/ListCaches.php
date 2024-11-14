@@ -17,7 +17,7 @@ use Modules\Xot\Filament\Actions\Header\ArtisanHeaderAction;
 use Modules\Xot\Filament\Resources\CacheResource;
 use Modules\Xot\Filament\Widgets\Clock;
 
-class ListCaches extends ListRecords
+class ListCaches extends \Modules\Xot\Filament\Pages\XotBaseListRecords
 {
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
