@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources\ExtraResource\Pages;
 
-use Filament\Tables;
 use Filament\Actions;
+use Filament\Tables;
 use Filament\Tables\Table;
-use Modules\UI\Enums\TableLayoutEnum;
-use Filament\Resources\Pages\ListRecords;
-use Modules\Xot\Filament\Resources\ExtraResource;
-use Modules\Xot\Filament\Pages\XotBaseListRecords;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
+use Modules\Xot\Filament\Pages\XotBaseListRecords;
+use Modules\Xot\Filament\Resources\ExtraResource;
 
 class ListExtras extends XotBaseListRecords
 {
-    
     protected static string $resource = ExtraResource::class;
 
     public function getTableColumns(): array
