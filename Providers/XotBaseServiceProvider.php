@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Modules\Xot\Services\BladeService;
-use Modules\Xot\Services\LivewireService;
+use Modules\Xot\Actions\Blade\RegisterBladeComponentsAction;
+use Modules\Xot\Actions\Livewire\RegisterLivewireComponentsAction;
 
 use function Safe\glob;
 use function Safe\json_decode;
@@ -39,13 +39,11 @@ abstract class XotBaseServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerTranslations();
+
         $this->registerConfig();
         $this->registerViews();
         // $this->registerFactories();
         $this->loadMigrationsFrom($this->module_dir.'/../Database/Migrations');
-        if (method_exists($this, 'bootCallback')) {
-            $this->bootCallback();
-        }
 
         // Illuminate\Contracts\Container\BindingResolutionException: Target class [livewire] does not exist.
         $this->registerLivewireComponents();
@@ -61,16 +59,8 @@ abstract class XotBaseServiceProvider extends ServiceProvider
     {
         $this->module_ns = collect(explode('\\', $this->module_ns))->slice(0, -1)->implode('\\');
         $this->app->register(''.$this->module_ns.'\Providers\RouteServiceProvider');
-
         $this->app->register(''.$this->module_ns.'\Providers\EventServiceProvider');
-        // $this->app->register(EventServiceProvider::class);
-        // $this->app->register(RouteServiceProvider::class);
-        if (method_exists($this, 'registerCallback')) {
-            $this->registerCallback();
-        }
         $this->registerBladeIcons();
-
-        // echo '<h3>Time :'.class_basename($this).' '.(microtime(true) - LARAVEL_START).'</h3>';
         $this->registerBladeIcons();
     }
 
@@ -130,7 +120,11 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         $namespace = $this->module_ns.'\View\Components';
         Blade::componentNamespace($namespace, $this->module_name);
 
-        BladeService::registerComponents($this->module_dir.'/../View/Components', $this->module_ns);
+        app(RegisterBladeComponentsAction::class)
+            ->execute(
+                $this->module_dir.'/../View/Components',
+                $this->module_ns
+            );
     }
 
     /**
@@ -138,23 +132,24 @@ abstract class XotBaseServiceProvider extends ServiceProvider
      */
     public function registerLivewireComponents(): void
     {
-        // $prefix=$this->module_name.'::';
         $prefix = '';
-        LivewireService::registerComponents(
-            $this->module_dir.'/../Http/Livewire',
-            Str::before($this->module_ns, '\Providers'),
-            $prefix,
-        );
+        app(RegisterLivewireComponentsAction::class)
+            ->execute(
+                $this->module_dir.'/../Http/Livewire',
+                Str::before($this->module_ns, '\Providers'),
+                $prefix
+            );
     }
 
     public function registerCommands(): void
     {
         $prefix = '';
-        $comps = app(\Modules\Xot\Actions\File\GetComponentsAction::class)->execute(
-            $this->module_dir.'/../Console/Commands',
-            Str::before($this->module_ns, '\Providers'),
-            $prefix,
-        );
+        $comps = app(\Modules\Xot\Actions\File\GetComponentsAction::class)
+            ->execute(
+                $this->module_dir.'/../Console/Commands',
+                Str::before($this->module_ns, '\Providers'),
+                $prefix,
+            );
         if (\count($comps) > 0) {
             $commands = collect($comps)->map(
                 function ($item) {

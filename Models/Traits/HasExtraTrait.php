@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
 use Modules\Xot\Contracts\ExtraContract;
 use Modules\Xot\Models\Extra;
+
+use function Safe\json_encode;
+
 use Webmozart\Assert\Assert;
 
 /**
@@ -66,7 +69,9 @@ trait HasExtraTrait
     {
         $extra = $this->extra;
         if (null === $this->extra) {
-            $extra = $this->extra()->firstOrCreate([], ['extra_attributes' => []]);
+            // $extra = $this->extra()->firstOrCreate([], ['extra_attributes' => []]);
+            $extra = $this->extra()
+                ->firstOrCreate([], ['extra_attributes' => json_encode([])]);
             Assert::implementsInterface($extra, ExtraContract::class, '['.__LINE__.']['.class_basename($this).']['.$extra.']');
         }
 

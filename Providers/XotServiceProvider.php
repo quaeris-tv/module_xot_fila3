@@ -47,8 +47,9 @@ class XotServiceProvider extends XotBaseServiceProvider
 
     protected string $module_ns = __NAMESPACE__;
 
-    public function bootCallback(): void
+    public function boot(): void
     {
+        parent::boot();
         $this->redirectSSL();
         // $this->registerTranslator(); to lang
         $this->registerViewComposers(); // rompe filament
@@ -61,8 +62,9 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->registerProviders();
     }
 
-    public function registerCallback(): void
+    public function register(): void
     {
+        parent::register();
         $this->registerConfigs();
         $this->registerExceptionHandlersRepository();
         $this->extendExceptionHandler();

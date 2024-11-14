@@ -22,62 +22,38 @@ use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
 
 /**
- * Undocumented class.
+ * Class Modules\Xot\Datas\XotData.
+ * ----.
  */
 class XotData extends Data implements Wireable
 {
     use WireableData;
 
     public string $main_module = '';
-
-    // => 'Blog'
     public string $param_name = 'noset';
-
     public string $adm_home = '01';
-
     public ?string $adm_theme = ''; // ' => 'AdminLTE',
     // public bool $enable_ads;//' => '1',
-
     public string $primary_lang = 'it';
-
-    // 'pub_theme' => 'DirectoryBs5',
     public string $pub_theme;
-
     // ' => 'One',
     public string $search_action = 'it/videos';
-
     public bool $show_trans_key = false;
-
     public string $register_type = '0';
-
     public string $verification_type = '';
-
     public bool $login_verified = false;
-
     public bool $disable_frontend_dynamic_route = false;
-
     public bool $disable_admin_dynamic_route = false;
-
     public bool $disable_database_notifications = true;
-
     public bool $register_adm_theme = false;
-
     public bool $register_pub_theme = false;
-
     public bool $register_collective = false;
-
     public string $team_class = 'Modules\User\Models\Team'; // = Team::class;
-
     public string $tenant_class = 'Modules\User\Models\Tenant'; // = Team::class;
-
     public string $membership_class = 'Modules\User\Models\Membership'; // = Membership::class;
-
     public string $tenant_pivot_class = 'Modules\User\Models\TenantUser'; // = Membership::class;
-
     public ?string $super_admin = null;
-
     public string $video_player = 'html5';
-
     private static ?self $instance = null;
 
     /**
@@ -122,6 +98,10 @@ class XotData extends Data implements Wireable
     public function getUserByEmail(string $email): UserContract
     {
         $user_class = $this->getUserClass();
+        $userInstance = new $user_class();
+        if (! in_array('email', $userInstance->getFillable())) {
+            throw new \Exception("Attribute 'email' not found in model ".get_class($userInstance));
+        }
         $user = $user_class::firstWhere('email', $email);
         if (! $user) {
             throw new \Exception('user not found for email '.$email);
@@ -216,7 +196,6 @@ class XotData extends Data implements Wireable
         if (! in_array('user_id', $profile->getFillable())) {
             throw new \Exception('add user_id to fillable on class '.$profileClass);
         }
-
         $res = $profile->firstOrCreate(['user_id' => $user_id]);
 
         return $res;
