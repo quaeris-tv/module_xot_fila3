@@ -70,6 +70,7 @@ trait HasXotTable
      */
     protected function shouldShowAttachAction(): bool
     {
+        // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
         return method_exists($this, 'getRelationship'); // Ensure relationship method exists
     }
 
@@ -79,6 +80,7 @@ trait HasXotTable
     protected function shouldShowDetachAction(): bool
     {
         // Show DetachAction only if an associated relationship exists
+        // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
         return method_exists($this, 'getRelationship') && $this->getRelationship()->exists();
     }
 
