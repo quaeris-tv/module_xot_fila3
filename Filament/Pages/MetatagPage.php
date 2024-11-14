@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Pages;
 
-use Filament\Actions\Action;
-use Filament\Forms\ComponentContainer;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
-use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Modules\Tenant\Services\TenantService;
-use Modules\Xot\Filament\Traits\NavigationLabelTrait;
+use Filament\Actions\Action;
 use Webmozart\Assert\Assert;
+use Filament\Forms\ComponentContainer;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Forms\Components\ColorPicker;
+use Modules\Tenant\Services\TenantService;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Modules\Xot\Filament\Traits\NavigationLabelTrait;
 
 /**
  * @property ComponentContainer $form
@@ -71,6 +73,13 @@ class MetatagPage extends Page implements HasForms
                     TextInput::make('logo_header_dark')
                         ->helperText('logo for dark css'),
                     TextInput::make('logo_height'),
+                    Repeater::make('colors')
+                    ->schema([
+                        TextInput::make('key')->label('Color Key')->required(), // e.g., 'primary'
+                        ColorPicker::make('value')->label('Color Value')->required(), // e.g., '#0071b0'
+                    ])
+                    ->keyValueArray(true) // Store as key-value pairs in the 'colors' array
+                    ->columns(2),
                 ]
             )->columns(2)
             ->statePath('data');
