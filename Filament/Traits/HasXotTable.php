@@ -182,26 +182,26 @@ trait HasXotTable
     protected function getTableActions(): array
     {
         $actions = [
-            Tables\Actions\ViewAction::make()
+            'view' => Tables\Actions\ViewAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.view'))
             // ->icon('heroicon-o-eye')
                 ->color('info'),
 
-            Tables\Actions\EditAction::make()
+            'edit' => Tables\Actions\EditAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.edit'))
                 ->icon('heroicon-o-pencil')
                 ->color('warning'),
         ];
         if (! $this->shouldShowDetachAction()) {
-            $actions[] = Tables\Actions\DeleteAction::make()
+            $actions['delete'] = Tables\Actions\DeleteAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.delete'));
         }
 
         if ($this->shouldShowDetachAction()) {
-            $actions[] = Tables\Actions\DetachAction::make()
+            $actions['detach'] = Tables\Actions\DetachAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.detach'))
                 ->icon('heroicon-o-link-slash')
