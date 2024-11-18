@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources;
 
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Modules\Xot\Filament\Resources\CacheResource\Pages;
 use Modules\Xot\Models\Cache;
 
-class CacheResource extends Resource
+class CacheResource extends XotBaseResource
 {
     protected static ?string $model = Cache::class;
 

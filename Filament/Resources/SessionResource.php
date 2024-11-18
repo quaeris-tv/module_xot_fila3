@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources;
 
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Modules\Xot\Filament\Resources\SessionResource\Pages;
 use Modules\Xot\Models\Session;
 
-class SessionResource extends Resource
+class SessionResource extends XotBaseResource
 {
     protected static ?string $model = Session::class;
 
