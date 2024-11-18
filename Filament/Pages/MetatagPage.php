@@ -6,6 +6,9 @@ namespace Modules\Xot\Filament\Pages;
 
 use Filament\Actions\Action;
 use Filament\Forms\ComponentContainer;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -71,6 +74,22 @@ class MetatagPage extends Page implements HasForms
                     TextInput::make('logo_header_dark')
                         ->helperText('logo for dark css'),
                     TextInput::make('logo_height'),
+                    Repeater::make('colors')
+                    ->schema([
+                        // TextInput::make('key')->label('Color Key')->required(), // e.g., 'primary'
+                        Select::make('key')->label('Color Key')->required()
+                            ->options([
+                                'danger' => 'danger',
+                                'gray' => 'gray',
+                                'info' => 'info',
+                                'primary' => 'primary',
+                                'success' => 'success',
+                                'warning' => 'warning',
+                            ]),
+                        ColorPicker::make('value')->label('Color Value')->required(), // e.g., '#0071b0'
+                    ])
+                    // ->keyValueArray(true) // Store as key-value pairs in the 'colors' array
+                    ->columns(2),
                 ]
             )->columns(2)
             ->statePath('data');

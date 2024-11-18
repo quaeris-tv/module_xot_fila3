@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Datas;
 
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Arr;
 use Livewire\Wireable;
 use Modules\Tenant\Services\TenantService;
 use Spatie\LaravelData\Concerns\WireableData;
@@ -26,18 +27,18 @@ class MetatagData extends Data implements Wireable
     public string $subtitle;
 
     // ' => 'Find restaurants, specials, and coupons for free',
-    public string $generator;
+    public ?string $generator = 'xot';
 
     // ' => '',
     public string $charset = 'UTF-8';
 
-    public string $author;
+    public ?string $author = 'xot';
 
     // ' => '',
-    public string $description;
+    public ?string $description;
 
     // ' => '',
-    public string $keywords;
+    public ?string $keywords;
 
     // ' => '',
     public string $nome_regione;
@@ -59,7 +60,7 @@ class MetatagData extends Data implements Wireable
 
     public string $logo_header_dark;
 
-    public string $logo_height = '2em';
+    public ?string $logo_height = '2em';
 
     // = 'xot::img/logo.png';
     public string $logo_footer;
@@ -103,6 +104,8 @@ class MetatagData extends Data implements Wireable
     // ' => '#000',
     public string $favicon = '/favicon.ico';
 
+    public array $colors = [];
+
     private static ?self $instance = null;
 
     public static function make(): self
@@ -127,6 +130,10 @@ class MetatagData extends Data implements Wireable
 
     public function getLogoHeight(): string
     {
+        if (null == $this->logo_height) {
+            $this->logo_height = '2em';
+        }
+
         return $this->logo_height;
     }
 
@@ -137,9 +144,16 @@ class MetatagData extends Data implements Wireable
 
     public function getColors(): array
     {
+        $mapped = Arr::mapWithKeys($this->colors, function (array $item, int $key) {
+            return [$item['key'] => Color::hex($item['value'])];
+        });
+
+        return $mapped;
+        /*
         return [
             // 'primary' => Color::Amber,
             'primary' => Color::Blue,
         ];
+        */
     }
 }
