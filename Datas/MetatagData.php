@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Datas;
 
-use Livewire\Wireable;
-use Illuminate\Support\Arr;
-use Spatie\LaravelData\Data;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Arr;
+use Livewire\Wireable;
 use Modules\Tenant\Services\TenantService;
 use Spatie\LaravelData\Concerns\WireableData;
+use Spatie\LaravelData\Data;
 
 /**
  * Undocumented class.
@@ -130,9 +130,10 @@ class MetatagData extends Data implements Wireable
 
     public function getLogoHeight(): string
     {
-        if($this->logo_height == null) {
+        if (null == $this->logo_height) {
             $this->logo_height = '2em';
         }
+
         return $this->logo_height;
     }
 
@@ -146,6 +147,7 @@ class MetatagData extends Data implements Wireable
         $mapped = Arr::mapWithKeys($this->colors, function (array $item, int $key) {
             return [$item['key'] => Color::hex($item['value'])];
         });
+
         return $mapped;
         /*
         return [

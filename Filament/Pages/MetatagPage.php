@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Pages;
 
-use Filament\Forms\Form;
-use Filament\Pages\Page;
 use Filament\Actions\Action;
-use Webmozart\Assert\Assert;
-use Filament\Forms\Components\Select;
 use Filament\Forms\ComponentContainer;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Filament\Forms\Components\ColorPicker;
-use Modules\Tenant\Services\TenantService;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
+use Filament\Pages\Page;
+use Modules\Tenant\Services\TenantService;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
+use Webmozart\Assert\Assert;
 
 /**
  * @property ComponentContainer $form
@@ -76,7 +76,7 @@ class MetatagPage extends Page implements HasForms
                     TextInput::make('logo_height'),
                     Repeater::make('colors')
                     ->schema([
-                        //TextInput::make('key')->label('Color Key')->required(), // e.g., 'primary'
+                        // TextInput::make('key')->label('Color Key')->required(), // e.g., 'primary'
                         Select::make('key')->label('Color Key')->required()
                             ->options([
                                 'danger' => 'danger',
@@ -88,7 +88,7 @@ class MetatagPage extends Page implements HasForms
                             ]),
                         ColorPicker::make('value')->label('Color Value')->required(), // e.g., '#0071b0'
                     ])
-                    //->keyValueArray(true) // Store as key-value pairs in the 'colors' array
+                    // ->keyValueArray(true) // Store as key-value pairs in the 'colors' array
                     ->columns(2),
                 ]
             )->columns(2)
