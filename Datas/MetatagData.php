@@ -142,10 +142,39 @@ class MetatagData extends Data implements Wireable
         return app(\Modules\Xot\Actions\File\AssetAction::class)->execute($this->favicon);
     }
 
+    public function getFilamentColors(): array
+    {
+        return [
+            'danger' => 'danger',
+            'gray' => 'gray',
+            'info' => 'info',
+            'primary' => 'primary',
+            'success' => 'success',
+            'warning' => 'warning',
+        ];
+    }
+
+    public function getAllColors(): array
+    {
+        $colors = array_keys(Color::all());
+        $colors = array_combine($colors, $colors);
+
+        return $colors;
+    }
+
     public function getColors(): array
     {
         $mapped = Arr::mapWithKeys($this->colors, function (array $item, int $key) {
-            return [$item['key'] => Color::hex($item['value'])];
+            $k = $item['key'];
+            $v = $item['color'];
+            if ('custom' != $v) {
+                $v = Arr::get(Color::all(), $v);
+            }
+            if ('custom' == $v) {
+                $v = Color::hex($item['hex']);
+            }
+
+            return [$k => $v];
         });
 
         return $mapped;

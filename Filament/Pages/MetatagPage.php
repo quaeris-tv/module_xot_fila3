@@ -13,9 +13,11 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Modules\Tenant\Services\TenantService;
+use Modules\Xot\Datas\MetatagData;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
 use Webmozart\Assert\Assert;
 
@@ -42,6 +44,8 @@ class MetatagPage extends Page implements HasForms
 
     public function form(Form $form): Form
     {
+        $metatag = MetatagData::make();
+
         return $form
             ->schema(
                 [
@@ -76,20 +80,22 @@ class MetatagPage extends Page implements HasForms
                     TextInput::make('logo_height'),
                     Repeater::make('colors')
                     ->schema([
-                        // TextInput::make('key')->label('Color Key')->required(), // e.g., 'primary'
-                        Select::make('key')->label('Color Key')->required()
-                            ->options([
-                                'danger' => 'danger',
-                                'gray' => 'gray',
-                                'info' => 'info',
-                                'primary' => 'primary',
-                                'success' => 'success',
-                                'warning' => 'warning',
-                            ]),
-                        ColorPicker::make('value')->label('Color Value')->required(), // e.g., '#0071b0'
+                        Select::make('key')
+                            ->label('Color Key')
+                            ->required()
+                            ->options($metatag->getFilamentColors()),
+                        Select::make('color')
+                            ->label('Color')
+                            ->required()
+                            ->reactive()
+                            ->options(array_merge(['custom' => '--- custom ---'], $metatag->getAllColors())),
+                        ColorPicker::make('hex')
+                            ->label('custom Color')
+                            ->visible(fn (Get $get): bool => 'custom' == $get('color'))
+                            ->required(), // e.g., '#0071b0'
                     ])
                     // ->keyValueArray(true) // Store as key-value pairs in the 'colors' array
-                    ->columns(2),
+                    ->columns(3),
                 ]
             )->columns(2)
             ->statePath('data');
