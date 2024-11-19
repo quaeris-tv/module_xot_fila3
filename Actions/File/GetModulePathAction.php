@@ -23,7 +23,7 @@ class GetModulePathAction
         } catch (\Exception) {
             $modulesPath = base_path('Modules');
             if (! File::exists($modulesPath)) {
-                return __DIR__.'/../';
+                return __DIR__ . '/../';
             }
 
             $files = scandir($modulesPath);
@@ -31,7 +31,7 @@ class GetModulePathAction
                 ->filter(
                     static fn ($item): bool => Str::lower($item) === Str::lower($moduleName)
                 )->first();
-            $module_path = base_path('Modules/'.$module_path);
+            $module_path = base_path('Modules/' . $module_path);
         }
 
         return $module_path;

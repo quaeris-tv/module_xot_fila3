@@ -26,7 +26,7 @@ class ExportXlsStreamByLazyCollection
         ?array $fields = null,
     ): StreamedResponse {
         $headers = [
-            'Content-Disposition' => 'attachment; filename='.$filename,
+            'Content-Disposition' => 'attachment; filename=' . $filename,
         ];
         $head = $this->headings($data, $transKey);
 
@@ -68,14 +68,14 @@ class ExportXlsStreamByLazyCollection
         if (null !== $transKey) {
             $headings = $headings->map(
                 static function (string $item) use ($transKey) {
-                    $key = $transKey.'.fields.'.$item;
+                    $key = $transKey . '.fields.' . $item;
                     $trans = trans($key);
                     if ($trans !== $key) {
                         return $trans;
                     }
 
-                    Assert::string($item1 = Str::replace('.', '_', $item), '['.__LINE__.']['.__CLASS__.']');
-                    $key = $transKey.'.fields.'.$item1;
+                    Assert::string($item1 = Str::replace('.', '_', $item), '[' . __LINE__ . '][' . __CLASS__ . ']');
+                    $key = $transKey . '.fields.' . $item1;
                     $trans = trans($key);
                     if ($trans !== $key) {
                         return $trans;

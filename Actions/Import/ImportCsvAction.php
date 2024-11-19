@@ -45,7 +45,7 @@ class ImportCsvAction
             $fieldname = $this->fixFieldName($item['name']);
             // if ('numero' === $item['tipo'] && $item['dec'] > 0) {
             if ('decimal' === $item['type_name']) {
-                $fieldname = '@'.$fieldname;
+                $fieldname = '@' . $fieldname;
             }
 
             $fields_up[] = $fieldname;
@@ -53,20 +53,20 @@ class ImportCsvAction
 
         $fields_up_list = implode(', ', $fields_up);
 
-        $sql = "LOAD DATA LOW_PRIORITY LOCAL INFILE '".$path."'
-	 INTO TABLE `".$db.'`.`'.$tbl."` character set latin1 FIELDS TERMINATED BY ';' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY '\"' LINES TERMINATED BY '\r\n' (".$fields_up_list.')'.\chr(13);
+        $sql = "LOAD DATA LOW_PRIORITY LOCAL INFILE '" . $path . "'
+	 INTO TABLE `" . $db . '`.`' . $tbl . "` character set latin1 FIELDS TERMINATED BY ';' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY '\"' LINES TERMINATED BY '\r\n' (" . $fields_up_list . ')' . \chr(13);
         $sql_replace = [];
         foreach ($columns as $item) {
             // if ('numero' === $item['tipo'] && $item['dec'] > 0) {
             if ('decimal' === $item['type_name']) {
                 $fieldname = $this->fixFieldName($item['name']);
-                $sql_replace[] = $fieldname.' = REPLACE(@'.$fieldname.',"," , ".")';
+                $sql_replace[] = $fieldname . ' = REPLACE(@' . $fieldname . ',"," , ".")';
             }
         }
 
-        $sql_replace = implode(', '.\chr(13), $sql_replace);
+        $sql_replace = implode(', ' . \chr(13), $sql_replace);
         if (mb_strlen($sql_replace) > 3) {
-            $sql = $sql.'SET '.$sql_replace.';';
+            $sql = $sql . 'SET ' . $sql_replace . ';';
         }
 
         $pdo->exec('SET GLOBAL local_infile=1;');
@@ -76,7 +76,7 @@ class ImportCsvAction
         Notification::make()
             ->title('Imported successfully')
             ->success()
-            ->body($n_rows.' records')
+            ->body($n_rows . ' records')
             ->persistent()
             ->send();
     }
@@ -95,14 +95,17 @@ class ImportCsvAction
         $str1 = (string) preg_replace('/[0-9a-z]/i', '', $str);
 
         switch (\ord($str1)) {
-            case 0:break;
-            case 167: $str = str_replace($str1, '10', $str);
+            case 0:
                 break;
-            case 239: $str = str_replace($str1, '_', $str);
+            case 167:
+                $str = str_replace($str1, '10', $str);
+                break;
+            case 239:
+                $str = str_replace($str1, '_', $str);
                 break;
             default:
-                echo '<h3>carattere non riconosciuto ['.$str1.']['.\ord($str1).']['.$str.'] Aggiungerlo </h3>';
-                exit('<hr/>['.__LINE__.']['.class_basename($this).']');
+                echo '<h3>carattere non riconosciuto [' . $str1 . '][' . \ord($str1) . '][' . $str . '] Aggiungerlo </h3>';
+                exit('<hr/>[' . __LINE__ . '][' . class_basename($this) . ']');
                 // break;
         }
 

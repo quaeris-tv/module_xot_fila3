@@ -15,7 +15,7 @@ class RegisterBladeComponentsAction
     public function execute(string $path, string $namespace, string $prefix = ''): void
     {
         $comps = app(GetComponentsAction::class)
-            ->execute($path, $namespace.'\View\Components', $prefix);
+            ->execute($path, $namespace . '\View\Components', $prefix);
         foreach ($comps as $comp) {
             Blade::component($comp->comp_name, $comp->comp_ns);
         }

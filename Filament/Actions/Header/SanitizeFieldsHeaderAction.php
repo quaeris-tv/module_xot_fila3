@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @see https://coderflex.com/blog/create-advanced-filters-with-filament
  */
@@ -17,50 +18,45 @@ use Modules\Xot\Actions\String\SanitizeAction;
 class SanitizeFieldsHeaderAction extends Action
 {
     public array $fields = [];
-
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->translateLabel()
             ->label('')
             ->tooltip('sanitize')
             ->icon('heroicon-o-shield-exclamation')
-            ->action(
-                function (ListRecords $livewire) {
-                    $resource = $livewire->getResource();
-                    $modelClass = $resource::getModel();
-                    $rows = $modelClass::get();
-                    $c = 0;
-                    foreach ($rows as $row) {
-                        $save = false;
-                        foreach ($this->fields as $field) {
-                            $item = $row->{$field};
-                            $string = app(SanitizeAction::class)->execute($item);
+            ->action(function (ListRecords $livewire) {
 
-                            if ($string != $item) {
-                                $row->{$field} = $string;
-                                $save = true;
-                                ++$c;
-                            }
-                        }
-                        if ($save) {
-                            $row->save();
+                    $resource = $livewire->getResource();
+                $modelClass = $resource::getModel();
+                $rows = $modelClass::get();
+                $c = 0;
+                foreach ($rows as $row) {
+                    $save = false;
+                    foreach ($this->fields as $field) {
+                        $item = $row->{$field};
+                        $string = app(SanitizeAction::class)->execute($item);
+                        if ($string != $item) {
+                                    $row->{$field} = $string;
+                                    $save = true;
+                                    ++$c;
                         }
                     }
+                    if ($save) {
+                        $row->save();
+                    }
+                }
                     Notification::make()
-                        ->title(''.$c.' record sanitized')
+                        ->title('' . $c . ' record sanitized')
                         ->success()
                         ->send()
                     ;
-                }
-            );
+            });
     }
 
     public function setFields(array $fields): self
     {
         $this->fields = $fields;
-
         return $this;
     }
 

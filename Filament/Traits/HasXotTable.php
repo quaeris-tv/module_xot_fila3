@@ -30,6 +30,7 @@ use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 trait HasXotTable
 {
     use TransTrait;
+
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     /**
@@ -255,7 +256,7 @@ trait HasXotTable
         // }
 
         // ->model($this->getMountedTableActionRecord() ?? $this->getTable()->getModel())
-        throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
+        throw new \Exception('No model found in ' . class_basename(__CLASS__) . '::' . __FUNCTION__);
     }
 
     /**

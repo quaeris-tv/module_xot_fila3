@@ -49,16 +49,16 @@ class GetPropertiesFromMethodsByModelAction
                 $length = (int) mb_strrpos($code, '}') - $begin + 1;
                 $code = mb_substr($code, $begin, $length);
                 foreach (['belongsTo'] as $relation) {
-                    $search = '$this->'.$relation.'(';
+                    $search = '$this->' . $relation . '(';
                     if ($pos = mb_stripos($code, $search)) {
                         $relationObj = $model->$method();
                         if ($relationObj instanceof Relation) {
                             // $this->setProperty($relationObj->getForeignKeyName(), 'factory('.get_class($relationObj->getRelated()).'::class)');
                             if (! method_exists($relationObj, 'getForeignKeyName')) {
-                                throw new \Exception('[WIP]['.__LINE__.']['.class_basename($this).']');
+                                throw new \Exception('[WIP][' . __LINE__ . '][' . class_basename($this) . ']');
                             }
                             $name = $relationObj->getForeignKeyName();
-                            $type = 'factory('.get_class($relationObj->getRelated()).'::class)';
+                            $type = 'factory(' . get_class($relationObj->getRelated()) . '::class)';
                             $table = null;
                             $data['name'] = app(GetFakerAction::class)->execute($name, $type, $table);
                         }

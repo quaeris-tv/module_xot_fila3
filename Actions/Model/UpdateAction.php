@@ -40,9 +40,9 @@ class UpdateAction
          */
         $model = tap($model)->update($data);
 
-        app(__NAMESPACE__.'\\Update\RelationAction')->execute($model, $data);
+        app(__NAMESPACE__ . '\\Update\RelationAction')->execute($model, $data);
 
-        $msg = 'aggiornato! ['.$model->getKey().']!';
+        $msg = 'aggiornato! [' . $model->getKey() . ']!';
 
         Session::flash('status', $msg); // .
 

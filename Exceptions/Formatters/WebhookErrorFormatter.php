@@ -26,7 +26,7 @@ class WebhookErrorFormatter
         }
 
         return [
-            'exception' => '`'.$this->exception::class.sprintf('` (Code `%s`)', $this->exception->getCode()),
+            'exception' => '`' . $this->exception::class . sprintf('` (Code `%s`)', $this->exception->getCode()),
             'thrown_in' => sprintf('`%s`:%d', $this->exception->getFile(), $this->exception->getLine()),
             'user' => sprintf(
                 '%d <%s>',

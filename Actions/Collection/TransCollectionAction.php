@@ -38,7 +38,7 @@ class TransCollectionAction
             return '';
         }
         $transKey = $this->transKey;
-        $key = $transKey.'.'.$item;
+        $key = $transKey . '.' . $item;
         $trans = trans($key);
 
         if ($trans !== $key) {
@@ -50,8 +50,8 @@ class TransCollectionAction
             return $trans;
         }
 
-        Assert::string($item1 = Str::replace('.', '_', $item), '['.__LINE__.']['.class_basename($this).']');
-        $key = $transKey.'.'.$item1;
+        Assert::string($item1 = Str::replace('.', '_', $item), '[' . __LINE__ . '][' . class_basename($this) . ']');
+        $key = $transKey . '.' . $item1;
         $trans = trans($key);
         if ($trans !== $key) {
             return $trans;

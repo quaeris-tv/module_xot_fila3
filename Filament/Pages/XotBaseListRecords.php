@@ -21,7 +21,6 @@ use Webmozart\Assert\Assert;
 abstract class XotBaseListRecords extends ListRecords
 {
     // use TransTrait; //gia' dentro HasXotTable
-
     use HasXotTable;
 
     /**

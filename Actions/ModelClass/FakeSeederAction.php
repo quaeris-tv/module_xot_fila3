@@ -44,7 +44,7 @@ class FakeSeederAction
             $modelClass::insert($data);
         });
 
-        $title = 'Created '.$qty_to_do.' '.$modelClass.' !';
+        $title = 'Created ' . $qty_to_do . ' ' . $modelClass . ' !';
         Notification::make()
             ->title($title)
             ->success()

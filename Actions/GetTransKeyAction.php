@@ -23,7 +23,7 @@ class GetTransKeyAction
             $backtrace = debug_backtrace();
             Assert::isArray($backtrace);
             $class = Arr::get($backtrace, '1.class');
-            Assert::string($class, '['.__LINE__.']['.class_basename($this).']');
+            Assert::string($class, '[' . __LINE__ . '][' . class_basename($this) . ']');
         }
 
         $arr = explode('\\', $class);
@@ -39,7 +39,7 @@ class GetTransKeyAction
             );
 
             if (null === $res || ! isset($res['object'])) {
-                throw new \Exception('Invalid class name['.__LINE__.']['.class_basename($this).']');
+                throw new \Exception('Invalid class name[' . __LINE__ . '][' . class_basename($this) . ']');
             }
 
             $class = get_class($res['object']);
@@ -68,7 +68,7 @@ class GetTransKeyAction
                 ->toString();
         }
 
-        $tmp = $module_low.'::'.$class_snake;
+        $tmp = $module_low . '::' . $class_snake;
 
         return $tmp;
     }

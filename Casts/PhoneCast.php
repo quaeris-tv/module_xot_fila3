@@ -17,7 +17,7 @@ class PhoneCast implements CastsAttributes
     public function get($model, string $key, mixed $value, array $attributes): PhoneValueObject
     {
         if (! is_string($value)) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new \Exception('[' . __LINE__ . '][' . class_basename($this) . ']');
         }
 
         return PhoneValueObject::fromString($value);

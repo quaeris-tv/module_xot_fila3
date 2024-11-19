@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @see https://github.com/shuvroroy/filament-spatie-laravel-health/tree/main
  */
@@ -23,15 +24,14 @@ class HealthPage extends Page
 {
     use NavigationLabelTrait;
 
-    /**
+/**
      * @var array<string, string>
      */
+
+
     protected $listeners = ['refresh-component' => '$refresh'];
-
     protected static ?string $navigationIcon = 'heroicon-o-heart';
-
     protected static string $view = 'xot::filament.pages.health';
-
     public function refresh(): void
     {
         $checks = [
@@ -64,11 +64,8 @@ class HealthPage extends Page
         }
 
         Health::checks($checks);
-
         Artisan::call(RunHealthChecksCommand::class);
-
         $this->dispatch('refresh-component');
-
         Notification::make()
             ->title('Health check results refreshed')
             ->success()
@@ -97,7 +94,6 @@ class HealthPage extends Page
     protected function getViewData(): array
     {
         $checkResults = app(ResultStore::class)->latestResults();
-
         return [
             'lastRanAt' => new Carbon($checkResults?->finishedAt),
             'checkResults' => $checkResults,
