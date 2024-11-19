@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @see https://github.com/krlove/eloquent-model-generator
  * @see https://github.com/laracademy/generators
