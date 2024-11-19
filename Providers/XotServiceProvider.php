@@ -94,11 +94,7 @@ class XotServiceProvider extends XotBaseServiceProvider
 
         Field::configureUsing(function (Field $component) {
             $backtrace = debug_backtrace();
-<<<<<<< HEAD
-            $class = Arr::get($backtrace, '4.class');
-=======
             Assert::string($class = Arr::get($backtrace, '4.class'));
->>>>>>> origin/dev
             $trans_key = app(GetTransKeyAction::class)->execute($class);
             $label_key = $trans_key.'.fields.'.$component->getName().'.label';
             $label = trans($label_key);
@@ -112,12 +108,6 @@ class XotServiceProvider extends XotBaseServiceProvider
 
         Column::configureUsing(function (Column $component) {
             $backtrace = debug_backtrace();
-<<<<<<< HEAD
-            $class = Arr::get($backtrace, '4.class');
-            $trans_key = app(GetTransKeyAction::class)->execute($class);
-            $label_key = $trans_key.'.fields.'.$component->getName().'.label';
-            $label = trans($label_key);
-=======
             Assert::string($class = Arr::get($backtrace, '4.class'));
             $trans_key = app(GetTransKeyAction::class)->execute($class);
             $label_key = $trans_key.'.fields.'.$component->getName().'.label';
@@ -127,7 +117,6 @@ class XotServiceProvider extends XotBaseServiceProvider
                 $label = $label_key;
             }
 
->>>>>>> origin/dev
             if (is_string($label)) {
                 $component->label($label);
             }
