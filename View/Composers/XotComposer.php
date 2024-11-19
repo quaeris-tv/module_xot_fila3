@@ -69,7 +69,7 @@ class XotComposer
         return asset(app(\Modules\Xot\Actions\File\AssetAction::class)->execute($str));
     }
 
-    public function metatag(string $str): string|bool
+    public function metatag(string $str): string|bool|null
     {
         $metatag = MetatagData::make();
         $fun = 'get'.Str::studly($str);
