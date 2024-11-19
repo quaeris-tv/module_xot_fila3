@@ -19,7 +19,7 @@ class HasOneAction
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
         if (! $relationDTO->rows instanceof HasOne) {
-            throw new \Exception('[' . __LINE__ . '][' . class_basename($this) . ']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $rows = $relationDTO->rows;

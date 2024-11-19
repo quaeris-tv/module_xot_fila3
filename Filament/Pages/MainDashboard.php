@@ -25,7 +25,7 @@ class MainDashboard extends Dashboard
 
     public function mount(): void
     {
-        Assert::notNull($user = auth()->user(), '[' . __LINE__ . '][' . class_basename($this) . ']');
+        Assert::notNull($user = auth()->user(), '['.__LINE__.']['.class_basename($this).']');
         $modules = $user->roles->filter(
             static function ($item) {
                 return Str::endsWith($item->name, '::admin');
@@ -33,15 +33,15 @@ class MainDashboard extends Dashboard
         );
 
         if (1 === $modules->count()) {
-            Assert::notNull($modules->first(), '[' . __LINE__ . '][' . class_basename($this) . ']');
+            Assert::notNull($modules->first(), '['.__LINE__.']['.class_basename($this).']');
             $panel_name = $modules->first()->name;
             $module_name = Str::before($panel_name, '::admin');
-            $url = '/' . $module_name . '/admin';
+            $url = '/'.$module_name.'/admin';
             redirect($url);
         }
 
         if (0 === $modules->count()) {
-            $url = '/' . app()->getLocale();
+            $url = '/'.app()->getLocale();
             redirect($url);
         }
     }

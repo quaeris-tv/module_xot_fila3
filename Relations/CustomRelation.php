@@ -123,7 +123,7 @@ class CustomRelation extends Relation
         // models with the result of those columns as a separate model relation.
         $columns = $this->query->getQuery()->columns ? [] : $columns;
         if ($columns === ['*']) {
-            $columns = [$this->related->getTable() . '.*'];
+            $columns = [$this->related->getTable().'.*'];
         }
 
         $query = $this->query->applyScopes();

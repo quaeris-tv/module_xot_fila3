@@ -49,7 +49,7 @@ class RouteDynService
                 return $prefix.'/{'.\implode('}/{', $param_name).'}';
             }
             */
-            return $prefix . '/{' . $param_name . '}';
+            return $prefix.'/{'.$param_name.'}';
         }
 
         // */
@@ -68,15 +68,15 @@ class RouteDynService
             return $v['as'];
         }
 
-        $as = mb_strtolower((string) $v['name']) . '';
+        $as = mb_strtolower((string) $v['name']).'';
         $as = str_replace('/', '.', $as);
-        Assert::string($as = preg_replace('/{.*}./', '', $as), '[' . __LINE__ . '][' . class_basename(static::class) . ']');
+        Assert::string($as = preg_replace('/{.*}./', '', $as), '['.__LINE__.']['.class_basename(static::class).']');
 
         $as = str_replace('{', '', $as);
         $as = str_replace('}', '', $as);
-        Assert::string($as, '[' . __LINE__ . '][' . class_basename(static::class) . ']');
+        Assert::string($as, '['.__LINE__.']['.class_basename(static::class).']');
 
-        return $as . '.';
+        return $as.'.';
     }
 
     public static function getNamespace(array $v, ?string $namespace): ?string
@@ -133,7 +133,7 @@ class RouteDynService
             return $v['param_name'];
         }
 
-        $param_name = 'id_' . $v['name'];
+        $param_name = 'id_'.$v['name'];
         $param_name = str_replace('{', '', $param_name);
         $param_name = str_replace('}', '', $param_name);
 
@@ -230,7 +230,7 @@ class RouteDynService
         $controller = self::getController($v, $namespace);
         $act = self::getAct($v, $namespace);
 
-        return $controller . '@' . $act;
+        return $controller.'@'.$act;
     }
 
     public static function getCallback(array $v, ?string $namespace, ?string $curr): array
@@ -238,9 +238,9 @@ class RouteDynService
         $as = Str::slug($v['name']); // !!!!!! test da controllare
         $uses = self::getUses($v, $namespace);
         if (null !== $curr) {
-            $uses = '\\' . self::$namespace_start . '\\' . $curr . '\\' . $uses;
+            $uses = '\\'.self::$namespace_start.'\\'.$curr.'\\'.$uses;
         } else {
-            $uses = '\\' . self::$namespace_start . '\\' . $uses;
+            $uses = '\\'.self::$namespace_start.'\\'.$uses;
         }
 
         return ['as' => $as, 'uses' => $uses];
@@ -310,7 +310,7 @@ class RouteDynService
         } else {
             $piece = explode('\\', $curr);
             if (last($piece) !== $sub_namespace && $curr !== $sub_namespace) {
-                $curr .= '\\' . $sub_namespace;
+                $curr .= '\\'.$sub_namespace;
             }
         }
 
@@ -388,12 +388,12 @@ class RouteDynService
         // Strict comparison using === between null and non-empty-string will always evaluate to false.
         // if ('' === $prefix || null === $prefix) {
         if ('' === $prefix) {
-            return ['index' => $prefix . 'index', 'create' => $prefix . 'create', 'store' => $prefix . 'store', 'show' => $prefix . 'show', 'edit' => $prefix . 'edit', 'update' => $prefix . 'update', 'destroy' => $prefix . 'destroy'];
+            return ['index' => $prefix.'index', 'create' => $prefix.'create', 'store' => $prefix.'store', 'show' => $prefix.'show', 'edit' => $prefix.'edit', 'update' => $prefix.'update', 'destroy' => $prefix.'destroy'];
         }
 
         $prefix = mb_strtolower($prefix);
 
-        return ['index' => $prefix . '.index', 'create' => $prefix . '.create', 'store' => $prefix . '.store', 'show' => $prefix . '.show', 'edit' => $prefix . '.edit', 'update' => $prefix . '.update', 'destroy' => $prefix . '.destroy'];
+        return ['index' => $prefix.'.index', 'create' => $prefix.'.create', 'store' => $prefix.'.store', 'show' => $prefix.'.show', 'edit' => $prefix.'.edit', 'update' => $prefix.'.update', 'destroy' => $prefix.'.destroy'];
     }
 
     // end prefixedResourceNames
@@ -436,15 +436,15 @@ class RouteDynService
 
         return [
             [
-                'name' => '{container' . $n . '}',
+                'name' => '{container'.$n.'}',
                 'param_name' => '',
-                'as' => 'container' . $n . '.index_',
+                'as' => 'container'.$n.'.index_',
                 'acts' => self::getContainerActs(),
                 // 'only'=>[],
             ],
             [
-                'name' => '{container' . $n . '}',
-                'param_name' => 'item' . $n . '',
+                'name' => '{container'.$n.'}',
+                'param_name' => 'item'.$n.'',
                 'acts' => self::getItemActs(),
                 'subs' => self::generate($n + 1),
             ],

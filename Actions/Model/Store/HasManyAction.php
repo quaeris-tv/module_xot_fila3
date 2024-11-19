@@ -16,7 +16,7 @@ class HasManyAction
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
         if (! $relationDTO->rows instanceof HasMany) {
-            throw new \Exception('[' . __LINE__ . '][' . class_basename($this) . ']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $rows = $relationDTO->rows;

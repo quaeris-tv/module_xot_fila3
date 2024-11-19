@@ -28,29 +28,28 @@ class ExportTreeXlsAction extends Action
             // ->icon('fas-file-excel')
             ->icon('heroicon-o-arrow-down-tray')
             ->action(static function ($livewire, $record, $data) {
+                /* dddx([
+                     'livewire'=>$livewire,
+                     'record'=>$record,
+                     'data'=>$data,
+                 ]);
+                 */
+                $tableFilters = [
+                    'id' => $record->getKey(),
+                ];
+                $filename = class_basename($livewire).'-'.collect($tableFilters)->flatten()->implode('-').'.xlsx';
+                $transKey = app(GetTransKeyAction::class)->execute($livewire::class);
+                $transKey .= '.fields';
+                // $query = $livewire->getFilteredTableQuery(); // ->getQuery(); // Staudenmeir\LaravelCte\Query\Builder
+                // $rows = $query->get();
+                $rows = $record->descendantsAndSelf;
+                $resource = $livewire->getResource();
+                $fields = null;
+                if (method_exists($resource, 'getXlsFields')) {
+                    $fields = $resource::getXlsFields($tableFilters);
+                }
 
-                    /* dddx([
-                         'livewire'=>$livewire,
-                         'record'=>$record,
-                         'data'=>$data,
-                     ]);
-                     */
-                    $tableFilters = [
-                        'id' => $record->getKey(),
-                    ];
-                    $filename = class_basename($livewire) . '-' . collect($tableFilters)->flatten()->implode('-') . '.xlsx';
-                    $transKey = app(GetTransKeyAction::class)->execute($livewire::class);
-                    $transKey .= '.fields';
-// $query = $livewire->getFilteredTableQuery(); // ->getQuery(); // Staudenmeir\LaravelCte\Query\Builder
-                    // $rows = $query->get();
-                    $rows = $record->descendantsAndSelf;
-                    $resource = $livewire->getResource();
-                    $fields = null;
-                    if (method_exists($resource, 'getXlsFields')) {
-                        $fields = $resource::getXlsFields($tableFilters);
-                    }
-
-                    return app(ExportXlsByCollection::class)->execute($rows, $filename, $transKey, $fields);
+                return app(ExportXlsByCollection::class)->execute($rows, $filename, $transKey, $fields);
             });
     }
 

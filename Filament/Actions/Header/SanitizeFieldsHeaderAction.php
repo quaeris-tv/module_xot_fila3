@@ -18,6 +18,7 @@ use Modules\Xot\Actions\String\SanitizeAction;
 class SanitizeFieldsHeaderAction extends Action
 {
     public array $fields = [];
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -26,8 +27,7 @@ class SanitizeFieldsHeaderAction extends Action
             ->tooltip('sanitize')
             ->icon('heroicon-o-shield-exclamation')
             ->action(function (ListRecords $livewire) {
-
-                    $resource = $livewire->getResource();
+                $resource = $livewire->getResource();
                 $modelClass = $resource::getModel();
                 $rows = $modelClass::get();
                 $c = 0;
@@ -37,26 +37,27 @@ class SanitizeFieldsHeaderAction extends Action
                         $item = $row->{$field};
                         $string = app(SanitizeAction::class)->execute($item);
                         if ($string != $item) {
-                                    $row->{$field} = $string;
-                                    $save = true;
-                                    ++$c;
+                            $row->{$field} = $string;
+                            $save = true;
+                            ++$c;
                         }
                     }
                     if ($save) {
                         $row->save();
                     }
                 }
-                    Notification::make()
-                        ->title('' . $c . ' record sanitized')
-                        ->success()
-                        ->send()
-                    ;
+                Notification::make()
+                    ->title(''.$c.' record sanitized')
+                    ->success()
+                    ->send()
+                ;
             });
     }
 
     public function setFields(array $fields): self
     {
         $this->fields = $fields;
+
         return $this;
     }
 

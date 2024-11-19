@@ -24,14 +24,13 @@ class HealthPage extends Page
 {
     use NavigationLabelTrait;
 
-/**
+    /**
      * @var array<string, string>
      */
-
-
     protected $listeners = ['refresh-component' => '$refresh'];
     protected static ?string $navigationIcon = 'heroicon-o-heart';
     protected static string $view = 'xot::filament.pages.health';
+
     public function refresh(): void
     {
         $checks = [
@@ -94,6 +93,7 @@ class HealthPage extends Page
     protected function getViewData(): array
     {
         $checkResults = app(ResultStore::class)->latestResults();
+
         return [
             'lastRanAt' => new Carbon($checkResults?->finishedAt),
             'checkResults' => $checkResults,

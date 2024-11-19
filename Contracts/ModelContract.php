@@ -59,25 +59,27 @@ interface ModelContract
      * @return $this
      */
     public function withoutRelations();
-/**
+
+    /**
      * Fill the model with an array of attributes. Force mass assignment.
      *
      * @return $this
      */
     public function forceFill(array $attributes);
-/**
+
+    /**
      * Save the model to the database.
      *
      * @return bool
      */
     public function save(array $options = []);
-/*
-     * Save a new model and return the instance. Allow mass-assignment.
-     *
-     * @return \Illuminate\Database\Eloquent\Model|$this
+    /*
+         * Save a new model and return the instance. Allow mass-assignment.
+         *
+         * @return \Illuminate\Database\Eloquent\Model|$this
 
-    public function forceCreate(array $attributes);
-    */
+        public function forceCreate(array $attributes);
+        */
 
     /**
      * Convert the model instance to an array.
@@ -85,7 +87,8 @@ interface ModelContract
      * @return array
      */
     public function toArray();
-/**
+
+    /**
      * Get the value of the model's primary key.
      *
      * @return mixed|int|string

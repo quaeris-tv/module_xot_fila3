@@ -17,7 +17,7 @@ class CopyAction
             try {
                 File::makeDirectory(\dirname($to), 0755, true, true);
             } catch (\Exception $e) {
-                dd('Caught exception: ', $e->getMessage(), '\n[' . __LINE__ . '][' . class_basename(static::class) . ']');
+                dd('Caught exception: ', $e->getMessage(), '\n['.__LINE__.']['.class_basename(static::class).']');
             }
         }
 
@@ -34,9 +34,9 @@ class CopyAction
             File::copy($from, $to);
         } catch (\Exception $exception) {
             throw new \Exception('Unable to copy
-                    from [' . $from . ']
-                    to [' . $to . ']
-                    message [' . $exception->getMessage() . ']', $exception->getCode(), $exception);
+                    from ['.$from.']
+                    to ['.$to.']
+                    message ['.$exception->getMessage().']', $exception->getCode(), $exception);
         }
     }
 }

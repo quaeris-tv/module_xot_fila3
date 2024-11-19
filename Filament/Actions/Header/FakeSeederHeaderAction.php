@@ -30,14 +30,13 @@ class FakeSeederHeaderAction extends Action
                     ->required(),
             ])
             ->action(function (array $data, ListRecords $livewire) {
-
-                    $resource = $livewire->getResource();
+                $resource = $livewire->getResource();
                 $modelClass = $resource::getModel();
                 $qty = (int) $data['qty'];
                 app(FakeSeederAction::class)
                         ->onQueue()
                         ->execute($modelClass, $qty);
-                $title = 'On Queue ' . $qty . ' ' . $modelClass;
+                $title = 'On Queue '.$qty.' '.$modelClass;
                 Notification::make()
                         ->title($title)
                         ->success()

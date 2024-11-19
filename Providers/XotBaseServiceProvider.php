@@ -43,7 +43,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         // $this->registerFactories();
-        $this->loadMigrationsFrom($this->module_dir . '/../Database/Migrations');
+        $this->loadMigrationsFrom($this->module_dir.'/../Database/Migrations');
 
         // Illuminate\Contracts\Container\BindingResolutionException: Target class [livewire] does not exist.
         $this->registerLivewireComponents();
@@ -58,24 +58,24 @@ abstract class XotBaseServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->module_ns = collect(explode('\\', $this->module_ns))->slice(0, -1)->implode('\\');
-        $this->app->register('' . $this->module_ns . '\Providers\RouteServiceProvider');
-        $this->app->register('' . $this->module_ns . '\Providers\EventServiceProvider');
+        $this->app->register(''.$this->module_ns.'\Providers\RouteServiceProvider');
+        $this->app->register(''.$this->module_ns.'\Providers\EventServiceProvider');
         $this->registerBladeIcons();
         $this->registerBladeIcons();
     }
 
     public function registerBladeIcons(): void
     {
-        $svg_path = Str::of($this->module_ns . '/Resources/svg')->replace('\\', '/')->toString();
-        $svg_abs_path = $this->module_dir . '/../../../' . $svg_path;
+        $svg_path = Str::of($this->module_ns.'/Resources/svg')->replace('\\', '/')->toString();
+        $svg_abs_path = $this->module_dir.'/../../../'.$svg_path;
 
         if (! File::exists($svg_abs_path)) {
             File::makeDirectory($svg_abs_path, 0755, true, true);
-            File::put($svg_abs_path . '/.gitkeep', '');
+            File::put($svg_abs_path.'/.gitkeep', '');
         }
 
-        Config::set('blade-icons.sets.' . $this->module_name . '.path', $svg_path);
-        Config::set('blade-icons.sets.' . $this->module_name . '.prefix', $this->module_name);
+        Config::set('blade-icons.sets.'.$this->module_name.'.path', $svg_path);
+        Config::set('blade-icons.sets.'.$this->module_name.'.prefix', $this->module_name);
     }
 
     /**
@@ -84,9 +84,9 @@ abstract class XotBaseServiceProvider extends ServiceProvider
     public function registerViews(): void
     {
         try {
-            $sourcePath = realpath($this->module_dir . '/../Resources/views');
+            $sourcePath = realpath($this->module_dir.'/../Resources/views');
         } catch (\Exception $e) {
-            throw new \Exception('realpath not find dir [' . $this->module_dir . '/../Resources/views]');
+            throw new \Exception('realpath not find dir ['.$this->module_dir.'/../Resources/views]');
         }
         $this->loadViewsFrom($sourcePath, $this->module_name);
     }
@@ -97,9 +97,9 @@ abstract class XotBaseServiceProvider extends ServiceProvider
     public function registerTranslations(): void
     {
         try {
-            $langPath = realpath($this->module_dir . '/../Resources/lang');
+            $langPath = realpath($this->module_dir.'/../Resources/lang');
         } catch (\Exception $e) {
-            throw new \Exception('realpath not find dir[' . $this->module_dir . '/../Resources/lang]');
+            throw new \Exception('realpath not find dir['.$this->module_dir.'/../Resources/lang]');
         }
 
         $this->loadTranslationsFrom($langPath, $this->module_name);
@@ -117,12 +117,12 @@ abstract class XotBaseServiceProvider extends ServiceProvider
 
     public function registerBladeComponents(): void
     {
-        $namespace = $this->module_ns . '\View\Components';
+        $namespace = $this->module_ns.'\View\Components';
         Blade::componentNamespace($namespace, $this->module_name);
 
         app(RegisterBladeComponentsAction::class)
             ->execute(
-                $this->module_dir . '/../View/Components',
+                $this->module_dir.'/../View/Components',
                 $this->module_ns
             );
     }
@@ -135,7 +135,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         $prefix = '';
         app(RegisterLivewireComponentsAction::class)
             ->execute(
-                $this->module_dir . '/../Http/Livewire',
+                $this->module_dir.'/../Http/Livewire',
                 Str::before($this->module_ns, '\Providers'),
                 $prefix
             );
@@ -146,14 +146,14 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         $prefix = '';
         $comps = app(\Modules\Xot\Actions\File\GetComponentsAction::class)
             ->execute(
-                $this->module_dir . '/../Console/Commands',
+                $this->module_dir.'/../Console/Commands',
                 Str::before($this->module_ns, '\Providers'),
                 $prefix,
             );
         if (\count($comps) > 0) {
             $commands = collect($comps)->map(
                 function ($item) {
-                    return $this->module_ns . '\Console\Commands\\' . $item->class_name;
+                    return $this->module_ns.'\Console\Commands\\'.$item->class_name;
                 }
             )->toArray();
 
@@ -181,10 +181,10 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             File::makeDirectory($path, 0777, true, true);
         }
 
-        $events_file = $path . '/_events.json';
+        $events_file = $path.'/_events.json';
         $force_recreate = request()->input('force_recreate', true);
         if (! File::exists($events_file) || $force_recreate) {
-            $filenames = glob($path . '/*.php');
+            $filenames = glob($path.'/*.php');
             // if (false === $filenames) {
             //    $filenames = [];
             // }
@@ -195,10 +195,10 @@ abstract class XotBaseServiceProvider extends ServiceProvider
                 $event_name = $info['filename'];
                 $str = 'Event';
                 if (Str::endsWith($event_name, $str)) {
-                    $listener_name = mb_substr($event_name, 0, -mb_strlen($str)) . 'Listener';
+                    $listener_name = mb_substr($event_name, 0, -mb_strlen($str)).'Listener';
 
-                    $event = $this->module_base_ns . '\\Events\\' . $event_name;
-                    $listener = $this->module_base_ns . '\\Listeners\\' . $listener_name;
+                    $event = $this->module_base_ns.'\\Events\\'.$event_name;
+                    $listener = $this->module_base_ns.'\\Listeners\\'.$listener_name;
                     $msg = [
                         'event' => $event,
                         'event_exists' => class_exists($event),
@@ -257,8 +257,8 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             'config'
         );
         */
-        $path = $this->module_dir . '/../Config';
-        $filenames = glob($path . '/*.php');
+        $path = $this->module_dir.'/../Config';
+        $filenames = glob($path.'/*.php');
         foreach ($filenames as $filename) {
             $info = pathinfo($filename);
             $name = Arr::get($info, 'filename', null);
@@ -269,13 +269,13 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             if (! is_array($data)) {
                 continue;
             }
-            $name = $this->module_name . '::' . $name;
+            $name = $this->module_name.'::'.$name;
 
             Config::set($name, $data);
         }
 
         $this->mergeConfigFrom(
-            $path . '/config.php',
+            $path.'/config.php',
             $this->module_name
         );
     }

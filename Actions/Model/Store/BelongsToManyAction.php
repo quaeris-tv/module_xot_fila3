@@ -24,7 +24,7 @@ class BelongsToManyAction
             // $this->saveMultiselectTwoSides($row, $relation->name, $relation->data);
             $to = $relationDTO->data['to'] ?? [];
             $model->{$relationDTO->name}()->sync($to);
-            $status = 'collegati [' . implode(', ', $to) . '] ';
+            $status = 'collegati ['.implode(', ', $to).'] ';
             Session::flash('status', $status);
 
             return;

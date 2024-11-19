@@ -29,20 +29,19 @@ class ExportXlsAction extends Action
             // ->icon('fas-file-excel')
             ->icon('heroicon-o-arrow-down-tray')
             ->action(static function (ListRecords $livewire) {
-
-                    $filename = class_basename($livewire) . '-' . collect($livewire->tableFilters)->flatten()->implode('-') . '.xlsx';
+                $filename = class_basename($livewire).'-'.collect($livewire->tableFilters)->flatten()->implode('-').'.xlsx';
                 $transKey = app(GetTransKeyAction::class)->execute($livewire::class);
                 $transKey .= '.fields';
                 $query = $livewire->getFilteredTableQuery();
-// ->getQuery(); // Staudenmeir\LaravelCte\Query\Builder
-                    $rows = $query->get();
+                // ->getQuery(); // Staudenmeir\LaravelCte\Query\Builder
+                $rows = $query->get();
                 $resource = $livewire->getResource();
                 $fields = null;
                 if (method_exists($resource, 'getXlsFields')) {
                     $fields = $resource::getXlsFields($livewire->tableFilters);
                 }
 
-                    return app(ExportXlsByCollection::class)->execute($rows, $filename, $transKey, $fields);
+                return app(ExportXlsByCollection::class)->execute($rows, $filename, $transKey, $fields);
             });
     }
 

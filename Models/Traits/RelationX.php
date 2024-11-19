@@ -29,7 +29,7 @@ trait RelationX
         ?string $relatedPivotKey = null,
         ?string $parentKey = null,
         ?string $relatedKey = null,
-        ?string $relation = null
+        ?string $relation = null,
     ): BelongsToMany {
         $pivot = $this->guessPivot($related);
         $table = $pivot->getTable();
@@ -38,7 +38,7 @@ trait RelationX
         $pivotDbName = $pivot->getConnection()->getDatabaseName();
         $dbName = $this->getConnection()->getDatabaseName();
         if ($pivotDbName !== $dbName) {
-            $table = $pivotDbName . '.' . $table;
+            $table = $pivotDbName.'.'.$table;
         }
 
         return $this->belongsToMany(
@@ -69,12 +69,12 @@ trait RelationX
         $pivot_name = implode('', $model_names);
         $pivot_class = Str::of($this::class)
             ->beforeLast('\\')
-            ->append('\\' . $pivot_name)
+            ->append('\\'.$pivot_name)
             ->toString();
         if (! class_exists($pivot_class)) {
             $pivot_class = Str::of($related)
                 ->beforeLast('\\')
-                ->append('\\' . $pivot_name)
+                ->append('\\'.$pivot_name)
                 ->toString();
         }
         $pivot = app($pivot_class);

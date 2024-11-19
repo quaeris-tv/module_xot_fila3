@@ -38,33 +38,33 @@ class GetViewAction
             }
         )->implode('.');
 
-        $pub_view = 'pub_theme::' . $tmp;
-        Assert::string($pub_view, '[' . __LINE__ . '][' . class_basename($this) . ']');
+        $pub_view = 'pub_theme::'.$tmp;
+        Assert::string($pub_view, '['.__LINE__.']['.class_basename($this).']');
 
         if ('' !== $tpl) {
-            $pub_view .= '.' . $tpl;
+            $pub_view .= '.'.$tpl;
         }
         if (view()->exists($pub_view)) {
             return $pub_view;
         }
 
-        $view = Str::lower($mod) . '::' . $tmp;
+        $view = Str::lower($mod).'::'.$tmp;
 
         if ('' !== $tpl) {
-            $view .= '.' . $tpl;
+            $view .= '.'.$tpl;
         }
 
         // if (inAdmin()) {
         if (Str::contains($view, '::panels.actions.')) {
-            $to = '::' . (inAdmin() ? 'admin.' : '') . 'home.acts.';
+            $to = '::'.(inAdmin() ? 'admin.' : '').'home.acts.';
             $view = Str::replace('::panels.actions.', $to, $view);
             $view = Str::replace('-action', '', $view);
         }
 
         // }
-        Assert::string($view, '[' . __LINE__ . '][' . class_basename($this) . ']');
+        Assert::string($view, '['.__LINE__.']['.class_basename($this).']');
         if (! view()->exists($view)) {
-            throw new \Exception('View [' . $view . '] not found');
+            throw new \Exception('View ['.$view.'] not found');
         }
 
         return $view;

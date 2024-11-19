@@ -256,7 +256,7 @@ trait HasXotTable
         // }
 
         // ->model($this->getMountedTableActionRecord() ?? $this->getTable()->getModel())
-        throw new \Exception('No model found in ' . class_basename(__CLASS__) . '::' . __FUNCTION__);
+        throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
     /**

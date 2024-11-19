@@ -31,37 +31,37 @@ class ExportXlsLazyAction extends Action
             // ->icon('fas-file-excel')
             ->icon('heroicon-o-arrow-down-tray')
             ->action(static function (ListRecords $livewire) {
-
-                    $filename = class_basename($livewire) . '-' . collect($livewire->tableFilters)->flatten()->implode('-') . '.xlsx';
+                $filename = class_basename($livewire).'-'.collect($livewire->tableFilters)->flatten()->implode('-').'.xlsx';
                 $transKey = app(GetTransKeyAction::class)->execute($livewire::class);
                 $transKey .= '.fields';
-// $query = $livewire->getFilteredTableQuery()->getQuery(); // Staudenmeir\LaravelCte\Query\Builder
-                    // dddx($query->get());
+                // $query = $livewire->getFilteredTableQuery()->getQuery(); // Staudenmeir\LaravelCte\Query\Builder
+                // dddx($query->get());
 
-                    $resource = $livewire->getResource();
+                $resource = $livewire->getResource();
                 $fields = null;
                 if (method_exists($resource, 'getXlsFields')) {
                     $fields = $resource::getXlsFields($livewire->tableFilters);
                 }
 
-                    $lazy = $livewire->getFilteredTableQuery();
+                $lazy = $livewire->getFilteredTableQuery();
                 if (null !== $fields) {
-                // $lazy = $lazy->select($fields);
+                    // $lazy = $lazy->select($fields);
                 }
                 if ($lazy->count() < 7) {
                     $query = $lazy->getQuery();
+
                     return app(ExportXlsByQuery::class)->execute($query, $filename, $transKey, $fields);
                 }
 
-                    $lazy = $lazy
-                        ->cursor();
-// Illuminate\Support\LazyCollection
+                $lazy = $lazy
+                    ->cursor();
+                // Illuminate\Support\LazyCollection
 
                 if ($lazy->count() > 3000) {
                     return app(ExportXlsStreamByLazyCollection::class)->execute($lazy, $filename, $transKey, $fields);
                 }
 
-                    return app(ExportXlsByLazyCollection::class)->execute($lazy, $filename, $transKey, $fields);
+                return app(ExportXlsByLazyCollection::class)->execute($lazy, $filename, $transKey, $fields);
             });
     }
 

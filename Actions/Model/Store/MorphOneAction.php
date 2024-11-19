@@ -19,7 +19,7 @@ class MorphOneAction
         //    $relation->data = json_decode($relation->data, true);
         // }
         if (! $relationDTO->rows instanceof MorphOne) {
-            throw new \Exception('[' . __LINE__ . '][' . class_basename($this) . ']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $rows = $relationDTO->rows;

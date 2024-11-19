@@ -24,14 +24,14 @@ class MeasureAction
 
         $metrics = [
             'label' => $label,
-            'execution_time' => round($execution_time, 2) . ' ms',
-            'memory_usage' => round($memory_usage, 2) . ' KB',
+            'execution_time' => round($execution_time, 2).' ms',
+            'memory_usage' => round($memory_usage, 2).' KB',
             // 'peak_memory' => round(memory_get_peak_usage() / 1024 / 1024, 2).' MB',
         ];
 
         Notification::make()
-            ->title('Performance Metrics ' . $label)
-            ->body($metrics['execution_time'] . '  ' . $metrics['memory_usage'])
+            ->title('Performance Metrics '.$label)
+            ->body($metrics['execution_time'].'  '.$metrics['memory_usage'])
             ->success()
             ->persistent()
             ->send();

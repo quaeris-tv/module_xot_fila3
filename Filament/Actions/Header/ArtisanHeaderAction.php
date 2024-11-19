@@ -29,8 +29,7 @@ class ArtisanHeaderAction extends Action
             // ->icon('fas-file-excel')
             // ->icon('heroicon-o-arrow-down-tray')
             ->action(function () {
-
-                    Assert::string($cmd = $this->getName());
+                Assert::string($cmd = $this->getName());
                 Artisan::call($cmd);
                 $output = Artisan::output();
                 Notification::make()

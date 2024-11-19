@@ -34,7 +34,7 @@ class MorphToManyAction
         }
 
         if (! \is_array($data)) {
-            throw new \Exception('[' . __LINE__ . '][' . class_basename($this) . ']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         if (! Arr::isAssoc($data)) {

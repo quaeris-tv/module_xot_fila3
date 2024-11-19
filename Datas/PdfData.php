@@ -25,7 +25,7 @@ class PdfData extends Data
     public string $filename = 'my_doc.pdf';
     public string $disk = 'cache';
     public string $out = 'download';
-// -- per costruttore
+    // -- per costruttore
     public string $orientation = 'P';
     public string $format = 'A4';
     public string $lang = 'it';
@@ -34,16 +34,16 @@ class PdfData extends Data
     public array $margins = [5, 5, 5, 8];
     public bool $pdfa = false;
     public string $dest = 'F';
-/*
-    Dest can be :
-    I : send the file inline to the browser (default). The plug-in is used if available. The name given by name is used when one selects the "Save as" option on the link generating the PDF.
-    D : send to the browser and force a file download with the name given by name.
-    F : save to a local server file with the name given by name.
-    S : return the document as a string (name is ignored).
-    FI: equivalent to F + I option
-    FD: equivalent to F + D option
-    E : return the document as base64 mime multi-part email attachment
-    */
+    /*
+        Dest can be :
+        I : send the file inline to the browser (default). The plug-in is used if available. The name given by name is used when one selects the "Save as" option on the link generating the PDF.
+        D : send to the browser and force a file download with the name given by name.
+        F : save to a local server file with the name given by name.
+        S : return the document as a string (name is ignored).
+        FI: equivalent to F + I option
+        FD: equivalent to F + D option
+        E : return the document as base64 mime multi-part email attachment
+        */
 
     // public static function make(Model $model = null, string $html = null): self
     public static function make(): self
@@ -61,6 +61,7 @@ class PdfData extends Data
         $headers = [
             'Content-Type' => 'application/pdf',
         ];
+
         return response()->download($this->getPath(), $this->filename, $headers);
     }
 
@@ -69,6 +70,7 @@ class PdfData extends Data
         $html2pdf = new Html2Pdf($this->orientation, $this->format, $this->lang);
         $html2pdf->writeHTML($html);
         $html2pdf->output($this->getPath(), $this->dest);
+
         return $this;
     }
 
@@ -77,19 +79,21 @@ class PdfData extends Data
         $model_class = $model::class;
         $model_name = class_basename($model_class);
         $module = Str::between($model_class, '\Modules\\', '\Models');
-        $view_name = mb_strtolower($module) . '::' . Str::kebab($model_name) . '.show.pdf';
+        $view_name = mb_strtolower($module).'::'.Str::kebab($model_name).'.show.pdf';
         $view_params = [
             'view' => $view_name,
             'row' => $model,
         ];
         $view = view($view_name, $view_params);
         $html = $view->render();
+
         return $this->fromHtml($html);
     }
 
     public function getContent(): string
     {
-        Assert::notNull($res = Storage::disk($this->disk)->get($this->filename), '[' . __LINE__ . '][' . class_basename($this) . ']');
+        Assert::notNull($res = Storage::disk($this->disk)->get($this->filename), '['.__LINE__.']['.class_basename($this).']');
+
         return $res;
     }
 }

@@ -37,7 +37,7 @@ trait HasExtraTrait
             ->append('\Models\Extra')
             ->toString();
         Assert::classExists($extra_class);
-        Assert::isAOf($extra_class, Model::class, '[' . __LINE__ . '][' . class_basename($this) . '][' . $extra_class . ']');
+        Assert::isAOf($extra_class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$extra_class.']');
         // Assert::isInstanceOf($extra_class, ExtraContract::class, '['.__LINE__.']['.class_basename($this).']['.$extra_class.']');
         // Assert::implementsInterface($extra_class, ExtraContract::class, '['.__LINE__.']['.class_basename($this).']['.$extra_class.']');
 
@@ -58,7 +58,7 @@ trait HasExtraTrait
         ) {
             return $value;
         }
-        throw new \Exception('[' . __LINE__ . '][' . __CLASS__ . ']');
+        throw new \Exception('['.__LINE__.']['.__CLASS__.']');
     }
 
     /**
@@ -73,7 +73,7 @@ trait HasExtraTrait
             // $extra = $this->extra()->firstOrCreate([], ['extra_attributes' => []]);
             $extra = $this->extra()
                 ->firstOrCreate([], ['extra_attributes' => json_encode([])]);
-            Assert::implementsInterface($extra, ExtraContract::class, '[' . __LINE__ . '][' . class_basename($this) . '][' . $extra . ']');
+            Assert::implementsInterface($extra, ExtraContract::class, '['.__LINE__.']['.class_basename($this).']['.$extra.']');
         }
 
         $extra?->extra_attributes->set($name, $value);

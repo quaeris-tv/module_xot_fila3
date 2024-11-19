@@ -14,7 +14,6 @@ class FixPathAction
 {
     use QueueableAction;
 
-
     public function execute(string $path): string
     {
         return str_replace(['/', '\\'], [\DIRECTORY_SEPARATOR, \DIRECTORY_SEPARATOR], $path);

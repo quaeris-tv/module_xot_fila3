@@ -29,7 +29,7 @@ class RelationAction
         }
         // */
         foreach ($relations as $relation) {
-            $act = __NAMESPACE__ . '\\' . $relation->relationship_type . 'Action';
+            $act = __NAMESPACE__.'\\'.$relation->relationship_type.'Action';
             app($act)->execute($model, $relation);
         }
     }

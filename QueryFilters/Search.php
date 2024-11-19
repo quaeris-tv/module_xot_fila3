@@ -26,7 +26,7 @@ class Search
     {
         $search_fields = [];
         $model = $query->getModel();
-        Assert::string($q = request('q', ''), '[' . __LINE__ . '][' . class_basename($this) . ']');
+        Assert::string($q = request('q', ''), '['.__LINE__.']['.class_basename($this).']');
         $search_fields = $model->getFillable();
         // $table = $model->getTable();
         if (mb_strlen($q) > 1) {
@@ -40,13 +40,13 @@ class Search
                                 $rel,
                                 static function (Builder $query) use ($rel_field, $q): void {
                                     // dddx($subquery1->getConnection()->getDatabaseName());
-                                    $query->where($rel_field, 'like', '%' . $q . '%');
+                                    $query->where($rel_field, 'like', '%'.$q.'%');
                                     // dddx($subquery1);
                                 }
                             );
                         // dddx($subquery);
                         } else {
-                            $subquery = $subquery->orWhere($search_field, 'like', '%' . $q . '%');
+                            $subquery = $subquery->orWhere($search_field, 'like', '%'.$q.'%');
                         }
                     }
                 }

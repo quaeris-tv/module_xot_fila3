@@ -51,7 +51,7 @@ abstract class XotBasePage extends Page
         // $modelNameSlug = Str::kebab(class_basename(static::class));
 
         $slug = collect($p_arr)->map(static fn ($item) => Str::kebab($item))->implode('.');
-        $res = $moduleNameLow . '::' . $slug . '.' . $key;
+        $res = $moduleNameLow.'::'.$slug.'.'.$key;
 
         return __($res);
     }
@@ -79,7 +79,7 @@ abstract class XotBasePage extends Page
         // }
         $moduleName = static::getModuleName();
         $modelName = Str::before(class_basename(static::class), 'Resource');
-        $res = 'Modules\\' . $moduleName . '\Models\\' . $modelName;
+        $res = 'Modules\\'.$moduleName.'\Models\\'.$modelName;
         $this->model = $res;
         // self::$model = $res;
 

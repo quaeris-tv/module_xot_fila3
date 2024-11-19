@@ -131,9 +131,9 @@ if (! function_exists('hex2rgba')) {
 
         // Check if color has 6 or 3 characters and get values
         if (6 === mb_strlen($color)) {
-            $hex = [$color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5]];
+            $hex = [$color[0].$color[1], $color[2].$color[3], $color[4].$color[5]];
         } elseif (3 === mb_strlen($color)) {
-            $hex = [$color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2]];
+            $hex = [$color[0].$color[0], $color[1].$color[1], $color[2].$color[2]];
         } else {
             return $default;
         }
@@ -146,9 +146,9 @@ if (! function_exists('hex2rgba')) {
             if ($opacity < 0 || $opacity > 1) {
                 $opacity = 1.0;
             }
-            $output = 'rgba(' . implode(',', $rgb) . ',' . $opacity . ')';
+            $output = 'rgba('.implode(',', $rgb).','.$opacity.')';
         } else {
-            $output = 'rgb(' . implode(',', $rgb) . ')';
+            $output = 'rgb('.implode(',', $rgb).')';
         }
 
         // Return rgb(a) color string
@@ -182,7 +182,7 @@ if (! function_exists('dddx')) {
             'line' => $tmp[0]['line'] ?? 'line-unknows',
             'file' => app(Modules\Xot\Actions\File\FixPathAction::class)->execute($tmp[0]['file'] ?? 'file-unknown'),
             'time' => microtime(true) - $start,
-            'memory_taken' => round(memory_get_peak_usage() / (1024 * 1024), 2) . ' MB',
+            'memory_taken' => round(memory_get_peak_usage() / (1024 * 1024), 2).' MB',
 
             // 'file_1' => $file, //da sistemare
         ];
@@ -239,9 +239,9 @@ if (! function_exists('getFilename')) {
         $params_list = collect($params)->except(['_token', '_method'])->implode('_');
 
         return Str::slug(
-            str_replace('Controller', '', $class) .
-                '_' . str_replace('do_', '', $func) .
-                '_' . $params_list
+            str_replace('Controller', '', $class).
+                '_'.str_replace('do_', '', $func).
+                '_'.$params_list
         );
     }
 }
@@ -352,7 +352,7 @@ if (! function_exists('fullTextWildcards')) {
              * because smaller ones are not indexed by mysql
              */
             if (mb_strlen($word) >= 3) {
-                $words[$key] = '+' . $word . '*';
+                $words[$key] = '+'.$word.'*';
             }
         }
 
@@ -425,13 +425,13 @@ if (! function_exists('getModelFields')) {
 if (! function_exists('getModelByName')) {
     function getModelByName(string $name): Model
     {
-        $registered = config('morph_map.' . $name);
+        $registered = config('morph_map.'.$name);
         if (is_string($registered) && class_exists($registered)) {
             return app($registered);
         }
 
         // getFirst..
-        $files_path = base_path('Modules') . '/*/Models/*.php';
+        $files_path = base_path('Modules').'/*/Models/*.php';
         Assert::isArray($files = glob($files_path));
         // if (false === $files) {
         //    throw new Exception('['.__LINE__.']['.__FILE__.']');
@@ -451,14 +451,14 @@ if (! function_exists('getModelByName')) {
         // dddx($registered);
 
         if (null === $path) {
-            throw new Exception('[' . $name . '] not in morph_map [' . __LINE__ . '][' . __FILE__ . ']');
+            throw new Exception('['.$name.'] not in morph_map ['.__LINE__.']['.__FILE__.']');
         }
 
         $path = app(Modules\Xot\Actions\File\FixPathAction::class)->execute($path);
         $info = pathinfo($path);
-        $module_name = Str::between($path, 'Modules' . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR . 'Models');
+        $module_name = Str::between($path, 'Modules'.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR.'Models');
 
-        $class = 'Modules\\' . $module_name . '\Models\\' . $info['filename'];
+        $class = 'Modules\\'.$module_name.'\Models\\'.$info['filename'];
 
         return app($class);
     }
@@ -508,9 +508,9 @@ if (! function_exists('getModuleNameFromModel')) {
 if (! function_exists('getModuleNameFromModelName')) {
     function getModuleNameFromModelName(string $model_name): string
     {
-        $model_class = config('morph_map.' . $model_name);
+        $model_class = config('morph_map.'.$model_name);
         if (! is_string($model_class)) {
-            throw new Exception('[' . __LINE__ . '][' . __FILE__ . ']');
+            throw new Exception('['.__LINE__.']['.__FILE__.']');
         }
 
         $model = app($model_class);
@@ -524,7 +524,7 @@ if (! function_exists('getTransformerFromModel')) {
     {
         $class = $model::class;
         $module_name = getModuleNameFromModel($model);
-        $transformer = '\\Modules\\' . $module_name . '\Transformers\\' . class_basename($model) . '' . $type;
+        $transformer = '\\Modules\\'.$module_name.'\Transformers\\'.class_basename($model).''.$type;
         // dddx($transformer.' '.class_exists($transformer));
         if (! class_exists($transformer)) {
             dddx('preso');
@@ -596,9 +596,9 @@ if (! function_exists('getModuleModelsMenu')) {
 if (! function_exists('xotModel')) {
     function xotModel(string $name): Model
     {
-        $model_class = config('morph_map.' . $name);
+        $model_class = config('morph_map.'.$name);
         if (! is_string($model_class)) {
-            throw new Exception('[' . __LINE__ . '][' . __FILE__ . ']');
+            throw new Exception('['.__LINE__.']['.__FILE__.']');
         }
 
         return app($model_class);
@@ -608,7 +608,7 @@ if (! function_exists('xotModel')) {
 if (! function_exists('deltaTime')) {
     function deltaTime(): void
     {
-        echo '<h3>Time : ' . (microtime(true) - LARAVEL_START) . '</h3>';
+        echo '<h3>Time : '.(microtime(true) - LARAVEL_START).'</h3>';
     }
 }
 
@@ -626,7 +626,7 @@ if (! function_exists('dottedToBrackets')) {
     function dottedToBrackets(string $str, string $quotation_marks = ''): string
     {
         return collect(explode('.', $str))->map(
-            static fn (string $v, $k): string => 0 === $k ? $v : '[' . $v . ']'
+            static fn (string $v, $k): string => 0 === $k ? $v : '['.$v.']'
         )->implode('');
     }
 }
@@ -682,7 +682,7 @@ if (! function_exists('url_queries')) {
         $url_parsed = parse_url($url);
 
         if (false === $url_parsed) {
-            throw new Exception('error parsing url [' . $url . ']');
+            throw new Exception('error parsing url ['.$url.']');
         }
 
         // Turn the query string into an array
@@ -717,15 +717,15 @@ if (! function_exists('build_url')) {
      */
     function build_url(array $parts): string
     {
-        return (isset($parts['scheme']) ? sprintf('%s:', $parts['scheme']) : '') .
-            (isset($parts['user']) || isset($parts['host']) ? '//' : '') .
-            ($parts['user'] ?? '') .
-            (isset($parts['pass']) ? sprintf(':%s', $parts['pass']) : '') .
-            (isset($parts['user']) ? '@' : '') .
-            ($parts['host'] ?? '') .
-            (isset($parts['port']) ? sprintf(':%s', $parts['port']) : '') .
-            ($parts['path'] ?? '') .
-            (isset($parts['query']) ? sprintf('?%s', $parts['query']) : '') .
+        return (isset($parts['scheme']) ? sprintf('%s:', $parts['scheme']) : '').
+            (isset($parts['user']) || isset($parts['host']) ? '//' : '').
+            ($parts['user'] ?? '').
+            (isset($parts['pass']) ? sprintf(':%s', $parts['pass']) : '').
+            (isset($parts['user']) ? '@' : '').
+            ($parts['host'] ?? '').
+            (isset($parts['port']) ? sprintf(':%s', $parts['port']) : '').
+            ($parts['path'] ?? '').
+            (isset($parts['query']) ? sprintf('?%s', $parts['query']) : '').
             (isset($parts['fragment']) ? sprintf('#%s', $parts['fragment']) : '');
     }
 }
@@ -823,7 +823,7 @@ if (! function_exists('removeQueryParams')) {
         }
 
         // 924    Parameter #1 $querydata of function http_build_query expects array|object, array|string given.
-        return $query ? $url . '?' . http_build_query($query) : $url; // rebuild the URL with the remaining parameters, don't append the "?" if there aren't any query parameters left
+        return $query ? $url.'?'.http_build_query($query) : $url; // rebuild the URL with the remaining parameters, don't append the "?" if there aren't any query parameters left
     }
 }
 
@@ -847,7 +847,7 @@ if (! function_exists('addQueryParams')) {
             $params
         ); // merge the existing query parameters with the ones we want to add
 
-        return url()->current() . '?' . http_build_query($query); // rebuild the URL with the new parameters array
+        return url()->current().'?'.http_build_query($query); // rebuild the URL with the new parameters array
     }
 }
 
@@ -930,13 +930,13 @@ if (! function_exists('getRouteAction')) {
 if (! function_exists('getModTradFilepath')) {
     function getModTradFilepath(string $file_path): string
     {
-        Assert::string($file_path = Str::replace('\\', '/', $file_path), '[' . __LINE__ . '][' . __FILE__ . ']');
+        Assert::string($file_path = Str::replace('\\', '/', $file_path), '['.__LINE__.']['.__FILE__.']');
 
         $stringable = Str::of($file_path)->after('/Modules/')->before('/')->lower();
         $info = pathinfo($file_path);
         $group = Str::snake($info['filename']);
 
-        return $stringable . '::' . $group;
+        return $stringable.'::'.$group;
     }
 }
 
@@ -1002,7 +1002,7 @@ if (! function_exists('debugStack')) {
             XDEBUG_FILTER_TRACING,
             XDEBUG_PATH_EXCLUDE,
             // [LARAVEL_DIR.'/vendor/']
-            [__DIR__ . '/../../vendor/']
+            [__DIR__.'/../../vendor/']
         );
 
         xdebug_print_function_stack();
@@ -1018,10 +1018,10 @@ if (! function_exists('secondsToHms')) {
         $seconds -= $minutes * 60;
         $str = '';
         if ($hours > 0) {
-            $str .= ($hours < 9 ? '0' . $hours : $hours) . ':';
+            $str .= ($hours < 9 ? '0'.$hours : $hours).':';
         }
 
-        return $str . (($minutes < 9 ? '0' . $minutes : $minutes) . ':' . round($seconds, $decimal));
+        return $str.(($minutes < 9 ? '0'.$minutes : $minutes).':'.round($seconds, $decimal));
     }
 }
 

@@ -15,7 +15,6 @@ class GenerateModelByTableAction
 {
     use QueueableAction;
 
-
     public function execute(): void
     {
         dddx('WIP');

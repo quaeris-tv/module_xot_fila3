@@ -18,7 +18,7 @@ class BelongsToAction
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
         if (! $relationDTO->rows instanceof BelongsTo) {
-            throw new \Exception('[' . __LINE__ . '][' . class_basename($this) . ']');
+            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
         $rows = $relationDTO->rows;
@@ -55,7 +55,7 @@ class BelongsToAction
             $sub = $rows->firstOrCreate();
             // $sub = $rows->first() ?? $rows->getModel();
             if (null === $sub) {
-                throw new \Exception('[' . __LINE__ . '][' . class_basename($this) . ']');
+                throw new \Exception('['.__LINE__.']['.class_basename($this).']');
             }
 
             app(RelationAction::class)->execute($sub, $relationDTO->data);
