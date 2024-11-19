@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @see https://coderflex.com/blog/create-advanced-filters-with-filament
  */
@@ -19,29 +20,26 @@ class ExportXlsTableAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->translateLabel()
             ->label('')
             ->tooltip(__('xot::actions.export_xls'))
              // ->icon('fas-file-excel')
             ->icon('heroicon-o-arrow-down-tray')
-            ->action(
-                static function (RelationManager $livewire) {
-                    $livewire_class = $livewire::class;
-                    $filename = class_basename($livewire).'-'.collect($livewire->tableFilters)->flatten()->implode('-').'.xlsx';
-                    $transKey = app(GetTransKeyAction::class)->execute($livewire_class);
-                    $transKey .= '.fields';
-                    $query = $livewire->getFilteredTableQuery(); // ->getQuery(); // Staudenmeir\LaravelCte\Query\Builder
-                    $rows = $query->get();
-
-                    $fields = null;
-                    if (method_exists($livewire_class, 'getXlsFields')) {
-                        $fields = $livewire_class::getXlsFields($livewire->tableFilters);
-                    }
-
-                    return app(ExportXlsByCollection::class)->execute($rows, $filename, $transKey, $fields);
+            ->action(static function (RelationManager $livewire) {
+                $livewire_class = $livewire::class;
+                $filename = class_basename($livewire).'-'.collect($livewire->tableFilters)->flatten()->implode('-').'.xlsx';
+                $transKey = app(GetTransKeyAction::class)->execute($livewire_class);
+                $transKey .= '.fields';
+                $query = $livewire->getFilteredTableQuery();
+                // ->getQuery(); // Staudenmeir\LaravelCte\Query\Builder
+                $rows = $query->get();
+                $fields = null;
+                if (method_exists($livewire_class, 'getXlsFields')) {
+                    $fields = $livewire_class::getXlsFields($livewire->tableFilters);
                 }
-            );
+
+                return app(ExportXlsByCollection::class)->execute($rows, $filename, $transKey, $fields);
+            });
     }
 
     public static function getDefaultName(): ?string

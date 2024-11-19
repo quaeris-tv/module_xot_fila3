@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @see https://coderflex.com/blog/create-advanced-filters-with-filament
  */
@@ -19,7 +20,6 @@ class ArtisanHeaderAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->translateLabel()
 
             // ->label('')
@@ -28,19 +28,16 @@ class ArtisanHeaderAction extends Action
             // ->icon('heroicon-o-cloud-arrow-down')
             // ->icon('fas-file-excel')
             // ->icon('heroicon-o-arrow-down-tray')
-            ->action(
-                function () {
-                    Assert::string($cmd = $this->getName());
-                    Artisan::call($cmd);
-
-                    $output = Artisan::output();
-                    Notification::make()
+            ->action(function () {
+                Assert::string($cmd = $this->getName());
+                Artisan::call($cmd);
+                $output = Artisan::output();
+                Notification::make()
                         ->title('Executed successfully')
                         ->success()
                         ->body($output)
                         ->persistent();
-                }
-            );
+            });
     }
 
     public static function getDefaultName(): ?string
