@@ -27,7 +27,7 @@ class GetViewNameSpacePathAction
         if (\in_array($ns, ['pub_theme'], false)) {
             $theme_name = $xot->{$ns};
 
-            return base_path('Themes/'.$theme_name);
+            return base_path('Themes/' . $theme_name);
         }
 
         return null;

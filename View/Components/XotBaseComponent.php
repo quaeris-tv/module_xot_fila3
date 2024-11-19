@@ -48,7 +48,7 @@ abstract class XotBaseComponent extends IlluminateComponent
         $comp_name = str_replace('\\', '.', $comp_name);
         $comp_name = Str::snake($comp_name);
 
-        $view = $module_name_low.'::components.'.$comp_name;
+        $view = $module_name_low . '::components.' . $comp_name;
         $view = str_replace('._', '.', $view);
 
         // fare distinzione fra inAdmin o no ?

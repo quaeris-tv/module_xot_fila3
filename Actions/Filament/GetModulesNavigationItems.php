@@ -37,11 +37,11 @@ class GetModulesNavigationItems
             /**
              * @var array
              */
-            $config = File::getRequire(base_path('Modules/'.$module.'/Config/config.php'));
+            $config = File::getRequire(base_path('Modules/' . $module . '/Config/config.php'));
             $icon = $config['icon'] ?? 'heroicon-o-question-mark-circle';
-            $role = $module_low.'::admin';
+            $role = $module_low . '::admin';
             $nav = NavigationItem::make($module)
-                ->url('/'.$module_low.'/admin')
+                ->url('/' . $module_low . '/admin')
                 ->icon($icon)
                 ->group('Modules')
                 ->sort($config['navigation_sort'] ?? 1)

@@ -17,7 +17,7 @@ class CountAction
         $db = $model->getConnection()->getDatabaseName();
         $table = $model->getTable();
         $info = DB::select('SELECT * FROM `information_schema`.`TABLES` 
-            where TABLE_SCHEMA = "'.$db.'" and TABLE_NAME="'.$table.'" ');
+            where TABLE_SCHEMA = "' . $db . '" and TABLE_NAME="' . $table . '" ');
 
         $count = $info[0]->TABLE_ROWS;
 

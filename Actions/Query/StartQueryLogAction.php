@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @see  https://fajarwz.com/blog/laravel-database-transaction-for-data-consistency/
  */
@@ -26,10 +27,10 @@ class StartQueryLogAction
                 'driver' => 'daily',
                 'path' => storage_path('logs/querylog.log'),
             ]);
-            $log->debug('query : '.$sql);
-            $log->debug('time '.$time);
-            $log->debug('connection '.$connection);
-            $log->debug('bindings '.print_r($query->bindings, true));
+            $log->debug('query : ' . $sql);
+            $log->debug('time ' . $time);
+            $log->debug('connection ' . $connection);
+            $log->debug('bindings ' . print_r($query->bindings, true));
         });
     }
 }

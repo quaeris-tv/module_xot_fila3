@@ -18,8 +18,8 @@ class GetComponentsAction
 
     public function execute(string $path, string $namespace, string $prefix, bool $force_recreate = false): array
     {
-        Assert::string($namespace = Str::replace('/', '\\', $namespace), '['.__LINE__.']['.class_basename(static::class).']');
-        $components_json = $path.'/_components.json';
+        Assert::string($namespace = Str::replace('/', '\\', $namespace), '[' . __LINE__ . '][' . class_basename(static::class) . ']');
+        $components_json = $path . '/_components.json';
         $components_json = app(FixPathAction::class)->execute($components_json);
 
         $path = app(FixPathAction::class)->execute($path);
@@ -33,7 +33,7 @@ class GetComponentsAction
         $exists = File::exists($components_json);
 
         if ($exists && ! $force_recreate) {
-            Assert::string($content = File::get($components_json), '['.__LINE__.']['.class_basename(static::class).']');
+            Assert::string($content = File::get($components_json), '[' . __LINE__ . '][' . class_basename(static::class) . ']');
 
             // return (array) json_decode((string) $content, null, 512, JSON_THROW_ON_ERROR);
             // return (array) json_decode($content, false, 512, JSON_THROW_ON_ERROR);
@@ -49,13 +49,13 @@ class GetComponentsAction
                 $class_name = $file->getFilenameWithoutExtension();
 
                 $tmp->class_name = $class_name;
-                Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '['.__LINE__.']['.class_basename(static::class).']');
+                Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '[' . __LINE__ . '][' . class_basename(static::class) . ']');
                 $tmp->comp_name = Str::slug(Str::snake($comp_name));
-                $tmp->comp_name = $prefix.$tmp->comp_name;
+                $tmp->comp_name = $prefix . $tmp->comp_name;
 
-                $tmp->comp_ns = $namespace.'\\'.$class_name;
+                $tmp->comp_ns = $namespace . '\\' . $class_name;
                 $relative_path = $file->getRelativePath();
-                Assert::string($relative_path = Str::replace('/', '\\', $relative_path), '['.__LINE__.']['.class_basename(static::class).']');
+                Assert::string($relative_path = Str::replace('/', '\\', $relative_path), '[' . __LINE__ . '][' . class_basename(static::class) . ']');
 
                 if ('' !== $relative_path) {
                     $tmp->comp_name = '';
@@ -65,11 +65,11 @@ class GetComponentsAction
                         )
                         ->implode('.');
                     $tmp->comp_name .= $piece;
-                    Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '['.__LINE__.']['.class_basename(static::class).']');
-                    $tmp->comp_name .= '.'.Str::slug(Str::snake($comp_name));
-                    $tmp->comp_name = $prefix.$tmp->comp_name;
-                    $tmp->comp_ns = $namespace.'\\'.$relative_path.'\\'.$class_name;
-                    $tmp->class_name = $relative_path.'\\'.$tmp->class_name;
+                    Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '[' . __LINE__ . '][' . class_basename(static::class) . ']');
+                    $tmp->comp_name .= '.' . Str::slug(Str::snake($comp_name));
+                    $tmp->comp_name = $prefix . $tmp->comp_name;
+                    $tmp->comp_ns = $namespace . '\\' . $relative_path . '\\' . $class_name;
+                    $tmp->class_name = $relative_path . '\\' . $tmp->class_name;
                 }
 
                 $comps[] = $tmp;

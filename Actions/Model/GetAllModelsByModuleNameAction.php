@@ -28,12 +28,12 @@ class GetAllModelsByModuleNameAction
             return [];
         }
 
-        $mod_path = $mod->getPath().'/Models';
+        $mod_path = $mod->getPath() . '/Models';
         $mod_path = str_replace(['\\', '/'], [\DIRECTORY_SEPARATOR, \DIRECTORY_SEPARATOR], $mod_path);
 
         $files = File::files($mod_path);
         $data = [];
-        $ns = 'Modules\\'.$mod->getName().'\\Models';
+        $ns = 'Modules\\' . $mod->getName() . '\\Models';
         // con la barra davanti non va il search ?
         foreach ($files as $file) {
             $filename = $file->getRelativePathname();
@@ -46,7 +46,7 @@ class GetAllModelsByModuleNameAction
                 /**
                  * @var class-string
                  */
-                $class = $ns.'\\'.$name;
+                $class = $ns . '\\' . $name;
                 $tmp->class = $class;
                 $name = Str::snake($name);
                 $tmp->name = $name;

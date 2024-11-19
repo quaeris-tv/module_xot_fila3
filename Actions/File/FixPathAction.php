@@ -1,4 +1,5 @@
 <?php
+
 /**
  * moved from fileservice.
  */
@@ -12,6 +13,7 @@ use Spatie\QueueableAction\QueueableAction;
 class FixPathAction
 {
     use QueueableAction;
+
 
     public function execute(string $path): string
     {

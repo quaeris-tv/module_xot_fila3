@@ -39,7 +39,7 @@ class GetTreeOptionsByModelClassAction
     public function parse(HasRecursiveRelationshipsContract $model): void
     {
         foreach ($model->children as $child) {
-            $this->options[$child->getKey()] = Str::repeat('---', $child->depth).'   '.$child->getLabel();
+            $this->options[$child->getKey()] = Str::repeat('---', $child->depth) . '   ' . $child->getLabel();
         }
     }
 }

@@ -53,7 +53,7 @@ class HtmlService
             $html2pdf->setTestTdInOnePage(false);
             $html2pdf->WriteHTML($html);
             if ('content_PDF' === $out) {
-                return $html2pdf->Output($filename.'.pdf', 'S');
+                return $html2pdf->Output($filename . '.pdf', 'S');
             }
 
             if ('file' === $out) {

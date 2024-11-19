@@ -99,7 +99,7 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
         }
 
         $lang_pattern = collect(array_keys($langs))->implode('|');
-        $lang_pattern = '/|'.$lang_pattern.'|/i';
+        $lang_pattern = '/|' . $lang_pattern . '|/i';
 
         $router->pattern('lang', $lang_pattern);
         // -------------------------------------------------------------

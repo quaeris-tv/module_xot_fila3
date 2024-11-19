@@ -67,10 +67,10 @@ class RouteService
         $routename = ''; // Request::route()->getName();
         $old_act_route = last(explode('.', $routename));
         if (! \is_string($old_act_route)) {
-            throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
+            throw new \Exception('[' . __LINE__ . '][' . class_basename(self::class) . ']');
         }
 
-        $routename_act = Str::before($routename, $old_act_route).''.$act;
+        $routename_act = Str::before($routename, $old_act_route) . '' . $act;
         $route_current = Route::current();
         $route_params = [];
         if ($route_current instanceof \Illuminate\Routing\Route) {
@@ -92,7 +92,7 @@ class RouteService
             return route($routename_act, $parz);
         }
 
-        return '#'.$routename_act;
+        return '#' . $routename_act;
     }
 
     /* // move to RoutePanelService
@@ -212,7 +212,7 @@ class RouteService
         }
 
         for ($i = 0; $i <= $n; ++$i) {
-            $tmp[] = 'container'.$i;
+            $tmp[] = 'container' . $i;
         }
 
         $tmp[] = $act;

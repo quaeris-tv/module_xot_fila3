@@ -6,6 +6,7 @@ namespace Modules\Xot\Actions;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Modules\Xot\Datas\XotData;
 use Spatie\QueueableAction\QueueableAction;
 use Webmozart\Assert\Assert;
 
@@ -39,7 +40,17 @@ class GetTransKeyAction
             );
 
             if (null === $res || ! isset($res['object'])) {
-                throw new \Exception('Invalid class name['.__LINE__.']['.class_basename($this).']');
+                // throw new \Exception('Invalid class name[' . __LINE__ . '][' . class_basename($this) . ']');
+                $page = Arr::get(debug_backtrace(), '0.args.0');
+                $main_module = XotData::make()->main_module;
+                $main_module_low = mb_strtolower($main_module);
+                $page_arr = explode('\\', $page);
+                $page_arr_count = count($page_arr);
+                $page_arr_last = $page_arr[$page_arr_count - 1];
+                $page_arr_last_snake = Str::of($page_arr_last)->snake()->toString();
+                $tmp = $main_module_low.'::'.$page_arr_last_snake;
+
+                return $tmp;
             }
 
             $class = get_class($res['object']);

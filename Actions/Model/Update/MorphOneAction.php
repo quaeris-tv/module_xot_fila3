@@ -22,7 +22,7 @@ class MorphOneAction
         /* con update or create crea sempre uno nuovo, con update e basta se non esiste non va a crearlo */
         // $rows = $model->$name();
         if (! $relationDTO->rows instanceof MorphOne) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new \Exception('[' . __LINE__ . '][' . class_basename($this) . ']');
         }
 
         $rows = $relationDTO->rows;

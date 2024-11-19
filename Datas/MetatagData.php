@@ -177,7 +177,8 @@ class MetatagData extends Data implements Wireable
                 }
 
                 return [$k => $v];
-            });
+            }
+        );
 
         return $mapped;
         /*

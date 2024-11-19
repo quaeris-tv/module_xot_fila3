@@ -22,7 +22,7 @@ class DiffAssocRecursiveAction
             ->map(
                 static function ($item) {
                     if (! is_array($item)) {
-                        throw new \Exception('['.__LINE__.']['.__CLASS__.']');
+                        throw new \Exception('[' . __LINE__ . '][' . __CLASS__ . ']');
                     }
 
                     return collect($item)

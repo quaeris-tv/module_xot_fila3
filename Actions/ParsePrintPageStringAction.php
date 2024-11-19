@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @see https://dev.to/kodeas/executing-shell-commands-in-laravel-1098
  */
@@ -14,6 +15,7 @@ use Spatie\QueueableAction\QueueableAction;
 class ParsePrintPageStringAction
 {
     use QueueableAction;
+
 
     public static function execute(string $str): array
     {

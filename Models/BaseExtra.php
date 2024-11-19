@@ -63,7 +63,7 @@ abstract class BaseExtra extends BaseModel implements ExtraContract
 
     public function scopeWithExtraAttributes(): Builder
     {
-        Assert::notNull($this->extra_attributes, '['.__FILE__.']['.__LINE__.']');
+        Assert::notNull($this->extra_attributes, '[' . __FILE__ . '][' . __LINE__ . ']');
 
         return $this->extra_attributes->modelScope();
     }
