@@ -39,10 +39,7 @@ return new class () extends XotBaseMigration{
 
                 $table->string('note')->nullable();
 
-                $table->string('created_by')->nullable();
-                $table->string('updated_by')->nullable();
-                $table->string('deleted_by')->nullable();
-                $table->timestamps();
+
             }
             );
 
@@ -59,11 +56,7 @@ return new class () extends XotBaseMigration{
                 $table->dateTime('date_end')->nullable();
             };
 
-            if (!$this->hasColumn( 'created_by')) {
-                $table->string('created_by')->nullable();
-                $table->string('updated_by')->nullable();
-                $table->string('deleted_by')->nullable();
-            };
+           $this->updateTimestamps(table: $table, hasSoftDeletes: true);
             */
         });
     }
