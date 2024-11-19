@@ -79,9 +79,9 @@ class XotServiceProvider extends XotBaseServiceProvider
 
     public function registerTimezone(): void
     {
-        Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin', '[' . __LINE__ . '][' . class_basename($this) . ']');
-        Assert::string($date_format = config('app.date_format') ?? 'd/m/Y', '[' . __LINE__ . '][' . class_basename($this) . ']');
-        Assert::string($locale = config('app.locale') ?? 'it', '[' . __LINE__ . '][' . class_basename($this) . ']');
+        Assert::string($timezone = config('app.timezone') ?? 'Europe/Berlin', '['.__LINE__.']['.class_basename($this).']');
+        Assert::string($date_format = config('app.date_format') ?? 'd/m/Y', '['.__LINE__.']['.class_basename($this).']');
+        Assert::string($locale = config('app.locale') ?? 'it', '['.__LINE__.']['.class_basename($this).']');
         app()->setLocale($locale);
         Carbon::setLocale($locale);
         date_default_timezone_set($timezone);
@@ -96,7 +96,7 @@ class XotServiceProvider extends XotBaseServiceProvider
             $backtrace = debug_backtrace();
             Assert::string($class = Arr::get($backtrace, '4.class'));
             $trans_key = app(GetTransKeyAction::class)->execute($class);
-            $label_key = $trans_key . '.fields.' . $component->getName() . '.label';
+            $label_key = $trans_key.'.fields.'.$component->getName().'.label';
             $label = trans($label_key);
             if (is_string($label)) {
                 $component->label($label);
@@ -110,8 +110,13 @@ class XotServiceProvider extends XotBaseServiceProvider
             $backtrace = debug_backtrace();
             Assert::string($class = Arr::get($backtrace, '4.class'));
             $trans_key = app(GetTransKeyAction::class)->execute($class);
-            $label_key = $trans_key . '.fields.' . $component->getName() . '.label';
-            $label = trans($label_key);
+            $label_key = $trans_key.'.fields.'.$component->getName().'.label';
+            try {
+                $label = trans($label_key);
+            } catch (\TypeError $e) {
+                $label = $label_key;
+            }
+
             if (is_string($label)) {
                 $component->label($label);
             }
@@ -174,7 +179,7 @@ class XotServiceProvider extends XotBaseServiceProvider
 
     public function registerConfigs(): void
     {
-        $config_file = realpath(__DIR__ . '/../Config/metatag.php');
+        $config_file = realpath(__DIR__.'/../Config/metatag.php');
         $this->mergeConfigFrom($config_file, 'metatag');
     }
 
