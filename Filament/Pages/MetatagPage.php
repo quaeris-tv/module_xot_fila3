@@ -81,16 +81,16 @@ class MetatagPage extends Page implements HasForms
                     Repeater::make('colors')
                     ->schema([
                         Select::make('key')
-                            ->label('Color Key')
+                            // ->label('Color Key')
                             ->required()
                             ->options($metatag->getFilamentColors()),
                         Select::make('color')
-                            ->label('Color')
+                            // ->label('Color')
                             ->required()
                             ->reactive()
                             ->options(array_merge(['custom' => '--- custom ---'], $metatag->getAllColors())),
                         ColorPicker::make('hex')
-                            ->label('custom Color')
+                            // ->label('custom Color')
                             ->visible(fn (Get $get): bool => 'custom' == $get('color'))
                             ->required(), // e.g., '#0071b0'
                     ])

@@ -7,6 +7,9 @@ namespace Modules\Xot\Filament\Traits;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
@@ -167,7 +170,7 @@ trait HasXotTable
     /**
      * Define table filters.
      *
-     * @return array<Tables\Filters\Filter>
+     * @return array<Tables\Filters\Filter|\Filament\Tables\Filters\TernaryFilter>
      */
     protected function getTableFilters(): array
     {

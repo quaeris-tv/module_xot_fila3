@@ -14,95 +14,61 @@ class GetTransKeyAction
     use QueueableAction;
 
     /**
-     *---.
+     * Generate a translation key based on the class name.
      */
     public function execute(string $class = ''): string
     {
+        // If no class is provided, try to get it from the backtrace
         if ('' === $class) {
             $backtrace = debug_backtrace();
-            Assert::string($class = Arr::get($backtrace, '1.class'), '['.__LINE__.']['.class_basename($this).']');
+            Assert::isArray($backtrace);
+            $class = Arr::get($backtrace, '1.class');
+            Assert::string($class, '['.__LINE__.']['.class_basename($this).']');
         }
-
-        $class = Str::of($class)
-            ->replace('\Filament\Resources\\', '\\')
-            ->toString();
-
-        $class = Str::of($class)
-            ->replace('\Filament\Pages\\', '\\')
-            ->toString();
 
         $arr = explode('\\', $class);
+
+        // Handle cases where the provided class is not in the "Modules" namespace
         if ('Modules' !== $arr[0]) {
-            throw new \Exception('Invalid class name['.__LINE__.']['.class_basename($this).']');
+            $backtrace = array_slice(debug_backtrace(), 2);
+            $res = Arr::first(
+                $backtrace,
+                function (array $item): bool {
+                    return isset($item['object']) && 'Modules' === explode('\\', get_class($item['object']))[0];
+                }
+            );
+
+            if (null === $res || ! isset($res['object'])) {
+                throw new \Exception('Invalid class name['.__LINE__.']['.class_basename($this).']');
+            }
+
+            $class = get_class($res['object']);
+            $arr = explode('\\', $class);
         }
 
-        Assert::string($module = Arr::get($arr, '1'), '['.__LINE__.']['.class_basename($this).']');
+        $module = $arr[1];
         $module_low = mb_strtolower($module);
+        $c = count($arr);
 
-        Assert::string($model = Arr::get($arr, '2'), '['.__LINE__.']['.class_basename($this).']');
-        $model = Str::before($model, 'Resource');
+        $type = Str::singular($arr[$c - 2]);
+        $class = $arr[$c - 1];
 
-        if (Str::endsWith($model, 'Page') && mb_strlen($model) > 5) {
-            $model = Str::before($model, 'Page');
+        // If the class name ends with the type, remove the suffix
+        if (Str::endsWith($class, $type)) {
+            $class = Str::beforeLast($class, $type);
         }
-        // $model_low = strtolower($model);
-        $model_low = Str::of($model)->snake()->toString();
-        $model_plural = Str::plural($model);
 
-        $callable = static function ($item) use ($model, $model_plural) {
-            if (Str::endsWith($item, $model)) {
-                $item = Str::before($item, $model);
-            }
-            if (Str::endsWith($item, $model_plural)) {
-                $item = Str::before($item, $model_plural);
-            }
+        $class_snake = Str::of($class)->snake()->toString();
 
-            if (Str::endsWith($item, 'RelationManager')) {
-                $item = Str::before($item, 'RelationManager');
-            }
-
-            if (Str::endsWith($item, 'Managers')) {
-                $item = Str::before($item, 'Managers');
-            }
-            if (Str::endsWith($item, 'Page') && mb_strlen($item) > 5) {
-                $item = Str::before($item, 'Page');
-            }
-
-            // return Str::kebab($item);
-            return Str::of($item)->snake()->toString();
-        };
-
-        $res = collect($arr)
-            ->skip(3)
-            ->map($callable)
-            ->implode('.');
-
-        $tmp = $module_low.'::'.$model_low;
-        if ('' !== $res) {
-            $tmp .= '.'.$res;
+        // Handle cases where the class starts with "list_"
+        if (Str::startsWith($class_snake, 'list_')) {
+            $class_snake = Str::of($class_snake)
+                ->after('list_')
+                ->singular()
+                ->toString();
         }
-        $piece = explode('.', $tmp);
 
-        $tmp = Str::of($tmp)->replace('.pages.list.', '.')->toString();
-        $tmp = Str::of($tmp)->replace('::enums.', '::')->toString();
-        $tmp = Str::of($tmp)->replace('.relation.', '.')->toString();
-
-        if (Str::endsWith($tmp, '.pages.list')) {
-            $tmp = Str::before($tmp, '.pages.list');
-        }
-        if (Str::endsWith($tmp, '.pages.create')) {
-            $tmp = Str::before($tmp, '.pages.create');
-        }
-        if (Str::endsWith($tmp, '.pages.edit')) {
-            $tmp = Str::before($tmp, '.pages.edit');
-        }
-        if (Str::endsWith($tmp, '.pages.view')) {
-            $tmp = Str::before($tmp, '.pages.view');
-        }
-        if (Str::contains($tmp, '::actions.') && count($piece) >= 3) {
-            $piece = array_slice($piece, 0, -1);
-            $tmp = Str::of(implode('.', $piece))->replace('::actions.', '::')->toString();
-        }
+        $tmp = $module_low.'::'.$class_snake;
 
         return $tmp;
     }
