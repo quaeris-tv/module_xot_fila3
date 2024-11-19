@@ -40,8 +40,8 @@ class GetTransKeyAction
             );
 
             if (null === $res || ! isset($res['object'])) {
-                // throw new \Exception('Invalid class name[' . __LINE__ . '][' . class_basename($this) . ']');
                 $page = Arr::get(debug_backtrace(), '0.args.0');
+                Assert::string($page);
                 $main_module = XotData::make()->main_module;
                 $main_module_low = mb_strtolower($main_module);
                 $page_arr = explode('\\', $page);
