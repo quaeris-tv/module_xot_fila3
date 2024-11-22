@@ -70,25 +70,24 @@ class GetTransKeyAction
         }
 
         $class_snake = Str::of($class)->snake()->toString();
-        $arr=explode('_',$class_snake);
-        $first=$arr[0];
-        $last=$arr[count($arr)-1];
-        if(in_array($first,['dashboard','list','get'])){
-            $class_snake = implode('_',array_slice($arr,1));
+        $arr = explode('_', $class_snake);
+        $first = $arr[0];
+        $last = $arr[count($arr) - 1];
+        if (in_array($first, ['dashboard', 'list', 'get'])) {
+            $class_snake = implode('_', array_slice($arr, 1));
         }
-        if(in_array($last,['action'])){
-            $class_snake=Str::beforeLast($class_snake, '_'.$last);
+        if (in_array($last, ['action'])) {
+            $class_snake = Str::beforeLast($class_snake, '_'.$last);
         }
 
-        if(Str::endsWith($class_snake, 'form_schema')){
-            $class_snake=Str::beforeLast($class_snake, '_form_schema');
+        if (Str::endsWith($class_snake, 'form_schema')) {
+            $class_snake = Str::beforeLast($class_snake, '_form_schema');
         }
-        
-        
+
         // Handle cases where the class starts with "list_"
-        if(in_array($first,['list'])){
+        if (in_array($first, ['list'])) {
             $class_snake = Str::of($class_snake)
-                //->after('list_')
+                // ->after('list_')
                 ->singular()
                 ->toString();
         }
