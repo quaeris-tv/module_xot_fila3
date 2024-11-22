@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @see https://coderflex.com/blog/create-advanced-filters-with-filament
  */
@@ -17,7 +18,6 @@ class PdfAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->translateLabel()
             ->label('')
             ->tooltip('pdf')

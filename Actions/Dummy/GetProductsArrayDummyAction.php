@@ -25,7 +25,8 @@ class GetProductsArrayDummyAction
         Assert::isArray($products['products']);
         // filtering some attributes
         $products = Arr::map($products['products'], function ($item) {
-            return Arr::only($item,
+            return Arr::only(
+                $item,
                 [
                     'id',
                     'title',

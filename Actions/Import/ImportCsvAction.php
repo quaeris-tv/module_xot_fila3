@@ -95,10 +95,13 @@ class ImportCsvAction
         $str1 = (string) preg_replace('/[0-9a-z]/i', '', $str);
 
         switch (\ord($str1)) {
-            case 0:break;
-            case 167: $str = str_replace($str1, '10', $str);
+            case 0:
                 break;
-            case 239: $str = str_replace($str1, '_', $str);
+            case 167:
+                $str = str_replace($str1, '10', $str);
+                break;
+            case 239:
+                $str = str_replace($str1, '_', $str);
                 break;
             default:
                 echo '<h3>carattere non riconosciuto ['.$str1.']['.\ord($str1).']['.$str.'] Aggiungerlo </h3>';
