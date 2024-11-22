@@ -16,12 +16,7 @@ class ListLogs extends XotBaseListRecords
 
     protected static string $resource = LogResource::class;
 
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            TableLayoutToggleTableAction::make(),
-        ];
-    }
+    
 
     protected function getHeaderActions(): array
     {

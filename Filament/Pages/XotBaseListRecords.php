@@ -38,12 +38,7 @@ abstract class XotBaseListRecords extends ListRecords
 
     /*
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            TableLayoutToggleTableAction::make(),
-        ];
-    }
+    
 
     protected function getHeaderActions(): array
     {
