@@ -11,7 +11,6 @@ use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Modules\UI\Enums\TableLayoutEnum;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Filament\Actions\Header\ArtisanHeaderAction;
 use Modules\Xot\Filament\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\CacheResource;
@@ -88,8 +87,6 @@ class ListCaches extends XotBaseListRecords
         //    direction: 'DESC',
         // )
     }
-
-    
 
     protected function getHeaderActions(): array
     {
