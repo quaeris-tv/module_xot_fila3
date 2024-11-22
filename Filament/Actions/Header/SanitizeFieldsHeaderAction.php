@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @see https://coderflex.com/blog/create-advanced-filters-with-filament
  */
@@ -21,40 +22,36 @@ class SanitizeFieldsHeaderAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->translateLabel()
             ->label('')
             ->tooltip('sanitize')
             ->icon('heroicon-o-shield-exclamation')
-            ->action(
-                function (ListRecords $livewire) {
-                    $resource = $livewire->getResource();
-                    $modelClass = $resource::getModel();
-                    $rows = $modelClass::get();
-                    $c = 0;
-                    foreach ($rows as $row) {
-                        $save = false;
-                        foreach ($this->fields as $field) {
-                            $item = $row->{$field};
-                            $string = app(SanitizeAction::class)->execute($item);
-
-                            if ($string != $item) {
-                                $row->{$field} = $string;
-                                $save = true;
-                                ++$c;
-                            }
-                        }
-                        if ($save) {
-                            $row->save();
+            ->action(function (ListRecords $livewire) {
+                $resource = $livewire->getResource();
+                $modelClass = $resource::getModel();
+                $rows = $modelClass::get();
+                $c = 0;
+                foreach ($rows as $row) {
+                    $save = false;
+                    foreach ($this->fields as $field) {
+                        $item = $row->{$field};
+                        $string = app(SanitizeAction::class)->execute($item);
+                        if ($string != $item) {
+                            $row->{$field} = $string;
+                            $save = true;
+                            ++$c;
                         }
                     }
-                    Notification::make()
-                        ->title(''.$c.' record sanitized')
-                        ->success()
-                        ->send()
-                    ;
+                    if ($save) {
+                        $row->save();
+                    }
                 }
-            );
+                Notification::make()
+                    ->title(''.$c.' record sanitized')
+                    ->success()
+                    ->send()
+                ;
+            });
     }
 
     public function setFields(array $fields): self
