@@ -53,12 +53,7 @@ class ListExtras extends XotBaseListRecords
             ->bulkActions($this->getTableBulkActions());
     }
 
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            TableLayoutToggleTableAction::make(),
-        ];
-    }
+    
 
     protected function getHeaderActions(): array
     {

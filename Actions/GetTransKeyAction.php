@@ -19,6 +19,7 @@ class GetTransKeyAction
      */
     public function execute(string $class = ''): string
     {
+        $class0=$class;
         // If no class is provided, try to get it from the backtrace
         if ('' === $class) {
             $backtrace = debug_backtrace();
@@ -67,6 +68,9 @@ class GetTransKeyAction
         // If the class name ends with the type, remove the suffix
         if (Str::endsWith($class, $type)) {
             $class = Str::beforeLast($class, $type);
+            if(in_array($type,['RelationManager'])){
+                $class=Str::of($class)->singular()->toString();
+            }
         }
 
         $class_snake = Str::of($class)->snake()->toString();
@@ -93,6 +97,12 @@ class GetTransKeyAction
         }
 
         $tmp = $module_low.'::'.$class_snake;
+        if($class_snake=='assets'){
+            dddx([
+                'class'=>$class0,
+                'tmp'=>$tmp,
+            ]);
+        }
 
         return $tmp;
     }

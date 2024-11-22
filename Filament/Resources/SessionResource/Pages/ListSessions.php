@@ -94,12 +94,7 @@ class ListSessions extends XotBaseListRecords
             );
     }
 
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            TableLayoutToggleTableAction::make(),
-        ];
-    }
+    
 
     protected function getHeaderActions(): array
     {
