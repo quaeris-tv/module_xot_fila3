@@ -7,7 +7,6 @@ namespace Modules\Xot\Filament\Pages;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Str;
 use Modules\UI\Enums\TableLayoutEnum;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Filament\Actions\Header\ExportXlsAction;
 use Modules\Xot\Filament\Traits\HasXotTable;
 use Modules\Xot\Filament\Traits\TransTrait;
@@ -38,7 +37,7 @@ abstract class XotBaseListRecords extends ListRecords
 
     /*
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
-    
+
 
     protected function getHeaderActions(): array
     {

@@ -15,7 +15,6 @@ use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Modules\UI\Enums\TableLayoutEnum;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Filament\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\ModuleResource;
 use Nwidart\Modules\Facades\Module;
@@ -100,8 +99,6 @@ class ListModules extends XotBaseListRecords
                 direction: 'DESC',
             );
     }
-
-    
 
     protected function getHeaderActions(): array
     {
