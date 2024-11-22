@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Modules\Xot\Database\Migrations\XotBaseMigration;
 use Modules\Xot\Models\HealthCheckResultHistoryItem;
 
-return new class extends XotBaseMigration {
+return new class() extends XotBaseMigration {
     protected ?string $model_class = HealthCheckResultHistoryItem::class;
 
     /**
@@ -29,8 +29,6 @@ return new class extends XotBaseMigration {
                 $table->json('meta');
                 $table->timestamp('ended_at');
                 $table->uuid('batch')->index();
-
-                // $table->timestamps();
             }
         );
 

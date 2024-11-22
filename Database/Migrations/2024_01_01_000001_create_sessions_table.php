@@ -8,7 +8,7 @@ use Modules\Xot\Database\Migrations\XotBaseMigration;
 /*
  * Undocumented class.
  */
-return new class extends XotBaseMigration {
+return new class() extends XotBaseMigration {
     /**
      * Run the migrations.
      */
@@ -24,9 +24,6 @@ return new class extends XotBaseMigration {
                 $table->text('user_agent')->nullable();
                 $table->text('payload');
                 $table->integer('last_activity')->index();
-                // $table->timestamps();
-                // $table->string('created_by')->nullable();
-                // $table->string('updated_by')->nullable();
             }
         );
 
