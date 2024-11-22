@@ -6,10 +6,11 @@ namespace Modules\Xot\Filament\Resources\LogResource\Pages;
 
 use Filament\Actions;
 use Modules\UI\Enums\TableLayoutEnum;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Filament\Resources\LogResource;
+use Modules\Xot\Filament\Pages\XotBaseListRecords;
+use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 
-class ListLogs extends \Modules\Xot\Filament\Pages\XotBaseListRecords
+class ListLogs extends XotBaseListRecords
 {
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 

@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources\ModuleResource\Pages;
 
-use Filament\Actions;
 use Filament\Tables;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Actions;
+use Filament\Tables\Table;
+use Nwidart\Modules\Facades\Module;
+use Modules\UI\Enums\TableLayoutEnum;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Table;
-use Modules\UI\Enums\TableLayoutEnum;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Modules\Xot\Filament\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\ModuleResource;
-use Nwidart\Modules\Facades\Module;
+use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 
-class ListModules extends \Modules\Xot\Filament\Pages\XotBaseListRecords
+class ListModules extends XotBaseListRecords
 {
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
