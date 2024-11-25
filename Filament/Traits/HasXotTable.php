@@ -138,6 +138,11 @@ trait HasXotTable
         return 'name';
     }
 
+    public function getTableEmptyStateActions(): array
+    {
+        return [];
+    }
+
     /**
      * Define the main table structure.
      */
@@ -161,6 +166,7 @@ trait HasXotTable
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
             ->actionsPosition(ActionsPosition::BeforeColumns)
+            ->emptyStateActions($this->getTableEmptyStateActions())
             ->striped();
         /*
         ->defaultSort(
