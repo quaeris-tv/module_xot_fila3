@@ -25,14 +25,12 @@ use Modules\UI\Enums\TableLayoutEnum;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Filament\Traits\TransTrait;
 use Webmozart\Assert\Assert;
+use Modules\Xot\Filament\Pages\XotBaseListRecords;
 
 
-class ListXXX extends ListRecords
+class ListXXX extends XotBaseListRecords
 {
-    use TransTrait;
-
-    public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
-
+    
     protected static string $resource = XXXResource::class;
 
     protected function getHeaderActions(): array

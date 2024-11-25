@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @see https://coderflex.com/blog/create-advanced-filters-with-filament
  */
@@ -20,7 +21,6 @@ class FakeSeederHeaderAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->translateLabel()
             ->label('')
             ->tooltip(__('xot::actions.fake_seeder'))
@@ -29,24 +29,19 @@ class FakeSeederHeaderAction extends Action
                 TextInput::make('qty')
                     ->required(),
             ])
-            ->action(
-                function (array $data, ListRecords $livewire) {
-                    $resource = $livewire->getResource();
-                    $modelClass = $resource::getModel();
-
-                    $qty = (int) $data['qty'];
-
-                    app(FakeSeederAction::class)
+            ->action(function (array $data, ListRecords $livewire) {
+                $resource = $livewire->getResource();
+                $modelClass = $resource::getModel();
+                $qty = (int) $data['qty'];
+                app(FakeSeederAction::class)
                         ->onQueue()
                         ->execute($modelClass, $qty);
-
-                    $title = 'On Queue '.$qty.' '.$modelClass;
-                    Notification::make()
+                $title = 'On Queue '.$qty.' '.$modelClass;
+                Notification::make()
                         ->title($title)
                         ->success()
                         ->send();
-                }
-            );
+            });
     }
 
     public static function getDefaultName(): ?string

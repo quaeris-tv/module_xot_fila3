@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * All the parent's children.
  */

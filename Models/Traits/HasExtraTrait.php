@@ -50,10 +50,11 @@ trait HasExtraTrait
     public function getExtra(string $name)
     {
         $value = $this->extra?->extra_attributes->get($name);
-        if (is_array($value) || is_int($value)
-        // || is_float($value)
-        || is_null($value) || is_bool($value)
-        || is_string($value)
+        if (
+            is_array($value) || is_int($value)
+            // || is_float($value)
+            || is_null($value) || is_bool($value)
+            || is_string($value)
         ) {
             return $value;
         }

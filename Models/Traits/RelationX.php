@@ -29,8 +29,8 @@ trait RelationX
         ?string $relatedPivotKey = null,
         ?string $parentKey = null,
         ?string $relatedKey = null,
-        ?string $relation = null): BelongsToMany
-    {
+        ?string $relation = null,
+    ): BelongsToMany {
         $pivot = $this->guessPivot($related);
         $table = $pivot->getTable();
         $pivotFields = $pivot->getFillable();

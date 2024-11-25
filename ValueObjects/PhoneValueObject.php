@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-/**
- * @see https://medium.com/@sliusarchyn/value-objects-in-laravel-use-it-12ba71b00281
- */
-
 namespace Modules\Xot\ValueObjects;
 
 use function Safe\preg_match;
 
+/**
+ * @see https://medium.com/@sliusarchyn/value-objects-in-laravel-use-it-12ba71b00281
+ */
 class PhoneValueObject
 {
     private function __construct(private readonly string $phone)

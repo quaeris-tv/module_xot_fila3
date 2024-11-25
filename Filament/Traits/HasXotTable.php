@@ -7,6 +7,9 @@ namespace Modules\Xot\Filament\Traits;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
@@ -27,6 +30,7 @@ use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 trait HasXotTable
 {
     use TransTrait;
+
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     /**
@@ -35,7 +39,7 @@ trait HasXotTable
     protected function getTableHeaderActions(): array
     {
         $actions = [
-            TableLayoutToggleTableAction::make(),
+            // TableLayoutToggleTableAction::make(),
         ];
 
         if ($this->shouldShowAssociateAction()) {
@@ -94,7 +98,8 @@ trait HasXotTable
         return [
             Actions\CreateAction::make()
                 ->label('')
-                ->tooltip(__('user::actions.create_user'))
+                // ->tooltip(__('user::actions.create_user'))
+                ->tooltip(static::trans('actions.create.tooltip'))
                 ->icon('heroicon-o-plus'),
         ];
     }
@@ -121,6 +126,11 @@ trait HasXotTable
         return [];
     }
 
+    public function getTableFiltersFormColumns(): int
+    {
+        return 1;
+    }
+
     public function getTableRecordTitleAttribute(): string
     {
         return 'name';
@@ -144,7 +154,7 @@ trait HasXotTable
             ->headerActions($this->getTableHeaderActions())
             ->filters($this->getTableFilters())
             ->filtersLayout(FiltersLayout::AboveContent)
-            ->filtersFormColumns(1)
+            ->filtersFormColumns($this->getTableFiltersFormColumns())
             ->persistFiltersInSession()
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
@@ -161,7 +171,7 @@ trait HasXotTable
     /**
      * Define table filters.
      *
-     * @return array<Tables\Filters\Filter>
+     * @return array<Tables\Filters\Filter|\Filament\Tables\Filters\TernaryFilter>
      */
     protected function getTableFilters(): array
     {
@@ -176,26 +186,26 @@ trait HasXotTable
     protected function getTableActions(): array
     {
         $actions = [
-            Tables\Actions\ViewAction::make()
+            'view' => Tables\Actions\ViewAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.view'))
             // ->icon('heroicon-o-eye')
                 ->color('info'),
 
-            Tables\Actions\EditAction::make()
+            'edit' => Tables\Actions\EditAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.edit'))
                 ->icon('heroicon-o-pencil')
                 ->color('warning'),
         ];
         if (! $this->shouldShowDetachAction()) {
-            $actions[] = Tables\Actions\DeleteAction::make()
+            $actions['delete'] = Tables\Actions\DeleteAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.delete'));
         }
 
         if ($this->shouldShowDetachAction()) {
-            $actions[] = Tables\Actions\DetachAction::make()
+            $actions['detach'] = Tables\Actions\DetachAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.detach'))
                 ->icon('heroicon-o-link-slash')
