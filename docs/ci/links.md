@@ -10,6 +10,7 @@ section: content
 https://tsh.io/blog/php-static-code-analysis/
 https://tomasvotruba.com/blog/2018/10/22/brief-history-of-tools-watching-and-changing-your-php-code/
 https://medium.com/bumble-tech/php-code-static-analysis-based-on-the-example-of-phpstan-phan-and-psalm-a20654c4011d
+https://github.com/collections/code-quality-in-php
 
 Psalm
 

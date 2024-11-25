@@ -5,17 +5,14 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources\ExtraResource\Pages;
 
 use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Modules\UI\Enums\TableLayoutEnum;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
+use Modules\Xot\Filament\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\ExtraResource;
 
-class ListExtras extends ListRecords
+class ListExtras extends XotBaseListRecords
 {
-    public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
-
     protected static string $resource = ExtraResource::class;
 
     public function getTableColumns(): array

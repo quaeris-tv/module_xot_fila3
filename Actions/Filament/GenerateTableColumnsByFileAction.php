@@ -1,4 +1,5 @@
 <?php
+
 /**
  * -WIP.
  */
@@ -21,7 +22,6 @@ use Webmozart\Assert\Assert;
 class GenerateTableColumnsByFileAction
 {
     use CanGenerateForms;
-
     // use CanGenerateImporterColumns;
     use CanGenerateTables;
     use CanReadModelSchemas;
@@ -56,7 +56,6 @@ class GenerateTableColumnsByFileAction
             ->toString();
         $content_new = Str::of($file->getContents())->replace($body, $body_up)->toString();
         LaravelFile::put($filename, $content_new);
-
         // -------------------- FORM ------------------------------
         $body = app(GetMethodBodyAction::class)->execute($class_name, 'form');
         $body1 = app(GetStrBetweenStartsWithAction::class)->execute($body, '->schema(', '(', ')');
@@ -66,7 +65,6 @@ class GenerateTableColumnsByFileAction
             ->toString();
         $content_new = Str::of($file->getContents())->replace($body, $body_up)->toString();
         LaravelFile::put($filename, $content_new);
-
         // -----------------------------------------------------
 
         if (in_array('anno', $model->getFillable())) {
@@ -87,23 +85,21 @@ class GenerateTableColumnsByFileAction
 
     public function ddFile(File $file): void
     {
-        dd(
-            [
-                'getRelativePath' => $file->getRelativePath(), // =  ""
-                'getRelativePathname' => $file->getRelativePathname(), //  AssenzeResource.php
-                'getFilenameWithoutExtension' => $file->getFilenameWithoutExtension(), // AssenzeResource
-                // 'getContents' => $file->getContents(),
-                'getPath' => $file->getPath(), // = /var/www/html/ptvx/laravel/Modules/Progressioni/Filament/Resources
-                'getFilename' => $file->getFilename(), // = AssenzeResource.php
-                'getExtension' => $file->getExtension(), // php
-                'getBasename' => $file->getBasename(), // AssenzeResource.php
-                'getPathname' => $file->getPathname(), // "/var/www/html/ptvx/laravel/Modules/Progressioni/Filament/Resources/AssenzeResource.php
-                'isFile' => $file->isFile(), // true
-                'getRealPath' => $file->getRealPath(), // /var/www/html/ptvx/laravel/Modules/Progressioni/Filament/Resources/AssenzeResource.php
-                // 'getFileInfo' => $file->getFileInfo(),
-                // 'getPathInfo' => $file->getPathInfo(),
-                'methods' => get_class_methods($file),
-            ]
-        );
+        dd([
+            'getRelativePath' => $file->getRelativePath(), // =  ""
+            'getRelativePathname' => $file->getRelativePathname(), //  AssenzeResource.php
+            'getFilenameWithoutExtension' => $file->getFilenameWithoutExtension(), // AssenzeResource
+            // 'getContents' => $file->getContents(),
+            'getPath' => $file->getPath(), // = /var/www/html/ptvx/laravel/Modules/Progressioni/Filament/Resources
+            'getFilename' => $file->getFilename(), // = AssenzeResource.php
+            'getExtension' => $file->getExtension(), // php
+            'getBasename' => $file->getBasename(), // AssenzeResource.php
+            'getPathname' => $file->getPathname(), // "/var/www/html/ptvx/laravel/Modules/Progressioni/Filament/Resources/AssenzeResource.php
+            'isFile' => $file->isFile(), // true
+            'getRealPath' => $file->getRealPath(), // /var/www/html/ptvx/laravel/Modules/Progressioni/Filament/Resources/AssenzeResource.php
+            // 'getFileInfo' => $file->getFileInfo(),
+            // 'getPathInfo' => $file->getPathInfo(),
+            'methods' => get_class_methods($file),
+        ]);
     }
 }

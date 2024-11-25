@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @see  https://fajarwz.com/blog/laravel-database-transaction-for-data-consistency/
  */

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @see https://laravel.com/docs/11.x/urls#default-values
  */
