@@ -6,9 +6,11 @@ namespace Modules\Xot\Filament\Resources\XotBaseResource\RelationManager;
 
 use Filament\Resources\RelationManagers\RelationManager;
 use Illuminate\Support\Str;
+use Modules\Xot\Filament\Traits\HasXotTable;
 
 abstract class XotBaseRelationManager extends RelationManager
 {
+    use HasXotTable;
     // protected static string $relationship = 'roles';
 
     // protected static ?string $recordTitleAttribute = 'name';

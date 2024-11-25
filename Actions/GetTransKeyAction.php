@@ -19,6 +19,7 @@ class GetTransKeyAction
      */
     public function execute(string $class = ''): string
     {
+        $class0 = $class;
         // If no class is provided, try to get it from the backtrace
         if ('' === $class) {
             $backtrace = debug_backtrace();
@@ -67,25 +68,41 @@ class GetTransKeyAction
         // If the class name ends with the type, remove the suffix
         if (Str::endsWith($class, $type)) {
             $class = Str::beforeLast($class, $type);
+            if (in_array($type, ['RelationManager'])) {
+                $class = Str::of($class)->singular()->toString();
+            }
         }
 
         $class_snake = Str::of($class)->snake()->toString();
-        $class_arr = explode('_', $class_snake);
-        $first = $class_arr[0];
+        $arr = explode('_', $class_snake);
+        $first = $arr[0];
+        $last = $arr[count($arr) - 1];
+        if (in_array($first, ['dashboard', 'list', 'get'])) {
+            $class_snake = implode('_', array_slice($arr, 1));
+        }
+        if (in_array($last, ['action'])) {
+            $class_snake = Str::beforeLast($class_snake, '_'.$last);
+        }
+
+        if (Str::endsWith($class_snake, 'form_schema')) {
+            $class_snake = Str::beforeLast($class_snake, '_form_schema');
+        }
 
         // Handle cases where the class starts with "list_"
-        if (in_array($first, ['list', 'dashboard'])) {
-            $class_snake = Str::of($class_snake)
-                ->after($first.'_')
-                ->toString();
-        }
         if (in_array($first, ['list'])) {
             $class_snake = Str::of($class_snake)
+                // ->after('list_')
                 ->singular()
                 ->toString();
         }
 
         $tmp = $module_low.'::'.$class_snake;
+        if ('assets' == $class_snake) {
+            dddx([
+                'class' => $class0,
+                'tmp' => $tmp,
+            ]);
+        }
 
         return $tmp;
     }
