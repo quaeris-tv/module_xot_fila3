@@ -11,12 +11,12 @@ use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Modules\UI\Enums\TableLayoutEnum;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Filament\Actions\Header\ArtisanHeaderAction;
+use Modules\Xot\Filament\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\CacheResource;
 use Modules\Xot\Filament\Widgets\Clock;
 
-class ListCaches extends \Modules\Xot\Filament\Pages\XotBaseListRecords
+class ListCaches extends XotBaseListRecords
 {
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
@@ -86,13 +86,6 @@ class ListCaches extends \Modules\Xot\Filament\Pages\XotBaseListRecords
         //    column: 'created_at',
         //    direction: 'DESC',
         // )
-    }
-
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            TableLayoutToggleTableAction::make(),
-        ];
     }
 
     protected function getHeaderActions(): array

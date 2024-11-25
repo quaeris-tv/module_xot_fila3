@@ -130,7 +130,7 @@ trait HasXotTable
 
     public function getTableFiltersFormColumns(): int
     {
-        return 1;
+        return count($this->getTableFilters()) + 1;
     }
 
     public function getTableRecordTitleAttribute(): string
