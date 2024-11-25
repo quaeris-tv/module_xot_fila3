@@ -70,11 +70,17 @@ class GetTransKeyAction
         }
 
         $class_snake = Str::of($class)->snake()->toString();
+        $class_arr = explode('_', $class_snake);
+        $first = $class_arr[0];
 
         // Handle cases where the class starts with "list_"
-        if (Str::startsWith($class_snake, 'list_')) {
+        if (in_array($first, ['list', 'dashboard'])) {
             $class_snake = Str::of($class_snake)
-                ->after('list_')
+                ->after($first.'_')
+                ->toString();
+        }
+        if (in_array($first, ['list'])) {
+            $class_snake = Str::of($class_snake)
                 ->singular()
                 ->toString();
         }
