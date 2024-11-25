@@ -8,15 +8,10 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Filament;
 
-use function Safe\file;
-
 use Illuminate\Support\Arr;
-
-use Illuminate\Support\Str;
-use Webmozart\Assert\Assert;
 use Modules\Xot\Actions\GetTransKeyAction;
 use Spatie\QueueableAction\QueueableAction;
-use Symfony\Component\Finder\SplFileInfo as File;
+use Webmozart\Assert\Assert;
 
 class AutoLabelAction
 {
@@ -36,10 +31,7 @@ class AutoLabelAction
         if (is_string($label)) {
             $component->label($label);
         }
-        
 
         return $component;
     }
-
-    
 }

@@ -4,41 +4,40 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Providers;
 
-use function Safe\realpath;
-use Illuminate\Support\Arr;
-use Webmozart\Assert\Assert;
-use Illuminate\Support\Carbon;
-use Filament\Tables\Columns\Column;
-use Filament\Tables\Filters\Filter;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\URL;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Field;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Event;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TimePicker;
+use Filament\Infolists\Components\Entry;
+use Filament\Support\Components\Component;
+use Filament\Support\Concerns\Configurable;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\BaseFilter;
-use Illuminate\Database\Eloquent\Model;
-use Filament\Forms\Components\TextInput;
-use Filament\Infolists\Components\Entry;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\TimePicker;
-use Filament\Forms\Components\Placeholder;
-use Filament\Support\Components\Component;
-use Modules\Xot\Actions\GetTransKeyAction;
-use Filament\Support\Concerns\Configurable;
-use Modules\Xot\View\Composers\XotComposer;
 use Illuminate\Auth\AuthenticationException;
-use Filament\Forms\Components\DateTimePicker;
-use Illuminate\Database\Events\MigrationsEnded;
-
 use Illuminate\Contracts\Debug\ExceptionHandler;
-
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Events\MigrationsEnded;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Modules\Xot\Actions\Filament\AutoLabelAction;
+use Modules\Xot\Actions\GetTransKeyAction;
+use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
 use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
-use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
+use Modules\Xot\View\Composers\XotComposer;
+
+use function Safe\realpath;
+
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Webmozart\Assert\Assert;
 
 /**
  * Class XotServiceProvider.
@@ -94,11 +93,8 @@ class XotServiceProvider extends XotBaseServiceProvider
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
         TextInput::configureUsing(fn (TextInput $component) => $component->validationMessages(__('user::validation')));
 
-        
-
-        
         Field::configureUsing(function (Field $component) {
-            $compoent=app(AutoLabelAction::class)->execute($component);
+            $compoent = app(AutoLabelAction::class)->execute($component);
             /*
             $backtrace = debug_backtrace();
             Assert::string($class = Arr::get($backtrace, '4.class'));
@@ -113,9 +109,9 @@ class XotServiceProvider extends XotBaseServiceProvider
 
             return $component;
         });
-        
+
         BaseFilter::configureUsing(function (BaseFilter $component) {
-            $compoent=app(AutoLabelAction::class)->execute($component);
+            $compoent = app(AutoLabelAction::class)->execute($component);
             /*
             $backtrace = debug_backtrace();
             Assert::string($class = Arr::get($backtrace, '4.class'));
@@ -126,13 +122,13 @@ class XotServiceProvider extends XotBaseServiceProvider
                 $component->label($label);
             }
             */
-            
 
             return $component;
         });
 
         Column::configureUsing(function (Column $component) {
-            $compoent=app(AutoLabelAction::class)->execute($component);
+            $compoent = app(AutoLabelAction::class)->execute($component);
+
             /*
             $backtrace = debug_backtrace();
             Assert::string($class = Arr::get($backtrace, '4.class'));
@@ -153,7 +149,7 @@ class XotServiceProvider extends XotBaseServiceProvider
             */
             return $component;
         });
-        
+
         // ->validationMessages(__('xot::validation'))
     }
 
