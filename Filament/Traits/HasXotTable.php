@@ -171,7 +171,7 @@ trait HasXotTable
     /**
      * Define table filters.
      *
-     * @return array<Tables\Filters\Filter|\Filament\Tables\Filters\TernaryFilter>
+     * @return array<Tables\Filters\Filter|Tables\Filters\TernaryFilter>
      */
     protected function getTableFilters(): array
     {
@@ -181,7 +181,7 @@ trait HasXotTable
     /**
      * Define row-level actions with translations.
      *
-     * @return array<Tables\Actions\Action>
+     * @return array<Action>
      */
     protected function getTableActions(): array
     {
@@ -219,7 +219,7 @@ trait HasXotTable
     /**
      * Define bulk actions with translations.
      *
-     * @return array<Tables\Actions\BulkAction>
+     * @return array<BulkAction>
      */
     protected function getTableBulkActions(): array
     {
