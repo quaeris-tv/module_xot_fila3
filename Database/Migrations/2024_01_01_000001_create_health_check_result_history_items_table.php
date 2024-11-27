@@ -29,8 +29,6 @@ return new class extends XotBaseMigration {
                 $table->json('meta');
                 $table->timestamp('ended_at');
                 $table->uuid('batch')->index();
-
-                // $table->timestamps();
             }
         );
 
