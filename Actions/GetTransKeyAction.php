@@ -97,12 +97,6 @@ class GetTransKeyAction
         }
 
         $tmp = $module_low.'::'.$class_snake;
-        if ('assets' == $class_snake) {
-            dddx([
-                'class' => $class0,
-                'tmp' => $tmp,
-            ]);
-        }
 
         return $tmp;
     }
