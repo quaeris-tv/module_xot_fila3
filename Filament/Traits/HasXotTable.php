@@ -15,6 +15,8 @@ use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\BaseFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\UI\Enums\TableLayoutEnum;
@@ -108,7 +110,7 @@ trait HasXotTable
     /**
      * Get table columns for grid layout.
      *
-     * @return array<Tables\Columns\Column|Stack>
+     * @return array<Tables\Columns\Column|Stack|\Filament\Tables\Columns\Layout\Split>
      */
     public function getGridTableColumns(): array
     {
@@ -172,7 +174,7 @@ trait HasXotTable
     /**
      * Define table filters.
      *
-     * @return array<Tables\Filters\Filter|Tables\Filters\TernaryFilter>
+     * @return array<Tables\Filters\Filter|TernaryFilter|BaseFilter>
      */
     protected function getTableFilters(): array
     {
@@ -182,7 +184,7 @@ trait HasXotTable
     /**
      * Define row-level actions with translations.
      *
-     * @return array<Action>
+     * @return array<Tables\Actions\Action|Tables\Actions\ActionGroup>
      */
     protected function getTableActions(): array
     {
