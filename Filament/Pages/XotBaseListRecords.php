@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Pages;
 
-use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\Pages\ListRecords as FilamentListRecords;
 use Illuminate\Support\Str;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\Xot\Filament\Actions\Header\ExportXlsAction;
@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
  *
  * @property ?string $model
  */
-abstract class XotBaseListRecords extends ListRecords
+abstract class XotBaseListRecords extends FilamentListRecords
 {
     // use TransTrait; //gia' dentro HasXotTable
     use HasXotTable;

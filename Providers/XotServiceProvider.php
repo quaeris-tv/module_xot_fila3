@@ -20,7 +20,6 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\MigrationsEnded;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
@@ -28,7 +27,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Modules\Xot\Actions\Filament\AutoLabelAction;
-use Modules\Xot\Actions\GetTransKeyAction;
 use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
 use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
@@ -94,59 +92,22 @@ class XotServiceProvider extends XotBaseServiceProvider
         TextInput::configureUsing(fn (TextInput $component) => $component->validationMessages(__('user::validation')));
 
         Field::configureUsing(function (Field $component) {
-            $compoent = app(AutoLabelAction::class)->execute($component);
-            /*
-            $backtrace = debug_backtrace();
-            Assert::string($class = Arr::get($backtrace, '4.class'));
-            $trans_key = app(GetTransKeyAction::class)->execute($class);
-            $label_key = $trans_key.'.fields.'.$component->getName().'.label';
-            $label = trans($label_key);
-            if (is_string($label)) {
-                $component->label($label);
-            }
-            */
+            $component = app(AutoLabelAction::class)->execute($component);
+
             $component->validationMessages(__('user::validation'));
 
             return $component;
         });
 
         BaseFilter::configureUsing(function (BaseFilter $component) {
-            $compoent = app(AutoLabelAction::class)->execute($component);
-            /*
-            $backtrace = debug_backtrace();
-            Assert::string($class = Arr::get($backtrace, '4.class'));
-            $trans_key = app(GetTransKeyAction::class)->execute($class);
-            $label_key = $trans_key.'.fields.'.$component->getName().'.label';
-            $label = trans($label_key);
-            if (is_string($label)) {
-                $component->label($label);
-            }
-            */
+            $component = app(AutoLabelAction::class)->execute($component);
 
             return $component;
         });
 
         Column::configureUsing(function (Column $component) {
-            $compoent = app(AutoLabelAction::class)->execute($component);
+            $component = app(AutoLabelAction::class)->execute($component);
 
-            /*
-            $backtrace = debug_backtrace();
-            Assert::string($class = Arr::get($backtrace, '4.class'));
-            $trans_key = app(GetTransKeyAction::class)->execute($class);
-            $label_key = $trans_key.'.fields.'.$component->getName().'.label';
-            try {
-                $label = trans($label_key);
-            } catch (\TypeError $e) {
-                $label = $label_key;
-            }
-
-            if (is_string($label)) {
-                $component->label($label);
-            }
-
-            // $tooltip = trans($trans_key.'.fields.'.$component->getName().'.tooltip');
-            // $component->tooltip($tooltip);
-            */
             return $component;
         });
 
