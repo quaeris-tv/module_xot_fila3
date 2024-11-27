@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources\CacheResource\Pages;
 
-use Filament\Actions;
 use Filament\Tables;
-use Filament\Tables\Columns\Layout\Stack;
-use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Enums\FiltersLayout;
+use Filament\Actions;
 use Filament\Tables\Table;
 use Modules\UI\Enums\TableLayoutEnum;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
-use Modules\Xot\Filament\Actions\Header\ArtisanHeaderAction;
-use Modules\Xot\Filament\Resources\CacheResource;
 use Modules\Xot\Filament\Widgets\Clock;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Enums\ActionsPosition;
+use Modules\Xot\Filament\Resources\CacheResource;
+use Modules\Xot\Filament\Pages\XotBaseListRecords;
+use Modules\Xot\Filament\Actions\Header\ArtisanHeaderAction;
+use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 
-class ListCaches extends \Modules\Xot\Filament\Pages\XotBaseListRecords
+class ListCaches extends XotBaseListRecords
 {
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
