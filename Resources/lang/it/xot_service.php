@@ -21,5 +21,17 @@
     array (
       'label' => 'password',
     ),
+    'email' => 
+    array (
+      'label' => 'email',
+    ),
+    'updated_at' => 
+    array (
+      'label' => 'updated_at',
+    ),
+    'created_at' => 
+    array (
+      'label' => 'created_at',
+    ),
   ),
 );
