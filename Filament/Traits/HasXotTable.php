@@ -100,9 +100,8 @@ trait HasXotTable
                 ->label('')
                 ->tooltip(static::trans('actions.create.tooltip'))
                 ->icon('heroicon-o-plus')
-                //->iconButton()
-                ->button()
-                ,
+                // ->iconButton()
+                ->button(),
         ];
     }
 
@@ -190,20 +189,20 @@ trait HasXotTable
         $actions = [
             'view' => Tables\Actions\ViewAction::make()
                 ->iconButton()
-                //->label('')
-                //->link()
+                // ->label('')
+                // ->link()
                 ->tooltip(__('user::actions.view'))
-                // ->icon('heroicon-o-eye')
-                // ->color('info')
-                ,
+            // ->icon('heroicon-o-eye')
+            // ->color('info')
+            ,
 
             'edit' => Tables\Actions\EditAction::make()
                 ->iconButton()
                 ->tooltip(__('user::actions.edit'))
-                
-                /*
+
+            /*
                 ->label('')
-                
+
                 ->icon('heroicon-o-pencil')
                 ->color('warning')
                 */,
@@ -212,10 +211,10 @@ trait HasXotTable
             $actions['delete'] = Tables\Actions\DeleteAction::make()
                 ->tooltip(__('user::actions.delete'))
                 /*->label('')
-                
+
                 */
                 ->iconButton()
-                ;
+            ;
         }
 
         if ($this->shouldShowDetachAction()) {
