@@ -6,9 +6,9 @@ namespace Modules\Xot\Filament\Resources\LogResource\Pages;
 
 use Filament\Actions;
 use Modules\UI\Enums\TableLayoutEnum;
-use Modules\Xot\Filament\Resources\LogResource;
-use Modules\Xot\Filament\Pages\XotBaseListRecords;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
+use Modules\Xot\Filament\Pages\XotBaseListRecords;
+use Modules\Xot\Filament\Resources\LogResource;
 
 class ListLogs extends XotBaseListRecords
 {
