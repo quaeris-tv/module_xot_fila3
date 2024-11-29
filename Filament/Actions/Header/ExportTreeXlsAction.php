@@ -20,7 +20,7 @@ class ExportTreeXlsAction extends Action
     {
         parent::setUp();
         $this->translateLabel()
-            // ->label('xot::actions.export_xls')
+
             ->label('')
             ->tooltip(__('xot::actions.export_xls'))
 

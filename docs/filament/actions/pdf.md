@@ -31,7 +31,7 @@ class OrderResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('pdf') 
-                    ->label('PDF')
+                    
                     ->color('success')
                     ->icon('heroicon-s-download')
                     ->action(function (Model $record) {
@@ -97,7 +97,7 @@ class PdfController extends Controller
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('pdf') 
-                    ->label('PDF')
+                    
                     ->color('success')
                     ->icon('heroicon-o-document-arrow-down')
                     ->url(fn (Order $record) => route('pdf', $record))
