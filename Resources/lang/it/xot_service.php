@@ -1,41 +1,38 @@
-<?php return array (
-  'fields' => 
-  array (
-    'matr' => 
-    array (
-      'label' => 'matr',
-    ),
-    'cognome' => 
-    array (
-      'label' => 'cognome',
-    ),
-    'value' => 
-    array (
-      'label' => 'value',
-    ),
-    'remember' => 
-    array (
-      'label' => 'remember',
-    ),
-    'password' => 
-    array (
-      'label' => 'password',
-    ),
-    'email' => 
-    array (
-      'label' => 'email',
-    ),
-    'updated_at' => 
-    array (
-      'label' => 'updated_at',
-    ),
-    'created_at' => 
-    array (
-      'label' => 'created_at',
-    ),
-    'password_expires_at' => 
-    array (
-      'label' => 'password_expires_at',
-    ),
-  ),
-);
+<?php
+
+declare(strict_types=1);
+
+return [
+    'fields' => [
+        'matr' => [
+            'label' => 'matr',
+        ],
+        'cognome' => [
+            'label' => 'cognome',
+        ],
+        'value' => [
+            'label' => 'value',
+        ],
+        'remember' => [
+            'label' => 'remember',
+        ],
+        'password' => [
+            'label' => 'password',
+        ],
+        'email' => [
+            'label' => 'email',
+        ],
+        'updated_at' => [
+            'label' => 'updated_at',
+        ],
+        'created_at' => [
+            'label' => 'created_at',
+        ],
+        'technician_name' => [
+            'label' => 'technician_name',
+        ],
+        'values' => [
+            'label' => 'values',
+        ],
+    ],
+];
