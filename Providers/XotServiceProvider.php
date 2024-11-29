@@ -84,13 +84,14 @@ class XotServiceProvider extends XotBaseServiceProvider
         app()->setLocale($locale);
         Carbon::setLocale($locale);
         date_default_timezone_set($timezone);
-
+        Assert::isArray($validationMessages = __('user::validation'));
         DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone($timezone));
         DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone)->displayFormat($date_format));
         TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
-        TextInput::configureUsing(fn (TextInput $component) => $component->validationMessages(__('user::validation')));
+        TextInput::configureUsing(fn (TextInput $component) => $component->validationMessages($validationMessages));
 
+        /* -- to Lang
         Field::configureUsing(function (Field $component) {
             $component = app(AutoLabelAction::class)->execute($component);
 
@@ -110,7 +111,7 @@ class XotServiceProvider extends XotBaseServiceProvider
 
             return $component;
         });
-
+        */
         // ->validationMessages(__('xot::validation'))
     }
 

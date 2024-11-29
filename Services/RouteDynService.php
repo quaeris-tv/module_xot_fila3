@@ -36,10 +36,12 @@ class RouteDynService
     public static function getPrefix(array $v, ?string $namespace): string
     {
         if (\in_array('prefix', array_keys($v), false)) {
-            return $v['prefix'];
-        }
+            Assert::string($prefix = $v['prefix']);
 
-        $prefix = mb_strtolower((string) $v['name']);
+            return $prefix;
+        }
+        Assert::string($name = $v['name']);
+        $prefix = mb_strtolower($name);
         // /*
         $param_name = self::getParamName($v, $namespace);
         if ('' !== $param_name) {
