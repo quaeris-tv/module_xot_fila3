@@ -35,7 +35,7 @@ class LogResource extends XotBaseResource
     {
         return $table
             ->columns([
-                // Tables\Columns\TextColumn::make('id')->label('ID'),
+                // Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('size'),
             ])
