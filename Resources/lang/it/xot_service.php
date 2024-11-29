@@ -37,5 +37,24 @@
     array (
       'label' => 'password_expires_at',
     ),
+    'values' => 
+    array (
+      'label' => 'values',
+    ),
+    'assetType' => 
+    array (
+      'name' => 
+      array (
+        'label' => 'assetType.name',
+      ),
+    ),
+    'description' => 
+    array (
+      'label' => 'description',
+    ),
+    'parent_id' => 
+    array (
+      'label' => 'parent_id',
+    ),
   ),
 );
