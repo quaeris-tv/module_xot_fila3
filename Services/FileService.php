@@ -39,7 +39,7 @@ class FileService
             $files = scandir($modulesPath);
             $module_path = collect($files)
                 ->filter(
-                    static fn ($item): bool => Str::lower($item) === Str::lower($moduleName)
+                    fn (string $item): bool => Str::lower($item) === Str::lower($moduleName)
                 )->first();
             $module_path = base_path('Modules/'.$module_path);
         }
