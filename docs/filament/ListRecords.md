@@ -40,12 +40,7 @@ class ListXXX extends XotBaseListRecords
         ];
     }
 
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            TableLayoutToggleTableAction::make(),
-        ];
-    }
+    
 
   
 

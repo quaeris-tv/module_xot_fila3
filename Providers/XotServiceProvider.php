@@ -110,6 +110,7 @@ class XotServiceProvider extends XotBaseServiceProvider
 
             return $component;
         });
+
         // ->validationMessages(__('xot::validation'))
     }
 
