@@ -31,6 +31,7 @@ class SetDefaultTenantForUrlsMiddleware
             ]
         );
 
+        // @phpstan-ignore return.type
         return $next($request);
     }
 }

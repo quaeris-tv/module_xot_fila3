@@ -74,12 +74,14 @@ class XotComposer
         $metatag = MetatagData::make();
         $fun = 'get'.Str::studly($str);
         if (method_exists($metatag, $fun)) {
+            // @phpstan-ignore return.type
             return $metatag->{$fun}();
             // $callback = [$metatag,$fun];
             // Assert::isCallable($callback);
             // return call_user_func_array($callback, []);
         }
 
+        // @phpstan-ignore return.type
         return $metatag->{$str};
     }
 }
