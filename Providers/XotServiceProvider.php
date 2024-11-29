@@ -10,6 +10,7 @@ use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
+use Filament\Forms\Components\Wizard\Step;
 use Filament\Infolists\Components\Entry;
 use Filament\Support\Components\Component;
 use Filament\Support\Concerns\Configurable;
@@ -108,6 +109,13 @@ class XotServiceProvider extends XotBaseServiceProvider
         Column::configureUsing(function (Column $component) {
             $component = app(AutoLabelAction::class)->execute($component);
 
+            return $component;
+        });
+
+        Step::configureUsing(function (Step $component) {
+            $component = app(AutoLabelAction::class)->execute($component);
+
+            // ->translateLabel()
             return $component;
         });
         // ->validationMessages(__('xot::validation'))

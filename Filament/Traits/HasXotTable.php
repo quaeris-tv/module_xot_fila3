@@ -34,6 +34,9 @@ trait HasXotTable
     use TransTrait;
 
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
+    protected static bool $canReplicate = false;
+    protected static bool $canView = true;
+    protected static bool $canEdit = true;
 
     /**
      * @return array<Action|BulkAction|ActionGroup>
@@ -90,6 +93,21 @@ trait HasXotTable
         return method_exists($this, 'getRelationship') && $this->getRelationship()->exists();
     }
 
+    protected function shouldShowReplicateAction(): bool
+    {
+        return static::$canReplicate;
+    }
+
+    protected function shouldShowViewAction(): bool
+    {
+        return static::$canView;
+    }
+
+    protected function shouldShowEditAction(): bool
+    {
+        return static::$canEdit;
+    }
+
     /**
      * Get global header actions, optimized with tooltips instead of labels.
      *
@@ -131,7 +149,7 @@ trait HasXotTable
 
     public function getTableFiltersFormColumns(): int
     {
-        return 1;
+        return count($this->getTableFilters()) + 1;
     }
 
     public function getTableRecordTitleAttribute(): string
@@ -188,27 +206,25 @@ trait HasXotTable
      */
     protected function getTableActions(): array
     {
-        $actions = [
-            'view' => Tables\Actions\ViewAction::make()
+        $actions = [];
+        if ($this->shouldShowViewAction()) {
+            $actions['view'] = Tables\Actions\ViewAction::make()
                 ->iconButton()
-                // ->label('')
-                // ->link()
-                ->tooltip(__('user::actions.view'))
-            // ->icon('heroicon-o-eye')
-            // ->color('info')
-            ,
+                ->tooltip(__('user::actions.view'));
+        }
 
-            'edit' => Tables\Actions\EditAction::make()
+        if ($this->shouldShowEditAction()) {
+            $actions['edit'] = Tables\Actions\EditAction::make()
                 ->iconButton()
-                ->tooltip(__('user::actions.edit'))
+                ->tooltip(__('user::actions.edit'));
+        }
 
-            /*
+        if ($this->shouldShowReplicateAction()) {
+            $actions['replicate'] = Tables\Actions\ReplicateAction::make()
                 ->label('')
-
-                ->icon('heroicon-o-pencil')
-                ->color('warning')
-                */,
-        ];
+                ->tooltip(__('user::actions.replicate'))
+                ->iconButton();
+        }
         if (! $this->shouldShowDetachAction()) {
             $actions['delete'] = Tables\Actions\DeleteAction::make()
                 ->tooltip(__('user::actions.delete'))
