@@ -67,10 +67,12 @@ class RouteDynService
     public static function getAs(array $v, ?string $namespace): string
     {
         if (\in_array('as', array_keys($v), false)) {
-            return $v['as'];
-        }
+            Assert::string($as = $v['as']);
 
-        $as = mb_strtolower((string) $v['name']).'';
+            return $as;
+        }
+        Assert::string($name = $v['name']);
+        $as = mb_strtolower($name).'';
         $as = str_replace('/', '.', $as);
         Assert::string($as = preg_replace('/{.*}./', '', $as), '['.__LINE__.']['.class_basename(static::class).']');
 
@@ -84,13 +86,13 @@ class RouteDynService
     public static function getNamespace(array $v, ?string $namespace): ?string
     {
         if (\in_array('namespace', array_keys($v), false)) {
-            return $v['namespace'];
+            Assert::string($namespace = $v['namespace']);
+
+            return $namespace;
         }
 
-        // if($namespace!=null){
-        $namespace = $v['name'];
-        // }
-        $namespace = str_replace('{', '', (string) $namespace);
+        Assert::string($namespace = $v['name']);
+        $namespace = str_replace('{', '', $namespace);
         $namespace = str_replace('}', '', $namespace);
         if ('' === $namespace) {
             return null;

@@ -186,9 +186,11 @@ class FileService
         if (method_exists($finder, 'getHints')) {
             $viewHints = $finder->getHints();
         }
-
+        Assert::isArray($viewHints);
         if (isset($viewHints[$ns])) {
-            return $viewHints[$ns][0];
+            Assert::string($res = Arr::get($viewHints, $ns.'0'));
+
+            return $res;
         }
 
         if (\in_array($ns, ['pub_theme', 'adm_theme'], false)) {
