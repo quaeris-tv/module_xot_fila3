@@ -110,7 +110,7 @@ trait HasXotTable
     /**
      * Get table columns for grid layout.
      *
-     * @return array<Tables\Columns\Column|Stack|\Filament\Tables\Columns\Layout\Split>
+     * @return array<Tables\Columns\Column|Stack|Tables\Columns\Layout\Split>
      */
     public function getGridTableColumns(): array
     {
@@ -131,7 +131,12 @@ trait HasXotTable
 
     public function getTableFiltersFormColumns(): int
     {
-        return count($this->getTableFilters()) + 1;
+        $c = count($this->getTableFilters()) + 1;
+        if ($c > 6) {
+            return 6;
+        }
+
+        return $c;
     }
 
     public function getTableRecordTitleAttribute(): string
@@ -190,7 +195,7 @@ trait HasXotTable
     /**
      * Define row-level actions with translations.
      *
-     * @return array<Tables\Actions\Action|Tables\Actions\ActionGroup>
+     * @return array<Action|ActionGroup>
      */
     protected function getTableActions(): array
     {
