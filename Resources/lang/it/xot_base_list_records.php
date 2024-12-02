@@ -1,9 +1,11 @@
-<?php return array (
-  'actions' => 
-  array (
-    'create' => 
-    array (
-      'label' => 'create',
-    ),
-  ),
-);
+<?php
+
+declare(strict_types=1);
+
+return [
+    'actions' => [
+        'create' => [
+            'label' => 'create',
+        ],
+    ],
+];
