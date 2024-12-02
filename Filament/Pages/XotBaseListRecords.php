@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Pages;
 
 use Filament\Resources\Pages\ListRecords as FilamentListRecords;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\Xot\Filament\Actions\Header\ExportXlsAction;
@@ -55,4 +57,9 @@ abstract class XotBaseListRecords extends FilamentListRecords
         ];
     }
     */
+
+    protected function paginateTableQuery(Builder $query): Paginator
+    {
+        return $query->fastPaginate(('all' === $this->getTableRecordsPerPage()) ? $query->count() : $this->getTableRecordsPerPage());
+    }
 }
