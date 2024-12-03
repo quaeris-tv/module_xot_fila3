@@ -31,8 +31,28 @@ return [
         'technician_name' => [
             'label' => 'technician_name',
         ],
+        'password_expires_at' => [
+            'label' => 'password_expires_at',
+        ],
         'values' => [
             'label' => 'values',
         ],
+        'assetType' => [
+            'name' => [
+                'label' => 'assetType.name',
+            ],
+        ],
+        'description' => [
+            'label' => 'description',
+        ],
+        'parent_id' => [
+            'label' => 'parent_id',
+        ],
+        'creator' => [
+            'name' => [
+                'label' => 'creator.name',
+            ],
+        ],
+
     ],
 ];

@@ -11,6 +11,7 @@ namespace Modules\Xot\Filament\Actions\Table;
 // Header actions must be an instance of Filament\Actions\Action, or Filament\Actions\ActionGroup.
 // use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\Action;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Xot\Actions\Export\PdfByModelAction;
 
 class PdfAction extends Action
@@ -25,7 +26,7 @@ class PdfAction extends Action
             // ->icon('heroicon-o-cloud-arrow-down')
             // ->icon('fas-file-excel')
             ->icon('heroicon-o-document-arrow-down')
-            ->action(fn ($record) => app(PdfByModelAction::class)
+            ->action(fn (Model $record) => app(PdfByModelAction::class)
                 ->execute(model: $record));
     }
 }
