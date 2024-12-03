@@ -28,6 +28,9 @@ return [
         'created_at' => [
             'label' => 'created_at',
         ],
+        'technician_name' => [
+            'label' => 'technician_name',
+        ],
         'password_expires_at' => [
             'label' => 'password_expires_at',
         ],
@@ -50,5 +53,6 @@ return [
                 'label' => 'creator.name',
             ],
         ],
+
     ],
 ];
