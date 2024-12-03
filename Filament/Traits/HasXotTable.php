@@ -99,8 +99,8 @@ trait HasXotTable
     {
         return [
             Actions\CreateAction::make()
-                ->label('')
-                ->tooltip(static::trans('actions.create.tooltip'))
+                // ->label('')
+                // ->tooltip(static::trans('actions.create.tooltip'))
                 ->icon('heroicon-o-plus')
                 // ->iconButton()
                 ->button(),
