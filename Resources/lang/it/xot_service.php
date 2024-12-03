@@ -1,68 +1,54 @@
 <?php
-return array(
-    'fields' =>
-    array(
-        'matr' =>
-        array(
+
+declare(strict_types=1);
+
+return [
+    'fields' => [
+        'matr' => [
             'label' => 'matr',
-        ),
-        'cognome' =>
-        array(
+        ],
+        'cognome' => [
             'label' => 'cognome',
-        ),
-        'value' =>
-        array(
+        ],
+        'value' => [
             'label' => 'value',
-        ),
-        'remember' =>
-        array(
+        ],
+        'remember' => [
             'label' => 'remember',
-        ),
-        'password' =>
-        array(
+        ],
+        'password' => [
             'label' => 'password',
-        ),
-        'email' =>
-        array(
+        ],
+        'email' => [
             'label' => 'email',
-        ),
-        'updated_at' =>
-        array(
+        ],
+        'updated_at' => [
             'label' => 'updated_at',
-        ),
-        'created_at' =>
-        array(
+        ],
+        'created_at' => [
             'label' => 'created_at',
-        ),
-        'password_expires_at' =>
-        array(
+        ],
+        'password_expires_at' => [
             'label' => 'password_expires_at',
-        ),
-        'values' =>
-        array(
+        ],
+        'values' => [
             'label' => 'values',
-        ),
-        'assetType' =>
-        array(
-            'name' =>
-            array(
+        ],
+        'assetType' => [
+            'name' => [
                 'label' => 'assetType.name',
-            ),
-        ),
-        'description' =>
-        array(
+            ],
+        ],
+        'description' => [
             'label' => 'description',
-        ),
-        'parent_id' =>
-        array(
+        ],
+        'parent_id' => [
             'label' => 'parent_id',
-        ),
-        'creator' =>
-        array(
-            'name' =>
-            array(
+        ],
+        'creator' => [
+            'name' => [
                 'label' => 'creator.name',
-            ),
-        ),
-    ),
-);
+            ],
+        ],
+    ],
+];
