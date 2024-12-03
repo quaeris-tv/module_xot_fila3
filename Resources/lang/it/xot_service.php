@@ -53,6 +53,5 @@ return [
                 'label' => 'creator.name',
             ],
         ],
-
     ],
 ];
