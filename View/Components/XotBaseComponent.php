@@ -20,16 +20,42 @@ abstract class XotBaseComponent extends IlluminateComponent
      */
     public array $attrs = [];
 
+    /**
+     * Summary of assets.
+     *
+     * @var list<string>
+     */
     protected static array $assets = [];
 
+    /**
+     * Cache for resolved views.
+     *
+     * @var array<string, view-string>
+     */
+    protected static array $viewCache = [];
+
+    /**
+     * Summary of assets.
+     *
+     * @return list<string>
+     */
     public static function assets(): array
     {
         return static::$assets;
     }
 
+    /**
+     * Summary of getView.
+     *
+     * @return view-string
+     */
     public function getView(): string
     {
         $class = static::class;
+
+        if (isset(self::$viewCache[$class])) {
+            return self::$viewCache[$class];
+        }
 
         $module_name = Str::between($class, 'Modules\\', '\Views\\');
         $module_name_low = Str::lower($module_name);
@@ -41,15 +67,10 @@ abstract class XotBaseComponent extends IlluminateComponent
         $view = $module_name_low.'::components.'.$comp_name;
         $view = str_replace('._', '.', $view);
 
-        // fare distinzione fra inAdmin o no ?
         if (! view()->exists($view)) {
-            dddx(
-                [
-                    'err' => 'View not Exists',
-                    'view' => $view,
-                ]
-            );
+            throw new \InvalidArgumentException("View [$view] does not exist.");
         }
+        self::$viewCache[$class] = $view;
 
         return $view;
     }
@@ -58,7 +79,6 @@ abstract class XotBaseComponent extends IlluminateComponent
 
     public function render(): Renderable
     {
-        // per fare copia ed incolla
         $view = $this->getView();
         $view_params = [
             'view' => $view,

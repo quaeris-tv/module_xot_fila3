@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources;
 
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Modules\Xot\Filament\Resources\ExtraResource\Pages;
 use Modules\Xot\Models\Extra;
 
-class ExtraResource extends Resource
+class ExtraResource extends XotBaseResource
 {
     protected static ?string $model = Extra::class;
 

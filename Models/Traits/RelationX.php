@@ -7,7 +7,11 @@ namespace Modules\Xot\Models\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
+use Webmozart\Assert\Assert;
 
+/**
+ * Trait Modules\Xot\Models\Traits\RelationX.
+ */
 trait RelationX
 {
     /**
@@ -26,8 +30,8 @@ trait RelationX
         ?string $relatedPivotKey = null,
         ?string $parentKey = null,
         ?string $relatedKey = null,
-        ?string $relation = null): BelongsToMany
-    {
+        ?string $relation = null,
+    ): BelongsToMany {
         $pivot = $this->guessPivot($related);
         $table = $pivot->getTable();
         $pivotFields = $pivot->getFillable();
@@ -68,7 +72,14 @@ trait RelationX
             ->beforeLast('\\')
             ->append('\\'.$pivot_name)
             ->toString();
+        if (! class_exists($pivot_class)) {
+            $pivot_class = Str::of($related)
+                ->beforeLast('\\')
+                ->append('\\'.$pivot_name)
+                ->toString();
+        }
         $pivot = app($pivot_class);
+        Assert::isInstanceOf($pivot, \Illuminate\Database\Eloquent\Relations\Pivot::class);
 
         return $pivot;
     }

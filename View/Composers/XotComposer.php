@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\View\Composers;
 
-use function call_user_func_array;
-
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -48,7 +46,7 @@ class XotComposer
         $callback = [$app, $name];
         Assert::isCallable($callback);
 
-        return \call_user_func_array($callback, $arguments);
+        return call_user_func_array($callback, $arguments);
     }
 
     /**
@@ -71,17 +69,19 @@ class XotComposer
         return asset(app(\Modules\Xot\Actions\File\AssetAction::class)->execute($str));
     }
 
-    public function metatag(string $str): string|bool
+    public function metatag(string $str): string|bool|null
     {
         $metatag = MetatagData::make();
         $fun = 'get'.Str::studly($str);
         if (method_exists($metatag, $fun)) {
+            // @phpstan-ignore return.type
             return $metatag->{$fun}();
             // $callback = [$metatag,$fun];
             // Assert::isCallable($callback);
             // return call_user_func_array($callback, []);
         }
 
+        // @phpstan-ignore return.type
         return $metatag->{$str};
     }
 }

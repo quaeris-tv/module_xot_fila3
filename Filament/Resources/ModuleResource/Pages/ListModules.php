@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources\ModuleResource\Pages;
 
 use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -16,11 +15,11 @@ use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Modules\UI\Enums\TableLayoutEnum;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
+use Modules\Xot\Filament\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\ModuleResource;
 use Nwidart\Modules\Facades\Module;
 
-class ListModules extends ListRecords
+class ListModules extends XotBaseListRecords
 {
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
@@ -99,13 +98,6 @@ class ListModules extends ListRecords
                 column: 'created_at',
                 direction: 'DESC',
             );
-    }
-
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            TableLayoutToggleTableAction::make(),
-        ];
     }
 
     protected function getHeaderActions(): array

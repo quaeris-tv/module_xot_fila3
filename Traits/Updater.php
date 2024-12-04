@@ -6,7 +6,9 @@ namespace Modules\Xot\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Datas\XotData;
+use Webmozart\Assert\Assert;
 
 /**
  * Trait Updater.
@@ -16,6 +18,8 @@ trait Updater
 {
     /**
      * Summary of creator.
+     *
+     * @return BelongsTo<Model&ProfileContract, $this>
      */
     public function creator(): BelongsTo
     {
@@ -37,6 +41,8 @@ trait Updater
     /**
      * Defines a relation to obtain the last user who
      * manipulated the Entity instance.
+     *
+     * @return BelongsTo<Model&ProfileContract, $this>
      */
     public function updater(): BelongsTo
     {
@@ -77,10 +83,11 @@ trait Updater
          * For deletes we need to save the model first with the deleted_by field
          */
         static::deleting(
-            static function ($model): void {
-                if (\in_array('deleted_by', array_keys($model->attributes), false)) {
-                    $model->deleted_by = authId();
-                    $model->save();
+            static function (Model $model): void {
+                Assert::isArray($attributes = $model->attributes);
+
+                if (\in_array('deleted_by', array_keys($attributes), false)) {
+                    $model->update(['deleted_by' => authId()]);
                 }
             }
         );

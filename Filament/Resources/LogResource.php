@@ -9,7 +9,6 @@ use Filament\Infolists;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
-use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Modules\Xot\Filament\Infolists\Components\FileContentEntry;
@@ -17,7 +16,7 @@ use Modules\Xot\Filament\Resources\LogResource\Pages;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
 use Modules\Xot\Models\Log;
 
-class LogResource extends Resource
+class LogResource extends XotBaseResource
 {
     use NavigationLabelTrait;
 

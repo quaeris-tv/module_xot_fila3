@@ -51,6 +51,8 @@ abstract class BaseModel extends Model
 
     /** @var string */
     protected $primaryKey = 'id';
+    /** @var string */
+    protected $keyType = 'string';
 
     /** @var list<string> */
     protected $hidden = [
@@ -60,7 +62,7 @@ abstract class BaseModel extends Model
     /**
      * Create a new factory instance for the model.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory<static>
+     * @return Factory<static>
      */
     protected static function newFactory()
     {
