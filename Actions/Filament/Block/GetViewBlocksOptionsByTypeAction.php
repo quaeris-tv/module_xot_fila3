@@ -27,13 +27,14 @@ class GetViewBlocksOptionsByTypeAction
 
         $opts = Arr::mapWithKeys(
             $files,
-            function ($path) {
+            function ($path) use ($type) {
+                $path = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
                 $module_low = Str::of($path)->between(DIRECTORY_SEPARATOR.'Modules'.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR)
                     ->lower()
                     ->toString();
                 $info = pathinfo($path);
                 $name = Str::of($info['basename'])->before('.blade.php')->toString();
-                $view = $module_low.'::components.blocks.hero.'.$name;
+                $view = $module_low.'::components.blocks.'.$type.'.'.$name;
                 $img = app(\Modules\Xot\Actions\File\AssetAction::class)
                     ->execute($module_low.'::img/screenshots/'.$name.'.png');
 
