@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @see https://github.com/masterix21/laravel-html2pdf/blob/master/src/config/html2pdf.php
  * @see https://github.com/masterix21/laravel-html2pdf/blob/master/src/PDF.php
@@ -22,38 +23,27 @@ use Webmozart\Assert\Assert;
 class PdfData extends Data
 {
     public string $filename = 'my_doc.pdf';
-
     public string $disk = 'cache';
-
     public string $out = 'download';
-
     // -- per costruttore
     public string $orientation = 'P';
-
     public string $format = 'A4';
-
     public string $lang = 'it';
-
     public bool $unicode = true;
-
     public string $encoding = 'UTF-8';
-
     public array $margins = [5, 5, 5, 8];
-
     public bool $pdfa = false;
-
     public string $dest = 'F';
-
     /*
-    Dest can be :
-    I : send the file inline to the browser (default). The plug-in is used if available. The name given by name is used when one selects the "Save as" option on the link generating the PDF.
-    D : send to the browser and force a file download with the name given by name.
-    F : save to a local server file with the name given by name.
-    S : return the document as a string (name is ignored).
-    FI: equivalent to F + I option
-    FD: equivalent to F + D option
-    E : return the document as base64 mime multi-part email attachment
-    */
+        Dest can be :
+        I : send the file inline to the browser (default). The plug-in is used if available. The name given by name is used when one selects the "Save as" option on the link generating the PDF.
+        D : send to the browser and force a file download with the name given by name.
+        F : save to a local server file with the name given by name.
+        S : return the document as a string (name is ignored).
+        FI: equivalent to F + I option
+        FD: equivalent to F + D option
+        E : return the document as base64 mime multi-part email attachment
+        */
 
     // public static function make(Model $model = null, string $html = null): self
     public static function make(): self

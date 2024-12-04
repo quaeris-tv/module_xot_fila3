@@ -4,18 +4,24 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Pages;
 
-use Filament\Pages\Page;
+use Filament\Pages\Dashboard;
 use Illuminate\Support\Str;
 use Webmozart\Assert\Assert;
 
 /**
  * Class Modules\Xot\Filament\Pages\MainDashboard.
  */
-class MainDashboard extends Page
+class MainDashboard extends Dashboard
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';
 
     protected static string $view = 'xot::filament.pages.dashboard';
+
+    // protected static string $routePath = 'main';
+
+    protected static ?string $title = 'Main Dashboard';
+
+    protected static ?int $navigationSort = 1;
 
     public function mount(): void
     {

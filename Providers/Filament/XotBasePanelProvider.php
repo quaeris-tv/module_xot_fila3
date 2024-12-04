@@ -20,6 +20,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Modules\Xot\Actions\Panel\ApplyMetatagToPanelAction;
 use Modules\Xot\Datas\MetatagData;
 use Modules\Xot\Datas\XotData;
 use Webmozart\Assert\Assert;
@@ -45,21 +46,16 @@ abstract class XotBasePanelProvider extends PanelProvider
 
         $panel = $panel
             ->default($default)
-            ->login()
+            // ->login()
             // ->registration()
             ->passwordReset()
             // ->emailVerification()
             // ->profile()
-            ->sidebarFullyCollapsibleOnDesktop()
-             // ---METATAG
-            ->brandLogo($metatag->getLogoHeader())
-            ->brandName($metatag->title)
-            ->darkModeBrandLogo($metatag->getLogoHeaderDark())
-            ->brandLogoHeight($metatag->getLogoHeight())
-            ->favicon($metatag->getFavicon())
+            ->sidebarFullyCollapsibleOnDesktop();
 
-            // ---------------------
-            ->maxContentWidth('full')
+        app(ApplyMetatagToPanelAction::class)->execute(panel: $panel);
+        // ---------------------
+        $panel->maxContentWidth('full')
             ->topNavigation($this->topNavigation)
             ->globalSearch($this->globalSearch)
             ->readOnlyRelationManagersOnResourceViewPagesByDefault(false)
@@ -69,12 +65,6 @@ abstract class XotBasePanelProvider extends PanelProvider
             // ->tenant($teamClass)
             ->id($moduleLow.'::admin')
             ->path($moduleLow.'/admin')
-            // ->colors(
-            //    [
-            //        // 'primary' => Color::Teal,
-            //    ]
-            // )
-
             ->discoverResources(
                 in: base_path('Modules/'.$this->module.'/Filament/Resources'),
                 for: sprintf('%s\Filament\Resources', $moduleNamespace)
@@ -160,13 +150,13 @@ abstract class XotBasePanelProvider extends PanelProvider
         $adminPanel = Filament::getPanel('admin');
 
         $adminPanel
-         ->navigationItems([
-             NavigationItem::make('Jobs')
-                 ->url($panel->getUrl(), shouldOpenInNewTab: false)
-                 ->icon('heroicon-o-users')
-                 ->group('Modules')
-                 ->sort(3),
-         ]);
+        ->navigationItems([
+            NavigationItem::make('Jobs')
+                ->url($panel->getUrl(), shouldOpenInNewTab: false)
+                ->icon('heroicon-o-users')
+                ->group('Modules')
+                ->sort(3),
+        ]);
         */
     }
 
