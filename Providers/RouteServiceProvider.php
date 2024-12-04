@@ -54,8 +54,8 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
     {
         // $router->prependMiddlewareToGroup('web', SetDefaultLocaleForUrls::class);
         // $router->prependMiddlewareToGroup('api', SetDefaultLocaleForUrls::class);
-        $router->pushMiddlewareToGroup('web', \Spatie\ResponseCache\Middlewares\CacheResponse::class);
-        $router->pushMiddlewareToGroup('api', \Spatie\ResponseCache\Middlewares\CacheResponse::class);
+        // $router->pushMiddlewareToGroup('web', \Spatie\ResponseCache\Middlewares\CacheResponse::class);
+        // $router->pushMiddlewareToGroup('api', \Spatie\ResponseCache\Middlewares\CacheResponse::class);
         $router->prependMiddlewareToGroup('web', SetDefaultTenantForUrlsMiddleware::class);
         $router->prependMiddlewareToGroup('api', SetDefaultTenantForUrlsMiddleware::class);
     }
