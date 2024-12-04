@@ -4,22 +4,25 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Sushi\Sushi;
 use Illuminate\Support\Arr;
-use Nwidart\Modules\Facades\Module as ModuleFacade;
+use Nwidart\Modules\Module as NModule;
 
 use function Safe\json_encode;
 
-use Sushi\Sushi;
+use Illuminate\Database\Eloquent\Model;
+use Nwidart\Modules\Facades\Module as ModuleFacade;
+use Nwidart\Modules\Laravel\Module as LaravelModule;
 
 /**
+ * 
+ *
  * @property int         $id
  * @property string|null $name
  * @property string|null $description
  * @property bool|null   $status
  * @property int|null    $priority
  * @property string|null $path
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Module newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Module newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Module query()
@@ -29,13 +32,10 @@ use Sushi\Sushi;
  * @method static \Illuminate\Database\Eloquent\Builder|Module wherePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Module wherePriority($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereStatus($value)
- *
  * @property string|null $icon
  * @property array|null  $colors
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereColors($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereIcon($value)
- *
  * @mixin \Eloquent
  */
 class Module extends Model
@@ -59,7 +59,8 @@ class Module extends Model
     public function getRows()
     {
         $modules = ModuleFacade::all();
-        $modules = Arr::map($modules, function ($module): array {
+        $modules = Arr::map($modules, 
+            function (NModule $module): array {
             $config = config('tenant::config');
             if (! is_array($config)) {
                 $config = [];
@@ -76,7 +77,8 @@ class Module extends Model
                 'icon' => Arr::get($config, 'icon', 'heroicon-o-question-mark-circle'),
                 'colors' => json_encode($colors),
             ];
-        });
+            }
+        );
 
         return array_values($modules);
     }

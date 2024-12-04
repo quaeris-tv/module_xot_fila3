@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Xot\View\Composers;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
-use Modules\Xot\Datas\MetatagData;
-use Modules\Xot\Datas\XotData;
-use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Webmozart\Assert\Assert;
+use Modules\Xot\Datas\XotData;
+use Modules\Xot\Datas\MetatagData;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Auth;
+use Nwidart\Modules\Laravel\Module as LarevelModule;
 
 /**
  * Class XotComposer.
@@ -29,8 +30,9 @@ class XotComposer
 
         $module = Arr::first(
             $modules,
-            static function ($module) use ($name): bool {
-                $class = '\Modules\\'.$module->getName().'\View\Composers\ThemeComposer';
+            static function (LarevelModule $module) use ($name): bool {
+                Assert::string($module_name=$module->getName());
+                $class = '\Modules\\'.$module_name.'\View\Composers\ThemeComposer';
 
                 return method_exists($class, $name);
             }

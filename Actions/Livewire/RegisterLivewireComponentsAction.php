@@ -18,7 +18,7 @@ class RegisterLivewireComponentsAction
             ->execute($path, $namespace.'\Http\Livewire', $prefix);
 
         foreach ($comps as $comp) {
-            Livewire::component($comp->comp_name, $comp->comp_ns);
+            Livewire::component($comp->name, $comp->ns);
         }
     }
 }
