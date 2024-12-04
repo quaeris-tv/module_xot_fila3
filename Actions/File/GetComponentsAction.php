@@ -4,32 +4,27 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\File;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Webmozart\Assert\Assert;
+use Modules\Xot\Datas\ComponentFileData;
 
 use function Safe\json_decode;
 
-use Illuminate\Support\Facades\File;
 use Spatie\LaravelData\DataCollection;
-use Modules\Xot\Datas\ComponentFileData;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class GetComponentsAction
 {
     use QueueableAction;
 
     /**
-     * Undocumented function
+     * Undocumented function.
      *
-     * @param string $path
-     * @param string $namespace
-     * @param string $prefix
-     * @param boolean $force_recreate
      * @return DataCollection<ComponentFileData>
      */
     public function execute(string $path, string $namespace, string $prefix, bool $force_recreate = false): DataCollection
     {
-        
         Assert::string($namespace = Str::replace('/', '\\', $namespace), '['.__LINE__.']['.class_basename(static::class).']');
         $components_json = $path.'/_components.json';
         $components_json = app(FixPathAction::class)->execute($components_json);
@@ -78,25 +73,25 @@ class GetComponentsAction
                         ->implode('.');
                     $tmp->comp_name .= $piece;
                     Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '['.__LINE__.']['.class_basename(static::class).']');
-                    
+
                     $tmp->comp_name .= '.'.Str::slug(Str::snake($comp_name));
                     $tmp->comp_name = $prefix.$tmp->comp_name;
                     $tmp->comp_ns = $namespace.'\\'.$relative_path.'\\'.$class_name;
                     $tmp->class_name = $relative_path.'\\'.$tmp->class_name;
                 }
-                $tmp=ComponentFileData::from([
-                        'name'=>$tmp->comp_name,
-                        'class'=>$tmp->class_name,
-                        //'path'=>$path.DIRECTORY_SEPARATOR.$relative_path,
-                        'ns' =>$tmp->comp_ns,   
-                    ])->toArray();
+                $tmp = ComponentFileData::from([
+                    'name' => $tmp->comp_name,
+                    'class' => $tmp->class_name,
+                    // 'path'=>$path.DIRECTORY_SEPARATOR.$relative_path,
+                    'ns' => $tmp->comp_ns,
+                ])->toArray();
 
                 $comps[] = $tmp;
             }
         }
 
         $content = json_encode($comps, JSON_THROW_ON_ERROR);
-        
+
         $old_content = '';
         if (File::exists($components_json)) {
             $old_content = File::get($components_json);
@@ -106,8 +101,8 @@ class GetComponentsAction
             File::put($components_json, $content);
         }
 
-        $res= ComponentFileData::collection($comps);
-        
+        $res = ComponentFileData::collection($comps);
+
         return $res;
     }
 }

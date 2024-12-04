@@ -16,12 +16,11 @@ class RegisterBladeComponentsAction
     {
         $comps = app(GetComponentsAction::class)
             ->execute($path, $namespace.'\View\Components', $prefix);
-       
-        if($comps->count()==0){
-            return ;
+
+        if (0 == $comps->count()) {
+            return;
         }
         foreach ($comps->items() as $comp) {
-            
             Blade::component($comp->name, $comp->ns);
         }
     }
