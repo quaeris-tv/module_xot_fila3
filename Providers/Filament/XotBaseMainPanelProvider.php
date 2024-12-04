@@ -95,7 +95,7 @@ abstract class XotBaseMainPanelProvider extends PanelProvider
         $panel->userMenuItems([
             // 'account' => MenuItem::make()->url($profile_url),
             MenuItem::make()
-                
+
                 ->url(fn (): string => $profile_url)
                 ->icon('heroicon-o-user'),
         ]);

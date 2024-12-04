@@ -65,12 +65,12 @@ class EnvWidget extends Widget implements HasForms
     {
         $all = [
             'app_url' => TextInput::make('app_url')
-                
+
                 ->placeholder('http://localhost')
                 ->helperText('Required for file uploads and other internal configs')
                 ->required(),
             'debugbar_enabled' => Toggle::make('debugbar_enabled')
-                
+
                 ->helperText('Enable/Disable debug mode to help debug errors'),
             'google_maps_api_key' => TextInput::make('google_maps_api_key')
                 ->placeholder('AIzaSyAuB_...')

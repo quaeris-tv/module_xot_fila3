@@ -23,7 +23,7 @@ class ExportXlsLazyAction extends Action
     {
         parent::setUp();
         $this->translateLabel()
-            // 
+
             ->label('')
             ->tooltip(__('xot::actions.export_xls'))
 
