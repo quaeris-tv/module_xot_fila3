@@ -7,9 +7,6 @@ namespace Modules\Xot\Filament\Resources\CacheResource\Pages;
 use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Columns\Layout\Stack;
-use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Table;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\Xot\Filament\Actions\Header\ArtisanHeaderAction;
 use Modules\Xot\Filament\Pages\XotBaseListRecords;
@@ -48,8 +45,6 @@ class ListCaches extends XotBaseListRecords
             ]),
         ];
     }
-
-   
 
     protected function getHeaderActions(): array
     {

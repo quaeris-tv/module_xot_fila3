@@ -108,7 +108,8 @@ class RouteDynService
     public static function getAct(array $v, ?string $namespace): string
     {
         if (\in_array('act', array_keys($v), false)) {
-            Assert::string($act=$v['act']);
+            Assert::string($act = $v['act']);
+
             return $act;
         }
 

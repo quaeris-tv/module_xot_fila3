@@ -15,7 +15,7 @@ use Livewire\Component;
 abstract class XotBaseComponent extends Component
 {
     /**
-     * Undocumented function
+     * Undocumented function.
      *
      * @return view-string
      */
@@ -33,7 +33,6 @@ abstract class XotBaseComponent extends Component
         // fare distinzione fra inAdmin o no ?
         if (! view()->exists($view)) {
             throw new \Exception('View not Exists['.$view.']');
-            
         }
 
         return $view;
