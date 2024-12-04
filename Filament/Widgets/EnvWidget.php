@@ -22,6 +22,7 @@ class EnvWidget extends Widget implements HasForms
 {
     use InteractsWithForms;
 
+    /** @var array<string, mixed>|null  */
     public ?array $data = [];
 
     public array $only = [];
