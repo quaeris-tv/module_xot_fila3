@@ -67,14 +67,14 @@ trait Updater
     protected static function bootUpdater(): void
     {
         static::creating(
-            static function ($model): void {
+            static function (Model $model): void {
                 $model->created_by = authId();
                 $model->updated_by = authId();
             }
         );
 
         static::updating(
-            static function ($model): void {
+            static function (Model $model): void {
                 $model->updated_by = authId();
             }
         );
