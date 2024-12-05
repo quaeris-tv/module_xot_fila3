@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Pages;
 
 use Filament\Resources\Pages\ListRecords as FilamentListRecords;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Modules\UI\Enums\TableLayoutEnum;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Filament\Actions\Header\ExportXlsAction;
 use Modules\Xot\Filament\Traits\HasXotTable;
 use Modules\Xot\Filament\Traits\TransTrait;
@@ -38,12 +39,7 @@ abstract class XotBaseListRecords extends FilamentListRecords
 
     /*
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            TableLayoutToggleTableAction::make(),
-        ];
-    }
+
 
     protected function getHeaderActions(): array
     {
@@ -61,4 +57,9 @@ abstract class XotBaseListRecords extends FilamentListRecords
         ];
     }
     */
+
+    protected function paginateTableQuery(Builder $query): Paginator
+    {
+        return $query->fastPaginate(('all' === $this->getTableRecordsPerPage()) ? $query->count() : $this->getTableRecordsPerPage());
+    }
 }

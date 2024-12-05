@@ -7,6 +7,7 @@ namespace Modules\Xot\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
+use Nwidart\Modules\Module as NModule;
 
 use function Safe\json_encode;
 
@@ -59,24 +60,26 @@ class Module extends Model
     public function getRows()
     {
         $modules = ModuleFacade::all();
-        $modules = Arr::map($modules, function ($module): array {
-            $config = config('tenant::config');
-            if (! is_array($config)) {
-                $config = [];
-            }
-            $colors = Arr::get($config, 'colors', []);
+        $modules = Arr::map($modules,
+            function (NModule $module): array {
+                $config = config('tenant::config');
+                if (! is_array($config)) {
+                    $config = [];
+                }
+                $colors = Arr::get($config, 'colors', []);
 
-            return [
-                'name' => $module->getName(),
-                // 'alias' => $module->getAlias(),
-                'description' => $module->getDescription(),
-                'status' => $module->isEnabled(),
-                'priority' => $module->get('priority', 0),
-                'path' => $module->getPath(),
-                'icon' => Arr::get($config, 'icon', 'heroicon-o-question-mark-circle'),
-                'colors' => json_encode($colors),
-            ];
-        });
+                return [
+                    'name' => $module->getName(),
+                    // 'alias' => $module->getAlias(),
+                    'description' => $module->getDescription(),
+                    'status' => $module->isEnabled(),
+                    'priority' => $module->get('priority', 0),
+                    'path' => $module->getPath(),
+                    'icon' => Arr::get($config, 'icon', 'heroicon-o-question-mark-circle'),
+                    'colors' => json_encode($colors),
+                ];
+            }
+        );
 
         return array_values($modules);
     }

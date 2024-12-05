@@ -11,6 +11,7 @@ use Illuminate\View\View;
 use Modules\Xot\Datas\MetatagData;
 use Modules\Xot\Datas\XotData;
 use Nwidart\Modules\Facades\Module;
+use Nwidart\Modules\Laravel\Module as LarevelModule;
 use Webmozart\Assert\Assert;
 
 /**
@@ -29,8 +30,9 @@ class XotComposer
 
         $module = Arr::first(
             $modules,
-            static function ($module) use ($name): bool {
-                $class = '\Modules\\'.$module->getName().'\View\Composers\ThemeComposer';
+            static function (LarevelModule $module) use ($name): bool {
+                Assert::string($module_name = $module->getName());
+                $class = '\Modules\\'.$module_name.'\View\Composers\ThemeComposer';
 
                 return method_exists($class, $name);
             }
@@ -74,12 +76,14 @@ class XotComposer
         $metatag = MetatagData::make();
         $fun = 'get'.Str::studly($str);
         if (method_exists($metatag, $fun)) {
+            // @phpstan-ignore return.type
             return $metatag->{$fun}();
             // $callback = [$metatag,$fun];
             // Assert::isCallable($callback);
             // return call_user_func_array($callback, []);
         }
 
+        // @phpstan-ignore return.type
         return $metatag->{$str};
     }
 }

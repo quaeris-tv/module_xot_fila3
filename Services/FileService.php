@@ -39,7 +39,7 @@ class FileService
             $files = scandir($modulesPath);
             $module_path = collect($files)
                 ->filter(
-                    static fn ($item): bool => Str::lower($item) === Str::lower($moduleName)
+                    fn (string $item): bool => Str::lower($item) === Str::lower($moduleName)
                 )->first();
             $module_path = base_path('Modules/'.$module_path);
         }
@@ -186,9 +186,11 @@ class FileService
         if (method_exists($finder, 'getHints')) {
             $viewHints = $finder->getHints();
         }
-
+        Assert::isArray($viewHints);
         if (isset($viewHints[$ns])) {
-            return $viewHints[$ns][0];
+            Assert::string($res = Arr::get($viewHints, $ns.'0'));
+
+            return $res;
         }
 
         if (\in_array($ns, ['pub_theme', 'adm_theme'], false)) {
