@@ -68,13 +68,16 @@ trait Updater
     {
         static::creating(
             static function (Model $model): void {
+                // @phpstan-ignore property.notFound
                 $model->created_by = authId();
+                // @phpstan-ignore property.notFound
                 $model->updated_by = authId();
             }
         );
 
         static::updating(
             static function (Model $model): void {
+                // @phpstan-ignore property.notFound
                 $model->updated_by = authId();
             }
         );
