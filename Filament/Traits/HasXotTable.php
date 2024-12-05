@@ -21,6 +21,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
+use Webmozart\Assert\Assert;
 
 /**
  * Trait HasXotTable.
@@ -268,11 +269,16 @@ trait HasXotTable
     {
         // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
         if (method_exists($this, 'getRelationship')) {
-            return $this->getRelationship()->getModel()::class;
+            // @phpstan-ignore classConstant.nonObject
+            Assert::string($res = $this->getRelationship()->getModel()::class);
+
+            return $res;
         }
         // @phpstan-ignore function.impossibleType, function.impossibleType
         if (method_exists($this, 'getModel')) {
-            return $this->getModel();
+            Assert::string($res = $this->getModel());
+
+            return $res;
         }
         // if (method_exists($this, 'getMountedTableActionRecord')) {
         //    dddx($this->getMountedTableActionRecord());
@@ -292,6 +298,7 @@ trait HasXotTable
     {
         $model = $this->getModelClass();
 
+        // @phpstan-ignore return.type
         return app($model)->getConnection()->getSchemaBuilder()->hasTable(app($model)->getTable());
     }
 
