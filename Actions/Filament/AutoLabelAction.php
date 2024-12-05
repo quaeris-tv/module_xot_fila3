@@ -40,8 +40,11 @@ class AutoLabelAction
 
                 app(SaveTransAction::class)->execute($label_key, $label_value);
             }
-            $component->label($label);
+            $component->label($label_key);
+            dddx($label_key);
         }
+        $component->label($label_key);
+        dddx($label_key);
 
         return $component;
     }
