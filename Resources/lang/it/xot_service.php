@@ -26,10 +26,14 @@ return [
             ],
         ],
         'email' => [
+<<<<<<< HEAD
             'label' => 'email',
             'fields' => [
                 'label' => 'email',
             ],
+=======
+            'label' => 'Email',
+>>>>>>> origin/dev
         ],
         'updated_at' => [
             'label' => 'updated_at',
@@ -58,8 +62,29 @@ return [
         'password_expires_at' => [
             'label' => 'password_expires_at',
         ],
+<<<<<<< HEAD
         'isActive' => [
             'label' => 'isActive',
+=======
+        'values' => [
+            'label' => 'values',
+        ],
+        'assetType' => [
+            'name' => [
+                'label' => 'assetType.name',
+            ],
+        ],
+        'description' => [
+            'label' => 'Descrizione',
+        ],
+        'parent_id' => [
+            'label' => 'Padre',
+        ],
+        'creator' => [
+            'name' => [
+                'label' => 'creator.name',
+            ],
+>>>>>>> origin/dev
         ],
     ],
 ];

@@ -9,6 +9,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 /**
  * Create an index for a specific table based on a model class and columns.
@@ -37,7 +38,7 @@ class CreateTableIndexByModelClassColumnsAction
 
         $tableName = $modelInstance->getTable();
         $connectionName = $modelInstance->getConnectionName() ?? config('database.default');
-
+        Assert::string($connectionName);
         // Validate the table exists
         if (! Schema::connection($connectionName)->hasTable($tableName)) {
             throw new \RuntimeException("Table '{$tableName}' does not exist on connection '{$connectionName}'.");

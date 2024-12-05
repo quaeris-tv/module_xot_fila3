@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Services;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -113,7 +114,7 @@ class RouteDynService
             return $act;
         }
 
-        $v['act'] = $v['name'];
+        Assert::nullOrString($v['act'] = $v['name']);
         $v['act'] = preg_replace('/{.*}\//', '', (string) $v['act']);
         if (null === $v['act']) {
             $v['act'] = '';
@@ -136,7 +137,9 @@ class RouteDynService
     public static function getParamName(array $v, ?string $namespace): string
     {
         if (\in_array('param_name', array_keys($v), false)) {
-            return $v['param_name'];
+            Assert::string($param_name = $v['param_name']);
+
+            return $param_name;
         }
 
         $param_name = 'id_'.$v['name'];
@@ -172,7 +175,7 @@ class RouteDynService
         if (! \is_array($params_name)) {
             throw new \Exception('params_name is not an array');
         }
-
+        Assert::nullOrString($v['name']);
         $opts = [
             'parameters' => [mb_strtolower((string) $v['name']) => implode('}/{', $params_name)],
             'names' => self::prefixedResourceNames(self::getAs($v, $namespace)),
@@ -198,10 +201,12 @@ class RouteDynService
     public static function getController(array $v, ?string $namespace): string
     {
         if (\in_array('controller', array_keys($v), false)) {
-            return $v['controller'];
+            Assert::string($controller = $v['controller']);
+
+            return $controller;
         }
 
-        $v['controller'] = $v['name'];
+        Assert::nullOrString($v['controller'] = $v['name']);
         $v['controller'] = str_replace('/', '_', (string) $v['controller']);
         $v['controller'] = str_replace('{', '', $v['controller']);
         $v['controller'] = str_replace('}', '', $v['controller']);
@@ -219,13 +224,15 @@ class RouteDynService
 
     public static function getUri(array $v, ?string $namespace): string
     {
+        Assert::nullOrString($v['name']);
+
         return mb_strtolower((string) $v['name']);
     }
 
     public static function getMethod(array $v, ?string $namespace): array
     {
         if (\in_array('method', array_keys($v), false)) {
-            return $v['method'];
+            return Arr::wrap($v['method']);
         }
 
         return ['get', 'post'];
@@ -262,6 +269,7 @@ class RouteDynService
         }*/
         reset($array);
         foreach ($array as $v) {
+            Assert::isArray($v);
             $group_opts = self::getGroupOpts($v, $namespace);
             $v['group_opts'] = $group_opts;
             self::createRouteResource($v, $namespace);
@@ -284,7 +292,7 @@ class RouteDynService
         if (null === $v['name']) {
             return;
         }
-
+        Assert::string($v['name']);
         $opts = self::getResourceOpts($v, $namespace);
         $controller = self::getController($v, $namespace);
         $name = mb_strtolower((string) $v['name']);
@@ -334,30 +342,18 @@ class RouteDynService
         reset($v['acts']);
 
         $controller = self::getController($v, $namespace);
+        if (! is_iterable($v['acts'])) {
+            return;
+        }
         foreach ($v['acts'] as $v1) {
-            // try {
+            Assert::isArray($v1);
             $v1['controller'] = $controller; // le acts hanno il controller del padre
-            // } catch (\Exception $e) {
-            //    dddx([
-            //        'message' => $e->getMessage(),
-            //        'k1' => $k1,
-            //        'v1' => $v1,
-            //        'controller' => $controller,
-            //    ]);
-            // }
+
             $method = self::getMethod($v1, $namespace);
             $uri = self::getUri($v1, $namespace);
             $callback = self::getCallback($v1, $namespace, $curr);
-            /*
-            Else branch is unreachable because previous condition is always true.
-            if (\is_array($method)) {
-                Route::match($method, $uri, $callback);
-            } else {
-                Route::$method($uri, $callback);
-            }
-            */
             Route::match($method, $uri, $callback);
-        } // endforeach
+        }
     }
 
     // /--------------------------------------------------------

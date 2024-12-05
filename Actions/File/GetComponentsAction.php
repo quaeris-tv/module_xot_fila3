@@ -44,7 +44,10 @@ class GetComponentsAction
 
             // return (array) json_decode((string) $content, null, 512, JSON_THROW_ON_ERROR);
             // return (array) json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-            return (array) json_decode($content, false);
+            $comps = json_decode($content, false);
+            $res = ComponentFileData::collection($comps);
+
+            return $res;
         }
 
         $files = File::allFiles($path);
