@@ -10,7 +10,6 @@ use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
-use Filament\Forms\Components\Wizard\Step;
 use Filament\Infolists\Components\Entry;
 use Filament\Support\Components\Component;
 use Filament\Support\Concerns\Configurable;
@@ -27,10 +26,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
-<<<<<<< HEAD
-// use Modules\Xot\Actions\Filament\AutoLabelAction;
-=======
->>>>>>> origin/dev
 use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
 use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
@@ -93,40 +88,7 @@ class XotServiceProvider extends XotBaseServiceProvider
         DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone)->displayFormat($date_format));
         TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
-<<<<<<< HEAD
-        TextInput::configureUsing(fn (TextInput $component) => $component->validationMessages(__('user::validation')));
-        /*
-        Field::configureUsing(function (Field $component) {
-            $component = app(AutoLabelAction::class)->execute($component);
-
-            $component->validationMessages(__('user::validation'));
-
-            return $component;
-        });
-
-        BaseFilter::configureUsing(function (BaseFilter $component) {
-            $component = app(AutoLabelAction::class)->execute($component);
-
-            return $component;
-        });
-
-        Column::configureUsing(function (Column $component) {
-            $component = app(AutoLabelAction::class)->execute($component);
-
-            return $component;
-        });
-
-        Step::configureUsing(function (Step $component) {
-            $component = app(AutoLabelAction::class)->execute($component);
-
-            // ->translateLabel()
-            return $component;
-        });
-        // ->validationMessages(__('xot::validation'))
-        */
-=======
         TextInput::configureUsing(fn (TextInput $component) => $component->validationMessages($validationMessages));
->>>>>>> origin/dev
     }
 
     /**

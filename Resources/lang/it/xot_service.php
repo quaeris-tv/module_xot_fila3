@@ -37,7 +37,6 @@ return [
         'created_at' => [
             'label' => 'created_at',
         ],
-<<<<<<< HEAD
         'teams' => [
             'name' => [
                 'label' => 'teams.name',
@@ -55,37 +54,12 @@ return [
         ],
         'email_verified_at' => [
             'label' => 'email_verified_at',
-=======
-        'technician_name' => [
-            'label' => 'technician_name',
->>>>>>> origin/dev
         ],
         'password_expires_at' => [
             'label' => 'password_expires_at',
         ],
-<<<<<<< HEAD
         'isActive' => [
             'label' => 'isActive',
-=======
-        'values' => [
-            'label' => 'values',
-        ],
-        'assetType' => [
-            'name' => [
-                'label' => 'assetType.name',
-            ],
-        ],
-        'description' => [
-            'label' => 'description',
-        ],
-        'parent_id' => [
-            'label' => 'parent_id',
-        ],
-        'creator' => [
-            'name' => [
-                'label' => 'creator.name',
-            ],
->>>>>>> origin/dev
         ],
     ],
 ];
