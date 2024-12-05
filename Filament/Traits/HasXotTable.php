@@ -149,12 +149,26 @@ trait HasXotTable
 
     public function getTableFiltersFormColumns(): int
     {
+<<<<<<< HEAD
         return count($this->getTableFilters()) + 1;
+=======
+        $c = count($this->getTableFilters()) + 1;
+        if ($c > 6) {
+            return 6;
+        }
+
+        return $c;
+>>>>>>> origin/dev
     }
 
     public function getTableRecordTitleAttribute(): string
     {
         return 'name';
+    }
+
+    public function getTableEmptyStateActions(): array
+    {
+        return [];
     }
 
     /**
@@ -180,6 +194,7 @@ trait HasXotTable
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
             ->actionsPosition(ActionsPosition::BeforeColumns)
+            ->emptyStateActions($this->getTableEmptyStateActions())
             ->striped();
         /*
         ->defaultSort(

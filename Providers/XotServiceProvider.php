@@ -27,7 +27,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
+<<<<<<< HEAD
 // use Modules\Xot\Actions\Filament\AutoLabelAction;
+=======
+>>>>>>> origin/dev
 use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
 use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
@@ -85,11 +88,12 @@ class XotServiceProvider extends XotBaseServiceProvider
         app()->setLocale($locale);
         Carbon::setLocale($locale);
         date_default_timezone_set($timezone);
-
+        Assert::isArray($validationMessages = __('user::validation'));
         DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone($timezone));
         DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone)->displayFormat($date_format));
         TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
+<<<<<<< HEAD
         TextInput::configureUsing(fn (TextInput $component) => $component->validationMessages(__('user::validation')));
         /*
         Field::configureUsing(function (Field $component) {
@@ -120,6 +124,9 @@ class XotServiceProvider extends XotBaseServiceProvider
         });
         // ->validationMessages(__('xot::validation'))
         */
+=======
+        TextInput::configureUsing(fn (TextInput $component) => $component->validationMessages($validationMessages));
+>>>>>>> origin/dev
     }
 
     /**

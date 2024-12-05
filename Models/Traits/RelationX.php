@@ -7,6 +7,7 @@ namespace Modules\Xot\Models\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
+use Webmozart\Assert\Assert;
 
 /**
  * Trait Modules\Xot\Models\Traits\RelationX.
@@ -78,6 +79,7 @@ trait RelationX
                 ->toString();
         }
         $pivot = app($pivot_class);
+        Assert::isInstanceOf($pivot, \Illuminate\Database\Eloquent\Relations\Pivot::class);
 
         return $pivot;
     }

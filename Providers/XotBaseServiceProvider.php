@@ -20,6 +20,8 @@ use function Safe\json_decode;
 use function Safe\json_encode;
 use function Safe\realpath;
 
+use Webmozart\Assert\Assert;
+
 /**
  * Class XotBaseServiceProvider.
  */
@@ -150,15 +152,13 @@ abstract class XotBaseServiceProvider extends ServiceProvider
                 Str::before($this->module_ns, '\Providers'),
                 $prefix,
             );
-        if (\count($comps) > 0) {
-            $commands = collect($comps)->map(
-                function ($item) {
-                    return $this->module_ns.'\Console\Commands\\'.$item->class_name;
-                }
-            )->toArray();
-
-            $this->commands($commands);
+        if (0 == $comps->count()) {
+            return;
         }
+        $commands = Arr::map($comps->items(), function ($item) {
+            return $this->module_ns.'\Console\Commands\\'.$item->class;
+        });
+        $this->commands($commands);
     }
 
     /**
@@ -189,6 +189,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             //    $filenames = [];
             // }
             foreach ($filenames as $filename) {
+                Assert::string($filename);
                 $info = pathinfo((string) $filename);
 
                 // $tmp->namespace='\\'.$vendor.'\\'.$pack.'\\Events\\'.$info['filename'];
