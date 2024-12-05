@@ -405,6 +405,7 @@ if (! function_exists('params2ContainerItem')) {
             if (is_array($matches) && isset($matches[1]) && isset($matches[2])) {
                 $sk = $matches[1];
                 $sv = $matches[2];
+                // @phpstan-ignore offsetAccess.nonOffsetAccessible
                 ${$sk}[$sv] = $v;
             }
         }
@@ -427,7 +428,9 @@ if (! function_exists('getModelByName')) {
     {
         $registered = config('morph_map.'.$name);
         if (is_string($registered) && class_exists($registered)) {
-            return app($registered);
+            Assert::isInstanceOf($res = app($registered), Model::class);
+
+            return $res;
         }
 
         // getFirst..
@@ -460,7 +463,9 @@ if (! function_exists('getModelByName')) {
 
         $class = 'Modules\\'.$module_name.'\Models\\'.$info['filename'];
 
-        return app($class);
+        Assert::isInstanceOf($res = app($class), Model::class);
+
+        return $res;
     }
 }
 
