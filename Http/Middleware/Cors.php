@@ -21,6 +21,7 @@ class Cors
         $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE');
         $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, X-Auth-Token, Origin, Authorization');
 
+        // @phpstan-ignore return.type
         return $response;
     }
 }

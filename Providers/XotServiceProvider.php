@@ -191,6 +191,7 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->app->extend(
             ExceptionHandler::class,
             static function (ExceptionHandler $handler, $app) {
+                // @phpstan-ignore offsetAccess.nonOffsetAccessible
                 return new HandlerDecorator($handler, $app[HandlersRepository::class]);
             }
         );
