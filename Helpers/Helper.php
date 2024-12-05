@@ -441,7 +441,7 @@ if (! function_exists('getModelByName')) {
         // }
 
         $path = collect($files)->first(
-            static function ($file) use ($name): bool {
+            static function (string $file) use ($name): bool {
                 $info = pathinfo((string) $file);
                 // Offset 'filename' on array{dirname?: string, basename: string, extension?: string, filename: string} on left side of ?? always exists and is not nullable.
                 $filename = $info['filename'];
@@ -497,7 +497,9 @@ if (! function_exists('getModuleFromModel')) {
         // $mod = \Nwidart\Modules\Module::get($module_name);
         // 480    Call to an undefined method Nwidart\Modules\Facades\Module::get()
         // $mod = app('module')->get($module_name);
-        return app('module')->find($module_name);
+        Assert::isInstanceOf($res = app('module')->find($module_name), Nwidart\Modules\Module::class);
+
+        return $res;
     }
 }
 
@@ -606,7 +608,9 @@ if (! function_exists('xotModel')) {
             throw new Exception('['.__LINE__.']['.__FILE__.']');
         }
 
-        return app($model_class);
+        Assert::isInstanceOf($res = app($model_class), Model::class);
+
+        return $res;
     }
 }
 
@@ -693,7 +697,7 @@ if (! function_exists('url_queries')) {
         // Turn the query string into an array
         $url_params = [];
         // Cannot access offset 'query' on array(?'scheme' => string, ?'host' => string, ?'port' => int, ?'user' => string, ?'pass' => string, ?'path' => string, ?'query' => string, ?'fragment' => string)|false.
-        if (isset($url_parsed['query'])) {
+        if (isset($url_parsed['query']) && is_string($url_parsed['query'])) {
             // if (in_array('query', array_keys($url_parsed))) {
             parse_str((string) $url_parsed['query'], $url_params);
         }
@@ -822,7 +826,7 @@ if (! function_exists('removeQueryParams')) {
     {
         $url = url()->current(); // get the base URL - everything to the left of the "?"
         $query = request()->query(); // get the query parameters (what follows the "?")
-
+        Assert::isArray($query);
         foreach ($params as $param) {
             unset($query[$param]); // loop through the array of parameters we wish to remove and unset the parameter from the query array
         }
@@ -1089,6 +1093,7 @@ if (! function_exists('inArrayBetween')) {
     function inArrayBetween(int $curr, array $data, ?string $field_start = 'start', ?string $field_end = 'end'): bool
     {
         foreach ($data as $v) {
+            Assert::isArray($v);
             if ($curr < $v[$field_start]) {
                 continue;
             }
@@ -1108,6 +1113,7 @@ if (! function_exists('inArrayBetweenKey')) {
     function inArrayBetweenKey(int $curr, array $data, ?string $field_start = 'start', ?string $field_end = 'end'): int|bool
     {
         foreach ($data as $k => $v) {
+            Assert::isArray($v);
             if ($curr < $v[$field_start]) {
                 continue;
             }
