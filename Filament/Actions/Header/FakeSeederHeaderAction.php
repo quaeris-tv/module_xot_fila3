@@ -41,7 +41,8 @@ class FakeSeederHeaderAction extends Action
                         ->title($title)
                         ->success()
                         ->send();
-            });
+            })
+            ->visible(false);
     }
 
     public static function getDefaultName(): ?string
