@@ -149,16 +149,12 @@ trait HasXotTable
 
     public function getTableFiltersFormColumns(): int
     {
-<<<<<<< HEAD
-        return count($this->getTableFilters()) + 1;
-=======
         $c = count($this->getTableFilters()) + 1;
         if ($c > 6) {
             return 6;
         }
 
         return $c;
->>>>>>> origin/dev
     }
 
     public function getTableRecordTitleAttribute(): string
