@@ -20,7 +20,7 @@ return [
             'label' => 'password',
         ],
         'email' => [
-            'label' => 'email',
+            'label' => 'Email',
         ],
         'updated_at' => [
             'label' => 'updated_at',
@@ -46,7 +46,7 @@ return [
             'label' => 'description',
         ],
         'parent_id' => [
-            'label' => 'parent_id',
+            'label' => 'Padre',
         ],
         'creator' => [
             'name' => [
