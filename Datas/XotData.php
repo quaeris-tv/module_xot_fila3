@@ -135,7 +135,7 @@ class XotData extends Data implements Wireable
     {
         Assert::classExists($class = $this->tenant_class, '['.$class.']['.__LINE__.']['.class_basename($this).']');
         // Assert::isInstanceOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']');
-        Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
+        // Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
         Assert::implementsInterface($class, TenantContract::class, '['.__LINE__.']['.class_basename($this).']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
 

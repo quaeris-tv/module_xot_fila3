@@ -14,6 +14,11 @@ use Livewire\Component;
  */
 abstract class XotBaseComponent extends Component
 {
+    /**
+     * Undocumented function.
+     *
+     * @return view-string
+     */
     public function getView(): string
     {
         $class = static::class;
@@ -27,12 +32,7 @@ abstract class XotBaseComponent extends Component
         $view = str_replace('._', '.', $view);
         // fare distinzione fra inAdmin o no ?
         if (! view()->exists($view)) {
-            dddx(
-                [
-                    'err' => 'View not Exists',
-                    'view' => $view,
-                ]
-            );
+            throw new \Exception('View not Exists['.$view.']');
         }
 
         return $view;

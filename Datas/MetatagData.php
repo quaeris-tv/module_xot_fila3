@@ -164,11 +164,12 @@ class MetatagData extends Data implements Wireable
 
     public function getColors(): array
     {
+        return [];
         $mapped = Arr::mapWithKeys(
             $this->colors,
             function (array $item, int|string $key): array {
-                $k = $item['key'] ?? null;
-                $v = $item['color'] ?? null;
+                $k = $item['key'];
+                $v = $item['color'];
                 if ('custom' != $v) {
                     $v = Arr::get(Color::all(), $v);
                 }
@@ -179,7 +180,7 @@ class MetatagData extends Data implements Wireable
                 return [$k => $v];
             }
         );
-        return [];
+
         return $mapped;
         /*
         return [
