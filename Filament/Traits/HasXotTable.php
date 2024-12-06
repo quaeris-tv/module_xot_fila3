@@ -342,7 +342,7 @@ trait HasXotTable
             ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('id'))
             ->columns([
                 TextColumn::make('message')
-                    ->label(__('user::fields.message.label'))
+
                     ->default(__('user::fields.message.default'))
                     ->html(),
             ])
