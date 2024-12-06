@@ -237,12 +237,10 @@ trait HasXotTable
                 ->tooltip(__('user::actions.replicate'))
                 ->iconButton();
         }
+
         if (! $this->shouldShowDetachAction()) {
             $actions['delete'] = Tables\Actions\DeleteAction::make()
                 ->tooltip(__('user::actions.delete'))
-                /*->label('')
-
-                */
                 ->iconButton()
             ;
         }
