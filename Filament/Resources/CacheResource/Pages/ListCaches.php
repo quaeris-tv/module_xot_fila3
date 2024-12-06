@@ -7,9 +7,6 @@ namespace Modules\Xot\Filament\Resources\CacheResource\Pages;
 use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Columns\Layout\Stack;
-use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Table;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\Xot\Filament\Actions\Header\ArtisanHeaderAction;
 use Modules\Xot\Filament\Pages\XotBaseListRecords;
@@ -47,45 +44,6 @@ class ListCaches extends XotBaseListRecords
                 Tables\Columns\TextColumn::make('exipiration'),
             ]),
         ];
-    }
-
-    public function getTableFilters(): array
-    {
-        return [];
-    }
-
-    public function getTableActions(): array
-    {
-        return [
-            Tables\Actions\EditAction::make(),
-        ];
-    }
-
-    public function getTableBuilkActions(): array
-    {
-        return [
-            Tables\Actions\DeleteBulkAction::make(),
-        ];
-    }
-
-    public function table(Table $table): Table
-    {
-        return $table
-            // ->columns($this->getTableColumns())
-            ->columns($this->layoutView->getTableColumns())
-            ->contentGrid($this->layoutView->getTableContentGrid())
-            ->headerActions($this->getTableHeaderActions())
-
-            ->filters($this->getTableFilters())
-            ->filtersLayout(FiltersLayout::AboveContent)
-            ->persistFiltersInSession()
-            ->actions($this->getTableActions())
-            ->bulkActions($this->getTableBulkActions())
-            ->actionsPosition(ActionsPosition::BeforeColumns);
-        // ->defaultSort(
-        //    column: 'created_at',
-        //    direction: 'DESC',
-        // )
     }
 
     protected function getHeaderActions(): array

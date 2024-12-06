@@ -35,10 +35,10 @@ class ModuleResource extends XotBaseResource
                         Toggle::make('status'),
                         /*
                         Forms\Components\Repeater::make('colors')
-                        
+
                         ->schema([
                             TextInput::make('color')
-                                
+
                                 ->required(),
                         ])
                         ->minItems(1),
