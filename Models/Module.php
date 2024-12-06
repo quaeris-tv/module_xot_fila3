@@ -14,14 +14,13 @@ use function Safe\json_encode;
 use Sushi\Sushi;
 
 /**
- * 
- *
  * @property int         $id
  * @property string|null $name
  * @property string|null $description
  * @property bool|null   $status
  * @property int|null    $priority
  * @property string|null $path
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Module newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Module newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Module query()
@@ -31,10 +30,13 @@ use Sushi\Sushi;
  * @method static \Illuminate\Database\Eloquent\Builder|Module wherePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Module wherePriority($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereStatus($value)
+ *
  * @property string|null $icon
  * @property array|null  $colors
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereColors($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Module whereIcon($value)
+ *
  * @mixin \Eloquent
  */
 class Module extends Model
@@ -71,7 +73,7 @@ class Module extends Model
                     // 'alias' => $module->getAlias(),
                     'description' => $module->getDescription(),
                     'status' => $module->isEnabled(),
-                    'priority' => $module->get('priority', 0),
+                    'priority' => $module->get('priority'),
                     'path' => $module->getPath(),
                     'icon' => Arr::get($config, 'icon', 'heroicon-o-question-mark-circle'),
                     'colors' => json_encode($colors),
