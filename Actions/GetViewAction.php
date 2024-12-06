@@ -12,6 +12,13 @@ class GetViewAction
 {
     use QueueableAction;
 
+    /**
+     * Summary of execute.
+     *
+     * @throws \Exception
+     *
+     * @return view-string
+     */
     public function execute(string $tpl = '', string $file0 = ''): string
     {
         if ('' === $file0) {
