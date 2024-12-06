@@ -57,8 +57,8 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->registerExceptionHandler();
         $this->registerTimezone();
         // Model::shouldBeStrict(! app()->isProduction());
-
-        $this->translatableComponents();
+        // moved to Lang
+        // $this->translatableComponents();
         $this->registerProviders();
     }
 

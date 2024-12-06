@@ -92,7 +92,7 @@ class CustomRelation extends Relation
      *
      * @param string $relation
      *
-     * @return array<int, \Illuminate\Database\Eloquent\Model>
+     * @return array<int, Model>
      */
     public function match(array $models, Collection $collection, $relation): array
     {

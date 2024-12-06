@@ -14,11 +14,12 @@ use Modules\User\Models\Membership;
 use Modules\User\Models\Team;
 use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Contracts\UserContract;
+
+use function Safe\realpath;
+
 use Spatie\LaravelData\Concerns\WireableData;
 use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
-
-use function Safe\realpath;
 
 /**
  * Class Modules\Xot\Datas\XotData.
@@ -62,7 +63,7 @@ class XotData extends Data implements Wireable
 
     public static function make(): self
     {
-        if (!self::$instance) {
+        if (! self::$instance) {
             $data = TenantService::getConfig('xra');
             self::$instance = self::from($data);
         }
@@ -98,7 +99,7 @@ class XotData extends Data implements Wireable
     {
         $user_class = $this->getUserClass();
         $userInstance = new $user_class();
-        if (!in_array('email', $userInstance->getFillable())) {
+        if (! in_array('email', $userInstance->getFillable())) {
             throw new \Exception("Attribute 'email' not found in model ".get_class($userInstance));
         }
         $user = $user_class::firstOrCreate(['email' => $email]);
@@ -134,7 +135,7 @@ class XotData extends Data implements Wireable
     {
         Assert::classExists($class = $this->tenant_class, '['.$class.']['.__LINE__.']['.class_basename($this).']');
         // Assert::isInstanceOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']');
-        Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
+        // Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
         Assert::implementsInterface($class, TenantContract::class, '['.__LINE__.']['.class_basename($this).']');
         Assert::isAOf($class, Model::class, '['.__LINE__.']['.class_basename($this).']['.$class.']');
 
@@ -194,7 +195,7 @@ class XotData extends Data implements Wireable
     {
         $profileClass = $this->getProfileClass();
         $profile = app($profileClass);
-        if (!in_array('user_id', $profile->getFillable())) {
+        if (! in_array('user_id', $profile->getFillable())) {
             throw new \Exception('add user_id to fillable on class '.$profileClass);
         }
         $res = $profile->firstOrCreate(['user_id' => $user_id]);
