@@ -26,14 +26,7 @@ return [
             ],
         ],
         'email' => [
-<<<<<<< HEAD
-            'label' => 'email',
-            'fields' => [
-                'label' => 'email',
-            ],
-=======
             'label' => 'Email',
->>>>>>> origin/dev
         ],
         'updated_at' => [
             'label' => 'updated_at',
@@ -62,10 +55,6 @@ return [
         'password_expires_at' => [
             'label' => 'password_expires_at',
         ],
-<<<<<<< HEAD
-        'isActive' => [
-            'label' => 'isActive',
-=======
         'values' => [
             'label' => 'values',
         ],
@@ -84,7 +73,6 @@ return [
             'name' => [
                 'label' => 'creator.name',
             ],
->>>>>>> origin/dev
         ],
     ],
 ];
