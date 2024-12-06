@@ -15,9 +15,15 @@ return [
         ],
         'remember' => [
             'label' => 'remember',
+            'fields' => [
+                'label' => 'remember',
+            ],
         ],
         'password' => [
             'label' => 'password',
+            'fields' => [
+                'label' => 'password',
+            ],
         ],
         'email' => [
             'label' => 'Email',
@@ -28,8 +34,23 @@ return [
         'created_at' => [
             'label' => 'created_at',
         ],
-        'technician_name' => [
-            'label' => 'technician_name',
+        'teams' => [
+            'name' => [
+                'label' => 'teams.name',
+            ],
+        ],
+        'role' => [
+            'name' => [
+                'label' => 'role.name',
+            ],
+        ],
+        'roles' => [
+            'name' => [
+                'label' => 'roles.name',
+            ],
+        ],
+        'email_verified_at' => [
+            'label' => 'email_verified_at',
         ],
         'password_expires_at' => [
             'label' => 'password_expires_at',
