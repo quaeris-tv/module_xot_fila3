@@ -79,6 +79,9 @@ class PdfData extends Data
         $model_class = $model::class;
         $model_name = class_basename($model_class);
         $module = Str::between($model_class, '\Modules\\', '\Models');
+        /**
+         * @phpstan-var view-string
+         */
         $view_name = mb_strtolower($module).'::'.Str::kebab($model_name).'.show.pdf';
         $view_params = [
             'view' => $view_name,

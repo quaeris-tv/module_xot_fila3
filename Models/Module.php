@@ -73,7 +73,7 @@ class Module extends Model
                     // 'alias' => $module->getAlias(),
                     'description' => $module->getDescription(),
                     'status' => $module->isEnabled(),
-                    'priority' => $module->get('priority', 0),
+                    'priority' => $module->get('priority'),
                     'path' => $module->getPath(),
                     'icon' => Arr::get($config, 'icon', 'heroicon-o-question-mark-circle'),
                     'colors' => json_encode($colors),
