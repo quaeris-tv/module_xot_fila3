@@ -240,9 +240,6 @@ trait HasXotTable
         if (! $this->shouldShowDetachAction()) {
             $actions['delete'] = Tables\Actions\DeleteAction::make()
                 ->tooltip(__('user::actions.delete'))
-                /*->label('')
-
-                */
                 ->iconButton()
             ;
         }
@@ -342,7 +339,7 @@ trait HasXotTable
             ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('id'))
             ->columns([
                 TextColumn::make('message')
-                    ->label(__('user::fields.message.label'))
+
                     ->default(__('user::fields.message.default'))
                     ->html(),
             ])

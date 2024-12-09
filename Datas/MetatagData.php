@@ -164,6 +164,7 @@ class MetatagData extends Data implements Wireable
 
     public function getColors(): array
     {
+        return [];
         $mapped = Arr::mapWithKeys(
             $this->colors,
             function (array $item, int|string $key): array {
