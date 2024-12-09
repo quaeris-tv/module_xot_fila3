@@ -38,13 +38,16 @@ class GetComponentsAction
         }
 
         $exists = File::exists($components_json);
-        $force_recreate = true;
+        // $force_recreate = true;
         if ($exists && ! $force_recreate) {
             Assert::string($content = File::get($components_json), '['.__LINE__.']['.class_basename(static::class).']');
 
             // return (array) json_decode((string) $content, null, 512, JSON_THROW_ON_ERROR);
             // return (array) json_decode($content, false, 512, JSON_THROW_ON_ERROR);
             $comps = json_decode($content, false);
+            if (! is_array($comps)) {
+                $comps = [];
+            }
             $res = ComponentFileData::collection($comps);
 
             return $res;

@@ -106,6 +106,7 @@ class CreateTableIndexByModelClassColumnsAction
         $schemaName = $connection->getDatabaseName();
         $result = $connection->selectOne($query, [$schemaName, $tableName, $indexName]);
 
+        // @phpstan-ignore property.nonObject
         return $result && $result->{'COUNT(*)'} > 0;
     }
 

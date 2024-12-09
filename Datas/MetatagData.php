@@ -180,6 +180,7 @@ class MetatagData extends Data implements Wireable
                 return [$k => $v];
             }
         );
+        array_unique($mapped);
 
         return $mapped;
         /*
