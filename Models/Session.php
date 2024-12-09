@@ -17,7 +17,6 @@ namespace Modules\Xot\Models;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null                     $created_by
  * @property string|null                     $updated_by
- *
  * @method static \Modules\Xot\Database\Factories\SessionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Session  newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Session  newQuery()
@@ -32,7 +31,6 @@ namespace Modules\Xot\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|Session  whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Session  whereUserAgent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Session  whereUserId($value)
- *
  * @property int                             $id
  * @property int|null                        $user_id
  * @property string|null                     $ip_address
@@ -43,7 +41,6 @@ namespace Modules\Xot\Models;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null                     $created_by
  * @property string|null                     $updated_by
- *
  * @method static \Modules\Xot\Database\Factories\SessionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Session  newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Session  newQuery()
@@ -58,16 +55,12 @@ namespace Modules\Xot\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|Session  whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Session  whereUserAgent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Session  whereUserId($value)
- *
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property string|null                     $deleted_by
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Session whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Session whereDeletedBy($value)
- *
  * @property \Modules\Xot\Contracts\ProfileContract|null $creator
  * @property \Modules\Xot\Contracts\ProfileContract|null $updater
- *
  * @mixin \Eloquent
  */
 class Session extends BaseModel

@@ -6,6 +6,7 @@ namespace Modules\Xot\Actions\Blade;
 
 use Illuminate\Support\Facades\Blade;
 use Modules\Xot\Actions\File\GetComponentsAction;
+use Modules\Xot\Datas\ComponentFileData;
 use Spatie\QueueableAction\QueueableAction;
 
 class RegisterBladeComponentsAction
@@ -21,6 +22,9 @@ class RegisterBladeComponentsAction
             return;
         }
         foreach ($comps->items() as $comp) {
+            if (! $comp instanceof ComponentFileData) {
+                continue;
+            }
             Blade::component($comp->name, $comp->ns);
         }
     }
