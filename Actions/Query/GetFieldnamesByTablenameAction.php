@@ -14,18 +14,20 @@ final class GetFieldnamesByTablenameAction
     use QueueableAction;
 
     /**
-     * Get column names from a table with specific database connection
+     * Get column names from a table with specific database connection.
      *
-     * @param string $table Table name to get columns from
+     * @param string      $table          Table name to get columns from
      * @param string|null $connectionName Database connection name (optional)
+     *
+     * @throws \InvalidArgumentException
+     *
      * @return array<int, string>
-     * @throws InvalidArgumentException
      */
     public function execute(string $table, ?string $connectionName = null): array
     {
         // Validate table name
         if (empty(trim($table))) {
-            throw new InvalidArgumentException('Table name cannot be empty.');
+            throw new \InvalidArgumentException('Table name cannot be empty.');
         }
 
         // Use default connection if none is provided
