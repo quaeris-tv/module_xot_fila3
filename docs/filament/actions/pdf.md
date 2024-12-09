@@ -15,7 +15,7 @@ section: content
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Blade;
 
-class OrderResource extends Resource
+class OrderResource extends \Modules\Xot\Filament\Resources\XotBaseResource
 {
     // ...
  
@@ -81,7 +81,7 @@ class PdfController extends Controller
 
  file: app/Filament/Resources/OrderResource.php
  ```php
- class OrderResource extends Resource
+ class OrderResource extends \Modules\Xot\Filament\Resources\XotBaseResource
 {
     // ...
  
