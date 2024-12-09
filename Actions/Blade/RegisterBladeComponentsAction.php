@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Blade;
 
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Blade;
 use Modules\Xot\Actions\File\GetComponentsAction;
 use Modules\Xot\Datas\ComponentFileData;
@@ -25,7 +26,16 @@ class RegisterBladeComponentsAction
             if (! $comp instanceof ComponentFileData) {
                 continue;
             }
-            Blade::component($comp->name, $comp->ns);
+            try {
+                Blade::component($comp->name, $comp->ns);
+            } catch (\Error $e) {
+                Notification::make()
+                ->title('Error')
+                ->body($e->getMessage())
+                ->persistent()
+                ->danger()
+                ->send();
+            }
         }
     }
 }
