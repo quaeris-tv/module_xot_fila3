@@ -25,39 +25,50 @@ final class GetFieldnamesByTablenameAction
     {
         // Validate table name
         if (empty(trim($table))) {
-            throw new InvalidArgumentException('Table name cannot be empty');
+            throw new InvalidArgumentException('Table name cannot be empty.');
         }
 
-        // Set connection if provided
-        if ($connectionName !== null) {
-            try {
-                Schema::connection($connectionName);
-                DB::connection($connectionName)->getPdo();
-            } catch (\Throwable $e) {
-                throw new InvalidArgumentException(
-                    sprintf('Invalid database connection: %s', $connectionName)
-                );
-            }
+        // Use default connection if none is provided
+        $connectionName = $connectionName ?? config('database.default');
+
+        // Validate database connection
+        if (! $this->isValidConnection($connectionName)) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid database connection: %s', $connectionName)
+            );
         }
 
+        // Check if table exists in the database
+        if (! Schema::connection($connectionName)->hasTable($table)) {
+            throw new InvalidArgumentException(
+                sprintf('Table "%s" does not exist in connection "%s".', $table, $connectionName)
+            );
+        }
+
+        // Get and return column listing
         try {
-            // Check if table exists
-            if (! Schema::connection($connectionName)->hasTable($table)) {
-                throw new InvalidArgumentException(
-                    sprintf('Table %s does not exist in connection %s', $table, $connectionName ?? 'default')
-                );
-            }
-
-            // Get column listing
             $columns = Schema::connection($connectionName)->getColumnListing($table);
-
-            // Ensure we have an array of strings
             return array_values(array_map('strval', $columns));
-
         } catch (\Throwable $e) {
             throw new InvalidArgumentException(
-                sprintf('Error fetching columns: %s', $e->getMessage())
+                sprintf('Error fetching columns from table "%s": %s', $table, $e->getMessage())
             );
+        }
+    }
+
+    /**
+     * Check if a given database connection is valid.
+     *
+     * @param string $connectionName
+     * @return bool
+     */
+    private function isValidConnection(string $connectionName): bool
+    {
+        try {
+            DB::connection($connectionName)->getPdo();
+            return true;
+        } catch (\Throwable $e) {
+            return false;
         }
     }
 }
