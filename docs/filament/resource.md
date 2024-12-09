@@ -32,7 +32,7 @@ use Savannabits\FilamentModules\Concerns\ContextualResource;
 use Filament\Resources\Resource;
 
 ```bash
-class UserResource extends Resource
+class UserResource extends \Modules\Xot\Filament\Resources\XotBaseResource
 {
     //
 }

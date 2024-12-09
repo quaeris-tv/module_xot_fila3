@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources;
 
 use Filament\Pages\SubNavigationPosition;
-use Filament\Resources\Resource;
+use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Support\Str;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
 
-abstract class XotBaseResource extends Resource
+abstract class XotBaseResource extends FilamentResource
 {
     use NavigationLabelTrait;
 
