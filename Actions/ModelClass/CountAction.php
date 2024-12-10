@@ -15,8 +15,11 @@ class CountAction
     {
         $model = app($modelClass);
         $db = $model->getConnection()->getDatabaseName();
+        if ($db == ':memory:') {
+            return $model->count();
+        }
         $table = $model->getTable();
-        $info = DB::select('SELECT * FROM `information_schema`.`TABLES` 
+        $info = DB::select('SELECT * FROM `information_schema`.`TABLES`
             where TABLE_SCHEMA = "'.$db.'" and TABLE_NAME="'.$table.'" ');
 
         $count = $info[0]->TABLE_ROWS;
