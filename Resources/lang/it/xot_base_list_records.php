@@ -1,16 +1,28 @@
-<?php
-
-declare(strict_types=1);
-
-return [
-    'fields' => [
-        'message' => [
-            'label' => 'message',
-        ],
-    ],
-    'actions' => [
-        'create' => [
-            'label' => 'create',
-        ],
-    ],
-];
+<?php return array (
+  'fields' => 
+  array (
+    'message' => 
+    array (
+      'label' => 'message',
+    ),
+    'delete' => 
+    array (
+      'label' => 'delete',
+    ),
+    'edit' => 
+    array (
+      'label' => 'edit',
+    ),
+    'view' => 
+    array (
+      'label' => 'view',
+    ),
+  ),
+  'actions' => 
+  array (
+    'create' => 
+    array (
+      'label' => 'create',
+    ),
+  ),
+);
