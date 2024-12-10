@@ -8,9 +8,10 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources;
 
-use Filament\Pages\SubNavigationPosition;
-use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Support\Str;
+use Filament\Pages\SubNavigationPosition;
+use Modules\Xot\Actions\ModelClass\CountAction;
+use Filament\Resources\Resource as FilamentResource;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
 
 abstract class XotBaseResource extends FilamentResource
@@ -60,5 +61,29 @@ abstract class XotBaseResource extends FilamentResource
     {
         return [
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        try {
+            /*
+            //return (string) static::getModel()::count();
+            $model = app(static::getModel());
+            $table = $model->getTable();
+            $db = $model->getConnection()->getDatabaseName();
+            if ($db == ':memory:') {
+                return number_format($model->count(), 0);
+            }
+            $count = DB::table('information_schema.TABLES')
+            ->where('TABLE_SCHEMA', $databaseName)
+            ->where('TABLE_NAME', $tableName)
+            ->value('TABLE_ROWS');
+            return $db;
+            */
+            $count = app(CountAction::class)->execute(static::getModel());
+            return number_format($count, 0);
+        } catch (\Exception $e) {
+            return '---';
+        }
     }
 }
