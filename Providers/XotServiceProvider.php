@@ -26,7 +26,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
-use Modules\Xot\Actions\Filament\AutoLabelAction;
 use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
 use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
@@ -58,8 +57,8 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->registerExceptionHandler();
         $this->registerTimezone();
         // Model::shouldBeStrict(! app()->isProduction());
-
-        $this->translatableComponents();
+        // moved to Lang
+        // $this->translatableComponents();
         $this->registerProviders();
     }
 
@@ -90,29 +89,6 @@ class XotServiceProvider extends XotBaseServiceProvider
         TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
         TextInput::configureUsing(fn (TextInput $component) => $component->validationMessages($validationMessages));
-
-        /* -- to Lang
-        Field::configureUsing(function (Field $component) {
-            $component = app(AutoLabelAction::class)->execute($component);
-
-            $component->validationMessages(__('user::validation'));
-
-            return $component;
-        });
-
-        BaseFilter::configureUsing(function (BaseFilter $component) {
-            $component = app(AutoLabelAction::class)->execute($component);
-
-            return $component;
-        });
-
-        Column::configureUsing(function (Column $component) {
-            $component = app(AutoLabelAction::class)->execute($component);
-
-            return $component;
-        });
-        */
-        // ->validationMessages(__('xot::validation'))
     }
 
     /**
@@ -215,6 +191,7 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->app->extend(
             ExceptionHandler::class,
             static function (ExceptionHandler $handler, $app) {
+                // @phpstan-ignore offsetAccess.nonOffsetAccessible
                 return new HandlerDecorator($handler, $app[HandlersRepository::class]);
             }
         );

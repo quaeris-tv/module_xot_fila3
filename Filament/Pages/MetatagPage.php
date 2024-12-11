@@ -81,16 +81,16 @@ class MetatagPage extends Page implements HasForms
                     Repeater::make('colors')
                     ->schema([
                         Select::make('key')
-                            // ->label('Color Key')
+
                             ->required()
                             ->options($metatag->getFilamentColors()),
                         Select::make('color')
-                            // ->label('Color')
+
                             ->required()
                             ->reactive()
                             ->options(array_merge(['custom' => '--- custom ---'], $metatag->getAllColors())),
                         ColorPicker::make('hex')
-                            // ->label('custom Color')
+
                             ->visible(fn (Get $get): bool => 'custom' == $get('color'))
                             ->required(), // e.g., '#0071b0'
                     ])
@@ -116,7 +116,7 @@ class MetatagPage extends Page implements HasForms
     {
         return [
             Action::make('save')
-                ->label(__('filament-panels::resources/pages/edit-record.form.actions.save.label'))
+
                 ->submit('save'),
         ];
     }

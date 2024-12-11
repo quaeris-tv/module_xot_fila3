@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Webmozart\Assert\Assert;
 
 /**
  * Class CustomRelation.
@@ -90,6 +91,8 @@ class CustomRelation extends Relation
      * Match the eagerly loaded results to their parents.
      *
      * @param string $relation
+     *
+     * @return array<int, Model>
      */
     public function match(array $models, Collection $collection, $relation): array
     {
@@ -98,7 +101,10 @@ class CustomRelation extends Relation
             throw new \Exception('eagerMatcher is not callable');
         }
 
-        return ($this->eagerMatcher)($models, $collection, $relation, $this);
+        Assert::isArray($res = ($this->eagerMatcher)($models, $collection, $relation, $this));
+
+        // @phpstan-ignore return.type
+        return $res;
     }
 
     /**
