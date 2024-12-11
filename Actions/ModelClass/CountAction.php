@@ -15,7 +15,7 @@ class CountAction
     {
         $model = app($modelClass);
         $db = $model->getConnection()->getDatabaseName();
-        if ($db == ':memory:') {
+        if (':memory:' == $db) {
             return $model->count();
         }
         $table = $model->getTable();

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources;
 
 use Filament\Forms\Form;
-use Filament\Tables;
-use Filament\Tables\Table;
 use Modules\Xot\Filament\Resources\CacheLockResource\Pages;
 use Modules\Xot\Models\CacheLock;
 
@@ -22,8 +20,6 @@ class CacheLockResource extends XotBaseResource
             ->schema([
             ]);
     }
-
-
 
     public static function getRelations(): array
     {
