@@ -10,7 +10,7 @@ namespace DummyNamespace;
 //use Illuminate\Http\Resources\Json\JsonResource as Resource;
 use Illuminate\Http\Resources\Json\JsonResource as Resource;
 
-class DummyClass extends Resource {
+class DummyClass extends \Modules\Xot\Filament\Resources\XotBaseResource {
     /**
      * Transform the resource into an array.
      *

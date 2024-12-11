@@ -12,7 +12,6 @@ abstract class XotBaseRelationManager extends RelationManager
 {
     use HasXotTable;
     // protected static string $relationship = 'roles';
-
     // protected static ?string $recordTitleAttribute = 'name';
 
     public static function getModuleName(): string

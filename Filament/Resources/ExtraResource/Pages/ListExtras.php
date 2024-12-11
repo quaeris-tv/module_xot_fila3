@@ -6,7 +6,6 @@ namespace Modules\Xot\Filament\Resources\ExtraResource\Pages;
 
 use Filament\Actions;
 use Filament\Tables;
-use Filament\Tables\Table;
 use Modules\Xot\Filament\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\ExtraResource;
 
@@ -41,15 +40,6 @@ class ListExtras extends XotBaseListRecords
         return [
             Tables\Actions\DeleteBulkAction::make(),
         ];
-    }
-
-    public function table(Table $table): Table
-    {
-        return $table
-            ->columns($this->getTableColumns())
-            ->filters($this->getTableFilters())
-            ->actions($this->getTableActions())
-            ->bulkActions($this->getTableBulkActions());
     }
 
     protected function getHeaderActions(): array

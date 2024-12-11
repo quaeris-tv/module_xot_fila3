@@ -22,6 +22,7 @@ class EnvWidget extends Widget implements HasForms
 {
     use InteractsWithForms;
 
+    /** @var array<string, mixed>|null */
     public ?array $data = [];
 
     public array $only = [];
@@ -65,12 +66,12 @@ class EnvWidget extends Widget implements HasForms
     {
         $all = [
             'app_url' => TextInput::make('app_url')
-                ->label('URL')
+
                 ->placeholder('http://localhost')
                 ->helperText('Required for file uploads and other internal configs')
                 ->required(),
             'debugbar_enabled' => Toggle::make('debugbar_enabled')
-                ->label('Is Enabled')
+
                 ->helperText('Enable/Disable debug mode to help debug errors'),
             'google_maps_api_key' => TextInput::make('google_maps_api_key')
                 ->placeholder('AIzaSyAuB_...')

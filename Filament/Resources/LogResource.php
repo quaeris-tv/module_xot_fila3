@@ -9,8 +9,6 @@ use Filament\Infolists;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
-use Filament\Tables;
-use Filament\Tables\Table;
 use Modules\Xot\Filament\Infolists\Components\FileContentEntry;
 use Modules\Xot\Filament\Resources\LogResource\Pages;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
@@ -28,29 +26,6 @@ class LogResource extends XotBaseResource
     {
         return $form
             ->schema([
-            ]);
-    }
-
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                // Tables\Columns\TextColumn::make('id')->label('ID'),
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('size'),
-            ])
-            ->filters([
-            ])
-            ->actions([
-                // Tables\Actions\EditAction::make(),
-                Tables\Actions\ViewAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
-            ->emptyStateActions([
             ]);
     }
 
