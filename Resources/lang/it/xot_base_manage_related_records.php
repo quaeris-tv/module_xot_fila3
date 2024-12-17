@@ -6,4 +6,15 @@
       'label' => 'create',
     ),
   ),
+  'fields' => 
+  array (
+    'detach' => 
+    array (
+      'label' => 'detach',
+    ),
+    'attach' => 
+    array (
+      'label' => 'attach',
+    ),
+  ),
 );

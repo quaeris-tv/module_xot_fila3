@@ -16,4 +16,9 @@ abstract class XotBaseManageRelatedRecords extends ManageRelatedRecords
 
     // protected static string $resource;
 
+    public static function getNavigationGroup(): string
+    {
+        return '';
+    }
+
 }
