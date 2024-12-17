@@ -141,8 +141,8 @@ class RouteDynService
 
             return $param_name;
         }
-
-        $param_name = 'id_'.$v['name'];
+        Assert::string($name=$v['name']);
+        $param_name = 'id_'.$name;
         $param_name = str_replace('{', '', $param_name);
         $param_name = str_replace('}', '', $param_name);
 
