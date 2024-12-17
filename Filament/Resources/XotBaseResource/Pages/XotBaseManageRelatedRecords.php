@@ -19,6 +19,11 @@ abstract class XotBaseManageRelatedRecords extends ManageRelatedRecords implemen
 
     // protected static string $resource;
 
+    public static function getNavigationGroup(): string
+    {
+        return '';
+    }
+
     public function getFormSchema(): array
     {
         return [];
