@@ -24,5 +24,9 @@
     array (
       'label' => 'attach',
     ),
+    'detach' => 
+    array (
+      'label' => 'detach',
+    ),
   ),
 );

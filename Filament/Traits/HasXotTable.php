@@ -49,14 +49,14 @@ trait HasXotTable
         ];
 
         if ($this->shouldShowAssociateAction()) {
-            $actions[] = Tables\Actions\AssociateAction::make()
+            $actions['associate'] = Tables\Actions\AssociateAction::make()
                 ->label('')
                 ->icon('heroicon-o-paper-clip')
                 ->tooltip(__('user::actions.associate_user'));
         }
 
         if ($this->shouldShowAttachAction()) {
-            $actions[] = Tables\Actions\AttachAction::make()
+            $actions['attach'] = Tables\Actions\AttachAction::make()
                 ->label('')
                 ->icon('heroicon-o-link')
                 ->tooltip(__('user::actions.attach_user'))
@@ -123,7 +123,8 @@ trait HasXotTable
                     // ->tooltip(static::trans('actions.create.tooltip'))
                     ->icon('heroicon-o-plus')
                     // ->iconButton()
-                    ->button(),
+                    //->button()
+                    ,
             ];
     }
 
