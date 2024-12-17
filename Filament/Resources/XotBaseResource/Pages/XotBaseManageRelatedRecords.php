@@ -7,6 +7,7 @@ namespace Modules\Xot\Filament\Resources\XotBaseResource\Pages;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Filament\Tables;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Modules\Xot\Filament\Traits\HasXotTable;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
@@ -34,5 +35,31 @@ abstract class XotBaseManageRelatedRecords extends ManageRelatedRecords implemen
         return $form
             // ->model($this->getRecord()) // Assicurati di associare il record
             ->schema($this->getFormSchema());
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            
+        ];
+    }
+    
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            'create' => Tables\Actions\CreateAction::make('create')
+                //->icon('heroicon-o-plus')
+                ->color('primary')
+                //->outlined(false)
+                //->iconButton()
+                //->badgeColor('success')
+                //->tooltip('Nuova Fase')
+                //->extraAttributes([
+                //    'class' => 'mx-auto my-8 bg-primary',
+                //])
+            //->modalHeading('Crea Nuova Fase')
+            //->form($this->getFormSchema())
+            ,
+        ];
     }
 }
