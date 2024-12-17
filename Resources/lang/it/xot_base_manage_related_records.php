@@ -6,4 +6,19 @@
       'label' => 'create',
     ),
   ),
+  'fields' => 
+  array (
+    'delete' => 
+    array (
+      'label' => 'delete',
+    ),
+    'edit' => 
+    array (
+      'label' => 'edit',
+    ),
+    'view' => 
+    array (
+      'label' => 'view',
+    ),
+  ),
 );
