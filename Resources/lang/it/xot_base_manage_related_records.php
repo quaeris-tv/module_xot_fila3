@@ -20,5 +20,9 @@
     array (
       'label' => 'view',
     ),
+    'attach' => 
+    array (
+      'label' => 'attach',
+    ),
   ),
 );
