@@ -28,5 +28,9 @@
     array (
       'label' => 'detach',
     ),
+    'create' => 
+    array (
+      'label' => 'create',
+    ),
   ),
 );
