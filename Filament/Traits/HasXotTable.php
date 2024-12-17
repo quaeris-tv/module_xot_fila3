@@ -117,15 +117,14 @@ trait HasXotTable
     protected function getHeaderActions(): array
     {
         return [
-            'create' =>
-                Actions\CreateAction::make()
+            'create' => Actions\CreateAction::make()
                     // ->label('')
                     // ->tooltip(static::trans('actions.create.tooltip'))
                     ->icon('heroicon-o-plus')
-                    // ->iconButton()
-                    //->button()
-                    ,
-            ];
+            // ->iconButton()
+            // ->button()
+            ,
+        ];
     }
 
     /**
