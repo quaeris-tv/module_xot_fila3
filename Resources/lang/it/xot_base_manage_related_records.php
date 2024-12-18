@@ -1,36 +1,31 @@
-<?php return array (
-  'actions' => 
-  array (
-    'create' => 
-    array (
-      'label' => 'create',
-    ),
-  ),
-  'fields' => 
-  array (
-    'delete' => 
-    array (
-      'label' => 'delete',
-    ),
-    'edit' => 
-    array (
-      'label' => 'edit',
-    ),
-    'view' => 
-    array (
-      'label' => 'view',
-    ),
-    'attach' => 
-    array (
-      'label' => 'attach',
-    ),
-    'detach' => 
-    array (
-      'label' => 'detach',
-    ),
-    'create' => 
-    array (
-      'label' => 'create',
-    ),
-  ),
-);
+<?php
+
+declare(strict_types=1);
+
+return [
+    'actions' => [
+        'create' => [
+            'label' => 'create',
+        ],
+    ],
+    'fields' => [
+        'delete' => [
+            'label' => 'delete',
+        ],
+        'edit' => [
+            'label' => 'edit',
+        ],
+        'view' => [
+            'label' => 'view',
+        ],
+        'attach' => [
+            'label' => 'attach',
+        ],
+        'detach' => [
+            'label' => 'detach',
+        ],
+        'create' => [
+            'label' => 'create',
+        ],
+    ],
+];
