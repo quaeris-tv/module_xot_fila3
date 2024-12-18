@@ -13,6 +13,7 @@ use Modules\UI\Enums\TableLayoutEnum;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\BaseFilter;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Enums\FiltersLayout;
@@ -313,8 +314,9 @@ trait HasXotTable
      */
     protected function notifyTableMissing(): void
     {
-        $model = $this->getModelClass();
-        $tableName = app($model)->getTable();
+        $model_class = $this->getModelClass();
+        Assert::isInstanceOf($model=app($model_class),Model::class);
+        $tableName = $model->getTable();
         Notification::make()
             ->title(__('user::notifications.table_missing.title'))
             ->body(__('user::notifications.table_missing.body', ['table' => $tableName]))
