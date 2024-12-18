@@ -14,6 +14,9 @@ abstract class XotBaseBlock
         string $name = 'article_list',
         string $context = 'form',
     ): Block {
+        /**
+         * @var array<\Filament\Forms\Components\Component>
+         */
         $schema = array_merge(static::getBlockSchema(), static::getBlockVarSchema());
 
         return Block::make($name)
@@ -22,11 +25,21 @@ abstract class XotBaseBlock
             ->columns('form' === $context ? 3 : 1);
     }
 
+    /**
+     * Undocumented function.
+     *
+     * @return array<\Filament\Forms\Components\Component>
+     */
     public static function getBlockSchema(): array
     {
         return [];
     }
 
+    /**
+     * Undocumented function.
+     *
+     * @return array<\Filament\Forms\Components\Component>
+     */
     public static function getBlockVarSchema(): array
     {
         $options = app(GetViewBlocksOptionsByTypeAction::class)
