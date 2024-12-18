@@ -6,6 +6,7 @@ namespace Modules\Xot\Actions\ModelClass;
 
 use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class CountAction
 {
@@ -30,7 +31,9 @@ class CountAction
             ->where('TABLE_NAME', $table)
             ->value('TABLE_ROWS');
 
-        $count = $info ?? 0;
+        $count = is_int($info) ? $info : 0;
+
+        Assert::integer($count);
 
         return $count;
     }

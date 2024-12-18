@@ -26,16 +26,7 @@ class RegisterBladeComponentsAction
             if (! $comp instanceof ComponentFileData) {
                 continue;
             }
-            try {
-                Blade::component($comp->name, $comp->ns);
-            } catch (\Error $e) {
-                Notification::make()
-                ->title('Error')
-                ->body($e->getMessage())
-                ->persistent()
-                ->danger()
-                ->send();
-            }
+            Blade::component($comp->name, $comp->ns);
         }
     }
 }
