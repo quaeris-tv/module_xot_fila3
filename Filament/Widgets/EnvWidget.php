@@ -31,7 +31,9 @@ class EnvWidget extends Widget implements HasForms
 
     public function mount(): void
     {
-        $this->data = EnvData::make()->toArray();
+        /** @var array<string, mixed> */
+        $data = EnvData::make()->toArray();
+        $this->data = $data;
 
         $this->form->fill($this->data);
     }
@@ -62,6 +64,9 @@ class EnvWidget extends Widget implements HasForms
         */
     }
 
+    /**
+     * @return array<\Filament\Forms\Components\Component>
+     */
     protected function getFormSchema(): array
     {
         $all = [
@@ -81,6 +86,9 @@ class EnvWidget extends Widget implements HasForms
                 ->helperText('telegram_bot_token'),
         ];
 
+        /**
+         * @var array<\Filament\Forms\Components\Component>
+         */
         $fields = Arr::only($all, $this->only);
 
         return $fields;

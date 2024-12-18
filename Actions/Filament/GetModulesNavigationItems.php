@@ -17,6 +17,8 @@ class GetModulesNavigationItems
 
     /**
      * Undocumented function.
+     *
+     * @return array<NavigationItem>
      */
     public function execute(): array
     {
