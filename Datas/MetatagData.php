@@ -139,7 +139,7 @@ class MetatagData extends Data implements Wireable
     }
 
     /**
-     * @return array<array<string>|string>|\Closure|\Illuminate\Contracts\Support\Arrayable|string|null
+     * @return array<array<string>|string>
      */
     public function getFilamentColors(): array
     {
@@ -154,7 +154,7 @@ class MetatagData extends Data implements Wireable
     }
 
     /**
-     * @return array<array<string>|string>|\Closure|\Illuminate\Contracts\Support\Arrayable|string|null
+     * @return array<array<string>|string>
      */
     public function getAllColors(): array
     {
@@ -165,7 +165,7 @@ class MetatagData extends Data implements Wireable
     }
 
     /**
-     * @return array<array<string>|string>|\Closure|\Illuminate\Contracts\Support\Arrayable|string|null
+     * @return array<array<string>|string>
      */
     public function getColors(): array
     {
