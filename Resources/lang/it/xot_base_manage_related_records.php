@@ -16,5 +16,13 @@
     array (
       'label' => 'attach',
     ),
+    'edit' => 
+    array (
+      'label' => 'edit',
+    ),
+    'view' => 
+    array (
+      'label' => 'view',
+    ),
   ),
 );
