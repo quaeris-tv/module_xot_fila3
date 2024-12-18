@@ -60,7 +60,7 @@ class MetatagData extends Data implements Wireable
 
     public string $logo_header_dark;
 
-    public ?string $logo_height = '2em';
+    public string $logo_height = '2em';
 
     // = 'xot::img/logo.png';
     public string $logo_footer;
@@ -130,10 +130,6 @@ class MetatagData extends Data implements Wireable
 
     public function getLogoHeight(): string
     {
-        if (null == $this->logo_height) {
-            $this->logo_height = '2em';
-        }
-
         return $this->logo_height;
     }
 
@@ -164,7 +160,6 @@ class MetatagData extends Data implements Wireable
 
     public function getColors(): array
     {
-        return [];
         $mapped = Arr::mapWithKeys(
             $this->colors,
             function (array $item, int|string $key): array {

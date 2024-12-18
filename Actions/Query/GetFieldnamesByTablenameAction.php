@@ -7,6 +7,7 @@ namespace Modules\Xot\Actions\Query;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 final class GetFieldnamesByTablenameAction
 {
@@ -30,16 +31,16 @@ final class GetFieldnamesByTablenameAction
         }
 
         // Use default connection if none is provided
-        $connectionName = $connectionName ?? config('database.default');
+        Assert::string($connectionName = $connectionName ?? config('database.default'));
 
         // Validate database connection
-        if (! $this->isValidConnection($connectionName)) {
-            throw new \InvalidArgumentException(sprintf('Invalid database connection: %s', $connectionName));
+        if (! $this->isValidConnection((string) $connectionName)) {
+            throw new \InvalidArgumentException(sprintf('Invalid database connection: %s', (string) $connectionName));
         }
 
         // Check if table exists in the database
-        if (! Schema::connection($connectionName)->hasTable($table)) {
-            throw new \InvalidArgumentException(sprintf('Table "%s" does not exist in connection "%s".', $table, $connectionName));
+        if (! Schema::connection((string) $connectionName)->hasTable($table)) {
+            throw new \InvalidArgumentException(sprintf('Table "%s" does not exist in connection "%s".', $table, (string) $connectionName));
         }
 
         // Get and return column listing

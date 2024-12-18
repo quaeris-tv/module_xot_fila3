@@ -141,7 +141,7 @@ class RouteDynService
 
             return $param_name;
         }
-        Assert::string($name=$v['name']);
+        Assert::string($name = $v['name']);
         $param_name = 'id_'.$name;
         $param_name = str_replace('{', '', $param_name);
         $param_name = str_replace('}', '', $param_name);
@@ -248,7 +248,8 @@ class RouteDynService
 
     public static function getCallback(array $v, ?string $namespace, ?string $curr): array
     {
-        $as = Str::slug($v['name']); // !!!!!! test da controllare
+        Assert::string($name = $v['name']);
+        $as = Str::slug($name); // !!!!!! test da controllare
         $uses = self::getUses($v, $namespace);
         if (null !== $curr) {
             $uses = '\\'.self::$namespace_start.'\\'.$curr.'\\'.$uses;
