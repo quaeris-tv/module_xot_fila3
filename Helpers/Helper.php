@@ -560,6 +560,7 @@ if (! function_exists('getAllModulesModels')) {
         $res = [];
         $modules = Module::all();
         foreach ($modules as $module) {
+            Assert::isInstanceOf($module, Module::class);
             /** @var string */
             $module_name = $module->getName();
             $tmp = getModuleModels($module_name);
@@ -721,28 +722,42 @@ if (! function_exists('url_queries')) {
     }
 }
 
+
 if (! function_exists('build_url')) {
     /**
-     * Rebuilds the URL parameters into a string from the native parse_url() function.
+     * Rebuilds a URL string from its components, typically obtained via parse_url().
      *
-     * @param array $parts The parts of a URL
+     * @param array $parts the parts of a URL, such as 'scheme', 'host', 'path', etc
      *
-     * @return string The constructed URL
+     * @return string the reconstructed URL
      */
     function build_url(array $parts): string
     {
-        return (isset($parts['scheme']) ? sprintf('%s:', $parts['scheme']) : '').
+        return
+            // @phpstan-ignore binaryOp.invalid, argument.type
+            (isset($parts['scheme']) ? sprintf('%s:', $parts['scheme']) : '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['user']) || isset($parts['host']) ? '//' : '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             ($parts['user'] ?? '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['pass']) ? sprintf(':%s', $parts['pass']) : '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['user']) ? '@' : '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             ($parts['host'] ?? '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['port']) ? sprintf(':%s', $parts['port']) : '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             ($parts['path'] ?? '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['query']) ? sprintf('?%s', $parts['query']) : '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['fragment']) ? sprintf('#%s', $parts['fragment']) : '');
+
     }
 }
+
 
 if (! function_exists('getRelationships')) {
     /**
