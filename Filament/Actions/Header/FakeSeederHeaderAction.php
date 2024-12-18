@@ -11,6 +11,7 @@ namespace Modules\Xot\Filament\Actions\Header;
 // Header actions must be an instance of Filament\Actions\Action, or Filament\Actions\ActionGroup.
 // use Filament\Tables\Actions\Action;
 use Filament\Actions\Action;
+use Webmozart\Assert\Assert;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
@@ -31,8 +32,9 @@ class FakeSeederHeaderAction extends Action
             ])
             ->action(function (array $data, ListRecords $livewire) {
                 $resource = $livewire->getResource();
-                $modelClass = $resource::getModel();
-                $qty = (int) $data['qty'];
+                Assert::string($modelClass = $resource::getModel());
+                Assert::integer($qty = $data['qty']);
+
                 app(FakeSeederAction::class)
                         ->onQueue()
                         ->execute($modelClass, $qty);
