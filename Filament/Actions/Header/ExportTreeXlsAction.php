@@ -10,10 +10,19 @@ namespace Modules\Xot\Filament\Actions\Header;
 
 // Header actions must be an instance of Filament\Actions\Action, or Filament\Actions\ActionGroup.
 // use Filament\Tables\Actions\Action;
+use Livewire\Component;
 use Filament\Actions\Action;
-use Modules\Xot\Actions\Export\ExportXlsByCollection;
+use Webmozart\Assert\Assert;
+use Filament\Resources\Resource;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Xot\Actions\GetTransKeyAction;
+use Modules\Xot\Actions\Export\ExportXlsByCollection;
+use Modules\Xot\Contracts\HasRecursiveRelationshipsContract;
 
+/**
+ * Undocumented class
+ * @property Model $record
+ */
 class ExportTreeXlsAction extends Action
 {
     protected function setUp(): void
@@ -27,13 +36,7 @@ class ExportTreeXlsAction extends Action
             // ->icon('heroicon-o-cloud-arrow-down')
             // ->icon('fas-file-excel')
             ->icon('heroicon-o-arrow-down-tray')
-            ->action(static function ($livewire, $record, $data) {
-                /* dddx([
-                     'livewire'=>$livewire,
-                     'record'=>$record,
-                     'data'=>$data,
-                 ]);
-                 */
+            ->action(static function (\Filament\Resources\Pages\Page $livewire, Model $record, $data) {
                 $tableFilters = [
                     'id' => $record->getKey(),
                 ];
@@ -42,11 +45,13 @@ class ExportTreeXlsAction extends Action
                 $transKey .= '.fields';
                 // $query = $livewire->getFilteredTableQuery(); // ->getQuery(); // Staudenmeir\LaravelCte\Query\Builder
                 // $rows = $query->get();
+                Assert::implementsInterface($record,HasRecursiveRelationshipsContract::class);
                 $rows = $record->descendantsAndSelf;
+                Assert::isInstanceOf($rows, \Illuminate\Database\Eloquent\Collection::class);
                 $resource = $livewire->getResource();
                 $fields = null;
                 if (method_exists($resource, 'getXlsFields')) {
-                    $fields = $resource::getXlsFields($tableFilters);
+                    Assert::isArray($fields = $resource::getXlsFields($tableFilters));
                 }
 
                 return app(ExportXlsByCollection::class)->execute($rows, $filename, $transKey, $fields);

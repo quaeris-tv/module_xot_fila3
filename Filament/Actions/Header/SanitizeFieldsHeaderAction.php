@@ -11,6 +11,8 @@ namespace Modules\Xot\Filament\Actions\Header;
 // Header actions must be an instance of Filament\Actions\Action, or Filament\Actions\ActionGroup.
 // use Filament\Tables\Actions\Action;
 use Filament\Actions\Action;
+use Webmozart\Assert\Assert;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Modules\Xot\Actions\String\SanitizeAction;
@@ -29,12 +31,17 @@ class SanitizeFieldsHeaderAction extends Action
             ->action(function (ListRecords $livewire) {
                 $resource = $livewire->getResource();
                 $modelClass = $resource::getModel();
+                // @phpstan-ignore staticMethod.nonObject
                 $rows = $modelClass::get();
+                if(!is_iterable($rows)){
+                    $rows=[];
+                }
                 $c = 0;
                 foreach ($rows as $row) {
+                    Assert::isInstanceOf($row, Model::class);
                     $save = false;
                     foreach ($this->fields as $field) {
-                        $item = $row->{$field};
+                        Assert::string($item = $row->{$field});
                         $string = app(SanitizeAction::class)->execute($item);
                         if ($string != $item) {
                             $row->{$field} = $string;

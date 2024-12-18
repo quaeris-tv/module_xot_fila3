@@ -11,11 +11,12 @@ namespace Modules\Xot\Filament\Actions\Header;
 // Header actions must be an instance of Filament\Actions\Action, or Filament\Actions\ActionGroup.
 // use Filament\Tables\Actions\Action;
 use Filament\Actions\Action;
+use Webmozart\Assert\Assert;
 use Filament\Resources\Pages\ListRecords;
-use Modules\Xot\Actions\Export\ExportXlsByLazyCollection;
-use Modules\Xot\Actions\Export\ExportXlsByQuery;
-use Modules\Xot\Actions\Export\ExportXlsStreamByLazyCollection;
 use Modules\Xot\Actions\GetTransKeyAction;
+use Modules\Xot\Actions\Export\ExportXlsByQuery;
+use Modules\Xot\Actions\Export\ExportXlsByLazyCollection;
+use Modules\Xot\Actions\Export\ExportXlsStreamByLazyCollection;
 
 class ExportXlsLazyAction extends Action
 {
@@ -40,7 +41,7 @@ class ExportXlsLazyAction extends Action
                 $resource = $livewire->getResource();
                 $fields = null;
                 if (method_exists($resource, 'getXlsFields')) {
-                    $fields = $resource::getXlsFields($livewire->tableFilters);
+                    Assert::isArray($fields = $resource::getXlsFields($livewire->tableFilters));
                 }
 
                 $lazy = $livewire->getFilteredTableQuery();
