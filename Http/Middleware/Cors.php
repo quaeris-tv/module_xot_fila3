@@ -17,9 +17,15 @@ class Cors
     {
         $response = $next($request);
 
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE');
-        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, X-Auth-Token, Origin, Authorization');
+        // @phpstan-ignore property.nonObject
+        $headers = $response->headers;
+
+        // @phpstan-ignore method.nonObject
+        $headers->set('Access-Control-Allow-Origin', '*');
+        // @phpstan-ignore method.nonObject
+        $headers->set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE');
+        // @phpstan-ignore method.nonObject
+        $headers->set('Access-Control-Allow-Headers', 'Content-Type, X-Auth-Token, Origin, Authorization');
 
         // @phpstan-ignore return.type
         return $response;

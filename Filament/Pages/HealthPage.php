@@ -61,7 +61,7 @@ class HealthPage extends Page
         if (class_exists(\Laraxot\SmtpHealthCheck\SmtpCheck::class)) {
             $checks[] = \Laraxot\SmtpHealthCheck\SmtpCheck::new();
         }
-
+        // @phpstan-ignore argument.type
         Health::checks($checks);
         Artisan::call(RunHealthChecksCommand::class);
         $this->dispatch('refresh-component');

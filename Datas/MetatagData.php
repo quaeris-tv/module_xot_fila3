@@ -138,6 +138,9 @@ class MetatagData extends Data implements Wireable
         return app(\Modules\Xot\Actions\File\AssetAction::class)->execute($this->favicon);
     }
 
+    /**
+     * @return array<array<string>|string>|\Closure|\Illuminate\Contracts\Support\Arrayable|string|null
+     */
     public function getFilamentColors(): array
     {
         return [
@@ -150,6 +153,9 @@ class MetatagData extends Data implements Wireable
         ];
     }
 
+    /**
+     * @return array<array<string>|string>|\Closure|\Illuminate\Contracts\Support\Arrayable|string|null
+     */
     public function getAllColors(): array
     {
         $colors = array_keys(Color::all());
@@ -158,6 +164,9 @@ class MetatagData extends Data implements Wireable
         return $colors;
     }
 
+    /**
+     * @return array<array<string>|string>|\Closure|\Illuminate\Contracts\Support\Arrayable|string|null
+     */
     public function getColors(): array
     {
         $mapped = Arr::mapWithKeys(

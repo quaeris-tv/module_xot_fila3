@@ -2,29 +2,30 @@
 
 declare(strict_types=1);
 
+use function Safe\glob;
+use function Safe\define;
+use function Safe\realpath;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use function Safe\parse_url;
+use Webmozart\Assert\Assert;
+use function Safe\preg_match;
 use Filament\Facades\Filament;
+use function Safe\json_decode;
+use Modules\Xot\Datas\XotData;
+use Illuminate\Support\Facades\URL;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\File;
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Request;
+use Modules\Xot\Services\ModuleService;
+use Modules\Xot\Contracts\ProfileContract;
+
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
-use Modules\Xot\Contracts\ProfileContract;
-use Modules\Xot\Datas\XotData;
-use Modules\Xot\Services\ModuleService;
-use Nwidart\Modules\Facades\Module;
-
-use function Safe\define;
-use function Safe\glob;
-use function Safe\json_decode;
-use function Safe\parse_url;
-use function Safe\preg_match;
-use function Safe\realpath;
-
-use Webmozart\Assert\Assert;
 
 // ------------------------------------------------
 
@@ -440,18 +441,16 @@ if (! function_exists('getModelByName')) {
         //    throw new Exception('['.__LINE__.']['.__FILE__.']');
         // }
 
-        $path = collect($files)->first(
-            static function (string $file) use ($name): bool {
-                $info = pathinfo((string) $file);
-                // Offset 'filename' on array{dirname?: string, basename: string, extension?: string, filename: string} on left side of ?? always exists and is not nullable.
-                $filename = $info['filename'];
+        $path = Arr::first($files,
+            function (string $file) use ($name): bool {
+                $info = pathinfo($file);
 
-                // ?? '';
+                // Accedi direttamente a 'filename', che esiste sempre in pathinfo
+                $filename = $info['filename'] ?? '';
+
                 return Str::snake($filename) === $name;
             }
         );
-
-        // dddx($registered);
 
         if (null === $path) {
             throw new Exception('['.$name.'] not in morph_map ['.__LINE__.']['.__FILE__.']');
