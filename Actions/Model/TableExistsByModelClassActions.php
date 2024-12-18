@@ -16,6 +16,7 @@ class TableExistsByModelClassActions
 
         $model = app($modelClass);
         $tableName = $model->getTable();
+
         return Schema::connection($model->getConnectionName())->hasTable($tableName);
     }
 }

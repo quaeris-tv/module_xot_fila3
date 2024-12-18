@@ -47,7 +47,7 @@ class ListModules extends XotBaseListRecords
     /**
      * Undocumented function.
      *
-     * @return array<\Filament\Tables\Filters\BaseFilter>
+     * @return array<Tables\Filters\BaseFilter>
      */
     public function getTableFilters(): array
     {
@@ -63,9 +63,9 @@ class ListModules extends XotBaseListRecords
     }
 
     /**
-     * Undocumented function
+     * Undocumented function.
      *
-     * @return array<\Filament\Tables\Actions\Action|\Filament\Tables\Actions\ActionGroup>
+     * @return array<Tables\Actions\Action|Tables\Actions\ActionGroup>
      */
     public function getTableActions(): array
     {

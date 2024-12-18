@@ -65,7 +65,7 @@ class EnvWidget extends Widget implements HasForms
     }
 
     /**
-     * @return array<\Filament\Forms\Components\Component>
+     * @return array<Forms\Components\Component>
      */
     protected function getFormSchema(): array
     {
@@ -87,7 +87,7 @@ class EnvWidget extends Widget implements HasForms
         ];
 
         /**
-         * @var array<\Filament\Forms\Components\Component>
+         * @var array<Forms\Components\Component>
          */
         $fields = Arr::only($all, $this->only);
 

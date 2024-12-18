@@ -722,7 +722,6 @@ if (! function_exists('url_queries')) {
     }
 }
 
-
 if (! function_exists('build_url')) {
     /**
      * Rebuilds a URL string from its components, typically obtained via parse_url().
@@ -754,10 +753,8 @@ if (! function_exists('build_url')) {
             (isset($parts['query']) ? sprintf('?%s', $parts['query']) : '').
             // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['fragment']) ? sprintf('#%s', $parts['fragment']) : '');
-
     }
 }
-
 
 if (! function_exists('getRelationships')) {
     /**

@@ -37,7 +37,6 @@ class MetatagPage extends Page implements HasForms
 
     public function mount(): void
     {
-
         Assert::isArray($data = config('metatag'));
 
         // @phpstan-ignore argument.type
