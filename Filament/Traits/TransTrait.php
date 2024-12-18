@@ -15,7 +15,7 @@ trait TransTrait
     public static function trans(string $key): string
     {
         $transKey = app(GetTransKeyAction::class)->execute(static::class);
-        
+
         /*
         $ns = Str::before($transKey, '::');
         $group = Str::after($transKey, '::');
