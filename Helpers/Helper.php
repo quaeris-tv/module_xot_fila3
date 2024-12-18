@@ -2,30 +2,30 @@
 
 declare(strict_types=1);
 
-use function Safe\glob;
-use function Safe\define;
-use function Safe\realpath;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use function Safe\parse_url;
-use Webmozart\Assert\Assert;
-use function Safe\preg_match;
 use Filament\Facades\Filament;
-use function Safe\json_decode;
-use Modules\Xot\Datas\XotData;
-use Illuminate\Support\Facades\URL;
-use Nwidart\Modules\Facades\Module;
-use Illuminate\Support\Facades\File;
-
-use Illuminate\Support\Facades\Route;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Request;
-use Modules\Xot\Services\ModuleService;
-use Modules\Xot\Contracts\ProfileContract;
-
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
+use Modules\Xot\Contracts\ProfileContract;
+use Modules\Xot\Datas\XotData;
+use Modules\Xot\Services\ModuleService;
+use Nwidart\Modules\Facades\Module;
+
+use function Safe\define;
+use function Safe\glob;
+use function Safe\json_decode;
+use function Safe\parse_url;
+use function Safe\preg_match;
+use function Safe\realpath;
+
+use Webmozart\Assert\Assert;
 
 // ------------------------------------------------
 
@@ -442,7 +442,8 @@ if (! function_exists('getModelByName')) {
         // }
 
         $path = Arr::first($files,
-            function (string $file) use ($name): bool {
+            function ($file) use ($name): bool {
+                Assert::string($file);
                 $info = pathinfo($file);
 
                 // Accedi direttamente a 'filename', che esiste sempre in pathinfo
@@ -455,6 +456,7 @@ if (! function_exists('getModelByName')) {
         if (null === $path) {
             throw new Exception('['.$name.'] not in morph_map ['.__LINE__.']['.__FILE__.']');
         }
+        Assert::string($path);
 
         $path = app(Modules\Xot\Actions\File\FixPathAction::class)->execute($path);
         $info = pathinfo($path);
@@ -496,6 +498,8 @@ if (! function_exists('getModuleFromModel')) {
         // $mod = \Nwidart\Modules\Module::get($module_name);
         // 480    Call to an undefined method Nwidart\Modules\Facades\Module::get()
         // $mod = app('module')->get($module_name);
+
+        // @phpstan-ignore method.nonObject
         Assert::isInstanceOf($res = app('module')->find($module_name), Nwidart\Modules\Module::class);
 
         return $res;
@@ -519,7 +523,7 @@ if (! function_exists('getModuleNameFromModelName')) {
             throw new Exception('['.__LINE__.']['.__FILE__.']');
         }
 
-        $model = app($model_class);
+        Assert::isInstanceOf($model = app($model_class), Model::class);
 
         return getModuleNameFromModel($model);
     }
@@ -556,7 +560,9 @@ if (! function_exists('getAllModulesModels')) {
         $res = [];
         $modules = Module::all();
         foreach ($modules as $module) {
-            $tmp = getModuleModels($module->getName());
+            /** @var string */
+            $module_name = $module->getName();
+            $tmp = getModuleModels($module_name);
             $res = array_merge($res, $tmp);
         }
 

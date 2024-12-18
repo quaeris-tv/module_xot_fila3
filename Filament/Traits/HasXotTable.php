@@ -90,7 +90,7 @@ trait HasXotTable
     protected function shouldShowDetachAction(): bool
     {
         // Show DetachAction only if an associated relationship exists
-        // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
+        // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, method.nonObject
         return method_exists($this, 'getRelationship') && $this->getRelationship()->exists();
     }
 
@@ -117,15 +117,14 @@ trait HasXotTable
     protected function getHeaderActions(): array
     {
         return [
-            'create' =>
-                Actions\CreateAction::make()
+            'create' => Actions\CreateAction::make()
                     // ->label('')
                     // ->tooltip(static::trans('actions.create.tooltip'))
                     ->icon('heroicon-o-plus')
-                    // ->iconButton()
-                    //->button()
-                    ,
-            ];
+            // ->iconButton()
+            // ->button()
+            ,
+        ];
     }
 
     /**
@@ -313,7 +312,7 @@ trait HasXotTable
     {
         $model = $this->getModelClass();
 
-        // @phpstan-ignore return.type
+        // @phpstan-ignore return.type, method.nonObject
         return app($model)->getConnection()->getSchemaBuilder()->hasTable(app($model)->getTable());
     }
 
