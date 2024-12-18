@@ -283,7 +283,7 @@ trait HasXotTable
     {
         // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
         if (method_exists($this, 'getRelationship')) {
-            // @phpstan-ignore classConstant.nonObject
+            // @phpstan-ignore classConstant.nonObject,  method.nonObject
             Assert::string($res = $this->getRelationship()->getModel()::class);
 
             return $res;
