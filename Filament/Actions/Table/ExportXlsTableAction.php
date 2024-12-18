@@ -8,12 +8,13 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Actions\Table;
 
-use Filament\Resources\RelationManagers\RelationManager;
+use Webmozart\Assert\Assert;
 // Header actions must be an instance of Filament\Actions\Action, or Filament\Actions\ActionGroup.
 // use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\Action;
-use Modules\Xot\Actions\Export\ExportXlsByCollection;
 use Modules\Xot\Actions\GetTransKeyAction;
+use Modules\Xot\Actions\Export\ExportXlsByCollection;
+use Filament\Resources\RelationManagers\RelationManager;
 
 class ExportXlsTableAction extends Action
 {
@@ -35,7 +36,7 @@ class ExportXlsTableAction extends Action
                 $rows = $query->get();
                 $fields = null;
                 if (method_exists($livewire_class, 'getXlsFields')) {
-                    $fields = $livewire_class::getXlsFields($livewire->tableFilters);
+                    Assert::isArray($fields = $livewire_class::getXlsFields($livewire->tableFilters));
                 }
 
                 return app(ExportXlsByCollection::class)->execute($rows, $filename, $transKey, $fields);
