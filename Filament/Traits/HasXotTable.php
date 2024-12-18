@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-use Filament\Tables;
 use Filament\Actions;
-use Filament\Tables\Table;
-use Webmozart\Assert\Assert;
-use Filament\Tables\Actions\Action;
-use Modules\UI\Enums\TableLayoutEnum;
-use Filament\Tables\Actions\BulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\BaseFilter;
-use Illuminate\Database\Eloquent\Model;
 use Filament\Notifications\Notification;
+use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Columns\Layout\Stack;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Filters\TernaryFilter;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Modules\Xot\Actions\Model\TableExistsByModelClassActions;
+use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\BaseFilter;
+use Filament\Tables\Filters\TernaryFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Modules\UI\Enums\TableLayoutEnum;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
+use Modules\Xot\Actions\Model\TableExistsByModelClassActions;
+use Webmozart\Assert\Assert;
 
 /**
  * Trait HasXotTable.
@@ -176,7 +176,7 @@ trait HasXotTable
      */
     public function table(Table $table): Table
     {
-        if(! app(TableExistsByModelClassActions::class)->execute($this->getModelClass())){
+        if (! app(TableExistsByModelClassActions::class)->execute($this->getModelClass())) {
             $this->notifyTableMissing();
 
             return $this->configureEmptyTable($table);
@@ -308,14 +308,13 @@ trait HasXotTable
         throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
-
     /**
      * Notify the user if the table is missing.
      */
     protected function notifyTableMissing(): void
     {
         $model_class = $this->getModelClass();
-        Assert::isInstanceOf($model=app($model_class),Model::class);
+        Assert::isInstanceOf($model = app($model_class), Model::class);
         $tableName = $model->getTable();
         Notification::make()
             ->title(__('user::notifications.table_missing.title'))

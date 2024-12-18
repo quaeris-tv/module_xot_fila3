@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @see https://github.com/masterix21/laravel-html2pdf/blob/master/src/PDF.php
  */
