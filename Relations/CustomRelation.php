@@ -22,10 +22,10 @@ use Webmozart\Assert\Assert;
 /**
  * Class CustomRelation.
  *
- * @method static Builder when($value = null, callable $callback = null, callable $default = null)
- * @method static Builder whereBetween($column, iterable $values, $boolean = 'and', $not = false)
- * @method static Builder selectRaw($expression, array $bindings = []);
- * @method static Builder where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder when($value = null, callable $callback = null, callable $default = null)
+ * @method static \Illuminate\Database\Eloquent\Builder whereBetween($column, iterable $values, $boolean = 'and', $not = false)
+ * @method static \Illuminate\Database\Eloquent\Builder selectRaw($expression, array $bindings = []);
+ * @method static \Illuminate\Database\Eloquent\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class CustomRelation extends Relation
 {

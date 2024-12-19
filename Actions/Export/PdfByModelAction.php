@@ -26,7 +26,7 @@ class PdfByModelAction
         $module = Str::between($model_class, 'Modules\\', '\Models');
         $module_low = mb_strtolower($module);
         /**
-         * @phpstan-var view-string
+         * @var non-falsy-string&view-string
          */
         $view_name = $module_low.'::'.Str::kebab($model_name).'.show.pdf';
 
