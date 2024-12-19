@@ -13,6 +13,7 @@ use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\ModelClass\CountAction;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
+use Webmozart\Assert\Assert;
 
 abstract class XotBaseResource extends FilamentResource
 {
@@ -38,6 +39,9 @@ abstract class XotBaseResource extends FilamentResource
         return true;
     }
 
+    /**
+     * @return class-string<\Illuminate\Database\Eloquent\Model>
+     */
     public static function getModel(): string
     {
         // if (null != static::$model) {
@@ -46,6 +50,8 @@ abstract class XotBaseResource extends FilamentResource
         $moduleName = static::getModuleName();
         $modelName = Str::before(class_basename(static::class), 'Resource');
         $res = 'Modules\\'.$moduleName.'\Models\\'.$modelName;
+        Assert::classExists($res, sprintf('Model class %s does not exist', $res));
+        Assert::subclassOf($res, \Illuminate\Database\Eloquent\Model::class, sprintf('Class %s must extend Eloquent Model', $res));
         static::$model = $res;
 
         return $res;

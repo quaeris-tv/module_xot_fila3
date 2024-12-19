@@ -1,67 +1,76 @@
 <?php
 
-/**
- * @see https://dev.to/kodeas/executing-shell-commands-in-laravel-1098
- */
-
 declare(strict_types=1);
 
 namespace Modules\Xot\Actions;
 
+use Illuminate\Support\Arr;
+
 use function Safe\preg_match_all;
 
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
+/**
+ * Parses a print page string into an array of page numbers.
+ *
+ * @example "1-4,6,7,8,11-14" becomes [1,2,3,4,6,7,8,11,12,13,14]
+ */
 class ParsePrintPageStringAction
 {
     use QueueableAction;
 
+    /**
+     * Execute the page string parsing.
+     *
+     * @param string $str The page range string to parse
+     *
+     * @return array<int> Array of page numbers
+     */
     public static function execute(string $str): array
     {
-        // $pattern = '(\d+)(?:(?:-)(\d+))?(?:,(?!$))?';
         $pattern = '/(\d+)(?:(?:-)(\d+))?(?:,(?!$))?/';
+        $matches = [];
         preg_match_all($pattern, $str, $matches);
-        if (null === $matches) {
-            return [];
-        }
-        $n = count($matches[0]);
+
+        Assert::isArray($matches);
+        Assert::notEmpty($matches[0], 'No valid page numbers found');
+        Assert::isArray($matches[0]);
+        $matchCount = count($matches[0]);
         $res = [];
-        for ($i = 0; $i < $n; ++$i) {
-            if ('' === $matches[2][$i]) {
-                $res[] = (int) $matches[1][$i];
+
+        for ($i = 0; $i < $matchCount; ++$i) {
+            $firstNumber = Arr::get($matches, "1.{$i}");
+            $secondNumber = Arr::get($matches, "2.{$i}");
+
+            Assert::string($firstNumber, 'First number must be a string');
+            Assert::string($secondNumber, 'Second number must be a string');
+
+            if ('' === $secondNumber) {
+                $res[] = (int) $firstNumber;
             } else {
-                $res = array_merge($res, self::fromTo((int) $matches[1][$i], (int) $matches[2][$i]));
+                $res = array_merge(
+                    $res,
+                    self::fromTo((int) $firstNumber, (int) $secondNumber)
+                );
             }
         }
 
         return $res;
     }
 
+    /**
+     * Generate an array of numbers from start to end inclusive.
+     *
+     * @param int $from Starting number
+     * @param int $to   Ending number
+     *
+     * @return array<int> Array of sequential numbers
+     */
     public static function fromTo(int $from, int $to): array
     {
-        $res = [];
-        for ($i = $from; $i <= $to; ++$i) {
-            $res[] = $i;
-        }
+        Assert::greaterThanEq($to, $from, 'End number must be greater than or equal to start number');
 
-        return $res;
+        return range($from, $to);
     }
 }
-
-/*
-1-4,6,7,8,11-14
-
- => "1"
-      1 => "6"
-      2 => "7"
-      3 => "8"
-      4 => "11"
-    ]
-    2 => array:5 [
-      0 => "4"
-      1 => ""
-      2 => ""
-      3 => ""
-      4 => "14"
-
-*/
