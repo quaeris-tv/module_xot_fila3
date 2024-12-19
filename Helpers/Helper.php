@@ -576,15 +576,16 @@ if (! function_exists('getAllModulesModels')) {
             }
 
             try {
+                /** @var array<string, string> $moduleModels */
                 $moduleModels = getModuleModels($moduleName);
                 $res = array_merge($res, $moduleModels);
             } catch (Exception $e) {
-                // Log error and continue with next module
                 Log::error('[Module:'.$moduleName.'] Error getting models: '.$e->getMessage());
                 continue;
             }
         }
 
+        /* @var array<string, string> */
         return $res;
     }
 }
@@ -996,11 +997,7 @@ if (! function_exists('rowsToSql')) {
 if (! function_exists('getServerName')) {
     function getServerName(): string
     {
-        $default = env('APP_URL');
-        if (! is_string($default)) {
-            $default = 'localhost';
-        }
-
+        $default = config('app.url', 'localhost');
         $default = Str::after($default, '//');
 
         $server_name = $default;
