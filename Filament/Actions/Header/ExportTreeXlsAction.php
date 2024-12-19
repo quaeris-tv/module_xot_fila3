@@ -10,17 +10,16 @@ namespace Modules\Xot\Filament\Actions\Header;
 
 // Header actions must be an instance of Filament\Actions\Action, or Filament\Actions\ActionGroup.
 // use Filament\Tables\Actions\Action;
-use Livewire\Component;
 use Filament\Actions\Action;
-use Webmozart\Assert\Assert;
-use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Xot\Actions\GetTransKeyAction;
 use Modules\Xot\Actions\Export\ExportXlsByCollection;
+use Modules\Xot\Actions\GetTransKeyAction;
 use Modules\Xot\Contracts\HasRecursiveRelationshipsContract;
+use Webmozart\Assert\Assert;
 
 /**
- * Undocumented class
+ * Undocumented class.
+ *
  * @property Model $record
  */
 class ExportTreeXlsAction extends Action
@@ -45,7 +44,7 @@ class ExportTreeXlsAction extends Action
                 $transKey .= '.fields';
                 // $query = $livewire->getFilteredTableQuery(); // ->getQuery(); // Staudenmeir\LaravelCte\Query\Builder
                 // $rows = $query->get();
-                Assert::implementsInterface($record,HasRecursiveRelationshipsContract::class);
+                Assert::implementsInterface($record, HasRecursiveRelationshipsContract::class);
                 $rows = $record->descendantsAndSelf;
                 Assert::isInstanceOf($rows, \Illuminate\Database\Eloquent\Collection::class);
                 $resource = $livewire->getResource();
