@@ -194,11 +194,19 @@ class XotData extends Data implements Wireable
     public function getProfileModelByUserId(string $user_id): ProfileContract
     {
         $profileClass = $this->getProfileClass();
+        /** @var Model&ProfileContract $profile */
         $profile = app($profileClass);
-        if (! in_array('user_id', $profile->getFillable())) {
+
+        Assert::isInstanceOf($profile, Model::class);
+        Assert::isArray($profile->getFillable(), 'getFillable() must return array');
+
+        if (! in_array('user_id', $profile->getFillable(), true)) {
             throw new \Exception('add user_id to fillable on class '.$profileClass);
         }
+
+        /** @var ProfileContract */
         $res = $profile->firstOrCreate(['user_id' => $user_id]);
+        Assert::implementsInterface($res, ProfileContract::class);
 
         return $res;
     }

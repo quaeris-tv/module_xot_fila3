@@ -51,10 +51,10 @@ class EnvData extends Data implements Wireable
     public function update(array $data): void
     {
         $env_path = base_path('.env');
-
         $env_content = File::get($env_path);
+
         foreach ($data as $k => $v) {
-            if ($this->$k !== $v) {
+            if ($this->$k !== $v && (is_bool($v) || is_int($v) || is_string($v))) {
                 $env_content = $this->updateVar($k, $v, $env_content);
             }
         }

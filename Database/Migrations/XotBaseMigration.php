@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Modules\Xot\Datas\XotData;
 use Nwidart\Modules\Facades\Module;
+use Webmozart\Assert\Assert;
 
 /**
  * Class XotBaseMigration.
@@ -29,7 +30,8 @@ abstract class XotBaseMigration extends Migration
     public function __construct()
     {
         $this->model_class = $this->model_class ?? $this->getModelClass();
-        $this->model = app($this->model_class);
+        Assert::isInstanceOf($model = app($this->model_class), Model::class);
+        $this->model = $model;
     }
 
     /**

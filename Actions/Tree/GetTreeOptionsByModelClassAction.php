@@ -8,28 +8,33 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\Xot\Contracts\HasRecursiveRelationshipsContract;
 use Spatie\QueueableAction\QueueableAction;
+use Staudenmeir\LaravelAdjacencyList\Eloquent\Collection;
 
 class GetTreeOptionsByModelClassAction
 {
     use QueueableAction;
 
+    /** @var array<int|string, string> */
     public array $options = [];
 
     /**
-     * Summary of execute.
+     * @param class-string<HasRecursiveRelationshipsContract> $class
      *
-     * @param class-string $class
+     * @return array<int|string, string>
      */
     public function execute(string $class, Model|callable|null $where = null): array
     {
-        if (null === $where) {
-            $rows = $class::tree()->get()->toTree();
-        } else {
-            $rows = $class::treeOf($where)->get()->toTree();
-        }
+        /** @var HasRecursiveRelationshipsContract $model */
+        $model = new $class();
+
+        /** @var Collection<int, HasRecursiveRelationshipsContract> $collection */
+        // @phpstan-ignore generics.notSubtype
+        $collection = $model->newQuery()->get();
+        $rows = $collection->toTree();
 
         foreach ($rows as $row) {
-            $this->options[$row->getKey()] = $row->getLabel();
+            /* @var HasRecursiveRelationshipsContract $row */
+            $this->options[$row->getKey()] = (string) $row->getLabel();
             $this->parse($row);
         }
 
