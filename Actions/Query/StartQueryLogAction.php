@@ -2,12 +2,9 @@
 
 declare(strict_types=1);
 
-/**
- * @see  https://fajarwz.com/blog/laravel-database-transaction-for-data-consistency/
- */
-
 namespace Modules\Xot\Actions\Query;
 
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueueableAction\QueueableAction;
@@ -18,7 +15,7 @@ class StartQueryLogAction
 
     public function execute(): void
     {
-        Event::listen('Illuminate\Database\Events\QueryExecuted', function ($query) {
+        Event::listen(QueryExecuted::class, function (QueryExecuted $query) {
             $sql = $query->sql;
             $time = $query->time;
             $connection = $query->connection->getName();
