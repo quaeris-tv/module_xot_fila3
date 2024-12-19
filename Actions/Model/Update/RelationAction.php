@@ -7,6 +7,7 @@ namespace Modules\Xot\Actions\Model\Update;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Xot\Actions\Model\FilterRelationsAction;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class RelationAction
 {
@@ -29,8 +30,12 @@ class RelationAction
         }
         // */
         foreach ($relations as $relation) {
-            $act = __NAMESPACE__.'\\'.$relation->relationship_type.'Action';
-            app($act)->execute($model, $relation);
+            $actionClass = __NAMESPACE__.'\\'.$relation->relationship_type.'Action';
+            Assert::object($action = app($actionClass));
+
+            if (method_exists($action, 'execute')) {
+                $action->execute($model, $relation);
+            }
         }
     }
 }
