@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class UpdateAction
 {
@@ -31,8 +32,9 @@ class UpdateAction
             if (method_exists($model, 'withTrashed')) {
                 $model = $model->withTrashed();
             }
-
-            $model = $model->firstOrCreate([$keyName => $key], $data);
+            Assert::isInstanceOf($model, Model::class);
+            $where = [$keyName => $key];
+            $model = $model->firstOrCreate($where, $data);
         }
 
         /**

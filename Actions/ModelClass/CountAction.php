@@ -4,37 +4,62 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\ModelClass;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
 use Webmozart\Assert\Assert;
 
+/**
+ * Counts records for a given model class using optimized table information.
+ *
+ * -implements \Spatie\QueueableAction\QueueableAction
+ */
 class CountAction
 {
     use QueueableAction;
 
+    /**
+     * Execute the count action for the given model class.
+     *
+     * @param class-string<Model> $modelClass The fully qualified model class name
+     *
+     * @throws \InvalidArgumentException If model class is invalid or not found
+     *
+     * @return int The total count of records
+     */
     public function execute(string $modelClass): int
     {
-        $model = app($modelClass);
-        $db = $model->getConnection()->getDatabaseName();
-        if (':memory:' == $db) {
-            return $model->count();
+        if (! class_exists($modelClass)) {
+            throw new \InvalidArgumentException("Model class [$modelClass] does not exist");
         }
-        $table = $model->getTable();
-        /*
-        $info = DB::select('SELECT * FROM `information_schema`.`TABLES`
-            where TABLE_SCHEMA = "'.$db.'" and TABLE_NAME="'.$table.'" ');
 
-        $count = $info[0]->TABLE_ROWS;
-        */
-        $info = DB::table('information_schema.TABLES')
-            ->where('TABLE_SCHEMA', $db)
+        /** @var Model $model */
+        $model = app($modelClass);
+
+        if (! $model instanceof Model) {
+            throw new \InvalidArgumentException("Class [$modelClass] must be an instance of ".Model::class);
+        }
+
+        $connection = $model->getConnection();
+        $database = $connection->getDatabaseName();
+
+        // Handle in-memory database
+        if (':memory:' === $database) {
+            return (int) $model->count();
+        }
+
+        $table = $model->getTable();
+
+        // Get count from table information for better performance
+        $count = DB::table('information_schema.TABLES')
+            ->where('TABLE_SCHEMA', $database)
             ->where('TABLE_NAME', $table)
             ->value('TABLE_ROWS');
 
-        $count = is_int($info) ? $info : 0;
+        $result = is_int($count) ? $count : 0;
 
-        Assert::integer($count);
+        Assert::integer($result, 'Count must be an integer');
 
-        return $count;
+        return $result;
     }
 }

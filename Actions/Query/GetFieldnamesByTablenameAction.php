@@ -21,7 +21,7 @@ final class GetFieldnamesByTablenameAction
      *
      * @throws \InvalidArgumentException
      *
-     * @return array<int, string>
+     * @return list
      */
     public function execute(string $table, ?string $connectionName = null): array
     {
@@ -46,8 +46,11 @@ final class GetFieldnamesByTablenameAction
         // Get and return column listing
         try {
             $columns = Schema::connection($connectionName)->getColumnListing($table);
+            $columns = array_values($columns);
+            // $columns = array_map('strval', $columns);
 
-            return array_values(array_map('strval', $columns));
+            return $columns;
+            // return array_values(array_map(static fn ($value): string => (string) $value, $columns));
         } catch (\Throwable $e) {
             throw new \InvalidArgumentException(sprintf('Error fetching columns from table "%s": %s', $table, $e->getMessage()));
         }

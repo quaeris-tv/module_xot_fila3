@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\ModelClass;
 
+use Illuminate\Database\ConnectionInterface;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\QueueableAction\QueueableAction;
 
 class SelectAction
@@ -11,12 +13,20 @@ class SelectAction
     use QueueableAction;
 
     /**
-     * execute a select query.
+     * Execute a select query.
+     *
+     * @param class-string<Model> $modelClass
+     *
+     * @return array<mixed>
      */
     public function execute(string $modelClass, string $sql): array
     {
+        /** @var Model $model */
         $model = app($modelClass);
 
-        return $model->getConnection()->select($sql);
+        /** @var ConnectionInterface $connection */
+        $connection = $model->getConnection();
+
+        return $connection->select($sql);
     }
 }
