@@ -998,6 +998,9 @@ if (! function_exists('getServerName')) {
     function getServerName(): string
     {
         $default = config('app.url', 'localhost');
+        if (! is_string($default)) {
+            $default = 'localhost';
+        }
         $default = Str::after($default, '//');
 
         $server_name = $default;

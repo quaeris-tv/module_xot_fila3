@@ -20,12 +20,16 @@ class CollectionExport implements FromCollection, ShouldQueue, WithHeadings, Wit
 
     public ?string $transKey;
 
+    /** @var array<int, string> */
     public ?array $fields = null;
 
+    /**
+     * @param array<int, string> $fields
+     */
     public function __construct(
         public Collection $collection,
         ?string $transKey = null,
-        ?array $fields = null,
+        array $fields = []
     ) {
         $this->transKey = $transKey;
         $this->fields = $fields;

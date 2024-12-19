@@ -24,13 +24,17 @@ class QueryExport implements FromQuery, ShouldQueue, WithChunkReading, WithHeadi
 
     public array $headings = [];
 
-    public ?array $fields = null;
+    /** @var array<int, string> */
+    public array $fields = [];
 
     public ?string $transKey = null;
 
     public QueryBuilder|EloquentBuilder $query;
 
-    public function __construct(QueryBuilder|EloquentBuilder $query, ?string $transKey = null, ?array $fields = null)
+    /**
+     * @param array<int, string> $fields
+     */
+    public function __construct(QueryBuilder|EloquentBuilder $query, ?string $transKey = null, array $fields = [])
     {
         $this->query = $query;
         $this->transKey = $transKey;
@@ -56,7 +60,7 @@ class QueryExport implements FromQuery, ShouldQueue, WithChunkReading, WithHeadi
 
     public function getHead(): Collection
     {
-        if (is_array($this->fields)) {
+        if (! empty($this->fields)) {
             return collect($this->fields);
         }
         /**
@@ -99,7 +103,7 @@ class QueryExport implements FromQuery, ShouldQueue, WithChunkReading, WithHeadi
      */
     public function map($item): array
     {
-        if (null === $this->fields) {
+        if (! empty($this->fields)) {
             return collect($item)->toArray();
         }
 
