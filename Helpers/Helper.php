@@ -21,7 +21,6 @@ use Nwidart\Modules\Facades\Module;
 use function Safe\define;
 use function Safe\glob;
 use function Safe\json_decode;
-use function Safe\parse_url;
 use function Safe\preg_match;
 use function Safe\realpath;
 
@@ -553,18 +552,37 @@ if (! function_exists('getAllModules')) {
 
 if (! function_exists('getAllModulesModels')) {
     /**
+     * Get all models from all enabled modules.
+     *
      * @throws ReflectionException
+     *
+     * @return array<string, string>
      */
     function getAllModulesModels(): array
     {
         $res = [];
+
+        /** @var \Nwidart\Modules\Laravel\Module[] $modules */
         $modules = Module::all();
+
         foreach ($modules as $module) {
-            Assert::isInstanceOf($module, Module::class);
-            /** @var string */
-            $module_name = $module->getName();
-            $tmp = getModuleModels($module_name);
-            $res = array_merge($res, $tmp);
+            if (! $module instanceof Nwidart\Modules\Laravel\Module) {
+                continue;
+            }
+
+            $moduleName = $module->get('name');
+            if (! is_string($moduleName)) {
+                continue;
+            }
+
+            try {
+                $moduleModels = getModuleModels($moduleName);
+                $res = array_merge($res, $moduleModels);
+            } catch (Exception $e) {
+                // Log error and continue with next module
+                Log::error('[Module:'.$moduleName.'] Error getting models: '.$e->getMessage());
+                continue;
+            }
         }
 
         return $res;
@@ -662,9 +680,6 @@ if (! function_exists('array_merge_recursive_distinct')) {
         return $merged;
     }
 }
-
-
-
 
 if (! function_exists('getRelationships')) {
     /**

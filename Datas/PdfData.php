@@ -81,7 +81,7 @@ class PdfData extends Data
         $model_name = class_basename($model_class);
         $module = Str::between($model_class, '\Modules\\', '\Models');
         /**
-         * @var string
+         * @var non-falsy-string&view-string
          */
         $view_name = mb_strtolower($module).'::'.Str::kebab($model_name).'.show.pdf';
         $view_params = [

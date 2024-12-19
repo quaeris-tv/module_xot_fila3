@@ -19,43 +19,34 @@ trait Updater
     /**
      * Summary of creator.
      *
-     * @return BelongsTo<Model&ProfileContract, $this>
+     * @return BelongsTo<ProfileContract&Model, static>
      */
     public function creator(): BelongsTo
     {
-        $profile_class = XotData::make()->getProfileClass();
+        /** @var class-string<ProfileContract&Model> $profileClass */
+        $profileClass = XotData::make()->getProfileClass();
 
-        /*
+        // @phpstan-ignore return.type
         return $this->belongsTo(
-            \Modules\Xot\Datas\XotData::make()->getUserClass(),
+            $profileClass,
             'created_by',
-        );
-        */
-        return $this->belongsTo(
-            $profile_class,
-            'updated_by',
             'user_id'
         );
     }
 
     /**
-     * Defines a relation to obtain the last user who
-     * manipulated the Entity instance.
+     * Get the last user who updated the model.
      *
-     * @return BelongsTo<Model&ProfileContract, $this>
+     * @return BelongsTo<ProfileContract&Model, static>
      */
     public function updater(): BelongsTo
     {
-        $profile_class = XotData::make()->getProfileClass();
+        /** @var class-string<ProfileContract&Model> $profileClass */
+        $profileClass = XotData::make()->getProfileClass();
 
-        /*
+        // @phpstan-ignore return.type
         return $this->belongsTo(
-            \Modules\Xot\Datas\XotData::make()->getUserClass(),
-            'updated_by',
-        );
-        */
-        return $this->belongsTo(
-            $profile_class,
+            $profileClass,
             'updated_by',
             'user_id'
         );
