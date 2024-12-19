@@ -18,6 +18,9 @@ class UpdateAction
 {
     use QueueableAction;
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function execute(Model $model, array $data, array $rules): Model
     {
         $validator = Validator::make($data, $rules);
@@ -27,6 +30,7 @@ class UpdateAction
         // $data['updated_by'] = authId();
         if (null === $model->getKey()) {
             $key = $data[$keyName];
+            /** @var array<string, mixed> $data */
             $data = collect($data)->except($keyName)->toArray();
 
             if (method_exists($model, 'withTrashed')) {
@@ -44,9 +48,9 @@ class UpdateAction
 
         app(__NAMESPACE__.'\\Update\RelationAction')->execute($model, $data);
 
-        $msg = 'aggiornato! ['.$model->getKey().']!';
+        // $msg = 'aggiornato! ['.$model->getKey().']!';
 
-        Session::flash('status', $msg); // .
+        // Session::flash('status', $msg); // .
 
         return $model;
     }
