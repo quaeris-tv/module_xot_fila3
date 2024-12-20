@@ -23,11 +23,19 @@ class ListExtras extends XotBaseListRecords
         ];
     }
 
+    /**
+     * @return array<\Filament\Tables\Filters\BaseFilter>
+     */
     public function getTableFilters(): array
     {
         return [];
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return array<\Filament\Tables\Actions\Action|\Filament\Tables\Actions\ActionGroup>
+     */
     public function getTableActions(): array
     {
         return [

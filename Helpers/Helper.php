@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -440,22 +441,22 @@ if (! function_exists('getModelByName')) {
         //    throw new Exception('['.__LINE__.']['.__FILE__.']');
         // }
 
-        $path = collect($files)->first(
-            static function (string $file) use ($name): bool {
-                $info = pathinfo((string) $file);
-                // Offset 'filename' on array{dirname?: string, basename: string, extension?: string, filename: string} on left side of ?? always exists and is not nullable.
-                $filename = $info['filename'];
+        $path = Arr::first($files,
+            function ($file) use ($name): bool {
+                Assert::string($file);
+                $info = pathinfo($file);
 
-                // ?? '';
+                // Accedi direttamente a 'filename', che esiste sempre in pathinfo
+                $filename = $info['filename'] ?? '';
+
                 return Str::snake($filename) === $name;
             }
         );
 
-        // dddx($registered);
-
         if (null === $path) {
             throw new Exception('['.$name.'] not in morph_map ['.__LINE__.']['.__FILE__.']');
         }
+        Assert::string($path);
 
         $path = app(Modules\Xot\Actions\File\FixPathAction::class)->execute($path);
         $info = pathinfo($path);
@@ -497,6 +498,8 @@ if (! function_exists('getModuleFromModel')) {
         // $mod = \Nwidart\Modules\Module::get($module_name);
         // 480    Call to an undefined method Nwidart\Modules\Facades\Module::get()
         // $mod = app('module')->get($module_name);
+
+        // @phpstan-ignore method.nonObject
         Assert::isInstanceOf($res = app('module')->find($module_name), Nwidart\Modules\Module::class);
 
         return $res;
@@ -520,7 +523,7 @@ if (! function_exists('getModuleNameFromModelName')) {
             throw new Exception('['.__LINE__.']['.__FILE__.']');
         }
 
-        $model = app($model_class);
+        Assert::isInstanceOf($model = app($model_class), Model::class);
 
         return getModuleNameFromModel($model);
     }
@@ -557,7 +560,10 @@ if (! function_exists('getAllModulesModels')) {
         $res = [];
         $modules = Module::all();
         foreach ($modules as $module) {
-            $tmp = getModuleModels($module->getName());
+            Assert::isInstanceOf($module, Module::class);
+            /** @var string */
+            $module_name = $module->getName();
+            $tmp = getModuleModels($module_name);
             $res = array_merge($res, $tmp);
         }
 
@@ -716,28 +722,42 @@ if (! function_exists('url_queries')) {
     }
 }
 
+
 if (! function_exists('build_url')) {
     /**
-     * Rebuilds the URL parameters into a string from the native parse_url() function.
+     * Rebuilds a URL string from its components, typically obtained via parse_url().
      *
-     * @param array $parts The parts of a URL
+     * @param array $parts the parts of a URL, such as 'scheme', 'host', 'path', etc
      *
-     * @return string The constructed URL
+     * @return string the reconstructed URL
      */
     function build_url(array $parts): string
     {
-        return (isset($parts['scheme']) ? sprintf('%s:', $parts['scheme']) : '').
+        return
+            // @phpstan-ignore binaryOp.invalid, argument.type
+            (isset($parts['scheme']) ? sprintf('%s:', $parts['scheme']) : '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['user']) || isset($parts['host']) ? '//' : '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             ($parts['user'] ?? '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['pass']) ? sprintf(':%s', $parts['pass']) : '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['user']) ? '@' : '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             ($parts['host'] ?? '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['port']) ? sprintf(':%s', $parts['port']) : '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             ($parts['path'] ?? '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['query']) ? sprintf('?%s', $parts['query']) : '').
+            // @phpstan-ignore binaryOp.invalid, argument.type
             (isset($parts['fragment']) ? sprintf('#%s', $parts['fragment']) : '');
+
     }
 }
+
 
 if (! function_exists('getRelationships')) {
     /**

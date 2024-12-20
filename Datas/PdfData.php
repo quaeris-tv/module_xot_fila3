@@ -1,7 +1,5 @@
 <?php
-
-/**
- * @see https://github.com/masterix21/laravel-html2pdf/blob/master/src/config/html2pdf.php
+/*
  * @see https://github.com/masterix21/laravel-html2pdf/blob/master/src/PDF.php
  */
 
@@ -22,6 +20,9 @@ use Webmozart\Assert\Assert;
  */
 class PdfData extends Data
 {
+    /**
+     * @var non-falsy-string
+     */
     public string $filename = 'my_doc.pdf';
     public string $disk = 'cache';
     public string $out = 'download';
@@ -80,7 +81,7 @@ class PdfData extends Data
         $model_name = class_basename($model_class);
         $module = Str::between($model_class, '\Modules\\', '\Models');
         /**
-         * @phpstan-var view-string
+         * @var string
          */
         $view_name = mb_strtolower($module).'::'.Str::kebab($model_name).'.show.pdf';
         $view_params = [

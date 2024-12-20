@@ -141,8 +141,8 @@ class RouteDynService
 
             return $param_name;
         }
-
-        $param_name = 'id_'.$v['name'];
+        Assert::string($name = $v['name']);
+        $param_name = 'id_'.$name;
         $param_name = str_replace('{', '', $param_name);
         $param_name = str_replace('}', '', $param_name);
 
@@ -248,7 +248,8 @@ class RouteDynService
 
     public static function getCallback(array $v, ?string $namespace, ?string $curr): array
     {
-        $as = Str::slug($v['name']); // !!!!!! test da controllare
+        Assert::string($name = $v['name']);
+        $as = Str::slug($name); // !!!!!! test da controllare
         $uses = self::getUses($v, $namespace);
         if (null !== $curr) {
             $uses = '\\'.self::$namespace_start.'\\'.$curr.'\\'.$uses;
@@ -261,18 +262,22 @@ class RouteDynService
 
     public static function dynamic_route(array $array, ?string $namespace = null, ?string $namespace_start = null, ?string $curr = null): void
     {
+        // Verifica che $array sia un array e non vuoto
+        Assert::isArray($array, 'The $array parameter must be an array.');
+        Assert::notEmpty($array, 'The $array parameter cannot be empty.');
+
         if (null !== $namespace_start) {
             self::$namespace_start = $namespace_start;
-        } /*
-        if($curr!=null){
-        static::$curr=$curr;
-        }*/
-        reset($array);
+        }
+
+        // Iterazione sull'array
         foreach ($array as $v) {
-            Assert::isArray($v);
+            Assert::isArray($v, 'Each item in the array must be an array.');
             $group_opts = self::getGroupOpts($v, $namespace);
             $v['group_opts'] = $group_opts;
+
             self::createRouteResource($v, $namespace);
+
             Route::group(
                 $group_opts,
                 static function () use ($v, $namespace, $curr): void {
@@ -280,7 +285,7 @@ class RouteDynService
                     self::createRouteSubs($v, $namespace, $curr);
                 }
             );
-        } // end foreach
+        }
     }
 
     // end function
@@ -327,8 +332,8 @@ class RouteDynService
                 $curr .= '\\'.$sub_namespace;
             }
         }
-
-        self::dynamic_route($v['subs'], $sub_namespace, null, $curr);
+        Assert::isArray($subs = $v['subs']);
+        self::dynamic_route($subs, $sub_namespace, null, $curr);
     }
 
     // ---------------------------------------------------
@@ -336,6 +341,9 @@ class RouteDynService
     public static function createRouteActs(array $v, ?string $namespace, ?string $curr): void
     {
         if (! isset($v['acts'])) {
+            return;
+        }
+        if (! \is_array($v['acts'])) {
             return;
         }
 

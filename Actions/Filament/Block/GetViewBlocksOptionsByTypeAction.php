@@ -21,6 +21,8 @@ class GetViewBlocksOptionsByTypeAction
     /**
      * Undocumented function.
      * return number of input added.
+     *
+     * @return array<array<string>|string>
      */
     public function execute(string $type, bool $img = false): array
     {

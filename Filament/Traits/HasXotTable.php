@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
-use Filament\Actions;
-use Filament\Notifications\Notification;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\BulkAction;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Columns\Layout\Stack;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Filters\BaseFilter;
-use Filament\Tables\Filters\TernaryFilter;
+use Filament\Actions;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Modules\UI\Enums\TableLayoutEnum;
-use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Webmozart\Assert\Assert;
+use Filament\Tables\Actions\Action;
+use Modules\UI\Enums\TableLayoutEnum;
+use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\BaseFilter;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Columns\Layout\Stack;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Filters\TernaryFilter;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Modules\Xot\Actions\Model\TableExistsByModelClassActions;
+use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 
 /**
  * Trait HasXotTable.
@@ -49,14 +51,14 @@ trait HasXotTable
         ];
 
         if ($this->shouldShowAssociateAction()) {
-            $actions[] = Tables\Actions\AssociateAction::make()
+            $actions['associate'] = Tables\Actions\AssociateAction::make()
                 ->label('')
                 ->icon('heroicon-o-paper-clip')
                 ->tooltip(__('user::actions.associate_user'));
         }
 
         if ($this->shouldShowAttachAction()) {
-            $actions[] = Tables\Actions\AttachAction::make()
+            $actions['attach'] = Tables\Actions\AttachAction::make()
                 ->label('')
                 ->icon('heroicon-o-link')
                 ->tooltip(__('user::actions.attach_user'))
@@ -90,7 +92,7 @@ trait HasXotTable
     protected function shouldShowDetachAction(): bool
     {
         // Show DetachAction only if an associated relationship exists
-        // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
+        // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, method.nonObject
         return method_exists($this, 'getRelationship') && $this->getRelationship()->exists();
     }
 
@@ -117,14 +119,14 @@ trait HasXotTable
     protected function getHeaderActions(): array
     {
         return [
-            'create' =>
-                Actions\CreateAction::make()
+            'create' => Actions\CreateAction::make()
                     // ->label('')
                     // ->tooltip(static::trans('actions.create.tooltip'))
                     ->icon('heroicon-o-plus')
-                    // ->iconButton()
-                    ->button(),
-            ];
+            // ->iconButton()
+            // ->button()
+            ,
+        ];
     }
 
     /**
@@ -179,7 +181,7 @@ trait HasXotTable
      */
     public function table(Table $table): Table
     {
-        if (! $this->tableExists()) {
+        if(! app(TableExistsByModelClassActions::class)->execute($this->getModelClass())){
             $this->notifyTableMissing();
 
             return $this->configureEmptyTable($table);
@@ -195,6 +197,7 @@ trait HasXotTable
             ->filtersLayout(FiltersLayout::AboveContent)
             ->filtersFormColumns($this->getTableFiltersFormColumns())
             ->persistFiltersInSession()
+            // @phpstan-ignore argument.type
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
             ->actionsPosition(ActionsPosition::BeforeColumns)
@@ -289,7 +292,7 @@ trait HasXotTable
     {
         // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
         if (method_exists($this, 'getRelationship')) {
-            // @phpstan-ignore classConstant.nonObject
+            // @phpstan-ignore classConstant.nonObject,  method.nonObject
             Assert::string($res = $this->getRelationship()->getModel()::class);
 
             return $res;
@@ -311,24 +314,15 @@ trait HasXotTable
         throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
-    /**
-     * Check if the model's table exists in the database.
-     */
-    protected function tableExists(): bool
-    {
-        $model = $this->getModelClass();
-
-        // @phpstan-ignore return.type
-        return app($model)->getConnection()->getSchemaBuilder()->hasTable(app($model)->getTable());
-    }
 
     /**
      * Notify the user if the table is missing.
      */
     protected function notifyTableMissing(): void
     {
-        $model = $this->getModelClass();
-        $tableName = app($model)->getTable();
+        $model_class = $this->getModelClass();
+        Assert::isInstanceOf($model=app($model_class),Model::class);
+        $tableName = $model->getTable();
         Notification::make()
             ->title(__('user::notifications.table_missing.title'))
             ->body(__('user::notifications.table_missing.body', ['table' => $tableName]))

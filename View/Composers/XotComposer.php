@@ -11,7 +11,7 @@ use Illuminate\View\View;
 use Modules\Xot\Datas\MetatagData;
 use Modules\Xot\Datas\XotData;
 use Nwidart\Modules\Facades\Module;
-use Nwidart\Modules\Laravel\Module as LarevelModule;
+use Nwidart\Modules\Laravel\Module as LaravelModule;
 use Webmozart\Assert\Assert;
 
 /**
@@ -30,20 +30,26 @@ class XotComposer
 
         $module = Arr::first(
             $modules,
-            static function (LarevelModule $module) use ($name): bool {
-                Assert::string($module_name = $module->getName());
-                $class = '\Modules\\'.$module_name.'\View\Composers\ThemeComposer';
+            static function ($module) use ($name): bool {
+                // Ensure the module is an instance of LaravelModule
+                if (! $module instanceof LaravelModule) {
+                    return false;
+                }
+
+                Assert::string($moduleName = $module->getName());
+                $class = '\Modules\\'.$moduleName.'\View\Composers\ThemeComposer';
 
                 return method_exists($class, $name);
             }
         );
+
         if (! \is_object($module)) {
-            throw new \Exception('create a View\Composers\ThemeComposer.php inside a module with ['.$name.'] method');
+            throw new \Exception('Create a View\Composers\ThemeComposer.php inside a module with ['.$name.'] method');
         }
 
-        Assert::isInstanceOf($module, \Nwidart\Modules\Module::class, '['.__LINE__.']['.class_basename($this).']');
+        Assert::isInstanceOf($module, LaravelModule::class, '['.__LINE__.']['.class_basename($this).']');
         $class = '\Modules\\'.$module->getName().'\View\Composers\ThemeComposer';
-        // Parameter #1 $callback of function call_user_func_array expects callable(): mixed, array{*NEVER*, string} given.
+
         $app = app($class);
         $callback = [$app, $name];
         Assert::isCallable($callback);
@@ -52,13 +58,14 @@ class XotComposer
     }
 
     /**
-     * Bind data to the view..
+     * Bind data to the view.
      */
     public function compose(View $view): void
     {
         $lang = app()->getLocale();
         $view->with('lang', $lang);
         $view->with('_theme', $this);
+
         if (Auth::check()) {
             $profile = XotData::make()->getProfileModel();
             $view->with('_profile', $profile);
@@ -78,9 +85,6 @@ class XotComposer
         if (method_exists($metatag, $fun)) {
             // @phpstan-ignore return.type
             return $metatag->{$fun}();
-            // $callback = [$metatag,$fun];
-            // Assert::isCallable($callback);
-            // return call_user_func_array($callback, []);
         }
 
         // @phpstan-ignore return.type

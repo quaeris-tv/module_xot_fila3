@@ -14,6 +14,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\Blade\RegisterBladeComponentsAction;
 use Modules\Xot\Actions\Livewire\RegisterLivewireComponentsAction;
+use Modules\Xot\Datas\ComponentFileData;
 
 use function Safe\glob;
 use function Safe\json_decode;
@@ -155,9 +156,11 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         if (0 == $comps->count()) {
             return;
         }
-        $commands = Arr::map($comps->items(), function ($item) {
-            return $this->module_ns.'\Console\Commands\\'.$item->class;
-        });
+        $commands = Arr::map($comps->items(),
+            function (ComponentFileData $item) {
+                return $this->module_ns.'\Console\Commands\\'.$item->class;
+            }
+        );
         $this->commands($commands);
     }
 
@@ -234,9 +237,10 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         return $events;
     }
 
-    /**
+    /*
      * @throws FileNotFoundException
-     */
+     * DEPRECATED
+
     public function loadEventsFrom(string $path): void
     {
         $events = $this->getEventsFrom($path);
@@ -244,6 +248,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             Event::listen($event->event, $event->listener);
         }
     }
+     */
 
     /**
      * Register config.
@@ -261,6 +266,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         $path = $this->module_dir.'/../Config';
         $filenames = glob($path.'/*.php');
         foreach ($filenames as $filename) {
+            Assert::string($filename);
             $info = pathinfo($filename);
             $name = Arr::get($info, 'filename', null);
             if (! is_string($name)) {
