@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class BelongsToAction
 {
@@ -15,9 +16,7 @@ class BelongsToAction
 
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
-        if (! $relationDTO->rows instanceof BelongsTo) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
-        }
+        Assert::isInstanceOf($rows = $relationDTO->rows, BelongsTo::class);
 
         $related = $relationDTO->rows->create($relationDTO->data);
 

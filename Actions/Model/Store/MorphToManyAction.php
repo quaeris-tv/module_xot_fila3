@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Arr;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class MorphToManyAction
 {
@@ -16,9 +17,7 @@ class MorphToManyAction
 
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
-        if (! $relationDTO->rows instanceof MorphToMany) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
-        }
+        Assert::isInstanceOf($rows = $relationDTO->rows, MorphToMany::class);
 
         $data = $relationDTO->data;
         if (\in_array('to', array_keys($data), false) || \in_array('from', array_keys($data), false)) {

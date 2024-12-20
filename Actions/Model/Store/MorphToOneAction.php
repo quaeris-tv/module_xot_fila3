@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class MorphToOneAction
 {
@@ -16,12 +17,8 @@ class MorphToOneAction
 
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
+        Assert::isInstanceOf($rows = $relationDTO->rows, MorphToOne::class);
         // dddx(['row' => $row, 'relation' => $relation, 'relation_data' => $relation->data]);
-        if (! $relationDTO->rows instanceof MorphToOne) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
-        }
-
-        $rows = $relationDTO->rows;
 
         // if (is_array($relation->data)) {
         if (! isset($relationDTO->data['lang'])) {

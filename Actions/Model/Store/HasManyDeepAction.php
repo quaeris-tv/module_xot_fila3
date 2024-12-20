@@ -14,6 +14,7 @@ class HasManyDeepAction
 
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
+        // Assert::isInstanceOf($rows = $relationDTO->rows, BelongsToMany::class);
         dddx('wip');
     }
 }
