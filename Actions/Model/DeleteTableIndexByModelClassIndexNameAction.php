@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Model;
 
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class DeleteTableIndexByModelClassIndexNameAction
 {
@@ -12,7 +14,7 @@ class DeleteTableIndexByModelClassIndexNameAction
 
     public function execute(string $modelClass, string $indexName): void
     {
-        $model = app($modelClass);
+        Assert::isInstanceOf($model = app($modelClass), EloquentModel::class);
         $table = $model->getTable();
         $schemaManager = app(GetSchemaManagerByModelClassAction::class)->execute($modelClass);
         $doctrineTable = $schemaManager->introspectTable($table);

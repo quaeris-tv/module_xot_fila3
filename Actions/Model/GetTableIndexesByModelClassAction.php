@@ -16,8 +16,8 @@ class GetTableIndexesByModelClassAction
      */
     public function execute(string $modelClass): array
     {
-        $model = app($modelClass);
-        $table = $model->getTable();
+        \Webmozart\Assert\Assert::isInstanceOf($model = app($modelClass), \Illuminate\Database\Eloquent\Model::class);
+$table = $model->getTable();
         $schemaManager = app(GetSchemaManagerByModelClassAction::class)->execute($modelClass);
 
         return $schemaManager->listTableIndexes($table);

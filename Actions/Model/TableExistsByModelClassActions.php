@@ -14,8 +14,8 @@ class TableExistsByModelClassActions
             return false;
         }
 
-        $model = app($modelClass);
-        $tableName = $model->getTable();
+        \Webmozart\Assert\Assert::isInstanceOf($model = app($modelClass), \Illuminate\Database\Eloquent\Model::class);
+$tableName = $model->getTable();
 
         return Schema::connection($model->getConnectionName())->hasTable($tableName);
     }
