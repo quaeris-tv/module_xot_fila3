@@ -25,6 +25,7 @@ class GetModelClassByModelNameAction
         if (null === $modelClass) {
             return app(GetFirstModelClassByModelNameAction::class)->execute($modelName);
         }
+        Assert::string($modelClass);
 
         return $modelClass;
     }
