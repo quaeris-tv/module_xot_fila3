@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class HasManyAction
 {
@@ -15,11 +16,8 @@ class HasManyAction
 
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
-        if (! $relationDTO->rows instanceof HasMany) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
-        }
+        Assert::isIntanceOf($rows = $relationDTO->rows, HasMany::class);
 
-        $rows = $relationDTO->rows;
         $rows->create($relationDTO->data);
     }
 }
