@@ -562,7 +562,7 @@ if (! function_exists('getAllModulesModels')) {
     {
         $res = [];
 
-        /** @var \Nwidart\Modules\Laravel\Module[] $modules */
+        /** @var Nwidart\Modules\Laravel\Module[] $modules */
         $modules = Module::all();
 
         foreach ($modules as $module) {
