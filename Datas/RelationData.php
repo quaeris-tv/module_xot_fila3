@@ -17,6 +17,7 @@ class RelationData extends Data
 {
     public Relation $rows;
 
+    /** @var array<string, mixed> */
     public array $data = [];
 
     public string $name;
