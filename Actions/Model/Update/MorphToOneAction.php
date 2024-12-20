@@ -10,31 +10,51 @@ use Illuminate\Support\Facades\App;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
 
+/**
+ * Class MorphToOneAction.
+ *
+ * Handles the creation of MorphToOne relationship records
+ *
+ * @template TModel of Model
+ */
 class MorphToOneAction
 {
     use QueueableAction;
 
     /**
-     * Undocumented function.
+     * Execute the action to create a MorphToOne relationship.
+     *
+     * @param Model       $model       The parent model
+     * @param RelationDTO $relationDTO Data transfer object containing relationship information
+     *
+     * @throws \InvalidArgumentException When relation type is invalid
      */
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
-        // dddx(['row' => $row, 'relation' => $relation]);
         if (! $relationDTO->rows instanceof MorphToOne) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new \InvalidArgumentException(sprintf('Expected MorphToOne relation, got %s', get_debug_type($relationDTO->rows)));
         }
 
-        $rows = $relationDTO->rows;
+        $data = $this->prepareData($relationDTO->data);
 
-        // if (is_array($relation->data)) {
-        if (! isset($relationDTO->data['lang'])) {
-            $relationDTO->data['lang'] = App::getLocale();
+        /** @var MorphToOne $morphToOne */
+        $morphToOne = $relationDTO->rows;
+        $morphToOne->create($data);
+    }
+
+    /**
+     * Prepare the data array for creation.
+     *
+     * @param array<string, mixed> $data
+     *
+     * @return array<string, mixed>
+     */
+    private function prepareData(array $data): array
+    {
+        if (! isset($data['lang'])) {
+            $data['lang'] = App::getLocale();
         }
 
-        $rows->create($relationDTO->data);
-        // }
-        // else {
-        //    $rows->sync($relation->data);
-        // }
+        return $data;
     }
 }
