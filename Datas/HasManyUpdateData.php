@@ -16,7 +16,7 @@ class HasManyUpdateData extends Data
         public string $foreignKey,
         public mixed $parentKey,
         #[ArrayType]
-        public array $ids = []
+        public array $ids = [],
     ) {
     }
 }

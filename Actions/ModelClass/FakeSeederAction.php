@@ -26,8 +26,8 @@ class FakeSeederAction
     /**
      * Execute the fake data seeding process.
      *
-     * @param class-string<\Illuminate\Database\Eloquent\Model> $modelClass The fully qualified model class name
-     * @param int<1, max>                                       $qty        Number of records to generate
+     * @param class-string<Model> $modelClass The fully qualified model class name
+     * @param int<1, max>         $qty        Number of records to generate
      *
      * @throws \InvalidArgumentException When model class is invalid or qty is less than 1
      */
