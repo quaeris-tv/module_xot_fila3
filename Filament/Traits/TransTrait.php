@@ -15,6 +15,8 @@ trait TransTrait
     public static function trans(string $key, bool $exceptionIfNotExist=false): string
     {
         $transKey = app(GetTransKeyAction::class)->execute(static::class);
+
+        /*
         $ns = Str::before($transKey, '::');
         $group = Str::after($transKey, '::');
         $group_arr = explode('.', $group);
@@ -29,7 +31,7 @@ trait TransTrait
             $group = implode('.', $group_arr);
             $transKey = $ns.'::'.$group;
         }
-
+        */
         $tmp = $transKey.'.'.$key;
         $res = trans($tmp);
         if (\is_string($res)) {

@@ -83,12 +83,12 @@ class XotServiceProvider extends XotBaseServiceProvider
         app()->setLocale($locale);
         Carbon::setLocale($locale);
         date_default_timezone_set($timezone);
-        Assert::isArray($validationMessages = __('user::validation'));
+        // Assert::isArray($validationMessages = __('user::validation'));
         DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone($timezone));
         DatePicker::configureUsing(fn (DatePicker $component) => $component->timezone($timezone)->displayFormat($date_format));
         TimePicker::configureUsing(fn (TimePicker $component) => $component->timezone($timezone));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone($timezone));
-        TextInput::configureUsing(fn (TextInput $component) => $component->validationMessages($validationMessages));
+        // TextInput::configureUsing(fn (TextInput $component) => $component->validationMessages($validationMessages));
     }
 
     /**
@@ -191,7 +191,7 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->app->extend(
             ExceptionHandler::class,
             static function (ExceptionHandler $handler, $app) {
-                // @phpstan-ignore offsetAccess.nonOffsetAccessible
+                // @phpstan-ignore offsetAccess.nonOffsetAccessible, argument.type
                 return new HandlerDecorator($handler, $app[HandlersRepository::class]);
             }
         );

@@ -32,13 +32,14 @@ trait RelationX
         ?string $relatedKey = null,
         ?string $relation = null,
     ): BelongsToMany {
+        Assert::isInstanceOf($related_model=app($related),Model::class, '['.__LINE__.']['.class_basename($this).']');
         $pivot = $this->guessPivot($related);
         $table = $pivot->getTable();
         $pivotFields = $pivot->getFillable();
 
         $pivotDbName = $pivot->getConnection()->getDatabaseName();
         $dbName = $this->getConnection()->getDatabaseName();
-        $relatedDbName = app($related)->getConnection()->getDatabaseName();
+        $relatedDbName = $related_model->getConnection()->getDatabaseName();
         // if ($pivotDbName !== $dbName) {
         if ($pivotDbName != $dbName || $relatedDbName != $dbName) {
             $table = $pivotDbName.'.'.$table;

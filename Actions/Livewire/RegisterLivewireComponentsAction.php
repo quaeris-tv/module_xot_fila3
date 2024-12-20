@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Livewire;
 
-use Filament\Notifications\Notification;
 use Livewire\Livewire;
 use Modules\Xot\Actions\File\GetComponentsAction;
 use Spatie\QueueableAction\QueueableAction;
@@ -19,16 +18,7 @@ class RegisterLivewireComponentsAction
             ->execute($path, $namespace.'\Http\Livewire', $prefix);
 
         foreach ($comps as $comp) {
-            try {
-                Livewire::component($comp->name, $comp->ns);
-            } catch (\Error $e) {
-                Notification::make()
-                ->title('Error')
-                ->body($e->getMessage())
-                ->persistent()
-                ->danger()
-                ->send();
-            }
+            Livewire::component($comp->name, $comp->ns);
         }
     }
 }

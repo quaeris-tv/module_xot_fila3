@@ -59,6 +59,7 @@
         "larastan/larastan": "*",
         "laravel/pint": "^1.18",
         "laravel/sail": "^1.39",
+        "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.5",
         "orchestra/testbench": "^9.6",
         "pestphp/pest": "^3.5",
