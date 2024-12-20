@@ -28,7 +28,8 @@ class MorphManyAction
      */
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
-        Assert::isInstanceOf($model->{$relationDTO->name}(), MorphMany::class);
+        // Assert::isInstanceOf($model->{$relationDTO->name}(), MorphMany::class);
+        Assert::isInstanceOf($rows = $relationDTO->rows, MorphMany::class);
         Assert::isArray($relationDTO->data, 'Relation data must be an array');
 
         if ([] === $relationDTO->data) {

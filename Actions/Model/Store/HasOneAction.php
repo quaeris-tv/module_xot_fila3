@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Arr;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class HasOneAction
 {
@@ -16,12 +17,7 @@ class HasOneAction
 
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
-        // dddx(['row' => $row, 'relation' => $relation]);
-        if (! $relationDTO->rows instanceof HasOne) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
-        }
-
-        $rows = $relationDTO->rows;
+        Assert::isInstanceOf($rows = $relationDTO->rows, HasOne::class);
 
         if (! Arr::isAssoc($relationDTO->data) && 1 === \count($relationDTO->data)) {
             $related_id = $relationDTO->data[0];

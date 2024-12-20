@@ -24,11 +24,8 @@ class HasManyAction
      */
     public function execute(Model $model, RelationData $relationDTO): void
     {
-        if (! $relationDTO->rows instanceof HasMany) {
-            throw new \InvalidArgumentException('Relation must be instance of HasMany');
-        }
+        Assert::isInstanceOf($relation = $relationDTO->rows, HasMany::class);
 
-        $relation = $relationDTO->rows;
         $updateData = new HasManyUpdateData(
             foreignKey: $relation->getForeignKeyName(),
             parentKey: $model->getAttribute($relation->getLocalKeyName())

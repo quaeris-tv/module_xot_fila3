@@ -16,7 +16,7 @@ class HasManyAction
 
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
-        Assert::isIntanceOf($rows = $relationDTO->rows, HasMany::class);
+        Assert::isInstanceOf($rows = $relationDTO->rows, HasMany::class);
 
         $rows->create($relationDTO->data);
     }

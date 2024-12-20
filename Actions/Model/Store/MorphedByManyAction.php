@@ -14,6 +14,7 @@ class MorphedByManyAction
 
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
+        // Assert::isInstanceOf($rows = $relationDTO->rows, HasOne::class);
         dddx('wip');
     }
 }

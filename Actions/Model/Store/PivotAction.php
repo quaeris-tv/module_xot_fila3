@@ -14,6 +14,7 @@ class PivotAction
 
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
+        // Assert::isInstanceOf($rows = $relationDTO->rows, MorphToOne::class);
         dddx('wip');
         /*
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 /**
  * Class MorphToManyAction.
@@ -32,6 +33,7 @@ class MorphToManyAction
      */
     public function execute(Model $row, RelationDTO $relationDTO): void
     {
+        Assert::isInstanceOf($relation = $relationDTO->rows, MorphToMany::class);
         $data = $relationDTO->data;
         $name = $relationDTO->name;
         $model = $row;
@@ -46,8 +48,6 @@ class MorphToManyAction
         if (! \is_array($data)) {
             throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
-
-        $relation = $model->{$name}();
 
         if (! $relation instanceof MorphToMany) {
             throw new \Exception('Relation must be instance of MorphToMany');
