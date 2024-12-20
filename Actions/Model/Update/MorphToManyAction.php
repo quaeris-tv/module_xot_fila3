@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\Model\Update;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
 
+/**
+ * Class MorphToManyAction.
+ *
+ * Handles morphToMany relationship updates for models
+ */
 class MorphToManyAction
 {
     use QueueableAction;
@@ -17,7 +23,12 @@ class MorphToManyAction
     public Collection $res;
 
     /**
-     * Undocumented function.
+     * Execute the action to update morphToMany relationships.
+     *
+     * @param Model       $row         The model instance to update
+     * @param RelationDTO $relationDTO Data transfer object containing relation information
+     *
+     * @throws \Exception When data is not in correct format or relation is invalid
      */
     public function execute(Model $row, RelationDTO $relationDTO): void
     {
@@ -29,7 +40,6 @@ class MorphToManyAction
             if (! isset($data['to'])) {
                 $data['to'] = [];
             }
-
             $data = $data['to'];
         }
 
@@ -37,9 +47,16 @@ class MorphToManyAction
             throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
+        $relation = $model->{$name}();
+
+        if (! $relation instanceof MorphToMany) {
+            throw new \Exception('Relation must be instance of MorphToMany');
+        }
+
         if (! Arr::isAssoc($data)) {
-            // dddx(['model' => $model, 'name' => $name, 'data' => $data]);
-            $model->{$name}()->sync($data);
+            $relation->sync($data);
+
+            return;
         }
 
         foreach ($data as $k => $v) {
@@ -48,26 +65,8 @@ class MorphToManyAction
                     $v['pivot'] = [];
                 }
 
-                /*
-                echo '<hr/><pre>'.print_r($v['pivot'],1).'</pre><hr/>';
-                $res = $model->$name()
-                        ->where('related_id',$k)
-                        ->where('user_id',$v['pivot']['user_id'])
-                        ->update($v['pivot']);
-                */
-
-                $res = $model->$name()
-                    ->syncWithoutDetaching([$k => $v['pivot']]);
+                $relation->syncWithoutDetaching([$k => $v['pivot']]);
             }
-
-            // $res = $model->$name()
-            //   ->syncWithoutDetaching([$v]);
-
-            // ->where('user_id',1)
-            // ->syncWithoutDetaching([$k => $v['pivot']])
-
-            // ->updateOrCreate(['related_id'=>$k,'user_id'=>1],$v['pivot']);
-            // $model->$name()->touch();
         }
     }
 }
