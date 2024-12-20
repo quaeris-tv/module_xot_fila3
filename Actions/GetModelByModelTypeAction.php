@@ -10,6 +10,7 @@ namespace Modules\Xot\Actions;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class GetModelByModelTypeAction
 {
@@ -21,7 +22,7 @@ class GetModelByModelTypeAction
     public function execute(string $model_type, ?string $model_id): Model
     {
         $model_class = app(GetModelClassByModelTypeAction::class)->execute($model_type);
-        $model = app($model_class);
+        Assert::isInstanceOf($model = app($model_class), Model::class);
         if (null !== $model_id) {
             $model = $model->find($model_id);
         }

@@ -5,110 +5,127 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\Import;
 
 use Filament\Notifications\Notification;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-
-use function Safe\ini_set;
-use function Safe\preg_replace;
-
+use Modules\Xot\Datas\ColumnData;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class ImportCsvAction
 {
     use QueueableAction;
 
+    /**
+     * Import a CSV file into a database table.
+     *
+     * @param string $disk     the storage disk where the file is located
+     * @param string $filename the name of the file to import
+     * @param string $db       the database connection name
+     * @param string $tbl      the table name where data will be imported
+     *
+     * @throws \Exception
+     */
     public function execute(string $disk, string $filename, string $db, string $tbl): void
     {
         ini_set('max_execution_time', '0');
-        ini_set('memory_limit', '-1'); // '512M'
+        ini_set('memory_limit', '-1');
 
         $storage = Storage::disk($disk);
+        Assert::true($storage->exists($filename), "File {$filename} does not exist on disk {$disk}.");
+
         $path = $storage->path($filename);
-        $path = Str::of($path)
-            // ->replace('\\', DIRECTORY_SEPARATOR)
-            // ->replace('/', DIRECTORY_SEPARATOR)
-            ->replace('\\', '/')
-            ->toString();
+        $path = Str::of($path)->replace('\\', '/')->toString();
+
         $conn = Schema::connection($db);
         $pdo = DB::connection($db)->getPdo();
-        $columns = $conn->getColumns($tbl);
-        $excepts = ['id'];
-        $columns = Arr::where($columns, function ($item) use ($excepts) {
-            return ! in_array($item['name'], $excepts);
-        });
 
-        $fields_up = [];
-        foreach ($columns as $item) {
-            $fieldname = $this->fixFieldName($item['name']);
-            // if ('numero' === $item['tipo'] && $item['dec'] > 0) {
-            if ('decimal' === $item['type_name']) {
-                $fieldname = '@'.$fieldname;
-            }
+        // Retrieve table columns
+        $columns = $this->getTableColumns($conn, $tbl);
 
-            $fields_up[] = $fieldname;
-        }
+        // Prepare fields for SQL query
+        $fieldsUp = $this->prepareFields($columns);
+        $fieldsUpList = implode(', ', $fieldsUp);
 
-        $fields_up_list = implode(', ', $fields_up);
+        // Build SQL query
+        $sql = $this->buildSql($path, $db, $tbl, $fieldsUpList, $columns);
 
-        $sql = "LOAD DATA LOW_PRIORITY LOCAL INFILE '".$path."'
-	 INTO TABLE `".$db.'`.`'.$tbl."` character set latin1 FIELDS TERMINATED BY ';' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY '\"' LINES TERMINATED BY '\r\n' (".$fields_up_list.')'.\chr(13);
-        $sql_replace = [];
-        foreach ($columns as $item) {
-            // if ('numero' === $item['tipo'] && $item['dec'] > 0) {
-            if ('decimal' === $item['type_name']) {
-                $fieldname = $this->fixFieldName($item['name']);
-                $sql_replace[] = $fieldname.' = REPLACE(@'.$fieldname.',"," , ".")';
-            }
-        }
-
-        $sql_replace = implode(', '.\chr(13), $sql_replace);
-        if (mb_strlen($sql_replace) > 3) {
-            $sql = $sql.'SET '.$sql_replace.';';
-        }
-
+        // Enable local infile
         $pdo->exec('SET GLOBAL local_infile=1;');
-        // echo '<pre>'.htmlspecialchars($sql).'</pre>';
-        $n_rows = $pdo->exec($sql);
-        // dddx($n_rows);
+
+        // Execute the SQL query
+        $nRows = $pdo->exec($sql);
+
+        // Send success notification
         Notification::make()
-            ->title('Imported successfully')
+            ->title('Import successful')
             ->success()
-            ->body($n_rows.' records')
+            ->body("{$nRows} records imported successfully.")
             ->persistent()
             ->send();
     }
 
-    public function fixFieldName(string $str): string
+    /**
+     * Get table columns excluding certain fields.
+     *
+     * @param \Illuminate\Database\Schema\Builder $conn
+     *
+     * @return ColumnData[]
+     */
+    private function getTableColumns($conn, string $tbl): array
     {
-        $str = trim($str);
-        if ('desc' === $str) {
-            return 'desc1';
-        } // descrizione;
-        // preg_match_all(, subject, matches)
-        $str = str_replace('§', '10', $str);
-        $str = str_replace('\xA7', '10', $str);
-        $str = str_replace('$', '11', $str);
+        $columns = $conn->getColumnListing($tbl);
+        $excludedColumns = ['id'];
 
-        $str1 = (string) preg_replace('/[0-9a-z]/i', '', $str);
+        return array_map(function (string $column) use ($conn, $tbl) {
+            $type = $conn->getColumnType($tbl, $column);
 
-        switch (\ord($str1)) {
-            case 0:
-                break;
-            case 167:
-                $str = str_replace($str1, '10', $str);
-                break;
-            case 239:
-                $str = str_replace($str1, '_', $str);
-                break;
-            default:
-                echo '<h3>carattere non riconosciuto ['.$str1.']['.\ord($str1).']['.$str.'] Aggiungerlo </h3>';
-                exit('<hr/>['.__LINE__.']['.class_basename($this).']');
-                // break;
+            return new ColumnData(
+                name: $column,
+                type: $type
+            );
+        }, array_diff($columns, $excludedColumns));
+    }
+
+    /**
+     * Prepare fields for the SQL query.
+     *
+     * @param ColumnData[] $columns
+     *
+     * @return string[]
+     */
+    private function prepareFields(array $columns): array
+    {
+        return array_map(function (ColumnData $column) {
+            return 'decimal' === $column->type ? '@'.$column->name : $column->name;
+        }, $columns);
+    }
+
+    /**
+     * Build the SQL query for importing data.
+     *
+     * @param ColumnData[] $columns
+     */
+    private function buildSql(string $path, string $db, string $tbl, string $fieldsUpList, array $columns): string
+    {
+        $sql = "LOAD DATA LOW_PRIORITY LOCAL INFILE '{$path}' "
+            ."INTO TABLE `{$db}`.`{$tbl}` CHARACTER SET latin1 "
+            ."FIELDS TERMINATED BY ';' OPTIONALLY ENCLOSED BY '".'"'."' "
+            ."ESCAPED BY '".'"'."' "
+            ."LINES TERMINATED BY '\r\n' ({$fieldsUpList})";
+
+        $sqlReplace = [];
+        foreach ($columns as $column) {
+            if ('decimal' === $column->type) {
+                $sqlReplace[] = "{$column->name} = REPLACE(@{$column->name}, ',', '.')";
+            }
         }
 
-        return $str;
+        if (! empty($sqlReplace)) {
+            $sql .= ' SET '.implode(', ', $sqlReplace).';';
+        }
+
+        return $sql;
     }
 }
