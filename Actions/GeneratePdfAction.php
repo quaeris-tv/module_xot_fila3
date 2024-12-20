@@ -16,7 +16,7 @@ final class GeneratePdfAction
         string $html,
         string $filename,
         string $orientation = 'P',
-        string $outputMode = 'download'
+        string $outputMode = 'download',
     ): string {
         $html2pdf = new Html2Pdf($orientation, 'A4', 'it');
         $html2pdf->setTestTdInOnePage(false);
@@ -27,7 +27,7 @@ final class GeneratePdfAction
             return match ($outputMode) {
                 'content' => $html2pdf->Output($filename.'.pdf', 'S'),
                 'file' => $this->saveToFile($html2pdf, $filename),
-                default => $html2pdf->Output()
+                default => $html2pdf->Output(),
             };
         } catch (Html2PdfException $exception) {
             $html2pdf->clean();

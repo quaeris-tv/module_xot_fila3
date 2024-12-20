@@ -11,11 +11,11 @@ namespace Modules\Xot\Filament\Actions\Header;
 // Header actions must be an instance of Filament\Actions\Action, or Filament\Actions\ActionGroup.
 // use Filament\Tables\Actions\Action;
 use Filament\Actions\Action;
-use Webmozart\Assert\Assert;
-use Illuminate\Database\Eloquent\Model;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Xot\Actions\String\SanitizeAction;
+use Webmozart\Assert\Assert;
 
 class SanitizeFieldsHeaderAction extends Action
 {
@@ -33,8 +33,8 @@ class SanitizeFieldsHeaderAction extends Action
                 $modelClass = $resource::getModel();
                 // @phpstan-ignore staticMethod.nonObject
                 $rows = $modelClass::get();
-                if(!is_iterable($rows)){
-                    $rows=[];
+                if (! is_iterable($rows)) {
+                    $rows = [];
                 }
                 $c = 0;
                 foreach ($rows as $row) {
