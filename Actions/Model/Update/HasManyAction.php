@@ -11,6 +11,7 @@ use Modules\Xot\Actions\Model\UpdateAction;
 use Modules\Xot\Datas\HasManyUpdateData;
 use Modules\Xot\Datas\RelationData;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class HasManyAction
 {
@@ -68,6 +69,7 @@ class HasManyAction
         $updatedIds = [];
 
         foreach ($relationDTO->data as $item) {
+            Assert::isArray($item);
             if (! isset($item[$keyName])) {
                 continue;
             }
@@ -84,7 +86,10 @@ class HasManyAction
             );
 
             if ($result instanceof Model) {
-                $updatedIds[] = $result->getKey();
+                $id = $result->getKey();
+                if (is_int($id) || is_string($id)) {
+                    $updatedIds[] = $id;
+                }
             }
         }
 

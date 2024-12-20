@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class StoreAction
 {
@@ -38,12 +39,13 @@ class StoreAction
         $relations = app(FilterRelationsAction::class)->execute($model, $data);
 
         foreach ($relations as $relation) {
-            $act = __NAMESPACE__.'\\Store\\'.$relation->relationship_type.'Action';
-            // dddx(['act'=>$act,'row'=>$row,'relation'=>$relation,'data'=>$data]);
-            // if (\is_array($data[$relation->name])) {
-            // $relation->data = $data[$relation->name];
-            app($act)->execute($model, $relation);
-            // }
+            $action_class = __NAMESPACE__.'\\Store\\'.$relation->relationship_type.'Action';
+            $action = app($action_class);
+            Assert::object($action);
+            if (! method_exists($action, 'execute')) {
+                throw new \Exception('method [execute] not found in ['.$action_class.']');
+            }
+            $action->execute($model, $relation);
         }
 
         // $msg = 'created! ['.$model->getKey().']!';

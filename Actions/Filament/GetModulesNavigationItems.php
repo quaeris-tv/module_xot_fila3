@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Modules\Tenant\Services\TenantService;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class GetModulesNavigationItems
 {
@@ -40,13 +41,14 @@ class GetModulesNavigationItems
              * @var array
              */
             $config = File::getRequire(base_path('Modules/'.$module.'/Config/config.php'));
-            $icon = $config['icon'] ?? 'heroicon-o-question-mark-circle';
+            Assert::string($icon = $config['icon'] ?? 'heroicon-o-question-mark-circle');
             $role = $module_low.'::admin';
+            Assert::integer($navigation_sort = $config['navigation_sort'] ?? 1);
             $nav = NavigationItem::make($module)
                 ->url('/'.$module_low.'/admin')
                 ->icon($icon)
                 ->group('Modules')
-                ->sort($config['navigation_sort'] ?? 1)
+                ->sort($navigation_sort)
                 ->visible(
                     static function () use ($role) {
                         $user = Filament::auth()->user();

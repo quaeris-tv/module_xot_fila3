@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions;
 
-use Smalot\PdfParser\Exception\Html2PdfException;
-use Smalot\PdfParser\Html2Pdf;
 use Spatie\QueueableAction\QueueableAction;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Html2Pdf;
 
 final class GeneratePdfAction
 {

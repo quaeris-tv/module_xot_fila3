@@ -18,6 +18,8 @@ class GetViewsSiblingsAndSelfAction
 
     /**
      * ---.
+     *
+     * @return array<string,string>
      */
     public function execute(string $view): array
     {
