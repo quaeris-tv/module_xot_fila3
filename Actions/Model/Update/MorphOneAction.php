@@ -10,30 +10,59 @@ use Illuminate\Support\Facades\App;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
 
-class MorphOneAction
+/**
+ * Class MorphOneAction.
+ *
+ * @description Handles morphOne relationship updates and creation with strict typing
+ */
+final class MorphOneAction
 {
     use QueueableAction;
 
     /**
-     * Undocumented function.
+     * Execute the morphOne relationship action.
+     *
+     * @param Model       $model       The model instance
+     * @param RelationDTO $relationDTO The relation data transfer object
+     *
+     * @throws \InvalidArgumentException When relation is not MorphOne
+     * @throws \RuntimeException         When data array is invalid
      */
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
-        /* con update or create crea sempre uno nuovo, con update e basta se non esiste non va a crearlo */
-        // $rows = $model->$name();
         if (! $relationDTO->rows instanceof MorphOne) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new \InvalidArgumentException(sprintf('Relation must be instance of MorphOne, %s given', get_class($relationDTO->rows)));
         }
 
-        $rows = $relationDTO->rows;
-        if ($rows->exists()) {
-            $rows->update($relationDTO->data);
-        } else {
-            if (! isset($relationDTO->data['lang'])) {
-                $relationDTO->data['lang'] = App::getLocale();
-            }
+        $data = $this->validateAndPrepareData($relationDTO->data);
 
-            $rows->create($relationDTO->data);
+        /** @var MorphOne $relation */
+        $relation = $relationDTO->rows;
+
+        if ($relation->exists()) {
+            $relation->update($data);
+
+            return;
         }
+
+        $relation->create($data);
+    }
+
+    /**
+     * Validate and prepare the data array.
+     *
+     * @param array<string, mixed> $data The input data array
+     *
+     * @return array<string, mixed>
+     */
+    private function validateAndPrepareData(array $data): array
+    {
+        if (! isset($data['lang'])) {
+            $data['lang'] = App::getLocale();
+        }
+
+        return array_filter($data, static function ($value): bool {
+            return null !== $value;
+        });
     }
 }

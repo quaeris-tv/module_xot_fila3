@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Model\Update;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Xot\Actions\Model\UpdateAction;
-use Modules\Xot\Datas\RelationData as RelationDTO;
+use Modules\Xot\Datas\HasManyUpdateData;
+use Modules\Xot\Datas\RelationData;
 use Spatie\QueueableAction\QueueableAction;
 
 class HasManyAction
@@ -15,76 +17,93 @@ class HasManyAction
     use QueueableAction;
 
     /**
-     * Undocumented function.
+     * Execute the HasMany relation update.
+     *
+     * @throws \InvalidArgumentException
      */
-    public function execute(Model $model, RelationDTO $relationDTO): void
+    public function execute(Model $model, RelationData $relationDTO): void
     {
         if (! $relationDTO->rows instanceof HasMany) {
-            throw new \Exception('['.__LINE__.']['.class_basename($this).']');
+            throw new \InvalidArgumentException('Relation must be instance of HasMany');
         }
 
-        if (isset($relationDTO->data['from']) && isset($relationDTO->data['to'])) {
-            $f_key = $relationDTO->rows->getForeignKeyName();
-            $res = $relationDTO->related->where($f_key, $model->getKey())
-                ->update([$f_key => null]);
-            foreach ($relationDTO->data['to'] as $item) {
-                $row0 = $relationDTO->related
-                    ->where('id', $item)
-                    ->update([$f_key => $model->getKey()]);
-            }
+        $relation = $relationDTO->rows;
+        $updateData = new HasManyUpdateData(
+            foreignKey: $relation->getForeignKeyName(),
+            parentKey: $model->getAttribute($relation->getLocalKeyName())
+        );
 
-            return;
+        match (true) {
+            $this->isDirectUpdate($relationDTO->data) => $this->handleDirectUpdate($relationDTO, $updateData),
+            default => $this->handleBatchUpdate($relationDTO, $updateData)
+        };
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    private function isDirectUpdate(array $data): bool
+    {
+        return isset($data['to']) || isset($data['from']);
+    }
+
+    private function handleDirectUpdate(RelationData $relationDTO, HasManyUpdateData $updateData): void
+    {
+        /** @var Builder $query */
+        $query = $relationDTO->related->newQuery();
+
+        $query->where($updateData->foreignKey, $updateData->parentKey)
+            ->update([$updateData->foreignKey => null]);
+
+        $toIds = $relationDTO->data['to'] ?? [];
+        if ($toIds) {
+            $query->whereIn($relationDTO->related->getKeyName(), $toIds)
+                ->update([$updateData->foreignKey => $updateData->parentKey]);
         }
+    }
 
-        $models = [];
-        $ids = [];
-        $related = $relationDTO->related;
+    private function handleBatchUpdate(RelationData $relationDTO, HasManyUpdateData $updateData): void
+    {
         $keyName = $relationDTO->related->getKeyName();
+        $updatedIds = [];
 
-        $rows = $relationDTO->rows;
+        foreach ($relationDTO->data as $item) {
+            if (! isset($item[$keyName])) {
+                continue;
+            }
 
-        /*
-         "getExistenceCompareKey" => "asset_operation.operation_id"
-        "getParentKey" => "99f91389-a3a3-4d1b-9cb0-e937e9aa8183"
-        "getQualifiedParentKeyName" => "operations.id"
-        "getForeignKeyName" => "operation_id"
-        "getQualifiedForeignKeyName" => "asset_operation.operation_id"
-        "getLocalKeyName" => "id"
-        "getRelationCountHash" => "laravel_reserved_0"
-        */
+            /** @var array<string, mixed> $itemData */
+            $itemData = array_merge($item, [
+                $updateData->foreignKey => $updateData->parentKey,
+            ]);
 
-        $parentKey = $rows->getParentKey();
+            $result = app(UpdateAction::class)->execute(
+                $relationDTO->related,
+                $itemData,
+                []
+            );
 
-        $foreignKeyName = $rows->getForeignKeyName();
-
-        // dddx(get_class_methods($relationDTO->rows));
-
-        foreach ($relationDTO->data as $data) {
-            if (\in_array($keyName, array_keys($data), false)) {
-                $data[$foreignKeyName] = $parentKey;
-                $res = app(UpdateAction::class)->execute($related, $data, []);
-
-                /*
-                dddx([
-                    'model' => $model,
-                    'relationDTO' => $relationDTO,
-                    'related' => $related,
-                    'keyName' => $keyName,
-                    'data' => $data,
-                    'res' => $res,
-                ]);
-
-                // */
-                $ids[] = $res->getKey();
-                $models[] = $res;
-            } else {
-                dddx(['model' => $model, 'relationDTO' => $relationDTO]);
+            if ($result instanceof Model) {
+                $updatedIds[] = $result->getKey();
             }
         }
 
-        // dddx(['model' => $model, 'relationDTO' => $relationDTO]);
+        $this->cleanupOrphanedRecords($relationDTO, $updateData, $updatedIds);
+    }
 
-        // $rows = $relationDTO->rows;
-        // $rows->update($relationDTO->data); //NON CANCELLARE
+    /**
+     * @param array<int|string> $updatedIds
+     */
+    private function cleanupOrphanedRecords(
+        RelationData $relationDTO,
+        HasManyUpdateData $updateData,
+        array $updatedIds
+    ): void {
+        if ($updatedIds) {
+            $relationDTO->related->newQuery()
+                ->where($updateData->foreignKey, $updateData->parentKey)
+                ->whereNotIn($relationDTO->related->getKeyName(), $updatedIds)
+                ->update([$updateData->foreignKey => null]);
+        }
     }
 }
