@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 /**
  * Class HasOneAction.
@@ -31,12 +32,21 @@ class HasOneAction
      */
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
-        $this->validateRelation($relationDTO);
-        $this->validateData($relationDTO);
+        // Validate that the relationship is of type HasOne
+        Assert::isInstanceOf($relationDTO->rows, HasOne::class, sprintf(
+            'Expected HasOne relationship, got %s',
+            get_debug_type($relationDTO->rows)
+        ));
 
         /** @var HasOne $relation */
         $relation = $relationDTO->rows;
 
+        // Validate that the relationship data is not empty
+        if (empty($relationDTO->data)) {
+            throw new \RuntimeException('Relationship data cannot be empty');
+        }
+
+        // Check if the related model exists
         if ($relation->exists()) {
             $related = $model->{$relationDTO->name};
             if ($related instanceof Model) {
@@ -46,35 +56,7 @@ class HasOneAction
             }
         }
 
-        // If relation doesn't exist, create it
+        // If the related model does not exist, create a new one
         $relation->create($relationDTO->data);
-    }
-
-    /**
-     * Validates the relationship type.
-     *
-     * @throws \InvalidArgumentException
-     */
-    private function validateRelation(RelationDTO $relationDTO): void
-    {
-        if (! $relationDTO->rows instanceof HasOne) {
-            throw new \InvalidArgumentException(sprintf('Expected HasOne relationship, got %s', get_debug_type($relationDTO->rows)));
-        }
-    }
-
-    /**
-     * Validates the relationship data.
-     *
-     * @throws \RuntimeException
-     */
-    private function validateData(RelationDTO $relationDTO): void
-    {
-        // if (! is_array($relationDTO->data)) {
-        //    throw new \RuntimeException(sprintf('Expected array for relationship data, got %s', get_debug_type($relationDTO->data)));
-        // }
-
-        if (empty($relationDTO->data)) {
-            throw new \RuntimeException('Relationship data cannot be empty');
-        }
     }
 }

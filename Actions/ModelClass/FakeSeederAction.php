@@ -5,17 +5,12 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\ModelClass;
 
 use Filament\Notifications\Notification;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Spatie\QueueableAction\QueueableAction;
 
-/**
- * Class FakeSeederAction.
- *
- * Handles the creation of fake model data for seeding purposes
- * with chunked processing and queue support for large datasets
- */
 class FakeSeederAction
 {
     use QueueableAction;
@@ -29,22 +24,17 @@ class FakeSeederAction
      * @param class-string<Model> $modelClass The fully qualified model class name
      * @param int<1, max>         $qty        Number of records to generate
      *
-     * @throws \InvalidArgumentException When model class is invalid or qty is less than 1
+     * @throws \InvalidArgumentException When model class is invalid
      */
     public function execute(string $modelClass, int $qty): void
     {
-        if ($qty < 1) {
-            throw new \InvalidArgumentException('Quantity must be greater than 0');
-        }
-
         if (! class_exists($modelClass) || ! is_subclass_of($modelClass, Model::class) || ! in_array(HasFactory::class, class_uses_recursive($modelClass))) {
             throw new \InvalidArgumentException("Invalid model class or missing HasFactory trait: {$modelClass}");
         }
 
         $qtyToDo = min($qty, self::MAX_RECORDS);
 
-        /** @var \Illuminate\Database\Eloquent\Factories\Factory<Model> $factory */
-        $factory = $modelClass::factory();
+        $factory = $this->getModelFactory($modelClass);
         /** @var Collection<int, Model> $rows */
         $rows = $factory->count($qtyToDo)->make();
 
@@ -53,7 +43,11 @@ class FakeSeederAction
 
         $chunks->each(function (Collection $chunk) use ($modelClass): void {
             /** @var array<int, array<string, mixed>> $data */
-            $data = $chunk->map(fn (Model $item): array => $item->getAttributes())->all();
+            $data = $chunk->map(function ($item) {
+                assert($item instanceof Model);
+
+                return $item->getAttributes();
+            })->all();
             $modelClass::insert($data);
         });
 
@@ -62,6 +56,22 @@ class FakeSeederAction
         if ($qty > self::MAX_RECORDS) {
             $this->queueRemainingRecords($modelClass, $qty);
         }
+    }
+
+    /**
+     * Get the model factory.
+     *
+     * @param class-string<Model> $modelClass
+     *
+     * @throws \RuntimeException
+     */
+    private function getModelFactory(string $modelClass): Factory
+    {
+        if (method_exists($modelClass, 'factory')) {
+            return $modelClass::factory();
+        }
+
+        throw new \RuntimeException("Unable to create factory for model: {$modelClass}");
     }
 
     /**
@@ -84,6 +94,9 @@ class FakeSeederAction
      */
     private function queueRemainingRecords(string $modelClass, int $qty): void
     {
+        if ($qty <= self::MAX_RECORDS) {
+            return;
+        }
         app(self::class)
             ->onQueue()
             ->execute($modelClass, $qty - self::MAX_RECORDS);

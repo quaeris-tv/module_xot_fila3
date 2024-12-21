@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
 /**
  * Class MorphOneAction.
  *
- * @description Handles morphOne relationship updates and creation with strict typing
+ * Handles morphOne relationship updates and creation with strict typing.
  */
 final class MorphOneAction
 {
@@ -31,17 +31,19 @@ final class MorphOneAction
      */
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
-        Assert::isInstanceOf($relation = $relationDTO->rows, MorphOne::class);
+        // Validate the relation is an instance of MorphOne
+        $relation = $model->{$relationDTO->name}();
+        Assert::isInstanceOf($relation, MorphOne::class, 'Relation must be an instance of MorphOne.');
 
+        // Validate and prepare the data
         $data = $this->validateAndPrepareData($relationDTO->data);
 
+        // Update or create the related model
         if ($relation->exists()) {
             $relation->update($data);
-
-            return;
+        } else {
+            $relation->create($data);
         }
-
-        $relation->create($data);
     }
 
     /**
@@ -49,14 +51,16 @@ final class MorphOneAction
      *
      * @param array<string, mixed> $data The input data array
      *
-     * @return array<string, mixed>
+     * @return array<string, mixed> The validated and prepared data
      */
     private function validateAndPrepareData(array $data): array
     {
+        // Ensure the 'lang' key is set to the current locale if not provided
         if (! isset($data['lang'])) {
             $data['lang'] = App::getLocale();
         }
 
+        // Remove null values from the data array
         return array_filter($data, static function ($value): bool {
             return null !== $value;
         });
