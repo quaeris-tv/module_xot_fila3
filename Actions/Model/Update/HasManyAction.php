@@ -33,7 +33,7 @@ class HasManyAction
 
         match (true) {
             $this->isDirectUpdate($relationDTO->data) => $this->handleDirectUpdate($relationDTO, $updateData),
-            default => $this->handleBatchUpdate($relationDTO, $updateData)
+            default => $this->handleBatchUpdate($relationDTO, $updateData),
         };
     }
 
@@ -99,7 +99,7 @@ class HasManyAction
     private function cleanupOrphanedRecords(
         RelationData $relationDTO,
         HasManyUpdateData $updateData,
-        array $updatedIds
+        array $updatedIds,
     ): void {
         if ($updatedIds) {
             $relationDTO->related->newQuery()
