@@ -13,53 +13,66 @@ use Webmozart\Assert\Assert;
 
 /**
  * Handles morphMany relationship updates for models.
- *
- * @method void execute(Model $model, RelationDTO $relationDTO)
  */
 class MorphManyAction
 {
     use QueueableAction;
 
     /**
-     * Updates morphMany relationships for the given model.
+     * Handle updating or creating related MorphMany models.
      *
-     * @throws \InvalidArgumentException When relation data is invalid
-     * @throws \RuntimeException         When relation operation fails
+     * @param Model       $model       The parent model
+     * @param RelationDTO $relationDTO Data object containing relation details
+     *
+     * @throws \InvalidArgumentException If the relation is not a valid MorphMany instance
+     * @throws \RuntimeException         If the relation data is invalid or the operation fails
      */
     public function execute(Model $model, RelationDTO $relationDTO): void
     {
-        // Assert::isInstanceOf($model->{$relationDTO->name}(), MorphMany::class);
-        Assert::isInstanceOf($rows = $relationDTO->rows, MorphMany::class);
-        Assert::isArray($relationDTO->data, 'Relation data must be an array');
+        // Validate that relationDTO->data is an array
+        Assert::isArray($relationDTO->data, 'RelationDTO->data must be an array.');
 
-        if ([] === $relationDTO->data) {
-            $model->{$relationDTO->name}()->saveMany([]);
+        // If data is empty, clear the relation
+        if (empty($relationDTO->data)) {
+            $relation = $model->{$relationDTO->name}();
+            Assert::isInstanceOf($relation, MorphMany::class, 'Relation must be an instance of MorphMany.');
+            $relation->saveMany([]);
 
             return;
         }
 
-        $related = $relationDTO->related;
-        Assert::isInstanceOf($related, Model::class);
+        // Validate that the relation is a MorphMany instance
+        Assert::isInstanceOf($relationDTO->rows, MorphMany::class, 'RelationDTO->rows must be an instance of MorphMany.');
 
-        $keyName = $related->getKeyName();
+        // Validate the related model
+        $relatedModel = $relationDTO->related;
+        Assert::isInstanceOf($relatedModel, Model::class, 'RelationDTO->related must be an instance of Model.');
+
+        $keyName = $relatedModel->getKeyName();
+        Assert::stringNotEmpty($keyName, 'The related model key name must be a non-empty string.');
+
         $models = [];
         $ids = [];
 
         foreach ($relationDTO->data as $data) {
-            Assert::isArray($data, 'Each relation item must be an array');
+            // Validate each data entry
+            Assert::isArray($data, 'Each entry in RelationDTO->data must be an array.');
+            Assert::allString(array_keys($data), 'Keys in $data must all be strings.');
 
-            if (! array_key_exists($keyName, $data)) {
-                throw new \InvalidArgumentException(sprintf('Primary key "%s" missing in relation data', $keyName));
+            if (array_key_exists($keyName, $data)) {
+                // Update existing model
+                $updatedModel = app(UpdateAction::class)->execute($relatedModel, $data, []);
+                Assert::isInstanceOf($updatedModel, Model::class, 'UpdateAction must return an instance of Model.');
+                $ids[] = $updatedModel->getKey();
+                $models[] = $updatedModel;
+            } else {
+                throw new \RuntimeException(sprintf('Key "%s" not found in relation data.', $keyName));
             }
-
-            /** @var array<string, mixed> $typedData */
-            $typedData = $data;
-
-            $updatedModel = app(UpdateAction::class)->execute($related, $typedData, []);
-            $ids[] = $updatedModel->getKey();
-            $models[] = $updatedModel;
         }
 
-        $model->{$relationDTO->name}()->saveMany($models);
+        // Save updated or created models
+        $relation = $model->{$relationDTO->name}();
+        Assert::isInstanceOf($relation, MorphMany::class, 'Relation must be an instance of MorphMany.');
+        $relation->saveMany($models);
     }
 }

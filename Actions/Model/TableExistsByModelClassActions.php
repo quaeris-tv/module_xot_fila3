@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Model;
 
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Facades\Schema;
+use Webmozart\Assert\Assert;
 
 class TableExistsByModelClassActions
 {
@@ -14,7 +16,7 @@ class TableExistsByModelClassActions
             return false;
         }
 
-        \Webmozart\Assert\Assert::isInstanceOf($model = app($modelClass), \Illuminate\Database\Eloquent\Model::class);
+        Assert::isInstanceOf($model = app($modelClass), EloquentModel::class);
         $tableName = $model->getTable();
 
         return Schema::connection($model->getConnectionName())->hasTable($tableName);

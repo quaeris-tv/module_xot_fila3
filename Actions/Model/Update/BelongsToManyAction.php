@@ -24,7 +24,11 @@ class BelongsToManyAction
             // $this->saveMultiselectTwoSides($row, $relation->name, $relation->data);
             $to = $relationDTO->data['to'] ?? [];
 
-            $model->{$relationDTO->name}()->sync($to);
+            // Assicura che $to sia un array di ID validi
+            $to = is_iterable($to) ? iterator_to_array($to) : (array) $to;
+            Assert::allScalar($to, 'The "to" field must contain only scalar values.');
+
+            $rows->sync($to);
             $status = 'collegati ['.implode(', ', $to).'] ';
             Session::flash('status', $status);
 
@@ -36,59 +40,34 @@ class BelongsToManyAction
         $related = $relationDTO->related;
         $keyName = $relationDTO->related->getKeyName();
 
+        // Itera sui dati della relazione
         foreach ($relationDTO->data as $data) {
-            if (\in_array($keyName, array_keys($data), false)) {
-                // $related_id = $data[$keyName];
-
-                // $row = $related->firstOrCreate([$keyName => $related_id]);
-
+            Assert::isArray($data, 'Each item in RelationDTO->data must be an array.');
+            if (\array_key_exists($keyName, $data)) {
+                // Aggiorna o crea il modello correlato
+                Assert::isArray($data, 'Data passed to UpdateAction must be an associative array.');
+                /** @var Model $res */
                 $res = app(UpdateAction::class)->execute($related, $data, []);
-                /*
-                dddx([
-                    'model' => $model,
-                    'relationDTO' => $relationDTO,
-                    'related' => $related,
-                    'keyName' => $keyName,
-                    'related_id' => $related_id,
-                    'row_id' => $row->{$keyName},
-                    'row' => $row,
-                    'res' => $res,
-                ]);
-                $ids[] = $related_id;
-                */
+                Assert::isInstanceOf($res, Model::class, 'UpdateAction must return an instance of Model.');
+
                 $ids[] = $res->getKey();
                 $models[] = $res;
             } else {
-                dddx(['model' => $model, 'relationDTO' => $relationDTO]);
+                throw new \RuntimeException(sprintf('Key "%s" not found in relation data.', $keyName));
             }
         }
 
-        if ([] !== $ids) {
+        // Sincronizza gli ID raccolti
+        if (! empty($ids)) {
             try {
-                $model->{$relationDTO->name}()->syncWithoutDetaching($ids);
+                // Assicura che $ids sia un array di valori scalari
+                $ids = is_iterable($ids) ? iterator_to_array($ids) : (array) $ids;
+                Assert::allScalar($ids, 'The "ids" array must contain only scalar values.');
+
+                $rows->syncWithoutDetaching($ids);
             } catch (\Exception $e) {
-                dddx(
-                    [
-                        'message' => $e->getMessage(),
-                        'model' => $model,
-                        'relationDTO' => $relationDTO,
-                    ]
-                );
+                throw new \RuntimeException(sprintf('Error during syncWithoutDetaching: %s', $e->getMessage()));
             }
-
-            return;
         }
-
-        /* ---  controllare
-        try {
-            $model->{$relationDTO->name}()->sync($relationDTO->data);
-        } catch (\Exception $e) {
-            dddx([
-                'message' => $e->getMessage(),
-                'model' => $model,
-                'relationDTO' => $relationDTO,
-            ]);
-        }
-        */
     }
 }

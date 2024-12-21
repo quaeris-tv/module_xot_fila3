@@ -36,8 +36,9 @@ class FakeSeederHeaderAction extends Action
             ->action(function (array $data, ListRecords $livewire) {
                 $resource = $livewire->getResource();
                 Assert::string($modelClass = $resource::getModel());
+                /* @var int<1, max> $qty */
                 Assert::integer($qty = $data['qty']);
-                Assert::greaterThan($qty, 0, 'Quantity must be greater than 0');
+                Assert::greaterThanEq($qty, 1, 'Quantity must be greater than 0');
 
                 app(FakeSeederAction::class)
                         ->onQueue()
