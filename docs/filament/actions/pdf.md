@@ -9,7 +9,7 @@ section: content
 
 # Metodo 1
 
- file: app/Filament/Resources/OrderResource.php
+ file: app/Filament/resources/OrderResource.php
 ```php
 
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -79,7 +79,7 @@ class PdfController extends Controller
 }
  ```
 
- file: app/Filament/Resources/OrderResource.php
+ file: app/Filament/resources/OrderResource.php
  ```php
  class OrderResource extends \Modules\Xot\Filament\Resources\XotBaseResource
 {

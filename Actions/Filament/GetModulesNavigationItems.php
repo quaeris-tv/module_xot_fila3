@@ -37,10 +37,12 @@ class GetModulesNavigationItems
             //    continue;
             // }
             // dddx(Auth::id());
+            $relativeConfigPath = config('modules.paths.generator.config.path');
+            $configPath = module_path($module, $relativeConfigPath);
             /**
              * @var array
              */
-            $config = File::getRequire(base_path('Modules/'.$module.'/Config/config.php'));
+            $config = File::getRequire($configPath.'/config.php');
             Assert::string($icon = $config['icon'] ?? 'heroicon-o-question-mark-circle');
             $role = $module_low.'::admin';
             Assert::integer($navigation_sort = $config['navigation_sort'] ?? 1);
