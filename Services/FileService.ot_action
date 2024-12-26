@@ -96,8 +96,8 @@ class FileService
         if (\in_array($ns, ['pub_theme', 'adm_theme'], false)) {
             $theme = $xot->{$ns};
 
-            $filename_from = self::fixPath(base_path('Themes/'.$theme.'/Resources/'.$ns_after));
-            // $filename_from = Str::replace('/Resources//', '/Resources/', $filename_from);
+            $filename_from = self::fixPath(base_path('Themes/'.$theme.'/resources/'.$ns_after));
+            // $filename_from = Str::replace('/resources//', '/resources/', $filename_from);
             $asset = 'themes/'.$theme.'/'.$ns_after;
             $filename_to = self::fixPath(public_path($asset));
             $asset = Str::replace(url(''), '', asset($asset));
@@ -128,7 +128,7 @@ class FileService
             $module_path = Str::beforeLast($module_path, '/');
         }
 
-        $filename_from = self::fixPath($module_path.'/Resources/'.$ns_after);
+        $filename_from = self::fixPath($module_path.'/resources/'.$ns_after);
         $asset = 'assets/'.$ns.'/'.$ns_after;
         $filename_to = self::fixPath(public_path($asset));
         $asset = Str::replace(url(''), '', asset($asset));
