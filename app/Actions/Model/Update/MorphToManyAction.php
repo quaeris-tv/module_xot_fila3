@@ -49,8 +49,6 @@ class MorphToManyAction
             throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
-
-
         if (! Arr::isAssoc($data)) {
             $relation->sync($data);
 
