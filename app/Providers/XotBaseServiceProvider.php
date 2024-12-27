@@ -4,27 +4,25 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Providers;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Webmozart\Assert\Assert;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+use Modules\Xot\Actions\Blade\RegisterBladeComponentsAction;
+use Modules\Xot\Actions\Livewire\RegisterLivewireComponentsAction;
 use Modules\Xot\Datas\ComponentFileData;
 use Nwidart\Modules\Traits\PathNamespace;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
-
-use Modules\Xot\Actions\Blade\RegisterBladeComponentsAction;
-
-use Modules\Xot\Actions\Livewire\RegisterLivewireComponentsAction;
 
 use function Safe\glob;
-use function Safe\realpath;
-
 use function Safe\json_decode;
 use function Safe\json_encode;
+use function Safe\realpath;
+
+use Webmozart\Assert\Assert;
 
 /**
  * Class XotBaseServiceProvider.
@@ -68,7 +66,6 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         $this->app->register(''.$this->module_ns.'\Providers\RouteServiceProvider');
         $this->app->register(''.$this->module_ns.'\Providers\EventServiceProvider');
         $this->registerBladeIcons();
-
     }
 
     public function registerBladeIcons(): void
