@@ -45,8 +45,8 @@ class AssetAction
         if (\in_array($ns, ['pub_theme', 'adm_theme'], false)) {
             $theme = $xot->{$ns};
 
-            $filename_from = app(FixPathAction::class)->execute(base_path('Themes/'.$theme.'/Resources/'.$ns_after));
-            // $filename_from = Str::replace('/Resources//', '/Resources/', $filename_from);
+            $filename_from = app(FixPathAction::class)->execute(base_path('Themes/'.$theme.'/resources/'.$ns_after));
+            // $filename_from = Str::replace('/resources//', '/resources/', $filename_from);
             $asset = 'themes/'.$theme.'/'.$ns_after;
             $filename_to = app(FixPathAction::class)->execute(public_path($asset));
             $asset = Str::replace(url(''), '', asset($asset));
@@ -77,7 +77,7 @@ class AssetAction
             $module_path = Str::beforeLast($module_path, '/');
         }
 
-        $filename_from = app(FixPathAction::class)->execute($module_path.'/Resources/'.$ns_after);
+        $filename_from = app(FixPathAction::class)->execute($module_path.'/resources/'.$ns_after);
         $asset = 'assets/'.$ns.'/'.$ns_after;
         $filename_to = app(FixPathAction::class)->execute(public_path($asset));
         $asset = Str::replace(url(''), '', asset($asset));
