@@ -39,7 +39,7 @@ class ExportXlsLazyAction extends Action
                 // dddx($query->get());
 
                 $resource = $livewire->getResource();
-                $fields = null;
+                $fields = [];
                 if (method_exists($resource, 'getXlsFields')) {
                     Assert::isArray($fields = $resource::getXlsFields($livewire->tableFilters));
                 }

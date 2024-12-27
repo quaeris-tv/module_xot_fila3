@@ -49,9 +49,7 @@ class MorphToManyAction
             throw new \Exception('['.__LINE__.']['.class_basename($this).']');
         }
 
-        if (! $relation instanceof MorphToMany) {
-            throw new \Exception('Relation must be instance of MorphToMany');
-        }
+
 
         if (! Arr::isAssoc($data)) {
             $relation->sync($data);

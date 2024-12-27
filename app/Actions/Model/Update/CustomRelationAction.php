@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Xot\Actions\Model\UpdateAction;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class CustomRelationAction
 {
@@ -25,6 +26,7 @@ class CustomRelationAction
         $related = $relationDTO->related;
         $keyName = $relationDTO->related->getKeyName();
         foreach ($relationDTO->data as $data) {
+            Assert::isArray($data);
             if (\in_array($keyName, array_keys($data), false)) {
                 $res = app(UpdateAction::class)->execute($related, $data, []);
                 $ids[] = $res->getKey();
