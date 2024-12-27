@@ -17,19 +17,9 @@ use Modules\Xot\Http\Middleware\SetDefaultTenantForUrlsMiddleware;
 
 class RouteServiceProvider extends XotBaseRouteServiceProvider
 {
-    /**
-     * The module namespace to assume when generating URLs to actions.
-     */
+    public string $name = 'Xot';
     protected string $moduleNamespace = 'Modules\Xot\Http\Controllers';
-
-    /**
-     * The module directory.
-     */
     protected string $module_dir = __DIR__;
-
-    /**
-     * The module namespace.
-     */
     protected string $module_ns = __NAMESPACE__;
 
     public function boot(): void

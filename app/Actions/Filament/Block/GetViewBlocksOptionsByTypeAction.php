@@ -26,7 +26,7 @@ class GetViewBlocksOptionsByTypeAction
      */
     public function execute(string $type, bool $img = false): array
     {
-        $files = File::glob(base_path('Modules').'/*/Resources/views/components/blocks/'.$type.'/*.blade.php');
+        $files = File::glob(base_path('Modules').'/*/resources/views/components/blocks/'.$type.'/*.blade.php');
 
         $opts = Arr::mapWithKeys(
             $files,

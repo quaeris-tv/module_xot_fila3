@@ -66,11 +66,11 @@ abstract class XotBasePanelProvider extends PanelProvider
             ->id($moduleLow.'::admin')
             ->path($moduleLow.'/admin')
             ->discoverResources(
-                in: base_path('Modules/'.$this->module.'/Filament/Resources'),
+                in: base_path('Modules/'.$this->module.'/app/Filament/Resources'),
                 for: sprintf('%s\Filament\Resources', $moduleNamespace)
             )
             ->discoverPages(
-                in: base_path('Modules/'.$this->module.'/Filament/Pages'),
+                in: base_path('Modules/'.$this->module.'/app/Filament/Pages'),
                 for: sprintf('%s\Filament\Pages', $moduleNamespace)
             )
             ->pages(
@@ -79,7 +79,7 @@ abstract class XotBasePanelProvider extends PanelProvider
                 ]
             )
             ->discoverWidgets(
-                in: base_path('Modules/'.$this->module.'/Filament/Widgets'),
+                in: base_path('Modules/'.$this->module.'/app/Filament/Widgets'),
                 for: sprintf('%s\Filament\Widgets', $moduleNamespace)
             )
             ->widgets(
@@ -89,7 +89,7 @@ abstract class XotBasePanelProvider extends PanelProvider
                 ]
             )
             ->discoverClusters(
-                in: base_path('Modules/'.$this->module.'/Filament/Clusters'),
+                in: base_path('Modules/'.$this->module.'/app/Filament/Clusters'),
                 for: sprintf('%s\Filament\Clusters', $moduleNamespace)
             )
             /*
@@ -99,7 +99,7 @@ abstract class XotBasePanelProvider extends PanelProvider
             )
             */
             ->discoverLivewireComponents(
-                in: base_path('Modules/'.$this->module.'/Http/Livewire'),
+                in: base_path('Modules/'.$this->module.'/app/Http/Livewire'),
                 for: sprintf('%s\Http\Livewire', $moduleNamespace)
             )
             ->middleware(
@@ -121,7 +121,7 @@ abstract class XotBasePanelProvider extends PanelProvider
                 ]
             );
 
-        $config_path = 'Modules/'.$this->module.'/Config/config.php';
+        $config_path = 'Modules/'.$this->module.'/config/config.php';
         // $data = File::getRequire(base_path($config_path));
         // $colors = Arr::get($data, 'colors', null);
         /*

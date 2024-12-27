@@ -21,8 +21,8 @@ https://code.tutsplus.com/articles/build-an-ajax-powered-shopping-cart--net-486
 
 
 ------------------------------------------------------------------------------
-questo ha la proprietà 
-- weight 
+questo ha la proprietà
+- weight
 - discount
 
 https://laravelpackages.net/bumbummen99/shoppingcart

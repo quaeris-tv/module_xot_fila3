@@ -15,11 +15,12 @@ use Modules\User\Models\Team;
 use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Contracts\UserContract;
 
-use function Safe\realpath;
-
 use Spatie\LaravelData\Concerns\WireableData;
+
 use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
+
+use function Safe\realpath;
 
 /**
  * Class Modules\Xot\Datas\XotData.
@@ -259,7 +260,7 @@ class XotData extends Data implements Wireable
     public function getPubThemeViewPath(string $key = ''): string
     {
         $theme = $this->pub_theme;
-        $path0 = base_path('Themes/'.$theme.'/Resources/views/'.$key);
+        $path0 = base_path('Themes/'.$theme.'/resources/views/'.$key);
         try {
             $path = realpath($path0);
         } catch (\Exception $e) {
