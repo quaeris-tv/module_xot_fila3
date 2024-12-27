@@ -28,14 +28,15 @@ class GetViewAction
 
         $file0 = Str::after($file0, base_path());
         $arr = explode(DIRECTORY_SEPARATOR, $file0);
-
         if ('' === $arr[0]) {
             $arr = array_slice($arr, 1);
             $arr = array_values($arr);
         }
 
         $mod = $arr[1];
-        $tmp = array_slice($arr, 3);
+        //$tmp = array_slice($arr, 3);//senza "app"
+        $tmp = array_slice($arr, 4);//con "app"
+
 
         $tmp = collect($tmp)->map(
             static function ($item) {
