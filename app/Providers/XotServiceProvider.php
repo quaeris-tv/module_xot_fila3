@@ -42,7 +42,7 @@ use function Safe\realpath;
  */
 class XotServiceProvider extends XotBaseServiceProvider
 {
-    public string $name = 'xot';
+    public string $name = 'Xot';
 
     protected string $module_dir = __DIR__;
 
