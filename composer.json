@@ -9,11 +9,13 @@
     ],
     "homepage": "https://github.com/laraxot/module_xot_fila3",
     "license": "MIT",
-    "authors": [{
-        "name": "marco sottana",
-        "email": "marco.sottana@gmail.com",
-        "role": "Developer"
-    }],
+    "authors": [
+        {
+            "name": "marco sottana",
+            "email": "marco.sottana@gmail.com",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^8.2",
         "calebporzio/sushi": "^2.5",
@@ -82,7 +84,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Modules\\Xot\\": "",
+            "Modules\\Xot\\": "app/",
             "Modules\\Xot\\Database\\Factories\\": "database/factories/",
             "Modules\\Xot\\Database\\Seeders\\": "database/seeders/",
             "Coolsam\\FilamentModules\\": "packages/coolsam/panel-modules/src/"
@@ -92,7 +94,6 @@
         ]
     },
     "scripts": {
-
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
@@ -113,13 +114,10 @@
                 "Modules\\Xot\\Providers\\XotServiceProvider",
                 "Modules\\Xot\\Providers\\Filament\\ModulesServiceProvider",
                 "Modules\\Xot\\Providers\\Filament\\AdminPanelProvider"
-
-
             ],
             "aliases": {}
         }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
-
 }
