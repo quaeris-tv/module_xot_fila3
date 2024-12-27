@@ -82,7 +82,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Modules\\Xot\\": "",
+            "Modules\\Xot\\": "app/",
             "Modules\\Xot\\Database\\Factories\\": "database/factories/",
             "Modules\\Xot\\Database\\Seeders\\": "database/seeders/",
             "Coolsam\\FilamentModules\\": "packages/coolsam/panel-modules/src/"
