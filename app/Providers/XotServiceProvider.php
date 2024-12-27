@@ -31,11 +31,10 @@ use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
 use Modules\Xot\View\Composers\XotComposer;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
-use Webmozart\Assert\Assert;
-
 use function Safe\realpath;
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Webmozart\Assert\Assert;
 
 /**
  * Class XotServiceProvider.
@@ -142,8 +141,8 @@ class XotServiceProvider extends XotBaseServiceProvider
 
     public function registerConfigs(): void
     {
-        //$config_file = realpath(__DIR__.'/../Config/metatag.php');
-        //$this->mergeConfigFrom($config_file, 'metatag');
+        // $config_file = realpath(__DIR__.'/../Config/metatag.php');
+        // $this->mergeConfigFrom($config_file, 'metatag');
     }
 
     public function loadHelpersFrom(string $path): void
