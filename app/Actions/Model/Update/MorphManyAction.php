@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Xot\Actions\Model\UpdateAction;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class MorphManyAction
 {
@@ -31,6 +32,7 @@ class MorphManyAction
         $models = [];
         $ids = [];
         foreach ($relationDTO->data as $data) {
+            Assert::isArray($data);
             if (\in_array($keyName, array_keys($data), false)) {
                 /*
                 $related_id = $data[$keyName];

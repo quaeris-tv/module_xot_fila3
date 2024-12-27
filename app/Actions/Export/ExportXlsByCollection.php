@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\Export;
 
-// use Modules\Xot\Services\ArrayService;
-
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Xot\Exports\CollectionExport;
@@ -20,10 +18,14 @@ class ExportXlsByCollection
         Collection $collection,
         string $filename = 'test.xlsx',
         ?string $transKey = null,
-        ?array $fields = null,
+        array $fields = [],
     ): BinaryFileResponse {
-        $collectionExport = new CollectionExport($collection, $transKey, $fields);
+        $export = new CollectionExport(
+            collection: $collection,
+            transKey: $transKey,
+            fields: $fields
+        );
 
-        return Excel::download($collectionExport, $filename);
+        return Excel::download($export, $filename);
     }
 }

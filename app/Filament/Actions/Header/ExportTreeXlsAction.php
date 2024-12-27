@@ -48,7 +48,7 @@ class ExportTreeXlsAction extends Action
                 $rows = $record->descendantsAndSelf;
                 Assert::isInstanceOf($rows, \Illuminate\Database\Eloquent\Collection::class);
                 $resource = $livewire->getResource();
-                $fields = null;
+                $fields = [];
                 if (method_exists($resource, 'getXlsFields')) {
                     Assert::isArray($fields = $resource::getXlsFields($tableFilters));
                 }

@@ -27,7 +27,7 @@ class MorphToManyAction
 
             $data = $data['to'];
         }
-
+        Assert::isArray($data);
         // dddx(['row' => $row, 'relation' => $relation, 't1' => Arr::isAssoc($data)]);
 
         if (! Arr::isAssoc($data)) {
