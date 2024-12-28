@@ -993,7 +993,7 @@ if (! function_exists('rowsToSql')) {
         return Str::replaceArray('?', $bindings, $sql);
     }
 }
-
+/*
 if (! function_exists('getServerName')) {
     function getServerName(): string
     {
@@ -1015,7 +1015,7 @@ if (! function_exists('getServerName')) {
         return $server_name;
     }
 }
-
+*/
 /*
 if (! function_exists('getLang')) {
     function getLang(): string {
