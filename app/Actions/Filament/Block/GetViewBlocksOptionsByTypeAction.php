@@ -33,7 +33,7 @@ class GetViewBlocksOptionsByTypeAction
             function ($path) use ($img, $type) {
                 $path = app(FixPathAction::class)->execute($path);
                 $module_low = Str::of($path)
-                    ->between(DIRECTORY_SEPARATOR.'Modules'.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR)
+                    ->between(DIRECTORY_SEPARATOR.'Modules'.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR)
                     ->lower()
                     ->toString();
                 $info = pathinfo($path);
