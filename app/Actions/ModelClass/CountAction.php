@@ -42,13 +42,17 @@ class CountAction
 
         $connection = $model->getConnection();
         $database = $connection->getDatabaseName();
+        $driver = $connection->getDriverName();
+        $table = $model->getTable();
 
         // Handle in-memory database
         if (':memory:' === $database) {
             return (int) $model->count();
         }
-
-        $table = $model->getTable();
+        // Handle SQLite specifically
+        if ('sqlite' === $driver) {
+            return (int) $model->count();
+        }
 
         // Get count from table information for better performance
         $count = DB::table('information_schema.TABLES')
