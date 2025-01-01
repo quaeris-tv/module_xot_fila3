@@ -114,6 +114,10 @@ abstract class XotBaseMigration extends Migration
     //     return $this->getSchemaManager()->listTableIndexes($this->getTable());
     // }
 
+    public function addCommonFields(Blueprint $table): void
+    {
+    }
+
     /**
      * Check if a table exists.
      */
