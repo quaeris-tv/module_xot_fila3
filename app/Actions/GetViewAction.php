@@ -34,9 +34,8 @@ class GetViewAction
         }
 
         $mod = $arr[1];
-        //$tmp = array_slice($arr, 3);//senza "app"
-        $tmp = array_slice($arr, 4);//con "app"
-
+        // $tmp = array_slice($arr, 3);//senza "app"
+        $tmp = array_slice($arr, 4); // con "app"
 
         $tmp = collect($tmp)->map(
             static function ($item) {
