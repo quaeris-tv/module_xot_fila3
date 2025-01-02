@@ -40,24 +40,25 @@ class ImportMdbToSQLite extends Command
         $this->info("Database SQLite: $sqliteDb");
 
         // Esporta le tabelle dal file .mdb
-        $this->info("Esportando tabelle dal file .mdb in CSV...");
+        $this->info('Esportando tabelle dal file .mdb in CSV...');
         $tables = $this->exportTablesToCSV($mdbFile);
 
         // Crea le tabelle SQLite
-        $this->info("Creando tabelle nel database SQLite...");
+        $this->info('Creando tabelle nel database SQLite...');
         $this->createTablesInSQLite($mdbFile, $sqliteDb);
 
         // Carica i dati CSV nelle tabelle SQLite
-        $this->info("Importando i dati CSV nelle tabelle SQLite...");
+        $this->info('Importando i dati CSV nelle tabelle SQLite...');
         $this->importDataToSQLite($tables, $sqliteDb);
 
-        $this->info("Processo completato!");
+        $this->info('Processo completato!');
     }
 
     /**
      * Esporta tutte le tabelle dal file .mdb in formato CSV.
      *
      * @param string $mdbFile
+     *
      * @return array
      */
     private function exportTablesToCSV($mdbFile)
@@ -67,7 +68,9 @@ class ImportMdbToSQLite extends Command
 
         // Esporta ogni tabella in un file CSV
         foreach (explode("\n", trim($tableList)) as $table) {
-            if (empty($table)) continue;
+            if (empty($table)) {
+                continue;
+            }
             $tables[] = $table;
             $csvFile = storage_path("app/{$table}.csv");
             shell_exec("mdb-export $mdbFile $table > $csvFile");
@@ -88,7 +91,9 @@ class ImportMdbToSQLite extends Command
         $tables = explode(";\n", $schema);
 
         foreach ($tables as $tableSchema) {
-            if (empty($tableSchema)) continue;
+            if (empty($tableSchema)) {
+                continue;
+            }
             // Adatta le virgolette per SQLite
             $tableSchema = str_replace('`', '"', $tableSchema);
 
@@ -101,7 +106,7 @@ class ImportMdbToSQLite extends Command
     /**
      * Importa i dati CSV nelle tabelle SQLite.
      *
-     * @param array $tables
+     * @param array  $tables
      * @param string $sqliteDb
      */
     private function importDataToSQLite($tables, $sqliteDb)

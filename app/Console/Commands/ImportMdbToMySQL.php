@@ -51,18 +51,18 @@ class ImportMdbToMySQL extends Command
         $this->createDatabase($mysqlUser, $mysqlPassword, $mysqlDb);
 
         // Esporta le tabelle dal file .mdb
-        $this->info("Esportando tabelle dal file .mdb in CSV...");
+        $this->info('Esportando tabelle dal file .mdb in CSV...');
         $tables = $this->exportTablesToCSV($mdbFile);
 
         // Crea le tabelle in MySQL
-        $this->info("Creando tabelle nel database MySQL...");
+        $this->info('Creando tabelle nel database MySQL...');
         $this->createTablesInMySQL($mdbFile, $mysqlUser, $mysqlPassword, $mysqlDb);
 
         // Carica i dati CSV nelle tabelle MySQL
-        $this->info("Importando i dati CSV nelle tabelle MySQL...");
+        $this->info('Importando i dati CSV nelle tabelle MySQL...');
         $this->importDataToMySQL($tables, $mysqlUser, $mysqlPassword, $mysqlDb);
 
-        $this->info("Processo completato!");
+        $this->info('Processo completato!');
     }
 
     /**
@@ -82,6 +82,7 @@ class ImportMdbToMySQL extends Command
      * Esporta tutte le tabelle dal file .mdb in formato CSV.
      *
      * @param string $mdbFile
+     *
      * @return array
      */
     private function exportTablesToCSV($mdbFile)
@@ -91,7 +92,9 @@ class ImportMdbToMySQL extends Command
 
         // Esporta ogni tabella in un file CSV
         foreach (explode("\n", trim($tableList)) as $table) {
-            if (empty($table)) continue;
+            if (empty($table)) {
+                continue;
+            }
             $tables[] = $table;
             $csvFile = storage_path("app/{$table}.csv");
             shell_exec("mdb-export $mdbFile $table > $csvFile");
@@ -114,7 +117,9 @@ class ImportMdbToMySQL extends Command
         $tables = explode(";\n", $schema);
 
         foreach ($tables as $tableSchema) {
-            if (empty($tableSchema)) continue;
+            if (empty($tableSchema)) {
+                continue;
+            }
             // Adatta le virgolette per MySQL
             $tableSchema = str_replace('`', '"', $tableSchema);
             // Crea la tabella in MySQL
@@ -126,7 +131,7 @@ class ImportMdbToMySQL extends Command
     /**
      * Importa i dati CSV nelle tabelle MySQL.
      *
-     * @param array $tables
+     * @param array  $tables
      * @param string $mysqlUser
      * @param string $mysqlPassword
      * @param string $mysqlDb
@@ -136,12 +141,12 @@ class ImportMdbToMySQL extends Command
         foreach ($tables as $table) {
             $csvFile = storage_path("app/{$table}.csv");
             $command = "mysql -u $mysqlUser -p$mysqlPassword $mysqlDb -e "
-                . "\"LOAD DATA LOCAL INFILE '$csvFile' "
-                . "INTO TABLE $table "
-                . "FIELDS TERMINATED BY ',' "
-                . "ENCLOSED BY '\"' "
-                . "LINES TERMINATED BY '\\n' "
-                . "IGNORE 1 LINES;\"";
+                ."\"LOAD DATA LOCAL INFILE '$csvFile' "
+                ."INTO TABLE $table "
+                ."FIELDS TERMINATED BY ',' "
+                ."ENCLOSED BY '\"' "
+                ."LINES TERMINATED BY '\\n' "
+                .'IGNORE 1 LINES;"';
             shell_exec($command);
         }
     }
