@@ -90,4 +90,11 @@ abstract class XotBaseResource extends FilamentResource
             'edit' => $edit::route('/{record}/edit'),
         ];
     }
+
+    public static function getRelations(): array
+    {
+        return [
+            // RelationManagers\PhoneCallsRelationManager::class,
+        ];
+    }
 }
