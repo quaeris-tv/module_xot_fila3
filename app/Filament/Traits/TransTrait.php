@@ -12,7 +12,7 @@ trait TransTrait
     /**
      * Summary of trans.
      */
-    public static function trans(string $key): string
+    public static function trans(string $key, bool $exceptionIfNotExist=false): string
     {
         $transKey = app(GetTransKeyAction::class)->execute(static::class);
 
@@ -35,6 +35,9 @@ trait TransTrait
         $tmp = $transKey.'.'.$key;
         $res = trans($tmp);
         if (\is_string($res)) {
+            if($exceptionIfNotExist && $res === $tmp) {
+                throw new \Exception('['.__LINE__.']['.class_basename(__CLASS__).']');
+            }
             return $res;
         }
 

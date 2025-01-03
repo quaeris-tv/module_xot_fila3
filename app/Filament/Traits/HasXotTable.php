@@ -176,6 +176,11 @@ trait HasXotTable
         return 'name';
     }
 
+    public function getTableHeading(): ?string
+    {
+        return static::trans('table.heading');
+    }
+
     public function getTableEmptyStateActions(): array
     {
         return [];
@@ -194,6 +199,7 @@ trait HasXotTable
 
         return $table
             ->recordTitleAttribute($this->getTableRecordTitleAttribute())
+            ->heading($this->getTableHeading())
             ->columns($this->layoutView->getTableColumns())
             ->contentGrid($this->layoutView->getTableContentGrid())
             ->headerActions($this->getTableHeaderActions())
