@@ -25,18 +25,10 @@ abstract class XotBaseRelationManager extends RelationManager
         // Assert::notNull(static::$model,'['.__LINE__.']['.class_basename($this).']');
         $p = Str::after(static::class, 'Filament\Resources\\');
         $p_arr = explode('\\', $p);
-        /*
-        dddx([
-            'methods' => static::class,
-            'p' => $p,
-            'p_a' => $p_arr,
-        ]);
-        */
         // RelationManager
         $slug = Str::kebab(Str::before($p_arr[0], 'Resource'));
         $slug .= '.'.Str::kebab(Str::before($p_arr[2], 'RelationManager'));
 
-        // $modelNameSlug = Str::kebab(class_basename(static::class));
         $res = $moduleNameLow.'::'.$slug.'.'.$key;
 
         return __($res);
