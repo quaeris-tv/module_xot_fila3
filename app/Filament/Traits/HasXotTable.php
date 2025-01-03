@@ -46,9 +46,9 @@ trait HasXotTable
      */
     protected function getTableHeaderActions(): array
     {
-        $actions = [
-            // TableLayoutToggleTableAction::make(),
-        ];
+        $actions = [];
+
+        $actions['create'] = Tables\Actions\CreateAction::make();
 
         if ($this->shouldShowAssociateAction()) {
             $actions['associate'] = Tables\Actions\AssociateAction::make()
@@ -64,6 +64,7 @@ trait HasXotTable
                 ->tooltip(__('user::actions.attach_user'))
                 ->preloadRecordSelect();
         }
+        $actions['layout'] = TableLayoutToggleTableAction::make('layout');
 
         return $actions;
     }
