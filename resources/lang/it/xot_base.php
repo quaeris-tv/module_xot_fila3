@@ -1,25 +1,23 @@
-<?php return array (
-  'fields' => 
-  array (
-    'attach' => 
-    array (
-      'label' => 'attach',
-    ),
-    'detach' => 
-    array (
-      'label' => 'detach',
-    ),
-    'layout' => 
-    array (
-      'label' => 'layout',
-    ),
-    'create' => 
-    array (
-      'label' => 'create',
-    ),
-    'edit' => 
-    array (
-      'label' => 'edit',
-    ),
-  ),
-);
+<?php
+
+declare(strict_types=1);
+
+return [
+    'fields' => [
+        'attach' => [
+            'label' => 'attach',
+        ],
+        'detach' => [
+            'label' => 'detach',
+        ],
+        'layout' => [
+            'label' => 'layout',
+        ],
+        'create' => [
+            'label' => 'create',
+        ],
+        'edit' => [
+            'label' => 'edit',
+        ],
+    ],
+];
