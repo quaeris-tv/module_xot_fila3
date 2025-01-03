@@ -44,6 +44,15 @@ trait NavigationLabelTrait
     {
         return static::trans('navigation.name');
     }
+
+    public static function getNavigationIcon(): string
+    {
+        try {
+            return static::trans('navigation.icon', true);
+        } catch (\Throwable $th) {
+            return 'heroicon-o-question-mark-circle';
+        }
+    }
     /*
 
     public function getHeading(): string|Htmlable
