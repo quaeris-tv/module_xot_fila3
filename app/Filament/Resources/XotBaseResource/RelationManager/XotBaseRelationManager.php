@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources\XotBaseResource\RelationManager;
 
+use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Modules\Xot\Filament\Traits\HasXotTable;
 
@@ -48,5 +50,22 @@ abstract class XotBaseRelationManager extends RelationManager
     protected static function getPluralModelLabel(): string
     {
         return static::trans('navigation.plural');
+    }
+
+    public function form(Form $form): Form
+    {
+        $resource = static::$resource;
+
+        return $resource::form($form);
+    }
+
+    public function getListTableColumns(): array
+    {
+        $resource = static::$resource;
+        $index = Arr::get($resource::getPages(), 'index');
+        $index_page = $index->getPage();
+        $res = app($index_page)->getListTableColumns();
+
+        return $res;
     }
 }

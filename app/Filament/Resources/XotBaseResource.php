@@ -93,8 +93,21 @@ abstract class XotBaseResource extends FilamentResource
 
     public static function getRelations(): array
     {
-        return [
-            // RelationManagers\PhoneCallsRelationManager::class,
-        ];
+        $reflector = new \ReflectionClass(static::class);
+        $filename = $reflector->getFileName();
+        $path = Str::of($filename)
+            ->before('.php')
+            ->append(DIRECTORY_SEPARATOR)
+            ->append('RelationManagers')
+            ->toString();
+
+        $files = glob($path.DIRECTORY_SEPARATOR.'*RelationManager.php');
+        $res = [];
+        foreach ($files as $file) {
+            $info = pathinfo($file);
+            $res[] = static::class.'\RelationManagers\\'.$info['filename'];
+        }
+
+        return $res;
     }
 }
