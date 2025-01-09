@@ -13,12 +13,12 @@ use Modules\Xot\Traits\Filament\HasCustomModelLabel;
 
 abstract class XotBaseCreateRecord extends CreateRecord
 {
-    use HasCustomModelLabel;
+    //use HasCustomModelLabel;
 
     /**
-     * @var array<string, mixed>
+     * @var null|array<string, mixed>
      */
-    protected array $data = [];
+    public ?array $data = [];
 
     protected static bool $canCreateAnother = true;
 
