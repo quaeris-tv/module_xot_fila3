@@ -17,12 +17,16 @@ use Webmozart\Assert\Assert;
 
 /**
  * Base class for list records pages.
+ * @property ?string $model
+ * @property ?string $resource
+ * @property ?string $slug
+ * @property TableLayoutEnum $layoutView 
  */
 abstract class XotBaseListRecords extends FilamentListRecords
 {
     use HasXotTable;
 
-    protected TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
+    //protected TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     /**
      * Get the table instance.

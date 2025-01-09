@@ -15,10 +15,5 @@ class ListLogs extends XotBaseListRecords
 
     protected static string $resource = LogResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
+    
 }

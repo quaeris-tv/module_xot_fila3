@@ -33,12 +33,7 @@ class ListXXX extends XotBaseListRecords
     
     protected static string $resource = XXXResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
+    
 
     
 
