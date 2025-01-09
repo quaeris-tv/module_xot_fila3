@@ -163,10 +163,12 @@ abstract class XotBaseServiceProvider extends ServiceProvider
     public function registerCommands(): void
     {
         $prefix = '';
+        
         $comps = app(\Modules\Xot\Actions\File\GetComponentsAction::class)
             ->execute(
                 $this->module_dir.'/../Console/Commands',
-                Str::before($this->module_ns, '\Providers'),
+                //Str::before($this->module_ns, '\Providers'),
+                'Modules\\'.$this->name.'\\Console\\Commands',
                 $prefix,
             );
         if (0 == $comps->count()) {
@@ -175,7 +177,8 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         $commands = Arr::map(
             $comps->items(),
             function (ComponentFileData $item) {
-                return $this->module_ns.'\Console\Commands\\'.$item->class;
+                //return $this->module_ns.'\Console\Commands\\'.$item->class;
+                return $item->ns;
             }
         );
         $this->commands($commands);

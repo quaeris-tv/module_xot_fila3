@@ -12,43 +12,46 @@ trait NavigationLabelTrait
 
     public static function getModelLabel(): string
     {
-        return static::trans('navigation.name');
+        return static::transFunc(__FUNCTION__);
     }
 
     public static function getPluralModelLabel(): string
     {
-        return static::trans('navigation.plural');
+      
+       return static::transFunc(__FUNCTION__);
     }
 
     public static function getNavigationLabel(): string
     {
-        return static::trans('navigation.plural');
+        return static::transFunc(__FUNCTION__);
     }
 
     public static function getNavigationGroup(): string
     {
-        return static::trans('navigation.group.name');
+        return 'Admin';
+        return static::transFunc(__FUNCTION__);
     }
 
     public static function getPluralLabel(): string
     {
-        return static::trans('navigation.plural');
+        return static::transFunc(__FUNCTION__);
     }
 
     public static function getLabel(): string
     {
-        return static::trans('navigation.name');
+        return static::transFunc(__FUNCTION__);
     }
 
     public function getTitle(): string
     {
-        return static::trans('navigation.name');
+        return static::transFunc(__FUNCTION__);
     }
 
     public static function getNavigationIcon(): string
     {
         try {
-            return static::trans('navigation.icon', true);
+            //return static::trans('navigation.icon', true);
+            return static::transFunc(__FUNCTION__, true);
         } catch (\Throwable $th) {
             return 'heroicon-o-question-mark-circle';
         }

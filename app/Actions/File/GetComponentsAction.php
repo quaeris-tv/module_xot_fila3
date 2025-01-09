@@ -57,7 +57,9 @@ class GetComponentsAction
 
         $comps = [];
         foreach ($files as $file) {
-            if ('php' === $file->getExtension()) {
+            if ('php' !== $file->getExtension()) {
+                continue;
+            }
                 $tmp = (object) [];
                 $class_name = $file->getFilenameWithoutExtension();
 
@@ -85,15 +87,30 @@ class GetComponentsAction
                     $tmp->comp_ns = $namespace.'\\'.$relative_path.'\\'.$class_name;
                     $tmp->class_name = $relative_path.'\\'.$tmp->class_name;
                 }
+                try{
+                    $reflection = new \ReflectionClass($tmp->comp_ns);
+                }catch(\Exception $e){
+                    dddx([
+                        'tmp'=>$tmp,
+                        'path'=>$path, 
+                        'namespace'=>$namespace, 
+                        'prefix'=>$prefix,
+                        'e'=>$e->getMessage(),
+                    ]);
+                }
+                if($reflection->isAbstract()){
+                    continue;
+                }
                 $tmp = ComponentFileData::from([
                     'name' => $tmp->comp_name,
                     'class' => $tmp->class_name,
+                    
                     // 'path'=>$path.DIRECTORY_SEPARATOR.$relative_path,
                     'ns' => $tmp->comp_ns,
                 ])->toArray();
 
                 $comps[] = $tmp;
-            }
+            
         }
 
         $content = json_encode($comps, JSON_THROW_ON_ERROR);

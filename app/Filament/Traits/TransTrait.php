@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Traits;
 
 use Illuminate\Support\Str;
+use Modules\Lang\Actions\SaveTransAction;
 use Modules\Xot\Actions\GetTransKeyAction;
 
 trait TransTrait
@@ -43,5 +44,26 @@ trait TransTrait
         }
 
         return 'fix:'.$tmp;
+    }
+
+    public static function transFunc(string $func, bool $exceptionIfNotExist = false): string
+    {
+        $key=Str::of($func)
+            ->after('get')
+            ->snake()
+            ->replace('_', '.')
+            ->toString();
+        $trans= static::trans($key, $exceptionIfNotExist);
+        $transKey = app(GetTransKeyAction::class)->execute(static::class);
+        $key=$transKey.'.'.$key;
+        if($trans==$key){
+            $trans=Str::of($key)
+                ->between('::','.')
+                ->replace('_',' ')
+                ->toString();
+            app(SaveTransAction::class)->execute($key,$trans);
+        }
+       
+        return $trans;
     }
 }
