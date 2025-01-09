@@ -146,18 +146,7 @@ abstract class XotBasePanelProvider extends PanelProvider
 
         return $panel;
 
-        /*
-        $adminPanel = Filament::getPanel('admin');
-
-        $adminPanel
-        ->navigationItems([
-            NavigationItem::make('Jobs')
-                ->url($panel->getUrl(), shouldOpenInNewTab: false)
-                ->icon('heroicon-o-users')
-                ->group('Modules')
-                ->sort(3),
-        ]);
-        */
+        
     }
 
     protected function getModuleNamespace(): string
