@@ -28,7 +28,6 @@ trait NavigationLabelTrait
 
     public static function getNavigationGroup(): string
     {
-        return 'Admin';
         return static::transFunc(__FUNCTION__);
     }
 
