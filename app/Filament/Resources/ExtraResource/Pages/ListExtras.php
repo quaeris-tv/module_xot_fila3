@@ -6,7 +6,7 @@ namespace Modules\Xot\Filament\Resources\ExtraResource\Pages;
 
 use Filament\Actions;
 use Filament\Tables;
-use Modules\Xot\Filament\Pages\XotBaseListRecords;
+use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\ExtraResource;
 
 class ListExtras extends XotBaseListRecords

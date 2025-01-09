@@ -26,16 +26,18 @@ abstract class XotBaseListRecords extends FilamentListRecords
 {
     use HasXotTable;
 
-    //protected TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
-
     /**
      * Get the table instance.
      */
     public function table(Table $table): Table
     {
+        $defaultSort = $this->getDefaultSort();
+        $column = key($defaultSort);
+        $direction = current($defaultSort);
+
         return $table
             ->columns($this->getListTableColumns())
-            ->defaultSort($this->getDefaultSort());
+            ->defaultSort($column, $direction);
     }
 
     /**
@@ -43,7 +45,9 @@ abstract class XotBaseListRecords extends FilamentListRecords
      *
      * @return array<string, Tables\Columns\Column>
      */
-    abstract public function getListTableColumns(): array;
+    public function getListTableColumns(): array{
+        return [];
+    }
 
     /**
      * Get the default sort column and direction.
@@ -52,7 +56,8 @@ abstract class XotBaseListRecords extends FilamentListRecords
      */
     protected function getDefaultSort(): array
     {
-        return ['created_at' => 'desc'];
+        //return ['created_at' => 'desc'];
+        return ['id' => 'desc'];
     }
 
     /**
