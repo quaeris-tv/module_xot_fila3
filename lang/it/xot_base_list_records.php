@@ -32,5 +32,9 @@
     array (
       'label' => 'create',
     ),
+    'export_xls' => 
+    array (
+      'label' => 'export_xls',
+    ),
   ),
 );
