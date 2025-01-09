@@ -18,12 +18,12 @@ use Filament\Actions\ViewAction;
 
 abstract class XotBaseEditRecord extends EditRecord
 {
-    use HasCustomModelLabel;
+    //use HasCustomModelLabel;
 
     /**
-     * @var array<string, mixed>
+     * @var null|array<string, mixed>
      */
-    protected array $data = [];
+    public ?array $data = [];
 
     /**
      * Hook that is called before a record is saved.
