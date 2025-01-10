@@ -213,13 +213,22 @@ trait HasXotTable
             ->bulkActions($this->getTableBulkActions())
             ->actionsPosition(ActionsPosition::BeforeColumns)
             ->emptyStateActions($this->getTableEmptyStateActions())
-            ->striped();
-        /*
-        ->defaultSort(
-            column: 'created_at',
-            direction: 'Desc',
-        )
-        */
+            ->striped()
+
+            ->defaultSort(
+                column: $this->getDefaultTableSortColumn(),
+                direction: $this->getDefaultTableSortDirection(),
+            );
+    }
+
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'id';
+    }
+
+    protected function getDefaultTableSortDirection(): ?string
+    {
+        return 'desc';
     }
 
     /**
