@@ -6,7 +6,6 @@ namespace Modules\Xot\Filament\Forms\Components;
 
 use Filament\Forms\Components\Field;
 use Illuminate\Support\Str;
-use Closure;
 
 abstract class XotBaseFormComponent extends Field
 {
@@ -21,15 +20,14 @@ abstract class XotBaseFormComponent extends Field
     protected array $extraValidationAttributes = [];
 
     /**
-     * @var ?Closure
+     * @var ?\Closure
      */
-    protected $formatStateUsing = null;
+    protected $formatStateUsing;
 
     /**
      * Add an extra HTML attribute.
      *
      * @param string|array<string, mixed> $key
-     * @param mixed $value
      */
     public function extraAttributes(string|array $key, mixed $value = null): static
     {
@@ -46,7 +44,6 @@ abstract class XotBaseFormComponent extends Field
      * Add an extra validation attribute.
      *
      * @param string|array<string, mixed> $key
-     * @param mixed $value
      */
     public function extraValidationAttributes(string|array $key, mixed $value = null): static
     {
@@ -62,7 +59,7 @@ abstract class XotBaseFormComponent extends Field
     /**
      * Format the state value before display.
      */
-    public function formatStateUsing(Closure $callback): static
+    public function formatStateUsing(\Closure $callback): static
     {
         $this->formatStateUsing = $callback;
 
@@ -71,9 +68,6 @@ abstract class XotBaseFormComponent extends Field
 
     /**
      * Get the formatted state value.
-     *
-     * @param mixed $state
-     * @return mixed
      */
     protected function getFormattedState(mixed $state): mixed
     {
