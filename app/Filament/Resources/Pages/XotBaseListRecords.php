@@ -26,9 +26,9 @@ abstract class XotBaseListRecords extends FilamentListRecords
 {
     use HasXotTable;
 
-    /**
+    /*
      * Get the table instance.
-     */
+    
     public function table(Table $table): Table
     {
         $defaultSort = $this->getDefaultSort();
@@ -39,7 +39,7 @@ abstract class XotBaseListRecords extends FilamentListRecords
             ->columns($this->getListTableColumns())
             ->defaultSort($column, $direction);
     }
-
+    */
     /**
      * Get the table columns.
      *
