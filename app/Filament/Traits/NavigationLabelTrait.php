@@ -17,8 +17,7 @@ trait NavigationLabelTrait
 
     public static function getPluralModelLabel(): string
     {
-      
-       return static::transFunc(__FUNCTION__);
+        return static::transFunc(__FUNCTION__);
     }
 
     public static function getNavigationLabel(): string
@@ -49,7 +48,7 @@ trait NavigationLabelTrait
     public static function getNavigationIcon(): string
     {
         try {
-            //return static::trans('navigation.icon', true);
+            // return static::trans('navigation.icon', true);
             return static::transFunc(__FUNCTION__, true);
         } catch (\Throwable $th) {
             return 'heroicon-o-question-mark-circle';

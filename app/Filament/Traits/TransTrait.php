@@ -48,22 +48,22 @@ trait TransTrait
 
     public static function transFunc(string $func, bool $exceptionIfNotExist = false): string
     {
-        $key=Str::of($func)
+        $key = Str::of($func)
             ->after('get')
             ->snake()
             ->replace('_', '.')
             ->toString();
-        $trans= static::trans($key, $exceptionIfNotExist);
+        $trans = static::trans($key, $exceptionIfNotExist);
         $transKey = app(GetTransKeyAction::class)->execute(static::class);
-        $key=$transKey.'.'.$key;
-        if($trans==$key){
-            $trans=Str::of($key)
-                ->between('::','.')
-                ->replace('_',' ')
+        $key = $transKey.'.'.$key;
+        if ($trans == $key) {
+            $trans = Str::of($key)
+                ->between('::', '.')
+                ->replace('_', ' ')
                 ->toString();
-            app(SaveTransAction::class)->execute($key,$trans);
+            app(SaveTransAction::class)->execute($key, $trans);
         }
-       
+
         return $trans;
     }
 }

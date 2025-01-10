@@ -6,7 +6,6 @@ namespace Modules\Xot\Filament\Widgets;
 
 use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\Cache;
-use Closure;
 
 abstract class XotBaseWidget extends Widget
 {
@@ -26,14 +25,14 @@ abstract class XotBaseWidget extends Widget
     protected ?int $pollingInterval = null;
 
     /**
-     * @var ?Closure
+     * @var ?\Closure
      */
-    protected $authorizeUsing = null;
+    protected $authorizeUsing;
 
     /**
      * Set the authorization callback.
      */
-    public function authorizeUsing(?Closure $callback): static
+    public function authorizeUsing(?\Closure $callback): static
     {
         $this->authorizeUsing = $callback;
 
@@ -63,10 +62,8 @@ abstract class XotBaseWidget extends Widget
 
     /**
      * Get the cached data.
-     *
-     * @return mixed
      */
-    protected function getCachedData(Closure $callback)
+    protected function getCachedData(\Closure $callback)
     {
         if (! $this->cacheKey) {
             return $callback();
@@ -84,7 +81,7 @@ abstract class XotBaseWidget extends Widget
      */
     protected function getCacheKey(): string
     {
-        return 'widget.' . $this->cacheKey . '.' . class_basename($this);
+        return 'widget.'.$this->cacheKey.'.'.class_basename($this);
     }
 
     /**
@@ -112,7 +109,7 @@ abstract class XotBaseWidget extends Widget
      */
     public function shouldPoll(): bool
     {
-        return $this->pollingInterval !== null;
+        return null !== $this->pollingInterval;
     }
 
     /**

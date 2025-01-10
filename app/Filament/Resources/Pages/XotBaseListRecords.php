@@ -17,10 +17,11 @@ use Webmozart\Assert\Assert;
 
 /**
  * Base class for list records pages.
- * @property ?string $model
- * @property ?string $resource
- * @property ?string $slug
- * @property TableLayoutEnum $layoutView 
+ *
+ * @property ?string         $model
+ * @property ?string         $resource
+ * @property ?string         $slug
+ * @property TableLayoutEnum $layoutView
  */
 abstract class XotBaseListRecords extends FilamentListRecords
 {
@@ -45,7 +46,8 @@ abstract class XotBaseListRecords extends FilamentListRecords
      *
      * @return array<string, Tables\Columns\Column>
      */
-    public function getListTableColumns(): array{
+    public function getListTableColumns(): array
+    {
         return [];
     }
 
@@ -56,7 +58,7 @@ abstract class XotBaseListRecords extends FilamentListRecords
      */
     protected function getDefaultSort(): array
     {
-        //return ['created_at' => 'desc'];
+        // return ['created_at' => 'desc'];
         return ['id' => 'desc'];
     }
 
