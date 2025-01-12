@@ -164,7 +164,7 @@ trait HasXotTable
 
     public function getTableFiltersFormColumns(): int
     {
-        $c = count($this->getTableFilters()) + 1;
+        $c = \count($this->getTableFilters()) + 1;
         if ($c > 6) {
             return 6;
         }
@@ -223,7 +223,9 @@ trait HasXotTable
 
     protected function getDefaultTableSortColumn(): ?string
     {
-        return 'id';
+        $table = app($this->getModelClass())->getTable();
+
+        return $table.'.id';
     }
 
     protected function getDefaultTableSortDirection(): ?string
@@ -356,7 +358,7 @@ trait HasXotTable
     protected function configureEmptyTable(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('id'))
+            ->modifyQueryUsing(static fn (Builder $query) => $query->whereNull('id'))
             ->columns([
                 TextColumn::make('message')
 
