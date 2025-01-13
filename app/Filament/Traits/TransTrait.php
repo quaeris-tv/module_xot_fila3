@@ -42,6 +42,12 @@ trait TransTrait
 
             return $res;
         }
+        if(is_array($res,false)){
+            $tmp=(current($res));
+            if(is_string($tmp)){
+                return $tmp;
+            }
+        }
 
         return 'fix:'.$tmp;
     }
