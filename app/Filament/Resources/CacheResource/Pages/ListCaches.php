@@ -9,8 +9,8 @@ use Filament\Tables;
 use Filament\Tables\Columns\Layout\Stack;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\Xot\Filament\Actions\Header\ArtisanHeaderAction;
-use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\CacheResource;
+use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Widgets\Clock;
 
 class ListCaches extends XotBaseListRecords

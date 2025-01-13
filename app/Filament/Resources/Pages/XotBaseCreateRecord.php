@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources\Pages;
 
-use Filament\Resources\Pages\CreateRecord;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Modules\Xot\Traits\Filament\HasCustomModelLabel;
 
 abstract class XotBaseCreateRecord extends CreateRecord
 {
-    //use HasCustomModelLabel;
+    // use HasCustomModelLabel;
 
     /**
-     * @var null|array<string, mixed>
+     * @var array<string, mixed>|null
      */
     public ?array $data = [];
 
@@ -65,6 +65,7 @@ abstract class XotBaseCreateRecord extends CreateRecord
 
     /**
      * Get the form schema.
+     *
      * @return array<Forms\Components\Component>
      */
     protected function getFormSchema(): array
@@ -80,7 +81,7 @@ abstract class XotBaseCreateRecord extends CreateRecord
     protected function getCreatedNotifications(): array
     {
         return [
-            ...(parent::getCreatedNotifications()),
+            ...parent::getCreatedNotifications(),
         ];
     }
 

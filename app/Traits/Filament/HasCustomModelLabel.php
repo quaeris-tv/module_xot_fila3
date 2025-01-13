@@ -14,7 +14,7 @@ trait HasCustomModelLabel
     public static function getPluralModelLabel(): string
     {
         $label = static::$pluralModelLabel ?? Str::plural(static::getModelLabel());
-        
+
         return __($label);
     }
 

@@ -4,32 +4,30 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Tables\Actions;
 
-use Filament\Tables\Actions\Action;
 use Filament\Support\Colors\Color;
-use Illuminate\Database\Eloquent\Model;
-use Closure;
+use Filament\Tables\Actions\Action;
 
 abstract class XotBaseTableAction extends Action
 {
     /**
-     * @var ?Closure
+     * @var ?\Closure
      */
-    protected $authorizeUsing = null;
+    protected $authorizeUsing;
 
     /**
-     * @var ?Closure
+     * @var ?\Closure
      */
-    protected $beforeActionUsing = null;
+    protected $beforeActionUsing;
 
     /**
-     * @var ?Closure
+     * @var ?\Closure
      */
-    protected $afterActionUsing = null;
+    protected $afterActionUsing;
 
     /**
      * Set the authorization callback.
      */
-    public function authorizeUsing(?Closure $callback): static
+    public function authorizeUsing(?\Closure $callback): static
     {
         $this->authorizeUsing = $callback;
 
@@ -39,7 +37,7 @@ abstract class XotBaseTableAction extends Action
     /**
      * Set the before action callback.
      */
-    public function beforeActionUsing(?Closure $callback): static
+    public function beforeActionUsing(?\Closure $callback): static
     {
         $this->beforeActionUsing = $callback;
 
@@ -49,7 +47,7 @@ abstract class XotBaseTableAction extends Action
     /**
      * Set the after action callback.
      */
-    public function afterActionUsing(?Closure $callback): static
+    public function afterActionUsing(?\Closure $callback): static
     {
         $this->afterActionUsing = $callback;
 
@@ -112,8 +110,6 @@ abstract class XotBaseTableAction extends Action
 
     /**
      * Execute the action.
-     *
-     * @return mixed
      */
     public function execute()
     {
@@ -126,7 +122,7 @@ abstract class XotBaseTableAction extends Action
         if ($this->beforeActionUsing) {
             $result = call_user_func($this->beforeActionUsing, $this->getRecord());
 
-            if ($result === false) {
+            if (false === $result) {
                 $this->failure();
 
                 return;

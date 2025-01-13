@@ -60,57 +60,56 @@ class GetComponentsAction
             if ('php' !== $file->getExtension()) {
                 continue;
             }
-                $tmp = (object) [];
-                $class_name = $file->getFilenameWithoutExtension();
+            $tmp = (object) [];
+            $class_name = $file->getFilenameWithoutExtension();
 
-                $tmp->class_name = $class_name;
+            $tmp->class_name = $class_name;
+            Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '['.__LINE__.']['.class_basename(static::class).']');
+            $tmp->comp_name = Str::slug(Str::snake($comp_name));
+            $tmp->comp_name = $prefix.$tmp->comp_name;
+
+            $tmp->comp_ns = $namespace.'\\'.$class_name;
+            $relative_path = $file->getRelativePath();
+            Assert::string($relative_path = Str::replace('/', '\\', $relative_path), '['.__LINE__.']['.class_basename(static::class).']');
+
+            if ('' !== $relative_path) {
+                $tmp->comp_name = '';
+                $piece = collect(explode('\\', $relative_path))
+                    ->map(
+                        static fn ($item) => Str::slug(Str::snake($item))
+                    )
+                    ->implode('.');
+                $tmp->comp_name .= $piece;
                 Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '['.__LINE__.']['.class_basename(static::class).']');
-                $tmp->comp_name = Str::slug(Str::snake($comp_name));
+
+                $tmp->comp_name .= '.'.Str::slug(Str::snake($comp_name));
                 $tmp->comp_name = $prefix.$tmp->comp_name;
+                $tmp->comp_ns = $namespace.'\\'.$relative_path.'\\'.$class_name;
+                $tmp->class_name = $relative_path.'\\'.$tmp->class_name;
+            }
+            try {
+                $reflection = new \ReflectionClass($tmp->comp_ns);
+            } catch (\Exception $e) {
+                dddx([
+                    'tmp' => $tmp,
+                    'path' => $path,
+                    'namespace' => $namespace,
+                    'prefix' => $prefix,
+                    'e' => $e->getMessage(),
+                ]);
+            }
+            if ($reflection->isAbstract()) {
+                continue;
+            }
+            $tmp = ComponentFileData::from([
+                'name' => $tmp->comp_name,
+                'class' => $tmp->class_name,
 
-                $tmp->comp_ns = $namespace.'\\'.$class_name;
-                $relative_path = $file->getRelativePath();
-                Assert::string($relative_path = Str::replace('/', '\\', $relative_path), '['.__LINE__.']['.class_basename(static::class).']');
+                // 'path'=>$path.DIRECTORY_SEPARATOR.$relative_path,
+                'ns' => $tmp->comp_ns,
+            ])->toArray();
 
-                if ('' !== $relative_path) {
-                    $tmp->comp_name = '';
-                    $piece = collect(explode('\\', $relative_path))
-                        ->map(
-                            static fn ($item) => Str::slug(Str::snake($item))
-                        )
-                        ->implode('.');
-                    $tmp->comp_name .= $piece;
-                    Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '['.__LINE__.']['.class_basename(static::class).']');
-
-                    $tmp->comp_name .= '.'.Str::slug(Str::snake($comp_name));
-                    $tmp->comp_name = $prefix.$tmp->comp_name;
-                    $tmp->comp_ns = $namespace.'\\'.$relative_path.'\\'.$class_name;
-                    $tmp->class_name = $relative_path.'\\'.$tmp->class_name;
-                }
-                try{
-                    $reflection = new \ReflectionClass($tmp->comp_ns);
-                }catch(\Exception $e){
-                    dddx([
-                        'tmp'=>$tmp,
-                        'path'=>$path, 
-                        'namespace'=>$namespace, 
-                        'prefix'=>$prefix,
-                        'e'=>$e->getMessage(),
-                    ]);
-                }
-                if($reflection->isAbstract()){
-                    continue;
-                }
-                $tmp = ComponentFileData::from([
-                    'name' => $tmp->comp_name,
-                    'class' => $tmp->class_name,
-                    
-                    // 'path'=>$path.DIRECTORY_SEPARATOR.$relative_path,
-                    'ns' => $tmp->comp_ns,
-                ])->toArray();
-
-                $comps[] = $tmp;
-            
+            $comps[] = $tmp;
         }
 
         $content = json_encode($comps, JSON_THROW_ON_ERROR);

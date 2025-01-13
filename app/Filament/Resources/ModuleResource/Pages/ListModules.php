@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources\ModuleResource\Pages;
 
-use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -12,8 +11,8 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\Layout\Stack;
 use Modules\UI\Enums\TableLayoutEnum;
-use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\ModuleResource;
+use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 use Nwidart\Modules\Facades\Module;
 
 class ListModules extends XotBaseListRecords
@@ -86,6 +85,4 @@ class ListModules extends XotBaseListRecords
             DeleteBulkAction::make(),
         ];
     }
-
-    
 }
