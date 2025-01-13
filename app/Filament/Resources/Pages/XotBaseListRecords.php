@@ -29,7 +29,7 @@ abstract class XotBaseListRecords extends FilamentListRecords
 
     /*
      * Get the table instance.
-    
+
     public function table(Table $table): Table
     {
         $defaultSort = $this->getDefaultSort();
