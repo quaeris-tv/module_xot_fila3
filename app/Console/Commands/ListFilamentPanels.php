@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -16,6 +18,7 @@ class ListFilamentPanels extends Command
 
         if (empty($modules)) {
             $this->info('Nessun modulo trovato.');
+
             return;
         }
 
@@ -27,7 +30,7 @@ class ListFilamentPanels extends Command
 
             foreach ($providers as $provider) {
                 if (str_contains($provider, 'Filament')) {
-                    $this->line("- Modulo: {$moduleName}, Provider: {$provider} Exists [".class_exists($provider)."]");
+                    $this->line("- Modulo: {$moduleName}, Provider: {$provider} Exists [".class_exists($provider).']');
                 }
             }
         }

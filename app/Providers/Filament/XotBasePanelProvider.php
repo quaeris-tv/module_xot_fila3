@@ -145,8 +145,6 @@ abstract class XotBasePanelProvider extends PanelProvider
         );
 
         return $panel;
-
-        
     }
 
     protected function getModuleNamespace(): string
