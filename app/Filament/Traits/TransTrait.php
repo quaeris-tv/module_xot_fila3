@@ -42,9 +42,9 @@ trait TransTrait
 
             return $res;
         }
-        if(is_array($res)){
-            $tmp=(current($res));
-            if(is_string($tmp)){
+        if (is_array($res)) {
+            $tmp = current($res);
+            if (is_string($tmp)) {
                 return $tmp;
             }
         }
