@@ -45,6 +45,16 @@ trait NavigationLabelTrait
         return static::transFunc(__FUNCTION__);
     }
 
+    public static function getNavigationSort(): ?int {
+        
+        $res= static::transFunc(__FUNCTION__);
+        
+        $value= intval($res);
+        
+        static::$navigationSort = $value;
+        return $value;
+    }
+
     public static function getNavigationIcon(): string
     {
         try {
@@ -61,9 +71,7 @@ trait NavigationLabelTrait
         return 'AAAAAAAAAA';
     }
 
-    public static function getNavigationSort(): ?int {
-        return JobsWaitingPlugin::make()->getNavigationSort();
-    }
+    
 
     public static function getBreadcrumb(): string {
         return JobsWaitingPlugin::make()->getBreadcrumb();
