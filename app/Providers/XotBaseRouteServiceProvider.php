@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Providers;
 
+use Filament\Notifications\Notification;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
-use Filament\Notifications\Notification;
-
-use function PHPUnit\Framework\throwException;
 
 /**
  * Class XotBaseRouteServiceProvider.
@@ -61,13 +59,14 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
      */
     protected function mapWebRoutes(): void
     {
-        if($this->name==''){
+        if ('' == $this->name) {
             Notification::make()
             ->title('Error')
             ->danger()
             ->persistent()
             ->body('on [Name]ServiceProvider and RouteServiceProvider add $name variable')
             ->send();
+
             return;
         }
         Route::middleware('web')
@@ -81,20 +80,8 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
      */
     protected function mapApiRoutes(): void
     {
-<<<<<<< HEAD
-        if($this->name==''){
-            Notification::make()
-            ->title('Error')
-            ->danger()
-            ->persistent()
-            ->body('on [Name]ServiceProvider and RouteServiceProvider add $name variable')
-            ->send();
-            return;
-=======
-        if ($this->name === '') {
-            // throw new \Exception('name is empty on'. static::class);
-            throw new \Exception('name is empty on ['. static::class.']');
->>>>>>> origin/dev
+        if ('' === $this->name) {
+            throw new \Exception('name is empty on ['.static::class.']');
         }
         Route::prefix('api')
             ->middleware('api')
