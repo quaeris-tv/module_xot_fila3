@@ -31,7 +31,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
 {
     use PathNamespace;
 
-    public string $name = 'xot';
+    public string $name = '';
     public string $nameLower = '';
     protected string $module_dir = __DIR__;
     protected string $module_ns = __NAMESPACE__;
@@ -70,6 +70,9 @@ abstract class XotBaseServiceProvider extends ServiceProvider
 
     public function registerBladeIcons(): void
     {
+        if ($this->name == '') {
+            throw new \Exception('name is empty on ['. static::class.']');
+        }
         $relativePath = config('modules.paths.generator.assets.path');
         $svg_path = realpath(module_path($this->name, $relativePath.'/../svg'));
         $base_path = base_path(DIRECTORY_SEPARATOR);
