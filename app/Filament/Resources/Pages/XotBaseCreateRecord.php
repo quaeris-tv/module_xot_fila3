@@ -42,7 +42,7 @@ abstract class XotBaseCreateRecord extends CreateRecord
     protected function afterCreate(): void
     {
         // Emit event that can be caught by parent components
-        $this->emit('recordCreated', $this->record->id);
+        $this->dispatch('recordCreated', $this->record->id);
     }
 
     /**
@@ -73,17 +73,18 @@ abstract class XotBaseCreateRecord extends CreateRecord
         return [];
     }
 
-    /**
+    /*
      * Get the notifications that should be displayed when the record is created.
      *
      * @return array<\Filament\Notifications\Notification>
-     */
+     
     protected function getCreatedNotifications(): array
     {
         return [
             ...parent::getCreatedNotifications(),
         ];
     }
+        */
 
     /**
      * Validate that the user has permission to create the record.

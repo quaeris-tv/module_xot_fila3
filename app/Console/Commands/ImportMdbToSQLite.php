@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
+use function Safe\shell_exec;
+
 
 class ImportMdbToSQLite extends Command
 {

@@ -10,17 +10,22 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Modules\Xot\Filament\Traits\HasXotTable;
 
+
+/**
+ * @property static string $resource
+ */
 abstract class XotBaseRelationManager extends RelationManager
 {
     use HasXotTable;
     // protected static string $relationship = 'roles';
     // protected static ?string $recordTitleAttribute = 'name';
+    public static string $resource;
 
     public static function getModuleName(): string
     {
         return Str::between(static::class, 'Modules\\', '\Filament');
     }
-
+    /*
     public static function trans(string $key): string
     {
         $moduleNameLow = Str::lower(static::getModuleName());
@@ -35,7 +40,7 @@ abstract class XotBaseRelationManager extends RelationManager
 
         return __($res);
     }
-
+    */
     public static function getNavigationLabel(): string
     {
         return static::trans('navigation.name');

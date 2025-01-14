@@ -7,6 +7,9 @@ namespace Modules\Xot\Filament\Widgets;
 use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * @property bool $shouldRender
+ */
 abstract class XotBaseWidget extends Widget
 {
     /**
