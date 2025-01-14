@@ -23,7 +23,7 @@ abstract class XotBaseResource extends FilamentResource
     // protected static ?string $activeNavigationIcon = 'heroicon-s-document-text';
     // protected static bool $shouldRegisterNavigation = false;
     // protected static ?string $navigationGroup = 'Parametri di Sistema';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = null;
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     public static function getModuleName(): string
@@ -71,7 +71,7 @@ abstract class XotBaseResource extends FilamentResource
         try {
             $count = app(CountAction::class)->execute(static::getModel());
 
-            return number_format($count, 0);
+            return number_format($count, 0).'['.static::$navigationSort.']';
         } catch (\Exception $e) {
             return '--';
         }
