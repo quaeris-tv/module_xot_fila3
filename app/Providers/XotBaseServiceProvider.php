@@ -70,9 +70,16 @@ abstract class XotBaseServiceProvider extends ServiceProvider
 
     public function registerBladeIcons(): void
     {
-        
         $relativePath = config('modules.paths.generator.assets.path');
         $svg_path = realpath(module_path($this->name, $relativePath.'/../svg'));
+        $base_path = base_path(DIRECTORY_SEPARATOR);
+        $svg_path = str_replace($base_path, '', $svg_path);
+        /*
+        dddx([
+            'base_path'=>$base_path,
+            'svg_path'=>$svg_path
+        ]);
+        */
         /*
 
         $svg_path = Str::of($this->module_ns.'/resources/svg')->replace('\\', '/')->toString();
