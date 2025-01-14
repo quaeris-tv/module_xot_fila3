@@ -42,7 +42,7 @@ abstract class XotBaseEditRecord extends EditRecord
     protected function afterSave(): void
     {
         // Emit event that can be caught by parent components
-        $this->emit('recordUpdated', $this->record->id);
+        $this->dispatch('recordUpdated', $this->record->id);
     }
 
     /**
@@ -89,18 +89,18 @@ abstract class XotBaseEditRecord extends EditRecord
         ];
     }
 
-    /**
+    /*
      * Get the notifications that should be displayed when the record is saved.
      *
      * @return array<\Filament\Notifications\Notification>
-     */
+     
     protected function getSavedNotifications(): array
     {
         return [
             ...parent::getSavedNotifications(),
         ];
     }
-
+    */
     /**
      * Validate that the user has permission to edit the record.
      */

@@ -6,6 +6,7 @@ namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use function Safe\file_get_contents;
 
 class ExecuteSqlFileCommand extends Command
 {

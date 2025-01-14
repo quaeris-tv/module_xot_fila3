@@ -8,6 +8,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
+use Filament\Notifications\Notification;
 
 /**
  * Class XotBaseRouteServiceProvider.
@@ -58,6 +59,15 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
      */
     protected function mapWebRoutes(): void
     {
+        if($this->name==''){
+            Notification::make()
+            ->title('Error')
+            ->danger()
+            ->persistent()
+            ->body('on [Name]ServiceProvider and RouteServiceProvider add $name variable')
+            ->send();
+            return;
+        }
         Route::middleware('web')
             ->namespace($this->moduleNamespace)
             // ->group($this->module_dir.'/../Routes/web.php');
@@ -69,6 +79,15 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
      */
     protected function mapApiRoutes(): void
     {
+        if($this->name==''){
+            Notification::make()
+            ->title('Error')
+            ->danger()
+            ->persistent()
+            ->body('on [Name]ServiceProvider and RouteServiceProvider add $name variable')
+            ->send();
+            return;
+        }
         Route::prefix('api')
             ->middleware('api')
             ->namespace($this->moduleNamespace)
