@@ -70,10 +70,10 @@ abstract class XotBaseServiceProvider extends ServiceProvider
 
     public function registerBladeIcons(): void
     {
-        /*
+        
         $relativePath = config('modules.paths.generator.assets.path');
         $svg_path = realpath(module_path($this->name, $relativePath.'/../svg'));
-
+        /*
 
         $svg_path = Str::of($this->module_ns.'/resources/svg')->replace('\\', '/')->toString();
 
@@ -84,7 +84,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             File::put($svg_abs_path.'/.gitkeep', '');
         }
         */
-        $svg_path = 'Modules/'.$this->name.'/resources/svg';
+        // $svg_path = 'Modules/'.$this->name.'/resources/svg';
 
         Config::set('blade-icons.sets.'.$this->nameLower.'.path', $svg_path);
         Config::set('blade-icons.sets.'.$this->nameLower.'.prefix', $this->nameLower);
