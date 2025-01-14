@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
+use function PHPUnit\Framework\throwException;
+
 /**
  * Class XotBaseRouteServiceProvider.
  */
@@ -69,6 +71,10 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
      */
     protected function mapApiRoutes(): void
     {
+        if ($this->name === '') {
+            // throw new \Exception('name is empty on'. static::class);
+            throw new \Exception('name is empty on ['. static::class.']');
+        }
         Route::prefix('api')
             ->middleware('api')
             ->namespace($this->moduleNamespace)
