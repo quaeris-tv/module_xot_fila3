@@ -38,7 +38,7 @@ class GetComponentsAction
         }
 
         $exists = File::exists($components_json);
-        //$force_recreate = true;
+        // $force_recreate = true;
         if ($exists && ! $force_recreate) {
             Assert::string($content = File::get($components_json), '['.__LINE__.']['.class_basename(static::class).']');
 
@@ -101,7 +101,7 @@ class GetComponentsAction
                     'e' => $e->getMessage(),
                 ]);
             }
-            
+
             $tmp = ComponentFileData::from([
                 'name' => $tmp->comp_name,
                 'class' => $tmp->class_name,
