@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Filament\Notifications\Notification;
 
+use function PHPUnit\Framework\throwException;
+
 /**
  * Class XotBaseRouteServiceProvider.
  */
@@ -79,6 +81,7 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
      */
     protected function mapApiRoutes(): void
     {
+<<<<<<< HEAD
         if($this->name==''){
             Notification::make()
             ->title('Error')
@@ -87,6 +90,11 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
             ->body('on [Name]ServiceProvider and RouteServiceProvider add $name variable')
             ->send();
             return;
+=======
+        if ($this->name === '') {
+            // throw new \Exception('name is empty on'. static::class);
+            throw new \Exception('name is empty on ['. static::class.']');
+>>>>>>> origin/dev
         }
         Route::prefix('api')
             ->middleware('api')
