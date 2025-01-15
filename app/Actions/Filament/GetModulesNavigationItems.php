@@ -38,7 +38,15 @@ class GetModulesNavigationItems
             // }
             // dddx(Auth::id());
             $relativeConfigPath = config('modules.paths.generator.config.path');
-            $configPath = module_path($module, $relativeConfigPath);
+            try {
+                $configPath = module_path($module, $relativeConfigPath);
+            } catch (\Error $e) {
+                dddx([
+                    'module' => $module,
+                    'relativeConfigPath' => $relativeConfigPath,
+                    'error' => $e->getMessage(),
+                ]);
+            }
             /**
              * @var array
              */
