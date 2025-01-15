@@ -71,6 +71,7 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
         if ('' === $this->name) {
             throw new \Exception('name is empty on ['.static::class.']');
         }
+        //-- da usare il config 
         Route::prefix('api')
             ->middleware('api')
             ->namespace($this->moduleNamespace)
