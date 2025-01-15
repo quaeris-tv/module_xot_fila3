@@ -59,13 +59,8 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
         }
         Route::middleware('web')
             ->namespace($this->moduleNamespace)
-<<<<<<< HEAD
-            ->group($this->module_dir.'/../routes/web.php');
-            //->group(module_path($this->name, '/routes/web.php'));
-=======
             ->group($this->module_dir.'/routes/web.php');
         // ->group(module_path($this->name, '/routes/web.php'));
->>>>>>> c6d405b92002c208d29c247b6e0d63ad836e30b4
     }
 
     /**
@@ -80,12 +75,7 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
         Route::prefix('api')
             ->middleware('api')
             ->namespace($this->moduleNamespace)
-<<<<<<< HEAD
-            ->group($this->module_dir.'/../routes/api.php');
-            //->group(module_path($this->name, '/routes/api.php'));
-=======
             ->group($this->module_dir.'/routes/api.php');
         // ->group(module_path($this->name, '/routes/api.php'));
->>>>>>> c6d405b92002c208d29c247b6e0d63ad836e30b4
     }
 }
