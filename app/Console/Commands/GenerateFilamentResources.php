@@ -12,6 +12,7 @@ use Nwidart\Modules\Facades\Module;
 class GenerateFilamentResources extends Command
 {
     protected $signature = 'xot:generate-filament-resources {module}';
+
     protected $description = 'Genera le Filament Resources per ogni modello in un modulo';
 
     public function handle()

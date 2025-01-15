@@ -33,10 +33,10 @@ class ArtisanHeaderAction extends Action
                 Artisan::call($cmd);
                 $output = Artisan::output();
                 Notification::make()
-                        ->title('Executed successfully')
-                        ->success()
-                        ->body($output)
-                        ->persistent();
+                    ->title('Executed successfully')
+                    ->success()
+                    ->body($output)
+                    ->persistent();
             });
     }
 

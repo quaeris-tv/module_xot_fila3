@@ -70,9 +70,9 @@ class ImportMdbToMySQL extends Command
     /**
      * Crea il database MySQL se non esiste.
      *
-     * @param string $mysqlUser
-     * @param string $mysqlPassword
-     * @param string $mysqlDb
+     * @param  string  $mysqlUser
+     * @param  string  $mysqlPassword
+     * @param  string  $mysqlDb
      */
     private function createDatabase($mysqlUser, $mysqlPassword, $mysqlDb)
     {
@@ -83,8 +83,7 @@ class ImportMdbToMySQL extends Command
     /**
      * Esporta tutte le tabelle dal file .mdb in formato CSV.
      *
-     * @param string $mdbFile
-     *
+     * @param  string  $mdbFile
      * @return array
      */
     private function exportTablesToCSV($mdbFile)
@@ -108,10 +107,10 @@ class ImportMdbToMySQL extends Command
     /**
      * Crea le tabelle nel database MySQL basandosi sullo schema del file .mdb.
      *
-     * @param string $mdbFile
-     * @param string $mysqlUser
-     * @param string $mysqlPassword
-     * @param string $mysqlDb
+     * @param  string  $mdbFile
+     * @param  string  $mysqlUser
+     * @param  string  $mysqlPassword
+     * @param  string  $mysqlDb
      */
     private function createTablesInMySQL($mdbFile, $mysqlUser, $mysqlPassword, $mysqlDb)
     {
@@ -133,10 +132,10 @@ class ImportMdbToMySQL extends Command
     /**
      * Importa i dati CSV nelle tabelle MySQL.
      *
-     * @param array  $tables
-     * @param string $mysqlUser
-     * @param string $mysqlPassword
-     * @param string $mysqlDb
+     * @param  array  $tables
+     * @param  string  $mysqlUser
+     * @param  string  $mysqlPassword
+     * @param  string  $mysqlDb
      */
     private function importDataToMySQL($tables, $mysqlUser, $mysqlPassword, $mysqlDb)
     {

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Schema;
 class SearchTextInDbCommand extends Command
 {
     protected $signature = 'db:search-text {search : The text to search for} {--tables=* : Optional specific tables to search in}';
+
     protected $description = 'Search for text in all database tables or specific tables';
 
     public function handle()
@@ -27,6 +28,7 @@ class SearchTextInDbCommand extends Command
 
             if (! Schema::hasTable($tableName)) {
                 $this->warn("Table {$tableName} does not exist");
+
                 continue;
             }
 

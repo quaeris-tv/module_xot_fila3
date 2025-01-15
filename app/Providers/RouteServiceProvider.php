@@ -18,8 +18,11 @@ use Modules\Xot\Http\Middleware\SetDefaultTenantForUrlsMiddleware;
 class RouteServiceProvider extends XotBaseRouteServiceProvider
 {
     public string $name = 'Xot';
+
     protected string $moduleNamespace = 'Modules\Xot\Http\Controllers';
+
     protected string $module_dir = __DIR__;
+
     protected string $module_ns = __NAMESPACE__;
 
     public function boot(): void
@@ -55,7 +58,7 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
         $langs = ['it', 'en'];
         $user = request()->user();
         $lang = app()->getLocale();
-        if (null !== $user) {
+        if ($user !== null) {
             $lang = $user->lang ?? $lang;
         }
         $locales = config('laravellocalization.supportedLocales');
@@ -69,7 +72,7 @@ class RouteServiceProvider extends XotBaseRouteServiceProvider
 
         if (\in_array(request()->segment(1), $langs, false)) {
             $lang = request()->segment(1);
-            if (null !== $lang) {
+            if ($lang !== null) {
                 app()->setLocale($lang);
             }
         }

@@ -37,8 +37,11 @@ trait HasXotTable
     use TransTrait;
 
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
+
     protected static bool $canReplicate = false;
+
     protected static bool $canView = true;
+
     protected static bool $canEdit = true;
 
     /**
@@ -133,7 +136,7 @@ trait HasXotTable
             'create' => Actions\CreateAction::make()
                     // ->label('')
                     // ->tooltip(static::trans('actions.create.tooltip'))
-                    ->icon('heroicon-o-plus')
+                ->icon('heroicon-o-plus')
             // ->iconButton()
             // ->button()
             ,
@@ -272,8 +275,7 @@ trait HasXotTable
         if (! $this->shouldShowDetachAction()) {
             $actions['delete'] = Tables\Actions\DeleteAction::make()
                 ->tooltip(__('user::actions.delete'))
-                ->iconButton()
-            ;
+                ->iconButton();
         }
 
         if ($this->shouldShowDetachAction()) {

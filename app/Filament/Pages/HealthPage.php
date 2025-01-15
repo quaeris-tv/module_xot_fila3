@@ -28,7 +28,9 @@ class HealthPage extends Page
      * @var array<string, string>
      */
     protected $listeners = ['refresh-component' => '$refresh'];
+
     protected static ?string $navigationIcon = 'heroicon-o-heart';
+
     protected static string $view = 'xot::filament.pages.health';
 
     public function refresh(): void

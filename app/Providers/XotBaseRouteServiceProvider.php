@@ -16,8 +16,11 @@ use Illuminate\Support\Facades\Route;
 abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
 {
     protected string $moduleNamespace = 'Modules\Xot\Http\Controllers';
+
     protected string $module_dir = __DIR__;
+
     protected string $module_ns = __NAMESPACE__;
+
     public string $name = '';
 
     /**
@@ -47,13 +50,13 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
      */
     protected function mapWebRoutes(): void
     {
-        if ('' == $this->name) {
+        if ($this->name == '') {
             Notification::make()
-            ->title('Error')
-            ->danger()
-            ->persistent()
-            ->body('on [Name]ServiceProvider and RouteServiceProvider add $name variable')
-            ->send();
+                ->title('Error')
+                ->danger()
+                ->persistent()
+                ->body('on [Name]ServiceProvider and RouteServiceProvider add $name variable')
+                ->send();
 
             return;
         }
@@ -68,7 +71,7 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
      */
     protected function mapApiRoutes(): void
     {
-        if ('' === $this->name) {
+        if ($this->name === '') {
             throw new \Exception('name is empty on ['.static::class.']');
         }
         // -- da usare il config

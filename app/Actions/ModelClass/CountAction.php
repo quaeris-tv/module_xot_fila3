@@ -21,11 +21,10 @@ class CountAction
     /**
      * Execute the count action for the given model class.
      *
-     * @param class-string<Model> $modelClass The fully qualified model class name
+     * @param  class-string<Model>  $modelClass  The fully qualified model class name
+     * @return int The total count of records
      *
      * @throws \InvalidArgumentException If model class is invalid or not found
-     *
-     * @return int The total count of records
      */
     public function execute(string $modelClass): int
     {
@@ -46,11 +45,11 @@ class CountAction
         $table = $model->getTable();
 
         // Handle in-memory database
-        if (':memory:' === $database) {
+        if ($database === ':memory:') {
             return (int) $model->count();
         }
         // Handle SQLite specifically
-        if ('sqlite' === $driver) {
+        if ($driver === 'sqlite') {
             return (int) $model->count();
         }
 

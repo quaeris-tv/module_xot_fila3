@@ -51,6 +51,7 @@ abstract class BaseModel extends Model
 
     /** @var string */
     protected $primaryKey = 'id';
+
     /** @var string */
     protected $keyType = 'string';
 

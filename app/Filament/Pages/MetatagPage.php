@@ -80,23 +80,23 @@ class MetatagPage extends Page implements HasForms
                         ->helperText('logo for dark css'),
                     TextInput::make('logo_height'),
                     Repeater::make('colors')
-                    ->schema([
-                        Select::make('key')
+                        ->schema([
+                            Select::make('key')
 
-                            ->required()
-                            ->options($metatag->getFilamentColors()),
-                        Select::make('color')
+                                ->required()
+                                ->options($metatag->getFilamentColors()),
+                            Select::make('color')
 
-                            ->required()
-                            ->reactive()
-                            ->options(array_merge(['custom' => '--- custom ---'], $metatag->getAllColors())),
-                        ColorPicker::make('hex')
+                                ->required()
+                                ->reactive()
+                                ->options(array_merge(['custom' => '--- custom ---'], $metatag->getAllColors())),
+                            ColorPicker::make('hex')
 
-                            ->visible(fn (Get $get): bool => 'custom' == $get('color'))
-                            ->required(), // e.g., '#0071b0'
-                    ])
+                                ->visible(fn (Get $get): bool => $get('color') == 'custom')
+                                ->required(), // e.g., '#0071b0'
+                        ])
                     // ->keyValueArray(true) // Store as key-value pairs in the 'colors' array
-                    ->columns(3),
+                        ->columns(3),
                 ]
             )->columns(2)
             ->statePath('data');

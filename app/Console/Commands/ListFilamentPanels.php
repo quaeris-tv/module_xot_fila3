@@ -10,6 +10,7 @@ use Nwidart\Modules\Facades\Module;
 class ListFilamentPanels extends Command
 {
     protected $signature = 'xot:list-panels';
+
     protected $description = 'Elenca tutti i Filament Panels registrati nei moduli';
 
     public function handle()

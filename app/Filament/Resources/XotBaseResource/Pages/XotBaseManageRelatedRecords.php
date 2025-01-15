@@ -14,8 +14,8 @@ use Modules\Xot\Filament\Traits\NavigationLabelTrait;
 
 abstract class XotBaseManageRelatedRecords extends ManageRelatedRecords implements HasForms
 {
-    use InteractsWithForms;
     use HasXotTable;
+    use InteractsWithForms;
     use NavigationLabelTrait;
 
     // protected static string $resource;

@@ -41,14 +41,14 @@ class FakeSeederHeaderAction extends Action
                 Assert::greaterThanEq($qty, 1, 'Quantity must be greater than 0');
 
                 app(FakeSeederAction::class)
-                        ->onQueue()
+                    ->onQueue()
                         // @phpstan-ignore argument.type
-                        ->execute($modelClass, $qty);
+                    ->execute($modelClass, $qty);
                 $title = 'On Queue '.$qty.' '.$modelClass;
                 Notification::make()
-                        ->title($title)
-                        ->success()
-                        ->send();
+                    ->title($title)
+                    ->success()
+                    ->send();
             })
             ->visible(false);
     }

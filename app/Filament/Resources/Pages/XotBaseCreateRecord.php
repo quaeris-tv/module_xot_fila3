@@ -6,6 +6,4 @@ namespace Modules\Xot\Filament\Resources\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
 
-abstract class XotBaseCreateRecord extends CreateRecord
-{
-}
+abstract class XotBaseCreateRecord extends CreateRecord {}

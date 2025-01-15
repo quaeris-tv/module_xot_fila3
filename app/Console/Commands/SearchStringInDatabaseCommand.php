@@ -11,6 +11,7 @@ class SearchStringInDatabaseCommand extends Command
 {
     // Nome e descrizione del comando
     protected $signature = 'xot:db-search-string';
+
     protected $description = 'Cerca una stringa in tutte le tabelle e colonne del database';
 
     // Esegui il comando

@@ -6,6 +6,4 @@ namespace Modules\Xot\Filament\Tables\Actions;
 
 use Filament\Tables\Actions\Action;
 
-abstract class XotBaseTableAction extends Action
-{
-}
+abstract class XotBaseTableAction extends Action {}

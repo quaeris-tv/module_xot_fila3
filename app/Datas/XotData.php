@@ -14,12 +14,11 @@ use Modules\User\Models\Membership;
 use Modules\User\Models\Team;
 use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Contracts\UserContract;
-
-use function Safe\realpath;
-
 use Spatie\LaravelData\Concerns\WireableData;
 use Spatie\LaravelData\Data;
 use Webmozart\Assert\Assert;
+
+use function Safe\realpath;
 
 /**
  * Class Modules\Xot\Datas\XotData.
@@ -30,30 +29,53 @@ class XotData extends Data implements Wireable
     use WireableData;
 
     public string $main_module = '';
+
     public string $param_name = 'noset';
+
     public string $adm_home = '01';
+
     public ?string $adm_theme = ''; // ' => 'AdminLTE',
+
     // public bool $enable_ads;//' => '1',
     public string $primary_lang = 'it';
+
     public string $pub_theme;
+
     // ' => 'One',
     public string $search_action = 'it/videos';
+
     public bool $show_trans_key = false;
+
     public string $register_type = '0';
+
     public string $verification_type = '';
+
     public bool $login_verified = false;
+
     public bool $disable_frontend_dynamic_route = false;
+
     public bool $disable_admin_dynamic_route = false;
+
     public bool $disable_database_notifications = true;
+
     public bool $register_adm_theme = false;
+
     public bool $register_pub_theme = false;
+
     public bool $register_collective = false;
+
     public string $team_class = 'Modules\User\Models\Team'; // = Team::class;
+
     public string $tenant_class = 'Modules\User\Models\Tenant'; // = Team::class;
+
     public string $membership_class = 'Modules\User\Models\Membership'; // = Membership::class;
+
     public string $tenant_pivot_class = 'Modules\User\Models\TenantUser'; // = Membership::class;
+
     public ?string $super_admin = null;
+
     public string $video_player = 'html5';
+
     private static ?self $instance = null;
 
     /**
@@ -98,7 +120,7 @@ class XotData extends Data implements Wireable
     public function getUserByEmail(string $email): UserContract
     {
         $user_class = $this->getUserClass();
-        $userInstance = new $user_class();
+        $userInstance = new $user_class;
         if (! in_array('email', $userInstance->getFillable())) {
             throw new \Exception("Attribute 'email' not found in model ".get_class($userInstance));
         }
@@ -222,7 +244,7 @@ class XotData extends Data implements Wireable
     public function iAmSuperAdmin(): bool
     {
         $user = auth()->user();
-        if (null === $user) {
+        if ($user === null) {
             return false;
         }
 
@@ -231,7 +253,7 @@ class XotData extends Data implements Wireable
 
     public function getProfileModel(): ProfileContract
     {
-        if (null !== $this->profile) {
+        if ($this->profile !== null) {
             return $this->profile;
         }
         $user_id = (string) authId();
