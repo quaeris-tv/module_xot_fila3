@@ -32,11 +32,10 @@ class GetModulesNavigationItems
             //    continue;
             // }
             $module_low = Str::lower($module);
-            // Target class [hash] does not exist.
             // if (! auth()->user()->can('module_'.$module_low)) {
             //    continue;
             // }
-            // dddx(Auth::id());
+          
             $relativeConfigPath = config('modules.paths.generator.config.path');
             try {
                 $configPath = module_path($module, $relativeConfigPath);
