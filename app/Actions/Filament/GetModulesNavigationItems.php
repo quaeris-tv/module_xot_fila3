@@ -44,6 +44,7 @@ class GetModulesNavigationItems
                     'module' => $module,
                     'relativeConfigPath' => $relativeConfigPath,
                     'error' => $e->getMessage(),
+                    'path1' => base_path('Modules/'.$module.'/'.$relativeConfigPath),
                 ]);
             }
             /**
