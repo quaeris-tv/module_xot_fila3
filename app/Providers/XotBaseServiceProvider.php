@@ -74,7 +74,11 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             throw new \Exception('name is empty on ['.static::class.']');
         }
         $relativePath = config('modules.paths.generator.assets.path');
-        $svg_path = realpath(module_path($this->name, $relativePath.'/../svg'));
+        try {
+            $svg_path = realpath(module_path($this->name, $relativePath.'/../svg'));
+        } catch (\Error $e) {
+            $svg_path = base_path('Modules/'.$this->name.'/'.$relativePath.'/../svg');
+        }
         $base_path = base_path(DIRECTORY_SEPARATOR);
         $svg_path = str_replace($base_path, '', $svg_path);
         /*
