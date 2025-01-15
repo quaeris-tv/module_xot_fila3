@@ -35,7 +35,7 @@ class GetModulesNavigationItems
             // if (! auth()->user()->can('module_'.$module_low)) {
             //    continue;
             // }
-          
+
             $relativeConfigPath = config('modules.paths.generator.config.path');
             try {
                 $configPath = module_path($module, $relativeConfigPath);
