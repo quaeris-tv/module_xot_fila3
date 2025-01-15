@@ -15,21 +15,9 @@ use Illuminate\Support\Facades\Route;
  */
 abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
 {
-    /**
-     * The module namespace to assume when generating URLs to actions.
-     */
     protected string $moduleNamespace = 'Modules\Xot\Http\Controllers';
-
-    /**
-     * The module directory.
-     */
     protected string $module_dir = __DIR__;
-
-    /**
-     * The module namespace.
-     */
     protected string $module_ns = __NAMESPACE__;
-
     public string $name = '';
 
     /**
@@ -71,8 +59,8 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
         }
         Route::middleware('web')
             ->namespace($this->moduleNamespace)
-            // ->group($this->module_dir.'/../Routes/web.php');
-            ->group(module_path($this->name, '/routes/web.php'));
+            ->group($this->module_dir.'/routes/web.php');
+            //->group(module_path($this->name, '/routes/web.php'));
     }
 
     /**
@@ -86,7 +74,7 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
         Route::prefix('api')
             ->middleware('api')
             ->namespace($this->moduleNamespace)
-            // ->group($this->module_dir.'/../Routes/api.php');
-            ->group(module_path($this->name, '/routes/api.php'));
+            ->group($this->module_dir.'/routes/api.php');
+            //->group(module_path($this->name, '/routes/api.php'));
     }
 }
