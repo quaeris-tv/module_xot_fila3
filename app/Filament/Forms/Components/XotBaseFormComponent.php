@@ -6,4 +6,6 @@ namespace Modules\Xot\Filament\Forms\Components;
 
 use Filament\Forms\Components\Field;
 
-abstract class XotBaseFormComponent extends Field {}
+abstract class XotBaseFormComponent extends Field
+{
+}

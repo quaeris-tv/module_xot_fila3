@@ -7,9 +7,10 @@ namespace Modules\Xot\Actions\File;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Facades\Module;
-use Spatie\QueueableAction\QueueableAction;
 
 use function Safe\scandir;
+
+use Spatie\QueueableAction\QueueableAction;
 
 class GetModulePathAction
 {

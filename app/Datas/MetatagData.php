@@ -155,8 +155,8 @@ class MetatagData extends Data implements Wireable
                 $colorValue = is_string($item['color'] ?? null) ? $item['color'] : '';
 
                 $value = match (true) {
-                    $colorValue === 'custom' && is_string($item['hex'] ?? null) => Color::hex($item['hex']),
-                    $colorValue !== 'custom' => Arr::get(Color::all(), $colorValue, ''),
+                    'custom' === $colorValue && is_string($item['hex'] ?? null) => Color::hex($item['hex']),
+                    'custom' !== $colorValue => Arr::get(Color::all(), $colorValue, ''),
                     default => '',
                 };
 

@@ -112,7 +112,7 @@ abstract class XotBaseWidget extends Widget
      */
     public function shouldPoll(): bool
     {
-        return $this->pollingInterval !== null;
+        return null !== $this->pollingInterval;
     }
 
     /**

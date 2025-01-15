@@ -6,4 +6,6 @@ namespace Modules\Xot\Filament\Resources\Pages;
 
 use Filament\Resources\Pages\EditRecord;
 
-abstract class XotBaseEditRecord extends EditRecord {}
+abstract class XotBaseEditRecord extends EditRecord
+{
+}

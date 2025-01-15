@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Services;
 
+use function count;
+
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-
-use function count;
 
 /**
  * Class RouteService.
@@ -21,7 +21,7 @@ class RouteService
     /**
      * Summary of inAdmin.
      *
-     * @param  array<string,string>  $params
+     * @param array<string,string> $params
      */
     public static function inAdmin(array $params = []): mixed
     {
@@ -35,17 +35,17 @@ class RouteService
             return config()->get('in_admin');
         }
         */
-        if (Request::segment(1) === 'admin') {
+        if ('admin' === Request::segment(1)) {
             return true;
         }
 
         $segments = Request::segments();
 
-        return (is_countable($segments) ? \count($segments) : 0) > 0 && $segments[0] === 'livewire' && session('in_admin') === true;
+        return (is_countable($segments) ? \count($segments) : 0) > 0 && 'livewire' === $segments[0] && true === session('in_admin');
     }
 
     /**
-     * @param  array<string,string>  $params
+     * @param array<string,string> $params
      */
     public static function urlAct(array $params): string
     {
@@ -98,7 +98,7 @@ class RouteService
     // se n=0 => 'container0'
     // se n=1 => 'containers.container1'
     /**
-     * @param  array<string,string>  $params
+     * @param array<string,string> $params
      */
     public static function getRoutenameN(array $params): string
     {
@@ -112,7 +112,7 @@ class RouteService
             $tmp[] = 'admin';
         }
 
-        for ($i = 0; $i <= $n; $i++) {
+        for ($i = 0; $i <= $n; ++$i) {
             $tmp[] = 'container'.$i;
         }
 
@@ -200,7 +200,7 @@ class RouteService
     }
     */
     /**
-     * @param  array<string,string>  $params
+     * @param array<string,string> $params
      */
     public static function urlLang(array $params = []): string
     {
@@ -276,7 +276,7 @@ class RouteService
     public static function getAct(): string
     {
         $route_action = Route::currentRouteAction();
-        if ($route_action === null) {
+        if (null === $route_action) {
             throw new \Exception('$route_action is null');
         }
 
@@ -302,7 +302,7 @@ class RouteService
     public static function getModuleName(): string
     {
         $route_action = Route::currentRouteAction();
-        if ($route_action === null) {
+        if (null === $route_action) {
             throw new \Exception('$route_action is null');
         }
 
@@ -317,7 +317,7 @@ class RouteService
     public static function getControllerName(): string
     {
         $route_action = Route::currentRouteAction();
-        if ($route_action === null) {
+        if (null === $route_action) {
             throw new \Exception('$route_action is null');
         }
 

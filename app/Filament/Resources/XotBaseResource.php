@@ -9,9 +9,10 @@ use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\ModelClass\CountAction;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
-use Webmozart\Assert\Assert;
 
 use function Safe\glob;
+
+use Webmozart\Assert\Assert;
 
 abstract class XotBaseResource extends FilamentResource
 {

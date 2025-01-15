@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Modules\Xot\Datas\ColumnData;
-use Spatie\QueueableAction\QueueableAction;
-use Webmozart\Assert\Assert;
 
 use function Safe\ini_set;
+
+use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class ImportCsvAction
 {
@@ -22,10 +23,10 @@ class ImportCsvAction
     /**
      * Import a CSV file into a database table.
      *
-     * @param  string  $disk  the storage disk where the file is located
-     * @param  string  $filename  the name of the file to import
-     * @param  string  $db  the database connection name
-     * @param  string  $tbl  the table name where data will be imported
+     * @param string $disk     the storage disk where the file is located
+     * @param string $filename the name of the file to import
+     * @param string $db       the database connection name
+     * @param string $tbl      the table name where data will be imported
      *
      * @throws \Exception
      */
@@ -71,7 +72,8 @@ class ImportCsvAction
     /**
      * Get table columns excluding certain fields.
      *
-     * @param  \Illuminate\Database\Schema\Builder  $conn
+     * @param \Illuminate\Database\Schema\Builder $conn
+     *
      * @return ColumnData[]
      */
     private function getTableColumns($conn, string $tbl): array
@@ -92,20 +94,21 @@ class ImportCsvAction
     /**
      * Prepare fields for the SQL query.
      *
-     * @param  ColumnData[]  $columns
+     * @param ColumnData[] $columns
+     *
      * @return string[]
      */
     private function prepareFields(array $columns): array
     {
         return array_map(function (ColumnData $column) {
-            return $column->type === 'decimal' ? '@'.$column->name : $column->name;
+            return 'decimal' === $column->type ? '@'.$column->name : $column->name;
         }, $columns);
     }
 
     /**
      * Build the SQL query for importing data.
      *
-     * @param  ColumnData[]  $columns
+     * @param ColumnData[] $columns
      */
     private function buildSql(string $path, string $db, string $tbl, string $fieldsUpList, array $columns): string
     {
@@ -117,7 +120,7 @@ class ImportCsvAction
 
         $sqlReplace = [];
         foreach ($columns as $column) {
-            if ($column->type === 'decimal') {
+            if ('decimal' === $column->type) {
                 $sqlReplace[] = "{$column->name} = REPLACE(@{$column->name}, ',', '.')";
             }
         }
