@@ -140,6 +140,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         try {
             $this->loadTranslationsFrom(module_path($this->name, 'lang'), $this->nameLower);
         } catch (\Error $e) {
+            throw new \Exception('realpath not find dir ['.static::class.']');
             $this->loadTranslationsFrom(base_path('Modules/'.$this->name.'/lang'), $this->nameLower);
         }
         $this->loadJsonTranslationsFrom(module_path($this->name, 'lang'));
