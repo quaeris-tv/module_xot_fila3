@@ -130,6 +130,9 @@ abstract class XotBaseServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom($langPath, $this->nameLower);
         */
+        if ('' == $this->name) {
+            throw new \Exception('name is empty on ['.static::class.']');
+        }
         $this->loadTranslationsFrom(module_path($this->name, 'lang'), $this->nameLower);
         $this->loadJsonTranslationsFrom(module_path($this->name, 'lang'));
     }
