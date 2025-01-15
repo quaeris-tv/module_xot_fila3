@@ -60,7 +60,7 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
         Route::middleware('web')
             ->namespace($this->moduleNamespace)
             ->group($this->module_dir.'/routes/web.php');
-            //->group(module_path($this->name, '/routes/web.php'));
+        // ->group(module_path($this->name, '/routes/web.php'));
     }
 
     /**
@@ -71,11 +71,11 @@ abstract class XotBaseRouteServiceProvider extends RouteServiceProvider
         if ('' === $this->name) {
             throw new \Exception('name is empty on ['.static::class.']');
         }
-        //-- da usare il config 
+        // -- da usare il config
         Route::prefix('api')
             ->middleware('api')
             ->namespace($this->moduleNamespace)
             ->group($this->module_dir.'/routes/api.php');
-            //->group(module_path($this->name, '/routes/api.php'));
+        // ->group(module_path($this->name, '/routes/api.php'));
     }
 }
