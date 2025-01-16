@@ -10,9 +10,9 @@ use Illuminate\Support\Str;
 use Modules\Xot\Actions\ModelClass\CountAction;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
 
-use function Safe\glob;
-
 use Webmozart\Assert\Assert;
+
+use function Safe\glob;
 
 abstract class XotBaseResource extends FilamentResource
 {
@@ -74,7 +74,7 @@ abstract class XotBaseResource extends FilamentResource
         try {
             $count = app(CountAction::class)->execute(static::getModel());
 
-            return number_format($count, 0).'['.static::$navigationSort.']';
+            return number_format($count, 0).'';
         } catch (\Exception $e) {
             return '--';
         }
