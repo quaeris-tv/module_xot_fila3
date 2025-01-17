@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Services;
 
-use function count;
-
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+
+use function count;
 
 /**
  * Class RouteService.

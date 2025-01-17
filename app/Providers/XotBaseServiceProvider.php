@@ -16,13 +16,12 @@ use Modules\Xot\Actions\Blade\RegisterBladeComponentsAction;
 use Modules\Xot\Actions\Livewire\RegisterLivewireComponentsAction;
 use Modules\Xot\Datas\ComponentFileData;
 use Nwidart\Modules\Traits\PathNamespace;
+use Webmozart\Assert\Assert;
 
 use function Safe\glob;
 use function Safe\json_decode;
 use function Safe\json_encode;
 use function Safe\realpath;
-
-use Webmozart\Assert\Assert;
 
 /**
  * Class XotBaseServiceProvider.

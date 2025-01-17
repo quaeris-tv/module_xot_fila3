@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 use Filament\Forms\Form;
 use Modules\Xot\Actions\ModelClass\CountAction;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
-
 use Webmozart\Assert\Assert;
 
 use function Safe\glob;
