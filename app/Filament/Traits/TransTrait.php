@@ -15,25 +15,7 @@ trait TransTrait
      */
     public static function trans(string $key, bool $exceptionIfNotExist = false): string
     {
-        $transKey = app(GetTransKeyAction::class)->execute(static::class);
-
-        /*
-        $ns = Str::before($transKey, '::');
-        $group = Str::after($transKey, '::');
-        $group_arr = explode('.', $group);
-        if (Str::contains($transKey, '::filament.')) {
-            $type = Str::singular($group_arr[1]);
-            if (isset($group_arr[2])) {
-                if (Str::endsWith($group_arr[2], '_'.$type)) {
-                    $group_arr[2] = Str::beforeLast($group_arr[2], '_'.$type);
-                }
-            }
-            $group_arr = array_slice($group_arr, 2);
-            $group = implode('.', $group_arr);
-            $transKey = $ns.'::'.$group;
-        }
-        */
-        $tmp = $transKey.'.'.$key;
+        $tmp=static::getKeyTrans($key);
         $res = trans($tmp);
         if (\is_string($res)) {
             if ($exceptionIfNotExist && $res === $tmp) {
@@ -52,16 +34,31 @@ trait TransTrait
         return 'fix:'.$tmp;
     }
 
-    public static function transFunc(string $func, bool $exceptionIfNotExist = false): string
+    public static function getKeyTrans(string $key): string
+    {
+        $transKey = app(GetTransKeyAction::class)->execute(static::class);
+        $key = $transKey.'.'.$key;
+        return $key;
+    }
+
+    public static function getKeyTransFunc(string $func): string
     {
         $key = Str::of($func)
             ->after('get')
             ->snake()
             ->replace('_', '.')
             ->toString();
-        $trans = static::trans($key, $exceptionIfNotExist);
         $transKey = app(GetTransKeyAction::class)->execute(static::class);
         $key = $transKey.'.'.$key;
+        return $key;
+    }
+
+    public static function transFunc(string $func, bool $exceptionIfNotExist = false): string
+    {
+
+       
+        $key = static::getKeyTransFunc($func);
+        $trans = trans($key);
         if ($trans == $key) {
             $trans = Str::of($key)
                 ->between('::', '.')
@@ -69,7 +66,18 @@ trait TransTrait
                 ->toString();
             app(SaveTransAction::class)->execute($key, $trans);
         }
-
+        if(is_array($trans)) {
+            $trans=current($trans);
+        }
+        
+        if(!is_string($trans)) {
+            dddx([
+                'key' => $key,
+                'trans' => $trans,
+            ]);
+        }
+            
+        
         return $trans;
     }
 }
