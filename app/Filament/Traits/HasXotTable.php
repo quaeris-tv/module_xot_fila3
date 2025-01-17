@@ -182,8 +182,8 @@ trait HasXotTable
 
     public function getTableHeading(): ?string
     {
-        $key='table.heading';
-        $trans=static::trans($key);
+        $key=static::getKeyTrans('table.heading');
+        $trans=trans($key);
         if($trans==$key) {
             return null;
         }
