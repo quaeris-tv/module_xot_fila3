@@ -12,10 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 abstract class XotBaseTableAction extends Action
 {
-    /**
-     * @return Model|null
-     */
-    public function getRecord(): ?Model 
+    public function getRecord(): ?Model
     {
         return $this->record;
     }

@@ -7,6 +7,7 @@ namespace Modules\Xot\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Nwidart\Modules\Facades\Module;
+
 use function Safe\scandir;
 
 class ListFilamentPanels extends Command
@@ -17,7 +18,7 @@ class ListFilamentPanels extends Command
     public function handle(): int
     {
         $modules = Module::all();
-        
+
         /** @var Collection<string, \Nwidart\Modules\Module> $modules */
         foreach ($modules as $moduleName => $module) {
             $providersPath = $module->getPath().'/Providers';

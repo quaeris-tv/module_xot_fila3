@@ -36,11 +36,10 @@ class FakeSeederHeaderAction extends Action
             ])
             ->action(function (array $data, ListRecords $livewire) {
                 $resource = $livewire->getResource();
-                /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelClass */
+                /** @var class-string<Model> $modelClass */
                 $modelClass = $resource::getModel();
                 Assert::classExists($modelClass);
-                
-                /** @var mixed $qtyRaw */
+
                 $qtyRaw = $data['qty'];
                 Assert::numeric($qtyRaw);
                 $qty = max(1, (int) $qtyRaw);
@@ -49,7 +48,7 @@ class FakeSeederHeaderAction extends Action
                 app(FakeSeederAction::class)
                     ->onQueue()
                     ->execute($modelClass, $qty);
-                    
+
                 $title = 'On Queue '.$qty.' '.$modelClass;
                 Notification::make()
                     ->title($title)

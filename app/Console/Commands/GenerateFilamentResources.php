@@ -57,6 +57,7 @@ class GenerateFilamentResources extends Command
         }
 
         $this->info('Tutte le resources sono state generate con successo!');
+
         return Command::SUCCESS;
     }
 }

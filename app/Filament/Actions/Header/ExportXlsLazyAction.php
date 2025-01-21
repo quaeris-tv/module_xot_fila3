@@ -45,6 +45,7 @@ class ExportXlsLazyAction extends Action
 
                 if ($lazy->count() < 7) {
                     $query = $lazy->getQuery();
+
                     return app(ExportXlsByQuery::class)->execute($query, $filename, $transKey, $fields);
                 }
 

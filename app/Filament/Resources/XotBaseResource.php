@@ -13,9 +13,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\ModelClass\CountAction;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
-use Webmozart\Assert\Assert;
 
 use function Safe\glob;
+
+use Webmozart\Assert\Assert;
 
 abstract class XotBaseResource extends FilamentResource
 {
@@ -56,6 +57,7 @@ abstract class XotBaseResource extends FilamentResource
         /** @var Model $model */
         $model = app(static::getModel());
         Assert::isInstanceOf($model, Model::class);
+
         return $model->getTable();
     }
 
@@ -67,9 +69,10 @@ abstract class XotBaseResource extends FilamentResource
     public static function getModel(): string
     {
         if (null === static::$model) {
-            throw new \RuntimeException('Model not defined for resource ' . static::class);
+            throw new \RuntimeException('Model not defined for resource '.static::class);
         }
-        /** @var class-string<Model> */
+
+        /* @var class-string<Model> */
         return static::$model;
     }
 
@@ -113,6 +116,7 @@ abstract class XotBaseResource extends FilamentResource
     {
         try {
             $count = app(CountAction::class)->execute(static::getModel());
+
             return number_format($count, 0);
         } catch (\Exception $e) {
             return '--';
@@ -130,28 +134,28 @@ abstract class XotBaseResource extends FilamentResource
         $name = Str::of(class_basename(static::class))
             ->before('Resource')
             ->toString();
-        
+
         /** @var array<string, PageRegistration> $pages */
         $pages = [];
-        
+
         $index = $prefix.'List'.$name.'s';
         $create = $prefix.'Create'.$name;
         $edit = $prefix.'Edit'.$name;
-        
+
         if (class_exists($index)) {
-            /** @var class-string $index */
+            /* @var class-string $index */
             $pages['index'] = $index::route('/');
         }
         if (class_exists($create)) {
-            /** @var class-string $create */
+            /* @var class-string $create */
             $pages['create'] = $create::route('/create');
         }
         if (class_exists($edit)) {
-            /** @var class-string $edit */
+            /* @var class-string $edit */
             $pages['edit'] = $edit::route('/{record}/edit');
         }
-        
-        /** @var array<string, PageRegistration> */
+
+        /* @var array<string, PageRegistration> */
         return $pages;
     }
 
@@ -176,7 +180,7 @@ abstract class XotBaseResource extends FilamentResource
         $files = glob($path.DIRECTORY_SEPARATOR.'*RelationManager.php') ?: [];
         /** @var array<int, class-string> $relations */
         $relations = [];
-        
+
         foreach ($files as $file) {
             $info = pathinfo($file);
             /** @var class-string $relationClass */

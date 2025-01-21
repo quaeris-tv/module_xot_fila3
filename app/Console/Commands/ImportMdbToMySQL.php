@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
-use Webmozart\Assert\Assert;
 
 use function Safe\shell_exec;
+
+use Webmozart\Assert\Assert;
 
 class ImportMdbToMySQL extends Command
 {
@@ -27,20 +28,18 @@ class ImportMdbToMySQL extends Command
 
     /**
      * Esegui il comando.
-     *
-     * @return int
      */
     public function handle(): int
     {
-        $mdbFile = (string)$this->argument('mdbFile');
-        $mysqlUser = (string)$this->argument('mysqlUser');
-        $mysqlPassword = (string)$this->argument('mysqlPassword');
-        $mysqlDb = (string)$this->argument('mysqlDb');
+        $mdbFile = (string) $this->argument('mdbFile');
+        $mysqlUser = (string) $this->argument('mysqlUser');
+        $mysqlPassword = (string) $this->argument('mysqlPassword');
+        $mysqlDb = (string) $this->argument('mysqlDb');
 
         Assert::fileExists($mdbFile, "MDB file not found: {$mdbFile}");
-        
+
         $this->info("Importing {$mdbFile} to MySQL database {$mysqlDb}");
-        
+
         $this->createDatabase($mysqlUser, $mysqlPassword, $mysqlDb);
         $this->exportTablesToCSV($mdbFile);
         $this->createTablesInMySQL($mdbFile, $mysqlUser, $mysqlPassword, $mysqlDb);
@@ -51,10 +50,6 @@ class ImportMdbToMySQL extends Command
 
     /**
      * Crea il database MySQL se non esiste.
-     *
-     * @param string $mysqlUser
-     * @param string $mysqlPassword
-     * @param string $mysqlDb
      */
     private function createDatabase(string $mysqlUser, string $mysqlPassword, string $mysqlDb): void
     {
@@ -64,8 +59,6 @@ class ImportMdbToMySQL extends Command
 
     /**
      * Esporta tutte le tabelle dal file .mdb in formato CSV.
-     *
-     * @param string $mdbFile
      */
     private function exportTablesToCSV(string $mdbFile): void
     {
@@ -85,11 +78,6 @@ class ImportMdbToMySQL extends Command
 
     /**
      * Crea le tabelle nel database MySQL basandosi sullo schema del file .mdb.
-     *
-     * @param string $mdbFile
-     * @param string $mysqlUser
-     * @param string $mysqlPassword
-     * @param string $mysqlDb
      */
     private function createTablesInMySQL(string $mdbFile, string $mysqlUser, string $mysqlPassword, string $mysqlDb): void
     {
@@ -110,11 +98,6 @@ class ImportMdbToMySQL extends Command
 
     /**
      * Importa i dati CSV nelle tabelle MySQL.
-     *
-     * @param string $mdbFile
-     * @param string $mysqlUser
-     * @param string $mysqlPassword
-     * @param string $mysqlDb
      */
     private function importDataToMySQL(string $mdbFile, string $mysqlUser, string $mysqlPassword, string $mysqlDb): void
     {

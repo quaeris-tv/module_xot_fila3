@@ -116,7 +116,7 @@ abstract class XotBaseMigration extends Migration
 
     /**
      * Add common fields to the table.
-     * 
+     *
      * @param Blueprint $table The table blueprint
      */
     public function addCommonFields(Blueprint $table): void

@@ -15,7 +15,7 @@ class SearchStringInDatabaseCommand extends Command
 
     public function handle(): int
     {
-        $searchString = (string)$this->argument('search');
+        $searchString = (string) $this->argument('search');
         $specificTables = $this->option('table');
 
         /** @var array<array{Tables_in_database: string}> $tables */
@@ -24,8 +24,8 @@ class SearchStringInDatabaseCommand extends Command
 
         foreach ($tables as $table) {
             Assert::isArray($table);
-            $tableName = (string)current($table);
-            
+            $tableName = (string) current($table);
+
             if (! empty($specificTables) && ! in_array($tableName, $specificTables, true)) {
                 continue;
             }
@@ -55,18 +55,20 @@ class SearchStringInDatabaseCommand extends Command
 
     /**
      * @param \Illuminate\Support\Collection<int, object> $results
+     *
      * @return array<int, array{string, string}>
      */
     private function formatResults($results): array
     {
         $formatted = [];
         foreach ($results as $row) {
-            foreach ((array)$row as $column => $value) {
+            foreach ((array) $row as $column => $value) {
                 if (is_string($value) && str_contains($value, $this->argument('search'))) {
                     $formatted[] = [$column, $value];
                 }
             }
         }
+
         return $formatted;
     }
 }

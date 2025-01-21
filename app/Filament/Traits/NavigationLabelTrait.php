@@ -5,27 +5,26 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Traits;
 
 use Illuminate\Support\Str;
-use Webmozart\Assert\Assert;
 use Modules\Lang\Actions\SaveTransAction;
+use Webmozart\Assert\Assert;
 
 trait NavigationLabelTrait
 {
     use TransTrait;
 
     public static function getModelLabel(): string
-    {   
+    {
         return static::transFunc(__FUNCTION__);
     }
 
     public static function getPluralModelLabel(): string
     {
         return static::getNavigationLabel();
-        //return static::transFunc(__FUNCTION__);
+        // return static::transFunc(__FUNCTION__);
     }
 
     public static function getNavigationLabel(): string
     {
-        
         return static::transFunc(__FUNCTION__);
     }
 
@@ -55,33 +54,32 @@ trait NavigationLabelTrait
 
         $value = intval($res);
         if (0 == $value) {
-            $key=static::getKeyTransFunc(__FUNCTION__);
-            $value=rand(1, 100);
+            $key = static::getKeyTransFunc(__FUNCTION__);
+            $value = rand(1, 100);
             app(SaveTransAction::class)->execute($key, $value);
-           
         }
 
-        //static::$navigationSort = $value;
+        // static::$navigationSort = $value;
 
         return $value;
     }
 
     public static function getNavigationIcon(): string
     {
-        $default='heroicon-o-question-mark-circle';
+        $default = 'heroicon-o-question-mark-circle';
 
         try {
             // return static::trans('navigation.icon', true);
-            $res= static::transFunc(__FUNCTION__, true);
+            $res = static::transFunc(__FUNCTION__, true);
         } catch (\Throwable $th) {
             return $default;
         }
 
-        if(str_contains($res, ' ')) {
+        if (str_contains($res, ' ')) {
             return $default;
         }
 
-        if(Str::endsWith($res, '.navigation')) {
+        if (Str::endsWith($res, '.navigation')) {
             return $default;
         }
 

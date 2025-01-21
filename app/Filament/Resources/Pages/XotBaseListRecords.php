@@ -89,28 +89,27 @@ abstract class XotBaseListRecords extends FilamentListRecords
 
     /**
      * Paginate the table query.
-     *
-     * @param Builder $query
-     * @return \Illuminate\Contracts\Pagination\Paginator
      */
-    protected function paginateTableQuery(Builder $query): \Illuminate\Contracts\Pagination\Paginator
+    protected function paginateTableQuery(Builder $query): Paginator
     {
         $perPage = $this->getTableRecordsPerPage();
-        
-        if ($perPage === 'all') {
+
+        if ('all' === $perPage) {
             $count = $query->count();
-            /** @var \Illuminate\Contracts\Pagination\Paginator */
+
+            /* @var \Illuminate\Contracts\Pagination\Paginator */
             return $query->fastPaginate($count);
         }
-        
+
         if (is_numeric($perPage)) {
-            $perPageInt = (int)$perPage;
+            $perPageInt = (int) $perPage;
             Assert::greaterThan($perPageInt, 0);
-            /** @var \Illuminate\Contracts\Pagination\Paginator */
+
+            /* @var \Illuminate\Contracts\Pagination\Paginator */
             return $query->fastPaginate($perPageInt);
         }
-        
-        /** @var \Illuminate\Contracts\Pagination\Paginator */
+
+        /* @var \Illuminate\Contracts\Pagination\Paginator */
         return $query->fastPaginate(10);
     }
 }

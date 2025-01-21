@@ -145,6 +145,7 @@ trait HasXotTable
     public function getTableFiltersFormColumns(): int
     {
         $count = count($this->getTableFilters()) + 1;
+
         return min($count, 6);
     }
 
@@ -165,7 +166,7 @@ trait HasXotTable
         /** @var string|array<int|string,mixed>|null $trans */
         $trans = trans($key);
 
-        return ($trans !== $key) ? (string)$trans : null;
+        return ($trans !== $key) ? (string) $trans : null;
     }
 
     /**
@@ -186,6 +187,7 @@ trait HasXotTable
         $modelClass = $this->getModelClass();
         if (! app(TableExistsByModelClassActions::class)->execute($modelClass)) {
             $this->notifyTableMissing();
+
             return $this->configureEmptyTable($table);
         }
 
@@ -315,22 +317,24 @@ trait HasXotTable
     /**
      * Get model class.
      *
-     * @return class-string<Model>
      * @throws \Exception Se non viene trovata una classe modello valida
+     *
+     * @return class-string<Model>
      */
     public function getModelClass(): string
     {
         if ($this instanceof Relation) {
             $model = $this->getModel();
-            if (!is_object($model)) {
+            if (! is_object($model)) {
                 throw new \Exception('Model is not an object');
             }
-            /** @var class-string<Model> */
+
+            /* @var class-string<Model> */
             return get_class($model);
         }
 
         if (property_exists($this, 'modelClass')) {
-            /** @var class-string<Model> */
+            /* @var class-string<Model> */
             return $this->modelClass;
         }
 
@@ -396,15 +400,12 @@ trait HasXotTable
      */
     public function getTableSearch(): string
     {
-        /** @var string */
+        /* @var string */
         return $this->tableSearch ?? '';
     }
 
     /**
      * Apply search to table query.
-     *
-     * @param Builder $query
-     * @return Builder
      */
     protected function applySearchToTableQuery(Builder $query): Builder
     {

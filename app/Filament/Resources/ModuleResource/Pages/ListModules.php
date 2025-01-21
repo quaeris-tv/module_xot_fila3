@@ -10,11 +10,11 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\TextColumn;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\Xot\Filament\Resources\ModuleResource;
 use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 use Nwidart\Modules\Facades\Module;
-use Filament\Tables\Columns\TextColumn;
 
 class ListModules extends XotBaseListRecords
 {
@@ -30,7 +30,7 @@ class ListModules extends XotBaseListRecords
     }
 
     /**
-     * @return array<string, \Filament\Tables\Columns\Column>
+     * @return array<string, Tables\Columns\Column>
      */
     public function getListTableColumns(): array
     {
@@ -83,7 +83,7 @@ class ListModules extends XotBaseListRecords
     }
 
     /**
-     * @return array<string, \Filament\Tables\Actions\BulkAction>
+     * @return array<string, Tables\Actions\BulkAction>
      */
     protected function getTableBulkActions(): array
     {

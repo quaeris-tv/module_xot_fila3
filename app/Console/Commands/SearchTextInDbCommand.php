@@ -7,7 +7,7 @@ namespace Modules\Xot\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Collection;
+
 use function Safe\json_encode;
 
 class SearchTextInDbCommand extends Command
@@ -19,8 +19,9 @@ class SearchTextInDbCommand extends Command
     public function handle(): int
     {
         $searchString = $this->argument('search');
-        if (!is_string($searchString)) {
+        if (! is_string($searchString)) {
             $this->error('Search string must be a valid string');
+
             return Command::FAILURE;
         }
 
@@ -44,12 +45,12 @@ class SearchTextInDbCommand extends Command
                 $tableName = $table;
             }
 
-            if (!is_string($tableName)) {
+            if (! is_string($tableName)) {
                 $this->warn('Invalid table name format');
                 continue;
             }
 
-            if (!Schema::hasTable($tableName)) {
+            if (! Schema::hasTable($tableName)) {
                 $this->warn(sprintf('Table %s does not exist', $tableName));
                 continue;
             }
@@ -58,23 +59,23 @@ class SearchTextInDbCommand extends Command
 
             /** @var array<string>|false $columns */
             $columns = Schema::getColumnListing($tableName);
-            if (!is_array($columns)) {
+            if (! is_array($columns)) {
                 continue;
             }
 
             foreach ($columns as $column) {
-                if (!is_string($column)) {
+                if (! is_string($column)) {
                     continue;
                 }
 
                 /** @var string|null $columnType */
                 $columnType = Schema::getColumnType($tableName, $column);
-                if (!is_string($columnType)) {
+                if (! is_string($columnType)) {
                     continue;
                 }
 
                 // Search only in string-like columns
-                if (!in_array($columnType, ['string', 'text'])) {
+                if (! in_array($columnType, ['string', 'text'])) {
                     continue;
                 }
 
@@ -88,10 +89,10 @@ class SearchTextInDbCommand extends Command
                     foreach ($results as $result) {
                         $this->table(
                             ['Column', 'Value'],
-                            collect((array)$result)
+                            collect((array) $result)
                                 ->map(fn ($value, $key) => [
-                                    (string)$key,
-                                    is_scalar($value) ? (string)$value : json_encode($value)
+                                    (string) $key,
+                                    is_scalar($value) ? (string) $value : json_encode($value),
                                 ])
                                 ->toArray()
                         );

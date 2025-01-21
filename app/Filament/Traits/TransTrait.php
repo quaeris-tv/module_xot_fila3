@@ -25,18 +25,18 @@ trait TransTrait
             if ($exceptionIfNotExist && $res === $tmp) {
                 throw new \Exception('['.__LINE__.']['.class_basename(__CLASS__).']');
             }
+
             return $res;
         }
 
         if (is_array($res)) {
-            /** @var mixed $first */
             $first = current($res);
             if (is_string($first) || is_numeric($first)) {
-                return (string)$first;
+                return (string) $first;
             }
         }
 
-        return 'fix:' . $tmp;
+        return 'fix:'.$tmp;
     }
 
     /**
@@ -46,6 +46,7 @@ trait TransTrait
     {
         /** @var string */
         $transKey = app(GetTransKeyAction::class)->execute(static::class);
+
         return $transKey.'.'.$key;
     }
 
@@ -61,6 +62,7 @@ trait TransTrait
             ->toString();
         /** @var string */
         $transKey = app(GetTransKeyAction::class)->execute(static::class);
+
         return $transKey.'.'.$key;
     }
 
@@ -73,8 +75,8 @@ trait TransTrait
         /** @var string|array<int|string,mixed>|null $trans */
         $trans = trans($key);
 
-        if (!is_string($trans) && !is_array($trans)) {
-            return 'fix:' . $key;
+        if (! is_string($trans) && ! is_array($trans)) {
+            return 'fix:'.$key;
         }
 
         if (is_string($trans)) {
@@ -84,21 +86,20 @@ trait TransTrait
                     ->replace('_', ' ')
                     ->toString();
                 app(SaveTransAction::class)->execute($key, $newTrans);
+
                 return $newTrans;
             }
+
             return $trans;
         }
 
-        /** @var mixed $first */
         $first = current($trans);
         if (is_string($first) || is_numeric($first)) {
-            return (string)$first;
+            return (string) $first;
         }
 
-        return 'fix:' . $key;
+        return 'fix:'.$key;
     }
-
-    
 
     protected function transChoice(string $key, int $number, array $replace = []): string
     {

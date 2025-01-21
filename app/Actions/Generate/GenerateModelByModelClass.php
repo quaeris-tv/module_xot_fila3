@@ -27,10 +27,10 @@ class GenerateModelByModelClass
     public function execute(string $model_class): string
     {
         Assert::classExists($model_class);
-        
+
         $namespace = str_replace('\\', '/', $model_class);
         Assert::string($namespace, 'Namespace must be a string');
-        
+
         $this->generate($model_class);
         $filename = app(GetFilenameByClassnameAction::class)->execute($model_class);
 

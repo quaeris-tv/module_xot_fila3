@@ -82,13 +82,14 @@ abstract class XotBaseRelationManager extends RelationManager
         /** @var class-string<Model> $resource */
         $resource = $this->getResource();
         Assert::classExists($resource);
-        
+
         if (method_exists($resource, 'getListTableColumns')) {
             /** @var array<string, Tables\Columns\Column> $columns */
             $columns = $resource::getListTableColumns();
+
             return $table->columns($columns);
         }
-        
+
         return $table->columns($this->getTableColumns());
     }
 
@@ -109,7 +110,7 @@ abstract class XotBaseRelationManager extends RelationManager
      */
     protected function getResource(): string
     {
-        /** @var class-string<Model> */
+        /* @var class-string<Model> */
         return $this->resource;
     }
 }

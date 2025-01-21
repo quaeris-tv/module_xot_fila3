@@ -22,6 +22,7 @@ abstract class XotBaseFormComponent extends Field
     {
         $name = parent::getName();
         Assert::stringNotEmpty($name, 'Component name cannot be empty');
+
         return $name;
     }
 
@@ -31,12 +32,13 @@ abstract class XotBaseFormComponent extends Field
     public function getLabel(): string
     {
         $label = parent::getLabel();
-        if ($label === null) {
+        if (null === $label) {
             return Str::title($this->getName());
         }
         if ($label instanceof \Illuminate\Contracts\Support\Htmlable) {
             return $label->toHtml();
         }
+
         return (string) $label;
     }
 
@@ -61,6 +63,7 @@ abstract class XotBaseFormComponent extends Field
         /** @var array<string, mixed> $rules */
         $rules = parent::getValidationRules();
         Assert::isArray($rules);
+
         return $rules;
     }
 }
