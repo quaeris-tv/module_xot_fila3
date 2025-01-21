@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Schema\Blueprint;
 use Modules\Xot\Database\Migrations\XotBaseMigration;
 
-return new class extends XotBaseMigration {
+return new class () extends XotBaseMigration {
     /**
      * Run the migrations.
      */
@@ -33,6 +33,7 @@ return new class extends XotBaseMigration {
                 $table->index('type'); // For purging...
                 $table->index('key_hash'); // For mapping...
                 $table->index(['timestamp', 'type', 'key_hash', 'value']); // For aggregate queries...
-            });
+            }
+        );
     }
 };

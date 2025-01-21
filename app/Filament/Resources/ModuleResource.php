@@ -22,49 +22,18 @@ class ModuleResource extends XotBaseResource
 {
     protected static ?string $model = Module::class;
 
-    public static function form(Form $form): Form
+    /**
+     * @return array<string, Forms\Components\Component>
+     */
+    public static function getFormSchema(): array
     {
-        return $form
-            ->schema([
-                Section::make()
-                    ->schema([
-                        TextInput::make('name')->required(),
-                        TextInput::make('description'),
-                        IconPicker::make('icon'),
-                        TextInput::make('priority'),
-                        Toggle::make('status'),
-                        /*
-                        Forms\Components\Repeater::make('colors')
-
-                        ->schema([
-                            TextInput::make('color')
-
-                                ->required(),
-                        ])
-                        ->minItems(1),
-                        */
-                        /*
-                        KeyValue::make('colors')
-                            ->reorderable()
-                            ->columnSpanFull(),
-                        */
-                        Section::make()->schema([
-                            Repeater::make('colors')
-                                ->schema([
-                                    TextInput::make('key')->required(),
-                                    Select::make('value')
-                                        ->options(function (): array {
-                                            $colors = array_keys(Color::all());
-                                            $colors = array_combine($colors, $colors);
-
-                                            return $colors;
-                                        }),
-                                    ColorPicker::make('color'),
-                                ])
-                                ->columns(3),
-                        ])->columnSpanFull(),
-                    ])->columns(3),
-            ]);
+        return [
+            'name' => TextInput::make('name')->required(),
+            'description' => TextInput::make('description'),
+            'icon' => IconPicker::make('icon'),
+            'priority' => TextInput::make('priority'),
+            'status' => Toggle::make('status'),
+        ];
     }
 
     public static function getRelations(): array

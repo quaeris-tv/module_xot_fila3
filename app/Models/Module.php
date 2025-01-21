@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Nwidart\Modules\Module as NModule;
+use Sushi\Sushi;
 
 use function Safe\json_encode;
-
-use Sushi\Sushi;
 
 /**
  * @property int         $id
@@ -60,7 +59,8 @@ class Module extends Model
     public function getRows()
     {
         $modules = ModuleFacade::all();
-        $modules = Arr::map($modules,
+        $modules = Arr::map(
+            $modules,
             function (NModule $module): array {
                 $config = config('tenant::config');
                 if (! is_array($config)) {

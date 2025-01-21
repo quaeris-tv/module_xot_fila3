@@ -32,27 +32,15 @@ abstract class BaseModel extends Model
      */
     public static $snakeAttributes = true;
 
-    /** @var bool */
     public $incrementing = true;
-
-    /** @var bool */
     public $timestamps = true;
-
-    /** @var int */
     protected $perPage = 30;
-
-    /** @var string */
     protected $connection = 'xot';
 
     /** @var list<string> */
-    protected $fillable = [
-        'id',
-    ];
+    protected $fillable = ['id'];
 
-    /** @var string */
     protected $primaryKey = 'id';
-
-    /** @var string */
     protected $keyType = 'string';
 
     /** @var list<string> */
@@ -65,13 +53,13 @@ abstract class BaseModel extends Model
      *
      * @return Factory<static>
      */
-    protected static function newFactory()
+    protected static function newFactory(): Factory
     {
         // return app(\Modules\Xot\Actions\Factory\GetFactoryAction::class)->execute(static::class);
         return app(GetFactoryAction::class)->execute(static::class);
     }
 
-    /** @return array<string, string> */
+    /** @return array<string, class-string|string> */
     protected function casts(): array
     {
         return [

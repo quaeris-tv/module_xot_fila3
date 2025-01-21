@@ -54,18 +54,17 @@ abstract class XotBaseListRecords extends FilamentListRecords
     /**
      * Get the default sort column and direction.
      *
-     * @return array<string, string>
+     * @return array{id: 'desc'|'asc'}
      */
     protected function getDefaultSort(): array
     {
-        // return ['created_at' => 'desc'];
         return ['id' => 'desc'];
     }
 
     /**
      * Get the header actions.
      *
-     * @return array<\Filament\Actions\Action>
+     * @return array<int, \Filament\Actions\Action>
      */
     protected function getHeaderActions(): array
     {
@@ -82,18 +81,36 @@ abstract class XotBaseListRecords extends FilamentListRecords
      */
     public static function getResource(): string
     {
-        $resource = Str::of(static::class)->before('\Pages\\')->toString();
+        $resource = Str::of(static::class)->before('\\Pages\\')->toString();
         Assert::classExists($resource);
 
         return $resource;
     }
 
-    protected function paginateTableQuery(Builder $query): Paginator
+    /**
+     * Paginate the table query.
+     *
+     * @param Builder $query
+     * @return \Illuminate\Contracts\Pagination\Paginator
+     */
+    protected function paginateTableQuery(Builder $query): \Illuminate\Contracts\Pagination\Paginator
     {
-        return $query->fastPaginate(
-            ('all' === $this->getTableRecordsPerPage())
-                ? $query->count()
-                : $this->getTableRecordsPerPage()
-        );
+        $perPage = $this->getTableRecordsPerPage();
+        
+        if ($perPage === 'all') {
+            $count = $query->count();
+            /** @var \Illuminate\Contracts\Pagination\Paginator */
+            return $query->fastPaginate($count);
+        }
+        
+        if (is_numeric($perPage)) {
+            $perPageInt = (int)$perPage;
+            Assert::greaterThan($perPageInt, 0);
+            /** @var \Illuminate\Contracts\Pagination\Paginator */
+            return $query->fastPaginate($perPageInt);
+        }
+        
+        /** @var \Illuminate\Contracts\Pagination\Paginator */
+        return $query->fastPaginate(10);
     }
 }

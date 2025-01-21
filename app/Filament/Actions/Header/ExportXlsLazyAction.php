@@ -24,19 +24,13 @@ class ExportXlsLazyAction extends Action
     {
         parent::setUp();
         $this->translateLabel()
-
             ->label('')
             ->tooltip(__('xot::actions.export_xls'))
-
-            // ->icon('heroicon-o-cloud-arrow-down')
-            // ->icon('fas-file-excel')
             ->icon('heroicon-o-arrow-down-tray')
             ->action(static function (ListRecords $livewire) {
                 $filename = class_basename($livewire).'-'.collect($livewire->tableFilters)->flatten()->implode('-').'.xlsx';
                 $transKey = app(GetTransKeyAction::class)->execute($livewire::class);
                 $transKey .= '.fields';
-                // $query = $livewire->getFilteredTableQuery()->getQuery(); // Staudenmeir\LaravelCte\Query\Builder
-                // dddx($query->get());
 
                 $resource = $livewire->getResource();
                 $fields = [];
@@ -45,18 +39,16 @@ class ExportXlsLazyAction extends Action
                 }
 
                 $lazy = $livewire->getFilteredTableQuery();
-                if (null !== $fields) {
-                    // $lazy = $lazy->select($fields);
+                if (empty($fields)) {
+                    $fields = [];
                 }
+
                 if ($lazy->count() < 7) {
                     $query = $lazy->getQuery();
-
                     return app(ExportXlsByQuery::class)->execute($query, $filename, $transKey, $fields);
                 }
 
-                $lazy = $lazy
-                    ->cursor();
-                // Illuminate\Support\LazyCollection
+                $lazy = $lazy->cursor();
 
                 if ($lazy->count() > 3000) {
                     return app(ExportXlsStreamByLazyCollection::class)->execute($lazy, $filename, $transKey, $fields);

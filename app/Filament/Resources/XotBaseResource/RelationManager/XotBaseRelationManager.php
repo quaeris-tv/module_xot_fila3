@@ -6,19 +6,22 @@ namespace Modules\Xot\Filament\Resources\XotBaseResource\RelationManager;
 
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Modules\Xot\Filament\Traits\HasXotTable;
+use Webmozart\Assert\Assert;
 
 /**
- * @property static string $resource
+ * @property class-string<Model> $resource
  */
 abstract class XotBaseRelationManager extends RelationManager
 {
     use HasXotTable;
 
-    // protected static string $relationship = 'roles';
-    // protected static ?string $recordTitleAttribute = 'name';
+    protected static string $relationship = '';
     protected static string $resource;
 
     public static function getModuleName(): string
@@ -60,18 +63,53 @@ abstract class XotBaseRelationManager extends RelationManager
 
     public function form(Form $form): Form
     {
-        $resource = static::$resource;
-
-        return $resource::form($form);
+        return $form
+            ->schema($this->getFormSchema());
     }
 
-    public function getListTableColumns(): array
+    /**
+     * Get form schema.
+     *
+     * @return array<string, \Filament\Forms\Components\Component>
+     */
+    protected function getFormSchema(): array
     {
-        $resource = static::$resource;
-        $index = Arr::get($resource::getPages(), 'index');
-        $index_page = $index->getPage();
-        $res = app($index_page)->getListTableColumns();
+        return [];
+    }
 
-        return $res;
+    public function table(Table $table): Table
+    {
+        /** @var class-string<Model> $resource */
+        $resource = $this->getResource();
+        Assert::classExists($resource);
+        
+        if (method_exists($resource, 'getListTableColumns')) {
+            /** @var array<string, Tables\Columns\Column> $columns */
+            $columns = $resource::getListTableColumns();
+            return $table->columns($columns);
+        }
+        
+        return $table->columns($this->getTableColumns());
+    }
+
+    /**
+     * Get table columns.
+     *
+     * @return array<string, Tables\Columns\Column>
+     */
+    protected function getTableColumns(): array
+    {
+        return [];
+    }
+
+    /**
+     * Get the resource class.
+     *
+     * @return class-string<Model>
+     */
+    protected function getResource(): string
+    {
+        /** @var class-string<Model> */
+        return $this->resource;
     }
 }

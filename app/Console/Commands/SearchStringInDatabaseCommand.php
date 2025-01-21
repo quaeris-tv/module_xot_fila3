@@ -6,68 +6,67 @@ namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Webmozart\Assert\Assert;
 
 class SearchStringInDatabaseCommand extends Command
 {
-    // Nome e descrizione del comando
-    protected $signature = 'xot:db-search-string';
+    protected $signature = 'db:search {search} {--table=*}';
+    protected $description = 'Search for a string in database tables';
 
-    protected $description = 'Cerca una stringa in tutte le tabelle e colonne del database';
-
-    // Esegui il comando
-    public function handle()
+    public function handle(): int
     {
-        // Chiedi all'utente di inserire la stringa da cercare
-        $searchString = $this->ask('Inserisci la stringa da cercare:');
+        $searchString = (string)$this->argument('search');
+        $specificTables = $this->option('table');
 
-        if (empty($searchString)) {
-            $this->error('La stringa di ricerca non può essere vuota.');
+        /** @var array<array{Tables_in_database: string}> $tables */
+        $tables = DB::select('SHOW TABLES');
+        Assert::isArray($tables);
 
-            return;
+        foreach ($tables as $table) {
+            Assert::isArray($table);
+            $tableName = (string)current($table);
+            
+            if (! empty($specificTables) && ! in_array($tableName, $specificTables, true)) {
+                continue;
+            }
+
+            $this->searchInTable($tableName, $searchString);
         }
 
-        // Ottieni il nome del database corrente
-        $databaseName = env('DB_DATABASE');
+        return Command::SUCCESS;
+    }
 
-        // Ottieni la lista delle tabelle nel database
-        $tables = DB::select('SHOW TABLES');
+    private function searchInTable(string $tableName, string $searchString): void
+    {
+        $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
+        Assert::isArray($columns);
 
-        $this->info("Inizio ricerca della stringa '$searchString' in tutte le tabelle...");
+        $query = DB::table($tableName);
+        foreach ($columns as $column) {
+            $query->orWhere($column, 'LIKE', "%{$searchString}%");
+        }
 
-        $foundResults = false;
+        $results = $query->get();
+        if ($results->isNotEmpty()) {
+            $this->info("Found matches in table: {$tableName}");
+            $this->table(['Column', 'Value'], $this->formatResults($results));
+        }
+    }
 
-        // Fai una ricerca in tutte le tabelle e colonne
-        foreach ($tables as $table) {
-            $tableName = $table->{'Tables_in_'.$databaseName};
-
-            // Ottieni la lista delle colonne per ciascuna tabella
-            $columns = DB::select("DESCRIBE `$tableName`");
-
-            foreach ($columns as $column) {
-                // Controlla se la colonna è di tipo stringa (VARCHAR, TEXT, CHAR)
-                // if (in_array($column->Type, ['varchar', 'text', 'char'])) {
-                // Esegui la ricerca nella colonna
-                try {
-                    $results = DB::table($tableName)
-                        ->where($column->Field, 'LIKE', $searchString)
-                        ->get();
-
-                    // Se trovi risultati, informa l'utente
-                    if ($results->isNotEmpty()) {
-                        $this->info("Trovato in $tableName.$column->Field");
-                        $foundResults = true;
-                    }
-                } catch (\Exception $e) {
-                    $this->error("Errore nella tabella $tableName, colonna $column->Field: ".$e->getMessage());
+    /**
+     * @param \Illuminate\Support\Collection<int, object> $results
+     * @return array<int, array{string, string}>
+     */
+    private function formatResults($results): array
+    {
+        $formatted = [];
+        foreach ($results as $row) {
+            foreach ((array)$row as $column => $value) {
+                if (is_string($value) && str_contains($value, $this->argument('search'))) {
+                    $formatted[] = [$column, $value];
                 }
-                // }
             }
         }
-
-        if (! $foundResults) {
-            $this->info("Nessun risultato trovato per '$searchString'.");
-        } else {
-            $this->info('Ricerca completata!');
-        }
+        return $formatted;
     }
 }

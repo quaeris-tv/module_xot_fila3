@@ -14,11 +14,10 @@ class ExtraResource extends XotBaseResource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function getFormSchema(): array
     {
-        return $form
-            ->schema([
-            ]);
+        return [
+        ];
     }
 
     public static function getRelations(): array
