@@ -140,7 +140,7 @@ class XotServiceProvider extends XotBaseServiceProvider
 
     public function registerConfigs(): void
     {
-        // $config_file = realpath(__DIR__.'/../Config/metatag.php');
+        // $config_file = realpath(__DIR__.'/../config/metatag.php');
         // $this->mergeConfigFrom($config_file, 'metatag');
     }
 

@@ -33,7 +33,7 @@ class EditModule extends EditRecord
     protected function afterSave(): void
     {
         $module = $this->record; // Ottiene il record corrente
-        $config_path = $module->path.'/Config/config.php';
+        $config_path = $module->path.'/config/config.php';
         $data = File::getRequire($config_path);
         if (! is_array($data)) {
             $data = [];
