@@ -134,13 +134,8 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             }
             $this->loadTranslationsFrom($langPath, $this->nameLower);
         } catch (\Error $e) {
-<<<<<<< HEAD
-            // throw new \Exception('['.$this->name.'] ['.static::class.'] ['.$e->getMessage().']');
-            $this->loadTranslationsFrom(base_path('Modules/'.$this->name.'/lang'), $this->nameLower);
-=======
             $fallbackPath = base_path('Modules/'.$this->name.'/lang');
             $this->loadTranslationsFrom($fallbackPath, $this->nameLower);
->>>>>>> origin/dev
         }
 
         $jsonLangPath = module_path($this->name, 'lang');
