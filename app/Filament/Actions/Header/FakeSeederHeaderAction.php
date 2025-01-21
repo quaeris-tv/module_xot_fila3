@@ -14,6 +14,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Xot\Actions\ModelClass\FakeSeederAction;
 use Webmozart\Assert\Assert;
 
@@ -35,15 +36,20 @@ class FakeSeederHeaderAction extends Action
             ])
             ->action(function (array $data, ListRecords $livewire) {
                 $resource = $livewire->getResource();
-                Assert::string($modelClass = $resource::getModel());
-                /* @var int<1, max> $qty */
-                Assert::integer($qty = $data['qty']);
+                /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelClass */
+                $modelClass = $resource::getModel();
+                Assert::classExists($modelClass);
+                
+                /** @var mixed $qtyRaw */
+                $qtyRaw = $data['qty'];
+                Assert::numeric($qtyRaw);
+                $qty = max(1, (int) $qtyRaw);
                 Assert::greaterThanEq($qty, 1, 'Quantity must be greater than 0');
 
                 app(FakeSeederAction::class)
                     ->onQueue()
-                        // @phpstan-ignore argument.type
                     ->execute($modelClass, $qty);
+                    
                 $title = 'On Queue '.$qty.' '.$modelClass;
                 Notification::make()
                     ->title($title)

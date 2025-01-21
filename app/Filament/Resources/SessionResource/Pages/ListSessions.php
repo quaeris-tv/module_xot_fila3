@@ -27,15 +27,18 @@ class ListSessions extends XotBaseListRecords
         ];
     }
 
+    /**
+     * @return array<string, \Filament\Tables\Columns\Column>
+     */
     public function getListTableColumns(): array
     {
         return [
-            TextColumn::make('id'),
-            TextColumn::make('user_id'),
-            TextColumn::make('ip_address'),
-            // TextColumn::make('user_agent'),
-            // TextColumn::make('payload'),
-            TextColumn::make('last_activity'),
+            'id' => TextColumn::make('id'),
+            'user_id' => TextColumn::make('user_id'),
+            'ip_address' => TextColumn::make('ip_address'),
+            'user_agent' => TextColumn::make('user_agent'),
+            'payload' => TextColumn::make('payload'),
+            'last_activity' => TextColumn::make('last_activity'),
         ];
     }
 }

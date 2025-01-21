@@ -73,37 +73,24 @@ abstract class XotBaseServiceProvider extends ServiceProvider
 
     public function registerBladeIcons(): void
     {
-        if ('' == $this->name) {
+        if ('' === $this->name) {
             throw new \Exception('name is empty on ['.static::class.']');
         }
-        $relativePath = config('modules.paths.generator.assets.path');
+
+        Assert::string($relativePath = config('modules.paths.generator.assets.path'));
+
+
         try {
-            $svg_path = realpath(module_path($this->name, $relativePath.'/../svg'));
+            $svgPath = module_path($this->name, $relativePath.'/../svg');
+            $svgPath = (string)realpath($svgPath);
         } catch (\Error $e) {
-            $svg_path = base_path('Modules/'.$this->name.'/'.$relativePath.'/../svg');
+            $svgPath = base_path('Modules/'.$this->name.'/'.$relativePath.'/../svg');
         }
-        $base_path = base_path(DIRECTORY_SEPARATOR);
-        $svg_path = str_replace($base_path, '', $svg_path);
-        /*
-        dddx([
-            'base_path'=>$base_path,
-            'svg_path'=>$svg_path
-        ]);
-        */
-        /*
 
-        $svg_path = Str::of($this->module_ns.'/resources/svg')->replace('\\', '/')->toString();
+        $basePath = base_path(DIRECTORY_SEPARATOR);
+        $svgPath = str_replace($basePath, '', $svgPath);
 
-        $svg_abs_path = $this->module_dir.'/../../../'.$svg_path;
-
-        if (! File::exists($svg_abs_path)) {
-            File::makeDirectory($svg_abs_path, 0755, true, true);
-            File::put($svg_abs_path.'/.gitkeep', '');
-        }
-        */
-        // $svg_path = 'Modules/'.$this->name.'/resources/svg';
-
-        Config::set('blade-icons.sets.'.$this->nameLower.'.path', $svg_path);
+        Config::set('blade-icons.sets.'.$this->nameLower.'.path', $svgPath);
         Config::set('blade-icons.sets.'.$this->nameLower.'.prefix', $this->nameLower);
     }
 
@@ -112,15 +99,16 @@ abstract class XotBaseServiceProvider extends ServiceProvider
      */
     public function registerViews(): void
     {
-        /*
-        try {
-            $sourcePath = realpath($this->module_dir.'/../resources/views');
-        } catch (\Exception $e) {
-            throw new \Exception('realpath not find dir ['.$this->module_dir.'/../resources/views]');
+        if ('' === $this->name) {
+            throw new \Exception('name is empty on ['.static::class.']');
         }
-        */
 
-        $this->loadViewsFrom(module_path($this->name, 'resources/views'), $this->nameLower);
+        $viewPath = module_path($this->name, 'resources/views');
+        if (!is_string($viewPath)) {
+            throw new \Exception('Invalid view path');
+        }
+
+        $this->loadViewsFrom($viewPath, $this->nameLower);
     }
 
     /**
@@ -128,25 +116,26 @@ abstract class XotBaseServiceProvider extends ServiceProvider
      */
     public function registerTranslations(): void
     {
-        /*
-        try {
-            $langPath = realpath($this->module_dir.'/../resources/lang');
-        } catch (\Exception $e) {
-            throw new \Exception('realpath not find dir['.$this->module_dir.'/../resources/lang]');
-        }
-
-        $this->loadTranslationsFrom($langPath, $this->nameLower);
-        */
-        if ('' == $this->name) {
+        if ('' === $this->name) {
             throw new \Exception('name is empty on ['.static::class.']');
         }
+
         try {
-            $this->loadTranslationsFrom(module_path($this->name, 'lang'), $this->nameLower);
+            $langPath = module_path($this->name, 'lang');
+            if (!is_string($langPath)) {
+                throw new \Exception('Invalid language path');
+            }
+            $this->loadTranslationsFrom($langPath, $this->nameLower);
         } catch (\Error $e) {
-            //throw new \Exception('['.$this->name.'] ['.static::class.'] ['.$e->getMessage().']');
-            $this->loadTranslationsFrom(base_path('Modules/'.$this->name.'/lang'), $this->nameLower);
+            $fallbackPath = base_path('Modules/'.$this->name.'/lang');
+            $this->loadTranslationsFrom($fallbackPath, $this->nameLower);
         }
-        $this->loadJsonTranslationsFrom(module_path($this->name, 'lang'));
+
+        $jsonLangPath = module_path($this->name, 'lang');
+        if (!is_string($jsonLangPath)) {
+            throw new \Exception('Invalid JSON language path');
+        }
+        $this->loadJsonTranslationsFrom($jsonLangPath);
     }
 
     /**
@@ -310,19 +299,26 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         );
         */
 
-        $relativeConfigPath = config('modules.paths.generator.config.path');
-        $configPath = module_path($this->name, $relativeConfigPath);
+        $relativeConfigPath = (string)config('modules.paths.generator.config.path');
+        if (!is_string($relativeConfigPath)) {
+            throw new \Exception('Invalid config path configuration');
+        }
 
-        $filenames = glob($configPath.'/*.php');
+        $configPath = module_path($this->name, $relativeConfigPath);
+        if (!is_string($configPath)) {
+            throw new \Exception('Invalid config path');
+        }
+
+        $filenames = glob($configPath.'/*.php') ?: [];
         foreach ($filenames as $filename) {
             Assert::string($filename);
             $info = pathinfo($filename);
             $name = Arr::get($info, 'filename', null);
-            if (! is_string($name)) {
+            if (!is_string($name)) {
                 continue;
             }
             $data = File::getRequire($filename);
-            if (! is_array($data)) {
+            if (!is_array($data)) {
                 continue;
             }
             $name = $this->nameLower.'::'.$name;
