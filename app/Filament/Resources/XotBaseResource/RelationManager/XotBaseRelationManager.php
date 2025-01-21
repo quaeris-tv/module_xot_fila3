@@ -70,7 +70,7 @@ abstract class XotBaseRelationManager extends RelationManager
     /**
      * Get form schema.
      *
-     * @return array<int, \Filament\Forms\Components\Component>
+     * @return array<string, \Filament\Forms\Components\Component>
      */
     protected function getFormSchema(): array
     {

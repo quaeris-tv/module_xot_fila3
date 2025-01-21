@@ -130,4 +130,16 @@ class ImportCsvAction
 
         return $sql;
     }
+
+    /**
+     * @param array<mixed> $columns
+     * @return array<ColumnData>
+     */
+    public function execute(array $columns): array
+    {
+        return array_map(function ($column): ColumnData {
+            Assert::string($column, 'Column must be a string');
+            return new ColumnData($column);
+        }, $columns);
+    }
 }

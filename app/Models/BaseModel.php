@@ -32,18 +32,18 @@ abstract class BaseModel extends Model
      */
     public static $snakeAttributes = true;
 
-    public bool $incrementing = true;
-    public bool $timestamps = true;
-    protected int $perPage = 30;
-    protected string $connection = 'xot';
+    public $incrementing = true;
+    public $timestamps = true;
+    protected $perPage = 30;
+    protected $connection = 'xot';
 
-    /** @var array<string> */
+    /** @var list<string> */
     protected $fillable = ['id'];
 
-    protected string $primaryKey = 'id';
-    protected string $keyType = 'string';
+    protected $primaryKey = 'id';
+    protected $keyType = 'string';
 
-    /** @var array<string> */
+    /** @var list<string> */
     protected $hidden = [
         // 'password'
     ];

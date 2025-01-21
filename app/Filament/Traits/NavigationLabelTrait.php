@@ -61,7 +61,7 @@ trait NavigationLabelTrait
            
         }
 
-        static::$navigationSort = $value;
+        //static::$navigationSort = $value;
 
         return $value;
     }

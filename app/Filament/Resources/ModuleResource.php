@@ -22,17 +22,17 @@ class ModuleResource extends XotBaseResource
 {
     protected static ?string $model = Module::class;
 
+    /**
+     * @return array<string, Forms\Components\Component>
+     */
     public static function getFormSchema(): array
     {
         return [
-            Section::make()
-                ->schema([
-                    TextInput::make('name')->required(),
-                    TextInput::make('description'),
-                    IconPicker::make('icon'),
-                    TextInput::make('priority'),
-                    Toggle::make('status'),
-                ]),
+            'name' => TextInput::make('name')->required(),
+            'description' => TextInput::make('description'),
+            'icon' => IconPicker::make('icon'),
+            'priority' => TextInput::make('priority'),
+            'status' => Toggle::make('status'),
         ];
     }
 

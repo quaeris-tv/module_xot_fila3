@@ -82,9 +82,16 @@ abstract class XotBaseServiceProvider extends ServiceProvider
 
         try {
             $svgPath = module_path($this->name, $relativePath.'/../svg');
-            $svgPath = (string)realpath($svgPath);
+            if (!is_string($svgPath)) {
+                throw new \Exception('Invalid SVG path');
+            }
+            $resolvedPath = realpath($svgPath);
+            $svgPath = $resolvedPath;
         } catch (\Error $e) {
             $svgPath = base_path('Modules/'.$this->name.'/'.$relativePath.'/../svg');
+            if (!is_string($svgPath)) {
+                throw new \Exception('Invalid fallback SVG path');
+            }
         }
 
         $basePath = base_path(DIRECTORY_SEPARATOR);
@@ -299,10 +306,8 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         );
         */
 
-        $relativeConfigPath = (string)config('modules.paths.generator.config.path');
-        if (!is_string($relativeConfigPath)) {
-            throw new \Exception('Invalid config path configuration');
-        }
+        Assert::string($relativeConfigPath = config('modules.paths.generator.config.path'));
+
 
         $configPath = module_path($this->name, $relativeConfigPath);
         if (!is_string($configPath)) {

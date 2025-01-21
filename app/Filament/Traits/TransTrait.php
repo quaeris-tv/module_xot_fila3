@@ -34,7 +34,6 @@ trait TransTrait
             if (is_string($first) || is_numeric($first)) {
                 return (string)$first;
             }
-            return 'fix:' . $tmp;
         }
 
         return 'fix:' . $tmp;
@@ -97,5 +96,12 @@ trait TransTrait
         }
 
         return 'fix:' . $key;
+    }
+
+    
+
+    protected function transChoice(string $key, int $number, array $replace = []): string
+    {
+        return trans_choice($key, $number, $replace) ?? $key;
     }
 }

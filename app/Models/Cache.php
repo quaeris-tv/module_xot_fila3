@@ -38,10 +38,7 @@ class Cache extends BaseModel
 {
     protected $table = 'cache';
 
-    /** @var string */
     protected $primaryKey = 'key';
-
-    /** @var string */
     protected $keyType = 'string';
 
     /** @var list<string> */

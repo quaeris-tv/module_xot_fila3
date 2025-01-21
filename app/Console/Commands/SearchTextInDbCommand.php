@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Collection;
+use function Safe\json_encode;
 
 class SearchTextInDbCommand extends Command
 {
@@ -17,40 +18,69 @@ class SearchTextInDbCommand extends Command
 
     public function handle(): int
     {
-        $searchString = (string)$this->argument('search');
+        $searchString = $this->argument('search');
+        if (!is_string($searchString)) {
+            $this->error('Search string must be a valid string');
+            return Command::FAILURE;
+        }
+
         $specificTables = $this->option('tables');
+        $databaseName = DB::getDatabaseName();
+        $tableProp = 'Tables_in_'.$databaseName;
 
         // Get tables either from specific option or all tables
         $tables = empty($specificTables)
-            ? collect(DB::select('SHOW TABLES'))->map(fn ($table) => $table->{'Tables_in_'.DB::getDatabaseName()})
+            ? collect(DB::select('SHOW TABLES'))
             : collect($specificTables);
 
         foreach ($tables as $table) {
-            $tableName = is_object($table) ? $table->{'Tables_in_'.DB::getDatabaseName()} : (string)$table;
+            // Get table name with proper type checking
+            $tableName = null;
+            if (is_object($table)) {
+                if (property_exists($table, $tableProp) && is_string($table->$tableProp)) {
+                    $tableName = $table->$tableProp;
+                }
+            } elseif (is_string($table)) {
+                $tableName = $table;
+            }
 
-            if (! Schema::hasTable($tableName)) {
-                $this->warn("Table {$tableName} does not exist");
+            if (!is_string($tableName)) {
+                $this->warn('Invalid table name format');
                 continue;
             }
 
-            $this->info("Searching in table: {$tableName}");
+            if (!Schema::hasTable($tableName)) {
+                $this->warn(sprintf('Table %s does not exist', $tableName));
+                continue;
+            }
 
+            $this->info(sprintf('Searching in table: %s', $tableName));
+
+            /** @var array<string>|false $columns */
             $columns = Schema::getColumnListing($tableName);
             if (!is_array($columns)) {
                 continue;
             }
 
             foreach ($columns as $column) {
+                if (!is_string($column)) {
+                    continue;
+                }
+
+                /** @var string|null $columnType */
                 $columnType = Schema::getColumnType($tableName, $column);
+                if (!is_string($columnType)) {
+                    continue;
+                }
 
                 // Search only in string-like columns
-                if (! in_array($columnType, ['string', 'text'])) {
+                if (!in_array($columnType, ['string', 'text'])) {
                     continue;
                 }
 
                 $results = DB::table($tableName)
                     ->select('*')
-                    ->whereRaw("LOWER(`$column`) LIKE ?", ['%'.strtolower($searchString).'%'])
+                    ->where($column, 'LIKE', '%'.addslashes($searchString).'%')
                     ->get();
 
                 if ($results->isNotEmpty()) {
@@ -59,7 +89,10 @@ class SearchTextInDbCommand extends Command
                         $this->table(
                             ['Column', 'Value'],
                             collect((array)$result)
-                                ->map(fn ($value, $key) => [(string)$key, (string)$value])
+                                ->map(fn ($value, $key) => [
+                                    (string)$key,
+                                    is_scalar($value) ? (string)$value : json_encode($value)
+                                ])
                                 ->toArray()
                         );
                         $this->newLine();

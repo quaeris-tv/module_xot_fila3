@@ -43,7 +43,7 @@ abstract class XotBaseResource extends FilamentResource
 
     public static function getNavigationLabel(): string
     {
-        return static::$navigationLabel ?? static::getModelLabel();
+        return static::$modelLabel ?? class_basename(static::getModel());
     }
 
     public static function getModelLabel(): string
@@ -66,7 +66,9 @@ abstract class XotBaseResource extends FilamentResource
      */
     public static function getModel(): string
     {
-        Assert::notNull(static::$model, 'Model class must be set');
+        if (null === static::$model) {
+            throw new \RuntimeException('Model not defined for resource ' . static::class);
+        }
         /** @var class-string<Model> */
         return static::$model;
     }
@@ -74,7 +76,7 @@ abstract class XotBaseResource extends FilamentResource
     /**
      * Get form schema.
      *
-     * @return array<int, Component>
+     * @return array<string, Component>
      */
     public static function getFormSchema(): array
     {
