@@ -154,27 +154,39 @@ abstract class XotBaseServiceProvider extends ServiceProvider
      */
     protected function registerConfig(): void
     {
-        Assert::string($relativePath = config('modules.paths.generator.config.path'));
-        $configPath = module_path($this->name, $relativePath);
-        if (! is_string($configPath)) {
-            throw new \Exception('Invalid config path');
+        try {
+            Assert::string($relativePath = config('modules.paths.generator.config.path'));
+            $configPath = module_path($this->name, $relativePath);
+            if (! is_string($configPath)) {
+                return;
+            }
+
+            if (! file_exists($configPath)) {
+                return;
+            }
+
+            $this->publishes([
+                $configPath => config_path($this->nameLower.'.php'),
+            ], 'config');
+
+            $this->mergeConfigFrom($configPath, $this->nameLower);
+        } catch (\Exception $e) {
+            // Ignore missing configuration
+            return;
         }
-
-        $this->publishes([
-            $configPath => config_path($this->nameLower.'.php'),
-        ], 'config');
-
-        $this->mergeConfigFrom($configPath, $this->nameLower);
     }
 
     public function registerBladeComponents(): void
     {
+        Assert::string($relativePath = config('modules.paths.generator.component-class.path'));
+        $componentClassPath = module_path($this->name, $relativePath);
         $namespace = $this->module_ns.'\View\Components';
         Blade::componentNamespace($namespace, $this->nameLower);
 
         app(RegisterBladeComponentsAction::class)
             ->execute(
-                $this->module_dir.'/../View/Components',
+                // $this->module_dir.'/../View/Components',
+                $componentClassPath,
                 $this->module_ns
             );
     }
