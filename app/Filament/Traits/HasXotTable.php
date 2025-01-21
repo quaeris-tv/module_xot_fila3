@@ -81,12 +81,12 @@ trait HasXotTable
 
     protected function shouldShowAttachAction(): bool
     {
-        return true;
+        return method_exists($this, 'getRelationship');
     }
 
     protected function shouldShowDetachAction(): bool
     {
-        return true;
+        return method_exists($this, 'getRelationship');
     }
 
     protected function shouldShowReplicateAction(): bool
@@ -166,7 +166,7 @@ trait HasXotTable
         /** @var string|array<int|string,mixed>|null $trans */
         $trans = trans($key);
 
-        return ($trans !== $key) ? (string) $trans : null;
+        return (is_string($trans) && $trans !== $key) ? $trans : null;
     }
 
     /**
@@ -323,19 +323,26 @@ trait HasXotTable
      */
     public function getModelClass(): string
     {
-        if ($this instanceof Relation) {
-            $model = $this->getModel();
-            if (! is_object($model)) {
-                throw new \Exception('Model is not an object');
+        if (method_exists($this, 'getRelationship')) {
+            $relationship = $this->getRelationship();
+            if ($relationship instanceof Relation) {
+                /* @var class-string<Model> */
+                return get_class($relationship->getModel());
             }
-
-            /* @var class-string<Model> */
-            return get_class($model);
         }
 
-        if (property_exists($this, 'modelClass')) {
-            /* @var class-string<Model> */
-            return $this->modelClass;
+        if (method_exists($this, 'getModel')) {
+            $model = $this->getModel();
+            if (is_string($model)) {
+                Assert::classExists($model);
+
+                /* @var class-string<Model> */
+                return $model;
+            }
+            if ($model instanceof Model) {
+                /* @var class-string<Model> */
+                return get_class($model);
+            }
         }
 
         throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
@@ -402,36 +409,5 @@ trait HasXotTable
     {
         /* @var string */
         return $this->tableSearch ?? '';
-    }
-
-    /**
-     * Apply search to table query.
-     */
-    protected function applySearchToTableQuery(Builder $query): Builder
-    {
-        if (! $this->hasSearch()) {
-            return $query;
-        }
-
-        $search = $this->getTableSearch();
-        Assert::stringNotEmpty($search);
-
-        /** @var Model $model */
-        $model = $query->getModel();
-
-        return $query->where(function ($query) use ($search, $model) {
-            $connectionType = $model->getConnection()->getDriverName();
-
-            $operators = [
-                'mysql' => 'LIKE',
-                'pgsql' => 'ILIKE',
-            ];
-
-            $operator = $operators[$connectionType] ?? 'LIKE';
-            $columns = $this->getSearchableColumns();
-            foreach ($columns as $column) {
-                $query->orWhere($model->getTable().'.'.$column, $operator, '%'.$search.'%');
-            }
-        });
     }
 }
