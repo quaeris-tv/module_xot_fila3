@@ -137,7 +137,7 @@ class ImportCsvAction
      *
      * @return array<ColumnData>
      */
-    public function execute(array $columns): array
+    public function execute1(array $columns): array
     {
         return array_map(function ($column): ColumnData {
             Assert::string($column, 'Column must be a string');
