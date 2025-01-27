@@ -44,18 +44,17 @@ abstract class XotBaseRelationManager extends RelationManager
     */
     public static function getNavigationLabel(): string
     {
-        return static::trans('navigation.name');
-        // return static::trans('navigation.plural');
+        return static::transFunc(__FUNCTION__);
     }
 
     public static function getNavigationGroup(): string
     {
-        return static::trans('navigation.group.name');
+        return static::transFunc(__FUNCTION__);
     }
 
     protected static function getPluralModelLabel(): string
     {
-        return static::trans('navigation.plural');
+        return static::transFunc(__FUNCTION__);
     }
 
     public function form(Form $form): Form
