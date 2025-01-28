@@ -4,24 +4,19 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Providers;
 
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\Blade\RegisterBladeComponentsAction;
 use Modules\Xot\Actions\Livewire\RegisterLivewireComponentsAction;
 use Modules\Xot\Datas\ComponentFileData;
 use Nwidart\Modules\Traits\PathNamespace;
-use Webmozart\Assert\Assert;
 
-use function Safe\glob;
-use function Safe\json_decode;
-use function Safe\json_encode;
 use function Safe\realpath;
+
+use Webmozart\Assert\Assert;
 
 /**
  * Class XotBaseServiceProvider.
@@ -73,37 +68,31 @@ abstract class XotBaseServiceProvider extends ServiceProvider
 
     public function registerBladeIcons(): void
     {
-        if ('' == $this->name) {
+        if ('' === $this->name) {
             throw new \Exception('name is empty on ['.static::class.']');
         }
-        $relativePath = config('modules.paths.generator.assets.path');
+
+        Assert::string($relativePath = config('modules.paths.generator.assets.path'));
+
         try {
-            $svg_path = realpath(module_path($this->name, $relativePath.'/../svg'));
+            $svgPath = module_path($this->name, $relativePath.'/../svg');
+            if (! is_string($svgPath)) {
+                throw new \Exception('Invalid SVG path');
+            }
+            //$resolvedPath = realpath($svgPath);
+            $resolvedPath = $svgPath;
+            $svgPath = $resolvedPath;
         } catch (\Error $e) {
-            $svg_path = base_path('Modules/'.$this->name.'/'.$relativePath.'/../svg');
+            $svgPath = base_path('Modules/'.$this->name.'/'.$relativePath.'/../svg');
+            if (! is_string($svgPath)) {
+                throw new \Exception('Invalid fallback SVG path');
+            }
         }
-        $base_path = base_path(DIRECTORY_SEPARATOR);
-        $svg_path = str_replace($base_path, '', $svg_path);
-        /*
-        dddx([
-            'base_path'=>$base_path,
-            'svg_path'=>$svg_path
-        ]);
-        */
-        /*
 
-        $svg_path = Str::of($this->module_ns.'/resources/svg')->replace('\\', '/')->toString();
+        $basePath = base_path(DIRECTORY_SEPARATOR);
+        $svgPath = str_replace($basePath, '', $svgPath);
 
-        $svg_abs_path = $this->module_dir.'/../../../'.$svg_path;
-
-        if (! File::exists($svg_abs_path)) {
-            File::makeDirectory($svg_abs_path, 0755, true, true);
-            File::put($svg_abs_path.'/.gitkeep', '');
-        }
-        */
-        // $svg_path = 'Modules/'.$this->name.'/resources/svg';
-
-        Config::set('blade-icons.sets.'.$this->nameLower.'.path', $svg_path);
+        Config::set('blade-icons.sets.'.$this->nameLower.'.path', $svgPath);
         Config::set('blade-icons.sets.'.$this->nameLower.'.prefix', $this->nameLower);
     }
 
@@ -112,15 +101,16 @@ abstract class XotBaseServiceProvider extends ServiceProvider
      */
     public function registerViews(): void
     {
-        /*
-        try {
-            $sourcePath = realpath($this->module_dir.'/../resources/views');
-        } catch (\Exception $e) {
-            throw new \Exception('realpath not find dir ['.$this->module_dir.'/../resources/views]');
+        if ('' === $this->name) {
+            throw new \Exception('name is empty on ['.static::class.']');
         }
-        */
 
-        $this->loadViewsFrom(module_path($this->name, 'resources/views'), $this->nameLower);
+        $viewPath = module_path($this->name, 'resources/views');
+        if (! is_string($viewPath)) {
+            throw new \Exception('Invalid view path');
+        }
+
+        $this->loadViewsFrom($viewPath, $this->nameLower);
     }
 
     /**
@@ -128,25 +118,26 @@ abstract class XotBaseServiceProvider extends ServiceProvider
      */
     public function registerTranslations(): void
     {
-        /*
-        try {
-            $langPath = realpath($this->module_dir.'/../resources/lang');
-        } catch (\Exception $e) {
-            throw new \Exception('realpath not find dir['.$this->module_dir.'/../resources/lang]');
-        }
-
-        $this->loadTranslationsFrom($langPath, $this->nameLower);
-        */
-        if ('' == $this->name) {
+        if ('' === $this->name) {
             throw new \Exception('name is empty on ['.static::class.']');
         }
+
         try {
-            $this->loadTranslationsFrom(module_path($this->name, 'lang'), $this->nameLower);
+            $langPath = module_path($this->name, 'lang');
+            if (! is_string($langPath)) {
+                throw new \Exception('Invalid language path');
+            }
+            $this->loadTranslationsFrom($langPath, $this->nameLower);
         } catch (\Error $e) {
-            // throw new \Exception('['.$this->name.'] ['.static::class.'] ['.$e->getMessage().']');
-            $this->loadTranslationsFrom(base_path('Modules/'.$this->name.'/lang'), $this->nameLower);
+            $fallbackPath = base_path('Modules/'.$this->name.'/lang');
+            $this->loadTranslationsFrom($fallbackPath, $this->nameLower);
         }
-        $this->loadJsonTranslationsFrom(module_path($this->name, 'lang'));
+
+        $jsonLangPath = module_path($this->name, 'lang');
+        if (! is_string($jsonLangPath)) {
+            throw new \Exception('Invalid JSON language path');
+        }
+        $this->loadJsonTranslationsFrom($jsonLangPath);
     }
 
     /**
@@ -159,20 +150,50 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * Register config.
+     */
+    protected function registerConfig(): void
+    {
+        try {
+            Assert::string($relativePath = config('modules.paths.generator.config.path'));
+            $configPath = module_path($this->name, $relativePath);
+            if (! is_string($configPath)) {
+                return;
+            }
+
+            if (! file_exists($configPath)) {
+                return;
+            }
+
+            $this->publishes([
+                $configPath => config_path($this->nameLower.'.php'),
+            ], 'config');
+
+            $this->mergeConfigFrom($configPath, $this->nameLower);
+        } catch (\Exception $e) {
+            // Ignore missing configuration
+            return;
+        }
+    }
+
     public function registerBladeComponents(): void
     {
+        Assert::string($relativePath = config('modules.paths.generator.component-class.path'));
+        $componentClassPath = module_path($this->name, $relativePath);
         $namespace = $this->module_ns.'\View\Components';
         Blade::componentNamespace($namespace, $this->nameLower);
 
         app(RegisterBladeComponentsAction::class)
             ->execute(
-                $this->module_dir.'/../View/Components',
+                // $this->module_dir.'/../View/Components',
+                $componentClassPath,
                 $this->module_ns
             );
     }
 
     /**
-     * Undocumented function.
+     * Register Livewire components.
      */
     public function registerLivewireComponents(): void
     {
@@ -192,7 +213,6 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         $comps = app(\Modules\Xot\Actions\File\GetComponentsAction::class)
             ->execute(
                 $this->module_dir.'/../Console/Commands',
-                // Str::before($this->module_ns, '\Providers'),
                 'Modules\\'.$this->name.'\\Console\\Commands',
                 $prefix,
             );
@@ -202,7 +222,6 @@ abstract class XotBaseServiceProvider extends ServiceProvider
         $commands = Arr::map(
             $comps->items(),
             function (ComponentFileData $item) {
-                // return $this->module_ns.'\Console\Commands\\'.$item->class;
                 return $item->ns;
             }
         );
@@ -216,125 +235,4 @@ abstract class XotBaseServiceProvider extends ServiceProvider
     {
         return [];
     }
-
-    /*
-     * Undocumented function.
-     *
-     * @throws FileNotFoundException
-
-    public function getEventsFrom(string $path): array
-    {
-        $events = [];
-        if (! File::isDirectory($path)) {
-            File::makeDirectory($path, 0777, true, true);
-        }
-
-        $events_file = $path.'/_events.json';
-        $force_recreate = request()->input('force_recreate', true);
-        if (! File::exists($events_file) || $force_recreate) {
-            $filenames = glob($path.'/*.php');
-            // if (false === $filenames) {
-            //    $filenames = [];
-            // }
-            foreach ($filenames as $filename) {
-                Assert::string($filename);
-                $info = pathinfo((string) $filename);
-
-                // $tmp->namespace='\\'.$vendor.'\\'.$pack.'\\Events\\'.$info['filename'];
-                $event_name = $info['filename'];
-                $str = 'Event';
-                if (Str::endsWith($event_name, $str)) {
-                    $listener_name = mb_substr($event_name, 0, -mb_strlen($str)).'Listener';
-
-                    $event = $this->module_base_ns.'\\Events\\'.$event_name;
-                    $listener = $this->module_base_ns.'\\Listeners\\'.$listener_name;
-                    $msg = [
-                        'event' => $event,
-                        'event_exists' => class_exists($event),
-                        'listener' => $listener,
-                        'listener_exists' => class_exists($listener),
-                    ];
-                    if (class_exists($event) && class_exists($listener)) {
-                        // \Event::listen($event, $listener);
-                        $tmp = new \stdClass();
-                        $tmp->event = $event;
-                        $tmp->listener = $listener;
-                        $events[] = $tmp;
-                    }
-                }
-            }
-
-            try {
-                $events_content = json_encode($events, JSON_THROW_ON_ERROR);
-                // if (false === $events_content) {
-                //    throw new \Exception('can not encode json');
-                // }
-                File::put($events_file, $events_content);
-            } catch (\Exception $e) {
-                dd($e);
-            }
-        } else {
-            $events = File::get($events_file);
-            // $events = (array) json_decode((string) $events, null, 512, JSON_THROW_ON_ERROR);
-            $events = (array) json_decode((string) $events, false, 512, JSON_THROW_ON_ERROR);
-        }
-
-        return $events;
-    }
-    */
-
-    /*
-     * @throws FileNotFoundException
-     * DEPRECATED
-
-    public function loadEventsFrom(string $path): void
-    {
-        $events = $this->getEventsFrom($path);
-        foreach ($events as $event) {
-            Event::listen($event->event, $event->listener);
-        }
-    }
-     */
-
-    /**
-     * Register config.
-     */
-    protected function registerConfig(): void
-    {
-        /*
-        $this->publishes(
-            [
-                $this->module_dir.'/../Config/config.php' => config_path($this->nameLower.'.php'),
-            ],
-            'config'
-        );
-        */
-
-        $relativeConfigPath = config('modules.paths.generator.config.path');
-        $configPath = module_path($this->name, $relativeConfigPath);
-
-        $filenames = glob($configPath.'/*.php');
-        foreach ($filenames as $filename) {
-            Assert::string($filename);
-            $info = pathinfo($filename);
-            $name = Arr::get($info, 'filename', null);
-            if (! is_string($name)) {
-                continue;
-            }
-            $data = File::getRequire($filename);
-            if (! is_array($data)) {
-                continue;
-            }
-            $name = $this->nameLower.'::'.$name;
-
-            Config::set($name, $data);
-        }
-
-        $this->mergeConfigFrom(
-            $configPath.'/config.php',
-            $this->nameLower
-        );
-    }
-
-    // end function
 }

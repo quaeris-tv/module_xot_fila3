@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Modules\Xot\Datas\ColumnData;
-use Spatie\QueueableAction\QueueableAction;
-use Webmozart\Assert\Assert;
 
 use function Safe\ini_set;
+
+use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class ImportCsvAction
 {
@@ -129,5 +130,19 @@ class ImportCsvAction
         }
 
         return $sql;
+    }
+
+    /**
+     * @param array<mixed> $columns
+     *
+     * @return array<ColumnData>
+     */
+    public function execute1(array $columns): array
+    {
+        return array_map(function ($column): ColumnData {
+            Assert::string($column, 'Column must be a string');
+
+            return new ColumnData($column);
+        }, $columns);
     }
 }

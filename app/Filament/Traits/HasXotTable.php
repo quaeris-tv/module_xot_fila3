@@ -20,6 +20,7 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\UI\Filament\Actions\Table\TableLayoutToggleTableAction;
 use Modules\Xot\Actions\Model\TableExistsByModelClassActions;
@@ -39,13 +40,13 @@ trait HasXotTable
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     protected static bool $canReplicate = false;
-
     protected static bool $canView = true;
-
     protected static bool $canEdit = true;
 
     /**
-     * @return array<Action|BulkAction|ActionGroup>
+     * Get table header actions.
+     *
+     * @return array<string, Action|ActionGroup>
      */
     protected function getTableHeaderActions(): array
     {
@@ -67,47 +68,25 @@ trait HasXotTable
                 ->tooltip(__('user::actions.attach_user'))
                 ->preloadRecordSelect();
         }
+
         $actions['layout'] = TableLayoutToggleTableAction::make('layout');
 
         return $actions;
     }
 
-    /**
-     * Determine whether to display the AssociateAction.
-     */
     protected function shouldShowAssociateAction(): bool
     {
-        // Custom logic for showing AssociateAction
-        return false; // Change this to your condition
+        return false;
     }
 
-    /**
-     * Determine whether to display the AttachAction.
-     */
     protected function shouldShowAttachAction(): bool
     {
-        // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
-        return method_exists($this, 'getRelationship'); // Ensure relationship method exists
+        return method_exists($this, 'getRelationship');
     }
 
-    /**
-     * Determine whether to display the DetachAction.
-     */
     protected function shouldShowDetachAction(): bool
     {
-        // @phpstan-ignore function.alreadyNarrowedType
-        if (! method_exists($this, 'getRelationship')) {
-            return false;
-        }
-
-        // $relationship = $this->getRelationship();
-
-        // if ($relationship instanceof \Illuminate\Database\Eloquent\Relations\Relation) {
-        //    return $relationship->exists();
-        // }
-
-        // return false;
-        return true;
+        return method_exists($this, 'getRelationship');
     }
 
     protected function shouldShowReplicateAction(): bool
@@ -126,27 +105,22 @@ trait HasXotTable
     }
 
     /**
-     * Get global header actions, optimized with tooltips instead of labels.
+     * Get header actions.
      *
-     * @return array<Actions\Action>
+     * @return array<string, Actions\Action>
      */
     protected function getHeaderActions(): array
     {
         return [
             'create' => Actions\CreateAction::make()
-                    // ->label('')
-                    // ->tooltip(static::trans('actions.create.tooltip'))
-                ->icon('heroicon-o-plus')
-            // ->iconButton()
-            // ->button()
-            ,
+                ->icon('heroicon-o-plus'),
         ];
     }
 
     /**
-     * Get table columns for grid layout.
+     * Get grid table columns.
      *
-     * @return array<Tables\Columns\Column|Stack|Tables\Columns\Layout\Split>
+     * @return array<int, Tables\Columns\Column|Stack>
      */
     public function getGridTableColumns(): array
     {
@@ -158,53 +132,68 @@ trait HasXotTable
     /**
      * Get list table columns.
      *
-     * @return array<Tables\Columns\Column>
+     * @return array<string, Tables\Columns\Column>
      */
     public function getListTableColumns(): array
     {
         return [];
     }
 
+    /**
+     * Get table filters form columns.
+     */
     public function getTableFiltersFormColumns(): int
     {
-        $c = \count($this->getTableFilters()) + 1;
-        if ($c > 6) {
-            return 6;
-        }
+        $count = count($this->getTableFilters()) + 1;
 
-        return $c;
+        return min($count, 6);
     }
 
+    /**
+     * Get table record title attribute.
+     */
     public function getTableRecordTitleAttribute(): string
     {
         return 'name';
     }
 
+    /**
+     * Get table heading.
+     */
     public function getTableHeading(): ?string
     {
-        $key=static::getKeyTrans('table.heading');
-        $trans=trans($key);
-        if($trans==$key) {
-            return null;
-        }
-        return $trans;
+        $key = static::getKeyTrans('table.heading');
+        /** @var string|array<int|string,mixed>|null $trans */
+        $trans = trans($key);
+
+        return (is_string($trans) && $trans !== $key) ? $trans : null;
     }
 
+    /**
+     * Get table empty state actions.
+     *
+     * @return array<string, Action>
+     */
     public function getTableEmptyStateActions(): array
     {
         return [];
     }
 
     /**
-     * Define the main table structure.
+     * Configure the table.
      */
     public function table(Table $table): Table
     {
-        if (! app(TableExistsByModelClassActions::class)->execute($this->getModelClass())) {
+        $modelClass = $this->getModelClass();
+        if (! app(TableExistsByModelClassActions::class)->execute($modelClass)) {
             $this->notifyTableMissing();
 
             return $this->configureEmptyTable($table);
         }
+
+        /** @var Model $model */
+        $model = app($modelClass);
+        Assert::isInstanceOf($model, Model::class);
 
         return $table
             ->recordTitleAttribute($this->getTableRecordTitleAttribute())
@@ -216,49 +205,61 @@ trait HasXotTable
             ->filtersLayout(FiltersLayout::AboveContent)
             ->filtersFormColumns($this->getTableFiltersFormColumns())
             ->persistFiltersInSession()
-            // @phpstan-ignore argument.type
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
             ->actionsPosition(ActionsPosition::BeforeColumns)
             ->emptyStateActions($this->getTableEmptyStateActions())
             ->striped()
-
             ->defaultSort(
                 column: $this->getDefaultTableSortColumn(),
                 direction: $this->getDefaultTableSortDirection(),
             );
     }
 
+    /**
+     * Get default table sort column.
+     */
     protected function getDefaultTableSortColumn(): ?string
     {
-        $table = app($this->getModelClass())->getTable();
+        try {
+            $modelClass = $this->getModelClass();
+            /** @var Model $model */
+            $model = app($modelClass);
+            Assert::isInstanceOf($model, Model::class);
 
-        return $table.'.id';
+            return $model->getTable().'.id';
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
-    protected function getDefaultTableSortDirection(): ?string
+    /**
+     * Get default table sort direction.
+     */
+    protected function getDefaultTableSortDirection(): string
     {
         return 'desc';
     }
 
     /**
-     * Define table filters.
+     * Get table filters.
      *
-     * @return array<Tables\Filters\Filter|TernaryFilter|BaseFilter>
+     * @return array<string, Tables\Filters\Filter|TernaryFilter|BaseFilter>
      */
     protected function getTableFilters(): array
     {
-        return []; // Implement any specific filters needed
+        return [];
     }
 
     /**
-     * Define row-level actions with translations.
+     * Get table actions.
      *
-     * @return array<Action|ActionGroup>
+     * @return array<string, Action|ActionGroup>
      */
     protected function getTableActions(): array
     {
         $actions = [];
+
         if ($this->shouldShowViewAction()) {
             $actions['view'] = Tables\Actions\ViewAction::make()
                 ->iconButton()
@@ -277,6 +278,7 @@ trait HasXotTable
                 ->tooltip(__('user::actions.replicate'))
                 ->iconButton();
         }
+
         if (! $this->shouldShowDetachAction()) {
             $actions['delete'] = Tables\Actions\DeleteAction::make()
                 ->tooltip(__('user::actions.delete'))
@@ -296,14 +298,14 @@ trait HasXotTable
     }
 
     /**
-     * Define bulk actions with translations.
+     * Get table bulk actions.
      *
-     * @return array<BulkAction>
+     * @return array<string, BulkAction>
      */
     protected function getTableBulkActions(): array
     {
         return [
-            DeleteBulkAction::make()
+            'delete' => DeleteBulkAction::make()
                 ->label('')
                 ->tooltip(__('user::actions.delete_selected'))
                 ->icon('heroicon-o-trash')
@@ -313,54 +315,61 @@ trait HasXotTable
     }
 
     /**
-     * Get the model class from the relationship or throw an exception if not found.
+     * Get model class.
      *
-     * @throws \Exception
+     * @throws \Exception Se non viene trovata una classe modello valida
+     *
+     * @return class-string<Model>
      */
     public function getModelClass(): string
     {
-        // @phpstan-ignore function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType, function.alreadyNarrowedType
         if (method_exists($this, 'getRelationship')) {
-            // @phpstan-ignore classConstant.nonObject,  method.nonObject, method.notFound
-            Assert::string($res = $this->getRelationship()->getModel()::class);
-
-            return $res;
+            $relationship = $this->getRelationship();
+            if ($relationship instanceof Relation) {
+                /* @var class-string<Model> */
+                return get_class($relationship->getModel());
+            }
         }
-        // @phpstan-ignore function.impossibleType, function.impossibleType
+
         if (method_exists($this, 'getModel')) {
-            Assert::string($res = $this->getModel());
+            $model = $this->getModel();
+            if (is_string($model)) {
+                Assert::classExists($model);
 
-            return $res;
+                /* @var class-string<Model> */
+                return $model;
+            }
+            if ($model instanceof Model) {
+                /* @var class-string<Model> */
+                return get_class($model);
+            }
         }
-        // if (method_exists($this, 'getMountedTableActionRecord')) {
-        //    dddx($this->getMountedTableActionRecord());
-        // }
-        // if (method_exists($this, 'getTable')) {
-        //    dddx( $this->getTable()->getModel());
-        // }
 
-        // ->model($this->getMountedTableActionRecord() ?? $this->getTable()->getModel())
         throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
     /**
-     * Notify the user if the table is missing.
+     * Notify that table is missing.
      */
     protected function notifyTableMissing(): void
     {
-        $model_class = $this->getModelClass();
-        Assert::isInstanceOf($model = app($model_class), Model::class);
-        $tableName = $model->getTable();
+        $modelClass = $this->getModelClass();
+        /** @var Model $model */
+        $model = app($modelClass);
+        Assert::isInstanceOf($model, Model::class);
+
         Notification::make()
             ->title(__('user::notifications.table_missing.title'))
-            ->body(__('user::notifications.table_missing.body', ['table' => $tableName]))
+            ->body(__('user::notifications.table_missing.body', [
+                'table' => $model->getTable(),
+            ]))
             ->persistent()
             ->warning()
             ->send();
     }
 
     /**
-     * Configure an empty table in case the actual table is missing.
+     * Configure empty table.
      */
     protected function configureEmptyTable(Table $table): Table
     {
@@ -368,11 +377,37 @@ trait HasXotTable
             ->modifyQueryUsing(static fn (Builder $query) => $query->whereNull('id'))
             ->columns([
                 TextColumn::make('message')
-
                     ->default(__('user::fields.message.default'))
                     ->html(),
             ])
             ->headerActions([])
             ->actions([]);
+    }
+
+    /**
+     * Get searchable columns.
+     *
+     * @return array<string>
+     */
+    protected function getSearchableColumns(): array
+    {
+        return ['id', 'name'];
+    }
+
+    /**
+     * Check if search is enabled.
+     */
+    protected function hasSearch(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get table search query.
+     */
+    public function getTableSearch(): string
+    {
+        /* @var string */
+        return $this->tableSearch ?? '';
     }
 }

@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
 use Modules\Xot\Contracts\ExtraContract;
 use Modules\Xot\Models\Extra;
-use Webmozart\Assert\Assert;
 
 use function Safe\json_encode;
+
+use Webmozart\Assert\Assert;
 
 /**
  * Modules\Xot\Models\HasExtraTrait.

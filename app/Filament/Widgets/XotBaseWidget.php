@@ -65,8 +65,14 @@ abstract class XotBaseWidget extends Widget
 
     /**
      * Get the cached data.
+     *
+     * @template T
+     *
+     * @param \Closure(): T $callback
+     *
+     * @return T
      */
-    protected function getCachedData(\Closure $callback)
+    protected function getCachedData(\Closure $callback): mixed
     {
         if (! $this->cacheKey) {
             return $callback();

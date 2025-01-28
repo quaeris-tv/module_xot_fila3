@@ -67,7 +67,7 @@ class EnvWidget extends Widget implements HasForms
     /**
      * @return array<Forms\Components\Component>
      */
-    protected function getFormSchema(): array
+    public function getFormSchema(): array
     {
         $all = [
             'app_url' => TextInput::make('app_url')

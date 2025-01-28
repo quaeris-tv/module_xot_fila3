@@ -10,14 +10,14 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Relations;
 
+use function call_user_func;
+
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Webmozart\Assert\Assert;
-
-use function call_user_func;
 
 /**
  * Class CustomRelation.

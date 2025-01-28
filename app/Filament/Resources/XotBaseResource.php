@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources;
 
+use Filament\Forms\Form;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Support\Str;
-use Filament\Forms\Form;
 use Modules\Xot\Actions\ModelClass\CountAction;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
-use Webmozart\Assert\Assert;
 
 use function Safe\glob;
+
+use Webmozart\Assert\Assert;
 
 abstract class XotBaseResource extends FilamentResource
 {

@@ -7,6 +7,7 @@ namespace Modules\Xot\Filament\Resources\CacheResource\Pages;
 use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\TextColumn;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\Xot\Filament\Actions\Header\ArtisanHeaderAction;
 use Modules\Xot\Filament\Resources\CacheResource;
@@ -26,12 +27,15 @@ class ListCaches extends XotBaseListRecords
         ];
     }
 
+    /**
+     * @return array<string, Tables\Columns\Column>
+     */
     public function getListTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('key'),
-            Tables\Columns\TextColumn::make('value'),
-            Tables\Columns\TextColumn::make('exipiration'),
+            'key' => TextColumn::make('key'),
+            'value' => TextColumn::make('value'),
+            'expiration' => TextColumn::make('expiration'),
         ];
     }
 
@@ -39,9 +43,9 @@ class ListCaches extends XotBaseListRecords
     {
         return [
             Stack::make([
-                Tables\Columns\TextColumn::make('key'),
-                Tables\Columns\TextColumn::make('value'),
-                Tables\Columns\TextColumn::make('exipiration'),
+                TextColumn::make('key'),
+                TextColumn::make('value'),
+                TextColumn::make('exipiration'),
             ]),
         ];
     }

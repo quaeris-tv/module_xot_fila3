@@ -11,11 +11,11 @@ use Nwidart\Modules\Facades\Module;
 
 class GenerateFilamentResources extends Command
 {
-    protected $signature = 'xot:generate-filament-resources {module}';
+    protected $signature = 'filament:generate-resources';
 
-    protected $description = 'Genera le Filament Resources per ogni modello in un modulo';
+    protected $description = 'Generate Filament resources for all models';
 
-    public function handle()
+    public function handle(): int
     {
         $moduleName = $this->argument('module');
         $module = Module::find($moduleName);
@@ -23,7 +23,7 @@ class GenerateFilamentResources extends Command
         if (! $module) {
             $this->error("Il modulo '{$moduleName}' non esiste.");
 
-            return;
+            return Command::FAILURE;
         }
 
         $this->info("Generazione delle Filament Resources per il modulo: {$moduleName}");
@@ -32,7 +32,7 @@ class GenerateFilamentResources extends Command
         if (! File::isDirectory($modelsPath)) {
             $this->error("Nessuna cartella 'Models' trovata nel modulo {$moduleName}.");
 
-            return;
+            return Command::FAILURE;
         }
 
         $models = File::files($modelsPath);
@@ -57,5 +57,7 @@ class GenerateFilamentResources extends Command
         }
 
         $this->info('Tutte le resources sono state generate con successo!');
+
+        return Command::SUCCESS;
     }
 }
