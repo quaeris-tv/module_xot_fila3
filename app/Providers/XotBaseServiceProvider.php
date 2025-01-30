@@ -79,7 +79,8 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             if (! is_string($svgPath)) {
                 throw new \Exception('Invalid SVG path');
             }
-            $resolvedPath = realpath($svgPath);
+            //$resolvedPath = realpath($svgPath);
+            $resolvedPath = $svgPath;
             $svgPath = $resolvedPath;
         } catch (\Error $e) {
             $svgPath = base_path('Modules/'.$this->name.'/'.$relativePath.'/../svg');

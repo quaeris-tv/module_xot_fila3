@@ -12,112 +12,470 @@ use Modules\Xot\Filament\Resources\XotBaseResource;
 
 class MyResource extends XotBaseResource
 {
-    // Obbligatorio: definisce il modello associato
-    public static function getModel(): string
-    {
-        return MyModel::class;
-    }
+    protected static ?string $model = MyModel::class;
     
-    // Obbligatorio: definisce lo schema del form
     public static function getFormSchema(): array
     {
         return [
             // Schema del form
         ];
     }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListRecords::route('/'),
+            'create' => Pages\CreateRecord::route('/create'),
+            'edit' => Pages\EditRecord::route('/{record}/edit'),
+            'view' => Pages\ViewRecord::route('/{record}'),
+        ];
+    }
 }
 ```
 
-## Funzionalità Chiave
+## Regole Fondamentali
 
-1. **Gestione Modello Automatica**
-   - Il modello viene determinato automaticamente dal namespace e nome della classe
-   - Override possibile tramite `getModel()`
+1. **NON Implementare nella Resource**
+   - ❌ `table()`
+   - ❌ `$navigationIcon`
+   - ❌ `$navigationGroup`
+   - ❌ `$navigationSort`
+   - ❌ `getTableColumns()`
+   - ❌ `getTableFilters()`
+   - ❌ `getTableActions()`
 
-2. **Form Standardizzato**
-   - NON implementare `form()` o `table()`
-   - Implementare solo `getFormSchema()` che ritorna l'array dello schema
-   - Il form viene costruito automaticamente da XotBaseResource
+2. **IMPLEMENTARE nella Resource**
+   - ✅ `protected static ?string $model`
+   - ✅ `public static function getFormSchema(): array`
+   - ✅ `public static function getPages(): array`
 
-3. **Navigazione**
-   - Gestione automatica del gruppo di navigazione
-   - Badge con conteggio automatico degli elementi
-   - Posizione sub-navigazione configurabile
+## Gestione Tabelle
 
-4. **Pagine**
-   - List Page (index)
-   - Create Page
-   - Edit Page
-   - Generazione automatica dei percorsi
+La configurazione delle tabelle va implementata nelle pagine List:
 
-5. **Relation Managers**
-   - Rilevamento automatico dei RelationManager nella cartella RelationManagers
-   - Tabs combinate con il contenuto principale
+```php
+namespace Modules\Broker\Filament\Resources\MyResource\Pages;
 
-## Metodi Principali
+use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 
-### Obbligatori da Implementare
-- `getModel()`: Definisce il modello associato
-- `getFormSchema()`: Definisce lo schema del form
+class ListRecords extends XotBaseListRecords
+{
+    protected static string $resource = MyResource::class;
+    
+    public function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                // Definizione colonne
+            ])
+            ->filters([
+                // Definizione filtri
+            ])
+            ->actions([
+                // Azioni per singola riga
+            ])
+            ->bulkActions([
+                // Azioni di massa
+            ]);
+    }
 
-### Ereditati (Non Sovrascrivere)
-- `form()`: Usa getFormSchema()
-- `table()`: Non implementare, usa List Page
-- `getPages()`: Gestione automatica delle pagine
-- `getRelations()`: Rilevamento automatico
-- `getNavigationBadge()`: Conteggio automatico
+    public function mount(): void
+    {
+        abort_unless(
+            auth()->user()->can('resource.read'),
+            403
+        );
+    }
 
-### Opzionalmente Estendibili
-- `extendFormCallback()`: Personalizzazione form
-- `extendTableCallback()`: Personalizzazione tabella
-- `getModuleName()`: Nome del modulo
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make()
+                ->visible(fn () => auth()->user()->can('resource.write')),
+        ];
+    }
+}
+```
+
+## Documentazione Resource
+
+È importante documentare ogni Resource con un header completo:
+
+```php
+/**
+ * Risorsa per la gestione di XXX
+ * 
+ * Menu:
+ * - Gruppo: xxx
+ * - Label: xxx
+ * - Icona: heroicon-o-xxx
+ * - Ordinamento: xx
+ * 
+ * Convertito da:
+ * - Controller: xxx
+ * - Template: xxx
+ * - URL vecchi: xxx
+ * - URL nuovi: xxx
+ * 
+ * Note sulla conversione:
+ * - Permessi
+ * - Funzionalità
+ * - Miglioramenti
+ * 
+ * Struttura:
+ * - Resource: Definisce solo model e form schema
+ * - Pages/List: Gestisce la configurazione della tabella
+ * - Pages/Create: Gestisce la creazione
+ * - Pages/Edit: Gestisce la modifica
+ * - Pages/View: Gestisce la visualizzazione
+ */
+```
 
 ## Best Practices
 
-1. **Struttura Form**
-   ```php
-   public static function getFormSchema(): array
-   {
-       return [
-           Forms\Components\TextInput::make('name')
-               ->required(),
-           // Altri campi
-       ];
-   }
-   ```
+1. **Separazione delle Responsabilità**
+   - Resource: model, form schema, routing
+   - List Page: configurazione tabella
+   - Create/Edit Pages: gestione form
+   - View Page: visualizzazione dettagli
 
-2. **Relazioni**
-   - Creare RelationManager separati nella sottocartella RelationManagers
-   - Verranno rilevati e caricati automaticamente
+2. **Gestione Permessi**
+   - Implementare controlli nei mount()
+   - Usare can() per azioni condizionali
+   - Centralizzare i nomi dei permessi
 
-3. **Navigazione**
-   - La navigazione è gestita centralmente
-   - Non sovrascrivere i metodi di navigazione
-   - Usare NavigationLabelTrait per personalizzazioni
+3. **Performance**
+   - Eager loading delle relazioni
+   - Caching dove appropriato
+   - Paginazione efficiente
 
-4. **Validazione**
-   - Implementare le regole di validazione nello schema del form
-   - Utilizzare i trait di validazione comuni quando possibile
+4. **Manutenibilità**
+   - Documentazione completa
+   - Type hints appropriati
+   - Nomi descrittivi per metodi e variabili
+
+## Esempi Comuni
+
+### 1. Form Schema con Relazioni
+```php
+public static function getFormSchema(): array
+{
+    return [
+        Forms\Components\Select::make('cliente_id')
+            ->relationship('cliente', 'nominativo')
+            ->searchable()
+            ->preload(),
+        // Altri campi
+    ];
+}
+```
+
+### 2. Tabella con Filtri Avanzati
+```php
+public function table(Table $table): Table
+{
+    return $table
+        ->columns([
+            TextColumn::make('cliente.nominativo')
+                ->searchable()
+                ->sortable(),
+        ])
+        ->filters([
+            SelectFilter::make('stato')
+                ->options([
+                    'attivo' => 'Attivo',
+                    'sospeso' => 'Sospeso',
+                ]),
+        ]);
+}
+```
+
+### 3. Azioni Condizionali
+```php
+protected function getHeaderActions(): array
+{
+    return [
+        Actions\CreateAction::make()
+            ->visible(fn () => auth()->user()->can('create')),
+        Actions\ExportAction::make()
+            ->visible(fn () => auth()->user()->can('export')),
+    ];
+}
+```
+
+# XotBaseResource e XotBaseListRecords
+
+## Gestione Tabelle e Traduzioni
+
+### 1. Struttura delle Tabelle
+
+XotBaseListRecords gestisce le tabelle attraverso metodi specifici invece del metodo `table()`:
+
+```php
+class ListMyRecords extends XotBaseListRecords
+{
+    // Definizione delle colonne
+    public function getListTableColumns(): array
+    {
+        return [
+            TextColumn::make('field_name')
+                ->searchable()
+                ->sortable(),
+        ];
+    }
+
+    // Definizione dei filtri
+    public function getListTableFilters(): array
+    {
+        return [
+            SelectFilter::make('status')
+                ->relationship('status', 'name'),
+        ];
+    }
+
+    // Definizione delle azioni per riga
+    public function getListTableActions(): array
+    {
+        return [
+            ViewAction::make(),
+            EditAction::make(),
+        ];
+    }
+
+    // Definizione delle azioni di massa
+    public function getListTableBulkActions(): array
+    {
+        return [
+            DeleteBulkAction::make(),
+        ];
+    }
+}
+```
+
+### 2. Sistema di Traduzioni Automatico
+
+Il `LangServiceProvider` gestisce automaticamente le traduzioni delle label:
+
+1. **Struttura delle Traduzioni**:
+```php
+// lang/it/polizza_fuori_convenzione.php
+return [
+    'fields' => [
+        'numero_adesione' => 'Numero Adesione',
+        'cliente' => 'Cliente',
+        'data_decorrenza' => 'Data Decorrenza',
+    ],
+    'actions' => [
+        'view' => 'Visualizza',
+        'edit' => 'Modifica',
+        'delete' => 'Elimina',
+    ],
+];
+```
+
+2. **NON Usare Label Manuali**:
+```php
+// ❌ ERRATO: Non specificare label manualmente
+TextColumn::make('numero_adesione')
+    ->label('Numero Adesione')
+
+// ✅ CORRETTO: Le label vengono gestite automaticamente
+TextColumn::make('numero_adesione')
+```
+
+3. **Come Funziona**:
+- Il `LangServiceProvider` intercetta la creazione dei componenti
+- Cerca automaticamente le traduzioni nei file di lingua
+- Applica le traduzioni in base alla locale corrente
+- Supporta la gestione multilingua
+
+### 3. Gestione Permessi
+
+Utilizzare la facade Auth per i controlli dei permessi:
+
+```php
+use Illuminate\Support\Facades\Auth;
+
+class ListMyRecords extends XotBaseListRecords
+{
+    public function mount(): void
+    {
+        abort_unless(
+            Auth::user()?->can('resource.read'),
+            403
+        );
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            CreateAction::make()
+                ->visible(fn () => Auth::user()?->can('resource.write')),
+        ];
+    }
+}
+```
+
+### 4. Best Practices
+
+1. **Separazione delle Responsabilità**:
+   - Resource: solo model e form schema
+   - ListRecords: configurazione completa della tabella
+   - Traduzioni: nei file di lingua
+
+2. **Convenzioni di Naming**:
+   - File di lingua: snake_case (es: `polizza_fuori_convenzione.php`)
+   - Chiavi traduzioni: dot notation (es: `fields.numero_adesione`)
+   - Metodi tabella: prefisso `getList` (es: `getListTableColumns`)
+
+3. **Performance**:
+   - Eager loading delle relazioni necessarie
+   - Indici appropriati sul database
+   - Paginazione efficiente
+
+4. **Manutenibilità**:
+   - Documentazione chiara dei metodi
+   - Type hints appropriati
+   - Commenti per logiche complesse
+
+### 5. Esempio Completo
+
+```php
+namespace App\Filament\Resources\MyResource\Pages;
+
+use Illuminate\Support\Facades\Auth;
+use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
+
+/**
+ * Lista dei record.
+ *
+ * Questa pagina gestisce la visualizzazione tabulare.
+ * Le traduzioni delle label sono gestite automaticamente dal LangServiceProvider.
+ */
+class ListRecords extends XotBaseListRecords
+{
+    protected static string $resource = MyResource::class;
+
+    public function mount(): void
+    {
+        abort_unless(
+            Auth::user()?->can('resource.read'),
+            403
+        );
+    }
+
+    public function getListTableColumns(): array
+    {
+        return [
+            TextColumn::make('name')
+                ->searchable()
+                ->sortable(),
+            TextColumn::make('status')
+                ->sortable(),
+            TextColumn::make('created_at')
+                ->date()
+                ->sortable(),
+        ];
+    }
+
+    public function getListTableFilters(): array
+    {
+        return [
+            SelectFilter::make('status')
+                ->options([
+                    'active' => 'Attivo',
+                    'inactive' => 'Inattivo',
+                ]),
+        ];
+    }
+
+    public function getListTableActions(): array
+    {
+        return [
+            ViewAction::make(),
+            EditAction::make(),
+            DeleteAction::make(),
+        ];
+    }
+
+    public function getListTableBulkActions(): array
+    {
+        return [
+            DeleteBulkAction::make(),
+        ];
+    }
+}
+```
+
+# Implementazione Corretta dei Metodi della Tabella
+
+## Metodi Standard per XotBaseListRecords
+
+```php
+class ListMyRecords extends XotBaseListRecords
+{
+    // ✅ CORRETTO: Usa i metodi standard di Filament
+    public function getTableColumns(): array
+    {
+        return [
+            // definizione delle colonne
+        ];
+    }
+
+    public function getTableFilters(): array
+    {
+        return [
+            // definizione dei filtri
+        ];
+    }
+
+    public function getTableActions(): array
+    {
+        return [
+            // definizione delle azioni
+        ];
+    }
+
+    public function getTableBulkActions(): array
+    {
+        return [
+            // definizione delle azioni bulk
+        ];
+    }
+}
+```
+
+## Errori Comuni da Evitare
+
+1. **❌ NON usare il prefisso `getListTable`**:
+```php
+// ❌ ERRATO
+public function getListTableColumns(): array
+public function getListTableFilters(): array
+public function getListTableActions(): array
+public function getListTableBulkActions(): array
+
+// ✅ CORRETTO
+public function getTableColumns(): array
+public function getTableFilters(): array
+public function getTableActions(): array
+public function getTableBulkActions(): array
+```
+
+2. **❌ NON cambiare la visibilità dei metodi**:
+```php
+// ❌ ERRATO: protected
+protected function getTableColumns(): array
+
+// ✅ CORRETTO: public come nella classe padre
+public function getTableColumns(): array
+```
 
 ## Note Importanti
 
-1. NON implementare:
-   - `table()`
-   - `form()`
-   - Metodi di navigazione diretti
+1. XotBaseListRecords estende Filament\Resources\Pages\ListRecords
+2. Usa i metodi standard di Filament per la configurazione della tabella
+3. Mantieni la visibilità pubblica dei metodi
+4. Non aggiungere il prefisso "List" ai nomi dei metodi
 
-2. SEMPRE implementare:
-   - `getModel()`
-   - `getFormSchema()`
-
-3. La struttura delle cartelle deve seguire la convenzione:
-   ```
-   Modules/
-   ├── ModuleName/
-   │   ├── Filament/
-   │   │   └── Resources/
-   │   │       ├── MyResource.php
-   │   │       └── RelationManagers/
-   │   └── Models/
-   │       └── MyModel.php
-   ``` 
+// ... existing code ... 

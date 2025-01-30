@@ -236,7 +236,7 @@ trait HasXotTable
     /**
      * Get default table sort direction.
      */
-    protected function getDefaultTableSortDirection(): string
+    protected function getDefaultTableSortDirection(): ?string
     {
         return 'desc';
     }

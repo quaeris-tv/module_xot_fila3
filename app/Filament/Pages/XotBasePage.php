@@ -6,6 +6,7 @@ namespace Modules\Xot\Filament\Pages;
 
 use Filament\Pages\Page;
 use Illuminate\Support\Str;
+use Modules\Xot\Filament\Traits\TransTrait;
 
 /**
  * Undocumented class.
@@ -14,6 +15,7 @@ use Illuminate\Support\Str;
  */
 abstract class XotBasePage extends Page
 {
+    use TransTrait;
     protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
 
     protected static string $view = 'job::filament.pages.job-monitor';
@@ -58,18 +60,18 @@ abstract class XotBasePage extends Page
 
     public static function getPluralModelLabel(): string
     {
-        return static::trans('navigation.plural');
+        return static::transFunc(__FUNCTION__);
     }
 
     public static function getNavigationLabel(): string
     {
-        return static::trans('navigation.name');
+        return static::transFunc(__FUNCTION__);
         // return static::trans('navigation.plural');
     }
 
     public static function getNavigationGroup(): string
     {
-        return static::trans('navigation.group.name');
+        return static::transFunc(__FUNCTION__);
     }
 
     public function getModel(): string
