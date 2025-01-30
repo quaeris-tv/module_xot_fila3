@@ -11,6 +11,7 @@ use Webmozart\Assert\Assert;
 class SearchStringInDatabaseCommand extends Command
 {
     protected $signature = 'db:search {search} {--table=*}';
+
     protected $description = 'Search for a string in database tables';
 
     public function handle(): int
@@ -54,8 +55,7 @@ class SearchStringInDatabaseCommand extends Command
     }
 
     /**
-     * @param \Illuminate\Support\Collection<int, object> $results
-     *
+     * @param  \Illuminate\Support\Collection<int, object>  $results
      * @return array<int, array{string, string}>
      */
     private function formatResults($results): array

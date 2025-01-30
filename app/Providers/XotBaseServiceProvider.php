@@ -13,10 +13,9 @@ use Modules\Xot\Actions\Blade\RegisterBladeComponentsAction;
 use Modules\Xot\Actions\Livewire\RegisterLivewireComponentsAction;
 use Modules\Xot\Datas\ComponentFileData;
 use Nwidart\Modules\Traits\PathNamespace;
+use Webmozart\Assert\Assert;
 
 use function Safe\realpath;
-
-use Webmozart\Assert\Assert;
 
 /**
  * Class XotBaseServiceProvider.
@@ -68,7 +67,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
 
     public function registerBladeIcons(): void
     {
-        if ('' === $this->name) {
+        if ($this->name === '') {
             throw new \Exception('name is empty on ['.static::class.']');
         }
 
@@ -79,7 +78,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
             if (! is_string($svgPath)) {
                 throw new \Exception('Invalid SVG path');
             }
-            //$resolvedPath = realpath($svgPath);
+            // $resolvedPath = realpath($svgPath);
             $resolvedPath = $svgPath;
             $svgPath = $resolvedPath;
         } catch (\Error $e) {
@@ -101,7 +100,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
      */
     public function registerViews(): void
     {
-        if ('' === $this->name) {
+        if ($this->name === '') {
             throw new \Exception('name is empty on ['.static::class.']');
         }
 
@@ -118,7 +117,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
      */
     public function registerTranslations(): void
     {
-        if ('' === $this->name) {
+        if ($this->name === '') {
             throw new \Exception('name is empty on ['.static::class.']');
         }
 
@@ -216,7 +215,7 @@ abstract class XotBaseServiceProvider extends ServiceProvider
                 'Modules\\'.$this->name.'\\Console\\Commands',
                 $prefix,
             );
-        if (0 == $comps->count()) {
+        if ($comps->count() == 0) {
             return;
         }
         $commands = Arr::map(

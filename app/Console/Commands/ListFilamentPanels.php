@@ -13,6 +13,7 @@ use function Safe\scandir;
 class ListFilamentPanels extends Command
 {
     protected $signature = 'filament:list-panels';
+
     protected $description = 'List all Filament panels in modules';
 
     public function handle(): int

@@ -47,11 +47,13 @@ class SearchTextInDbCommand extends Command
 
             if (! is_string($tableName)) {
                 $this->warn('Invalid table name format');
+
                 continue;
             }
 
             if (! Schema::hasTable($tableName)) {
                 $this->warn(sprintf('Table %s does not exist', $tableName));
+
                 continue;
             }
 
