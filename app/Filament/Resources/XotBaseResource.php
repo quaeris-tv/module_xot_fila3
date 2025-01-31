@@ -98,12 +98,20 @@ abstract class XotBaseResource extends FilamentResource
         $index = Str::of($prefix)->append('List'.$name.'s')->toString();
         $create = Str::of($prefix)->append('Create'.$name.'')->toString();
         $edit = Str::of($prefix)->append('Edit'.$name.'')->toString();
+        $view = Str::of($prefix)->append('View'.$name.'')->toString();
 
-        return [
+        $pages = [
             'index' => $index::route('/'),
             'create' => $create::route('/create'),
             'edit' => $edit::route('/{record}/edit'),
+            //'view' => $view::route('/{record}'),
         ];
+
+        if (class_exists($view)) {
+            $pages['view'] = $view::route('/{record}');
+        };
+
+        return $pages;
     }
 
     public static function getRelations(): array
