@@ -56,7 +56,7 @@ use Modules\Xot\Filament\Resources\XotBaseResource;
 
 class UserResource extends XotBaseResource
 {
-    protected function getListTableColumns(): array
+    public function getListTableColumns(): array
     {
         return [
             // definizione delle colonne
@@ -365,7 +365,7 @@ abstract class XotBaseListRecords extends FilamentListRecords
 #### Array Keys nelle Table Columns
 ```php
 // ERRATO: Array numerico
-protected function getListTableColumns(): array
+public function getListTableColumns(): array
 {
     return [
         TextColumn::make('name'),
@@ -2616,7 +2616,7 @@ protected function getTableActions(): array
 protected function getTableBulkActions(): array
 
 // ✅ CORRETTO: Metodi di XotBaseListRecords
-protected function getListTableColumns(): array
+public function getListTableColumns(): array
 protected function getListTableFilters(): array
 protected function getListTableActions(): array
 protected function getListTableBulkActions(): array
@@ -2626,7 +2626,7 @@ protected function getListTableBulkActions(): array
 ```php
 class ListTickets extends XotBaseListRecords
 {
-    protected function getListTableColumns(): array
+    public function getListTableColumns(): array
     {
         return [
             TextColumn::make('id')->sortable(),
@@ -2653,7 +2653,7 @@ class ListTickets extends XotBaseListRecords
  *
  * @return array<int, Column>
  */
-protected function getListTableColumns(): array
+public function getListTableColumns(): array
 
 /**
  * Get the table filters for the list view.
@@ -2685,7 +2685,7 @@ protected function getListTableBulkActions(): array
 1. **Nomenclatura**:
    ```php
    // ✅ CORRETTO: Usa sempre il prefisso "List"
-   protected function getListTableColumns(): array
+   public function getListTableColumns(): array
    
    // ❌ ERRATO: Non usare i metodi standard di Filament
    protected function getTableColumns(): array
@@ -2696,7 +2696,7 @@ protected function getListTableBulkActions(): array
    /**
     * @return array<int, Column>
     */
-   protected function getListTableColumns(): array
+   public function getListTableColumns(): array
    {
        return [
            TextColumn::make('id')->sortable(),
@@ -2711,7 +2711,7 @@ protected function getListTableBulkActions(): array
     *
     * @return array<int, \Filament\Tables\Columns\Column>
     */
-   protected function getListTableColumns(): array
+   public function getListTableColumns(): array
    ```
 
 ## Note Importanti
@@ -2868,7 +2868,7 @@ Quando si estende una classe base, i metodi sovrascritti devono mantenere lo ste
 ### 1. Metodi della Tabella
 ```php
 // ❌ ERRATO: Livello di accesso più restrittivo
-protected function getListTableColumns(): array
+public function getListTableColumns(): array
 
 // ✅ CORRETTO: Stesso livello di accesso della classe padre
 public function getListTableColumns(): array
@@ -2888,7 +2888,7 @@ class ListTickets extends XotBaseListRecords
     }
 
     // ❌ ERRATO: protected è più restrittivo
-    protected function getListTableColumns(): array
+    public function getListTableColumns(): array
     {
         // ...
     }
@@ -2905,7 +2905,7 @@ public function getListTableColumns(): array
 // ❌ ERRATO: Non puoi restringere l'accesso
 class MyListRecords extends XotBaseListRecords
 {
-    protected function getListTableColumns(): array  // Errore!
+    public function getListTableColumns(): array  // Errore!
     {
         // ...
     }
@@ -5316,7 +5316,7 @@ protected function getTableActions(): array
 protected function getTableBulkActions(): array
 
 // ✅ CORRETTO: Metodi di XotBaseListRecords
-protected function getListTableColumns(): array
+public function getListTableColumns(): array
 protected function getListTableFilters(): array
 protected function getListTableActions(): array
 protected function getListTableBulkActions(): array
@@ -5326,7 +5326,7 @@ protected function getListTableBulkActions(): array
 ```php
 class ListTickets extends XotBaseListRecords
 {
-    protected function getListTableColumns(): array
+    public function getListTableColumns(): array
     {
         return [
             TextColumn::make('id')->sortable(),
@@ -5353,7 +5353,7 @@ class ListTickets extends XotBaseListRecords
  *
  * @return array<int, Column>
  */
-protected function getListTableColumns(): array
+public function getListTableColumns(): array
 
 /**
  * Get the table filters for the list view.
@@ -5385,7 +5385,7 @@ protected function getListTableBulkActions(): array
 1. **Nomenclatura**:
    ```php
    // ✅ CORRETTO: Usa sempre il prefisso "List"
-   protected function getListTableColumns(): array
+   public function getListTableColumns(): array
    
    // ❌ ERRATO: Non usare i metodi standard di Filament
    protected function getTableColumns(): array
@@ -5396,7 +5396,7 @@ protected function getListTableBulkActions(): array
    /**
     * @return array<int, Column>
     */
-   protected function getListTableColumns(): array
+   public function getListTableColumns(): array
    {
        return [
            TextColumn::make('id')->sortable(),
@@ -5411,7 +5411,7 @@ protected function getListTableBulkActions(): array
     *
     * @return array<int, \Filament\Tables\Columns\Column>
     */
-   protected function getListTableColumns(): array
+   public function getListTableColumns(): array
    ```
 
 ## Note Importanti
@@ -5568,7 +5568,7 @@ Quando si estende una classe base, i metodi sovrascritti devono mantenere lo ste
 ### 1. Metodi della Tabella
 ```php
 // ❌ ERRATO: Livello di accesso più restrittivo
-protected function getListTableColumns(): array
+public function getListTableColumns(): array
 
 // ✅ CORRETTO: Stesso livello di accesso della classe padre
 public function getListTableColumns(): array
@@ -5588,7 +5588,7 @@ class ListTickets extends XotBaseListRecords
     }
 
     // ❌ ERRATO: protected è più restrittivo
-    protected function getListTableColumns(): array
+    public function getListTableColumns(): array
     {
         // ...
     }
@@ -5605,7 +5605,7 @@ public function getListTableColumns(): array
 // ❌ ERRATO: Non puoi restringere l'accesso
 class MyListRecords extends XotBaseListRecords
 {
-    protected function getListTableColumns(): array  // Errore!
+    public function getListTableColumns(): array  // Errore!
     {
         // ...
     }

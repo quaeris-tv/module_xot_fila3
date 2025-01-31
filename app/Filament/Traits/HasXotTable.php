@@ -197,7 +197,7 @@ trait HasXotTable
         $model = app($modelClass);
         Assert::isInstanceOf($model, Model::class);
 
-        return $table
+        $table = $table
             ->recordTitleAttribute($this->getTableRecordTitleAttribute())
             ->heading($this->getTableHeading())
             ->columns($this->layoutView->getTableColumns())
@@ -212,10 +212,14 @@ trait HasXotTable
             ->actionsPosition(ActionsPosition::BeforeColumns)
             ->emptyStateActions($this->getTableEmptyStateActions())
             ->striped()
+        ;
+        /*
             ->defaultSort(
                 column: $this->getDefaultTableSortColumn(),
                 direction: $this->getDefaultTableSortDirection(),
             );
+        */
+        return $table;
     }
 
     /**
