@@ -10,7 +10,6 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Modules\UI\Enums\TableLayoutEnum;
 use Modules\Xot\Filament\Resources\LogResource;
 use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 
@@ -19,7 +18,7 @@ use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
  */
 class ListLogs extends XotBaseListRecords
 {
-    public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
+    
 
     protected static string $resource = LogResource::class;
 
