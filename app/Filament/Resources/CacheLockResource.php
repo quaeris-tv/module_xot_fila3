@@ -12,6 +12,9 @@ class CacheLockResource extends XotBaseResource
 {
     protected static ?string $model = CacheLock::class;
 
+    /**
+     * @inheritDoc
+     */
     public static function getFormSchema(): array
     {
         return [
