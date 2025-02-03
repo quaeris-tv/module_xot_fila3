@@ -9,6 +9,9 @@ use Filament\Tables\Columns\TextColumn;
 use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 use Modules\Xot\Filament\Resources\SessionResource;
 
+/**
+ * @see SessionResource
+ */
 class ListSessions extends XotBaseListRecords
 {
     protected static string $resource = SessionResource::class;
@@ -16,29 +19,40 @@ class ListSessions extends XotBaseListRecords
     public function getGridTableColumns(): array
     {
         return [
-            Stack::make([
-                TextColumn::make('id'),
-                TextColumn::make('user_id'),
-                TextColumn::make('ip_address'),
-                // TextColumn::make('user_agent'),
-                // TextColumn::make('payload'),
-                TextColumn::make('last_activity'),
-            ]),
+            Stack::make($this->getListTableColumns()),
         ];
     }
 
-    /**
-     * @return array<string, \Filament\Tables\Columns\Column>
-     */
     public function getListTableColumns(): array
     {
         return [
-            'id' => TextColumn::make('id'),
-            'user_id' => TextColumn::make('user_id'),
-            'ip_address' => TextColumn::make('ip_address'),
-            'user_agent' => TextColumn::make('user_agent'),
-            'payload' => TextColumn::make('payload'),
-            'last_activity' => TextColumn::make('last_activity'),
+            'id' => TextColumn::make('id')
+                ->sortable()
+                ->label('ID'),
+
+            'user_id' => TextColumn::make('user_id')
+                ->sortable()
+                ->searchable()
+                ->label('User ID'),
+
+            'ip_address' => TextColumn::make('ip_address')
+                ->searchable()
+                ->label('IP Address'),
+
+            'user_agent' => TextColumn::make('user_agent')
+                ->searchable()
+                ->wrap()
+                ->label('User Agent'),
+
+            'payload' => TextColumn::make('payload')
+                ->searchable()
+                ->wrap()
+                ->label('Payload'),
+
+            'last_activity' => TextColumn::make('last_activity')
+                ->dateTime()
+                ->sortable()
+                ->label('Last Activity'),
         ];
     }
 }

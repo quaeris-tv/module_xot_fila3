@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources\ExtraResource\Pages;
 
+use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Modules\Xot\Filament\Resources\ExtraResource;
 use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 
@@ -50,14 +53,14 @@ class ListExtras extends XotBaseListRecords
     public function getTableActions(): array
     {
         return [
-            Tables\Actions\EditAction::make(),
+            EditAction::make(),
         ];
     }
 
     public function getTableBulkActions(): array
     {
         return [
-            Tables\Actions\DeleteBulkAction::make(),
+            DeleteBulkAction::make(),
         ];
     }
 }
