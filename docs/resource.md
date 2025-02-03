@@ -3,6 +3,47 @@
 ## Overview
 `XotBaseResource` è la classe base astratta per tutti i Resource Filament nel sistema. Estende `Filament\Resources\Resource` e fornisce funzionalità comuni e standardizzate.
 
+## Gestione Icone di Navigazione
+
+### ❌ Modo Errato
+```php
+class MyResource extends XotBaseResource
+{
+    // NON definire l'icona direttamente nella classe
+    protected static ?string $navigationIcon = 'heroicon-o-user';
+}
+```
+
+### ✅ Modo Corretto
+Le icone vanno definite nel file di traduzione del modulo:
+
+```php
+// Modules/{Module}/lang/{locale}/my_resource.php
+return [
+    'navigation' => [
+        'group' => 'admin',
+        'label' => 'My Resource',
+        'icon' => 'heroicon-o-user',
+        'sort' => 10
+    ]
+];
+```
+
+### Icone SVG Personalizzate
+Per utilizzare icone SVG personalizzate:
+
+1. Salvare l'icona SVG in:
+```
+Modules/{Module}/resources/svg/{nome-icona}.svg
+```
+
+2. Riferirsi all'icona nel file di traduzione:
+```php
+'navigation' => [
+    'icon' => '{module}::{nome-icona}',
+]
+```
+
 ## Struttura Base
 
 ```php
