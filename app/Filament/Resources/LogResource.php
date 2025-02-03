@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources;
 
-use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Infolists;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -20,13 +21,20 @@ class LogResource extends XotBaseResource
 
     protected static ?string $model = Log::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static function form(Form $form): Form
+    public static function getFormSchema(): array
     {
-        return $form
-            ->schema([
-            ]);
+        return [
+            TextInput::make('name')
+                ->required()
+                ->maxLength(255),
+
+            TextInput::make('path')
+                ->required()
+                ->maxLength(255),
+
+            Textarea::make('content')
+                ->columnSpanFull(),
+        ];
     }
 
     public static function infolist(Infolist $infolist): Infolist
