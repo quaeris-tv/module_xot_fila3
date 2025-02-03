@@ -12,7 +12,10 @@ class ListExtras extends XotBaseListRecords
 {
     protected static string $resource = ExtraResource::class;
 
-    public function getTableColumns(): array
+    /**
+     * @inheritDoc
+     */
+    public function getListTableColumns(): array
     {
         return [
             Tables\Columns\TextColumn::make('id'),
