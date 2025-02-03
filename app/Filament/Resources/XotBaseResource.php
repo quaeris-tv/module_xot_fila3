@@ -58,10 +58,7 @@ abstract class XotBaseResource extends FilamentResource
         return $res;
     }
 
-    public static function getFormSchema(): array
-    {
-        return [];
-    }
+    abstract public static function getFormSchema(): array;
 
     public static function form(Form $form): Form
     {
