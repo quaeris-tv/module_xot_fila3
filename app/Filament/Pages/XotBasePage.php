@@ -16,6 +16,7 @@ use Modules\Xot\Filament\Traits\TransTrait;
 abstract class XotBasePage extends Page
 {
     use TransTrait;
+
     protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
 
     protected static string $view = 'job::filament.pages.job-monitor';

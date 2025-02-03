@@ -40,7 +40,9 @@ trait HasXotTable
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     protected static bool $canReplicate = false;
+
     protected static bool $canView = true;
+
     protected static bool $canEdit = true;
 
     /**
@@ -195,7 +197,7 @@ trait HasXotTable
         $model = app($modelClass);
         Assert::isInstanceOf($model, Model::class);
 
-        return $table
+        $table = $table
             ->recordTitleAttribute($this->getTableRecordTitleAttribute())
             ->heading($this->getTableHeading())
             ->columns($this->layoutView->getTableColumns())
@@ -210,10 +212,14 @@ trait HasXotTable
             ->actionsPosition(ActionsPosition::BeforeColumns)
             ->emptyStateActions($this->getTableEmptyStateActions())
             ->striped()
+        ;
+        /*
             ->defaultSort(
                 column: $this->getDefaultTableSortColumn(),
                 direction: $this->getDefaultTableSortDirection(),
             );
+        */
+        return $table;
     }
 
     /**
@@ -317,9 +323,9 @@ trait HasXotTable
     /**
      * Get model class.
      *
-     * @throws \Exception Se non viene trovata una classe modello valida
-     *
      * @return class-string<Model>
+     *
+     * @throws \Exception Se non viene trovata una classe modello valida
      */
     public function getModelClass(): string
     {

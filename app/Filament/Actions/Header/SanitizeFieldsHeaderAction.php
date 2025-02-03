@@ -46,7 +46,7 @@ class SanitizeFieldsHeaderAction extends Action
                         if ($string != $item) {
                             $row->{$field} = $string;
                             $save = true;
-                            ++$c;
+                            $c++;
                         }
                     }
                     if ($save) {

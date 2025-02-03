@@ -14,6 +14,4 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @method static static make(?string $name = null) Create a new instance of the action
  */
-abstract class XotBaseAction extends Action
-{
-}
+abstract class XotBaseAction extends Action {}
