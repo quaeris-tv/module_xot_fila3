@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources;
 
-use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\KeyValue;
 use Modules\Xot\Filament\Resources\SessionResource\Pages;
 use Modules\Xot\Models\Session;
 
@@ -12,13 +13,29 @@ class SessionResource extends XotBaseResource
 {
     protected static ?string $model = Session::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static function form(Form $form): Form
+    public static function getFormSchema(): array
     {
-        return $form
-            ->schema([
-            ]);
+        return [
+            TextInput::make('id')
+                ->required()
+                ->maxLength(255),
+
+            TextInput::make('user_id')
+                ->numeric(),
+
+            TextInput::make('ip_address')
+                ->maxLength(45),
+
+            TextInput::make('user_agent')
+                ->maxLength(255),
+
+            KeyValue::make('payload')
+                ->columnSpanFull(),
+
+            TextInput::make('last_activity')
+                ->required()
+                ->numeric(),
+        ];
     }
 
     public static function getRelations(): array
