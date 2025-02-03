@@ -10,41 +10,51 @@ class ResourceFormSchemaGenerator
 {
     public static function generateFormSchema(string $resourceClass)
     {
-        $reflection = new \ReflectionClass($resourceClass);
-        $filename = $reflection->getFileName();
+        try {
+            $reflection = new \ReflectionClass($resourceClass);
+            $filename = $reflection->getFileName();
 
-        // Read the file contents
-        $fileContents = file_get_contents($filename);
+            // Read the file contents
+            $fileContents = file_get_contents($filename);
 
-        // Check if getFormSchema method already exists
-        if (false !== strpos($fileContents, 'public function getFormSchema')) {
+            // Check if getFormSchema method already exists
+            if (false !== strpos($fileContents, 'public function getFormSchema')) {
+                return false;
+            }
+
+            // Generate a basic form schema based on the class name
+            $modelName = str_replace('Resource', '', $reflection->getShortName());
+            $modelVariable = Str::camel($modelName);
+
+            $formSchemaMethod = "\n    public function getFormSchema(): array\n    {\n        return [\n";
+
+            // Try to generate some basic form fields
+            $formSchemaMethod .= "            Forms\\Components\\TextInput::make('{$modelVariable}_name')\n";
+            $formSchemaMethod .= "                ->label('".Str::headline($modelName)." Name')\n";
+            $formSchemaMethod .= "                ->required(),\n";
+
+            $formSchemaMethod .= "        ];\n    }\n";
+
+            // Detect if the class is in a Clusters directory
+            $isInClustersDir = false !== strpos($filename, 'Clusters');
+
+            // Insert the method before the last closing brace
+            $modifiedContents = preg_replace(
+                '/}(\s*)$/',
+                $formSchemaMethod.($isInClustersDir ? '' : '}$1'),
+                $fileContents
+            );
+
+            // Write back to the file
+            file_put_contents($filename, $modifiedContents);
+
+            return true;
+        } catch (\Exception $e) {
+            // Log the error or handle it appropriately
+            error_log("Error generating form schema for {$resourceClass}: ".$e->getMessage());
+
             return false;
         }
-
-        // Generate a basic form schema based on the class name
-        $modelName = str_replace('Resource', '', $reflection->getShortName());
-        $modelVariable = Str::camel($modelName);
-
-        $formSchemaMethod = "\n    public function getFormSchema(): array\n    {\n        return [\n";
-
-        // Try to generate some basic form fields
-        $formSchemaMethod .= "            Forms\\Components\\TextInput::make('{$modelVariable}_name')\n";
-        $formSchemaMethod .= "                ->label('".Str::headline($modelName)." Name')\n";
-        $formSchemaMethod .= "                ->required(),\n";
-
-        $formSchemaMethod .= "        ];\n    }\n";
-
-        // Insert the method before the last closing brace
-        $modifiedContents = preg_replace(
-            '/}(\s*)$/',
-            $formSchemaMethod.'}$1',
-            $fileContents
-        );
-
-        // Write back to the file
-        file_put_contents($filename, $modifiedContents);
-
-        return true;
     }
 
     public static function generateForAllResources()
