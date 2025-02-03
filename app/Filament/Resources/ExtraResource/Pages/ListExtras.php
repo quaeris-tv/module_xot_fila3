@@ -4,24 +4,35 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources\ExtraResource\Pages;
 
-use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Modules\Xot\Filament\Resources\ExtraResource;
 use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 
+/**
+ * @see ExtraResource
+ */
 class ListExtras extends XotBaseListRecords
 {
     protected static string $resource = ExtraResource::class;
 
-    /**
-     * @inheritDoc
-     */
     public function getListTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('id'),
-            Tables\Columns\TextColumn::make('model_type'),
-            Tables\Columns\TextColumn::make('model_id'),
-            Tables\Columns\TextColumn::make('extra_attributes'),
+            'id' => TextColumn::make('id')
+                ->sortable()
+                ->label('ID'),
+
+            'model_type' => TextColumn::make('model_type')
+                ->searchable()
+                ->label('Model Type'),
+
+            'model_id' => TextColumn::make('model_id')
+                ->sortable()
+                ->label('Model ID'),
+
+            'extra_attributes' => TextColumn::make('extra_attributes')
+                ->searchable()
+                ->label('Extra Attributes'),
         ];
     }
 
@@ -34,8 +45,6 @@ class ListExtras extends XotBaseListRecords
     }
 
     /**
-     * Undocumented function.
-     *
      * @return array<Tables\Actions\Action|Tables\Actions\ActionGroup>
      */
     public function getTableActions(): array
@@ -45,7 +54,7 @@ class ListExtras extends XotBaseListRecords
         ];
     }
 
-    public function getTableBuilkActions(): array
+    public function getTableBulkActions(): array
     {
         return [
             Tables\Actions\DeleteBulkAction::make(),
