@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
-use Webmozart\Assert\Assert;
 
 use function Safe\shell_exec;
+
+use Webmozart\Assert\Assert;
 
 class ImportMdbToMySQL extends Command
 {

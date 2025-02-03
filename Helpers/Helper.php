@@ -17,13 +17,14 @@ use Modules\Xot\Contracts\ProfileContract;
 use Modules\Xot\Datas\XotData;
 use Modules\Xot\Services\ModuleService;
 use Nwidart\Modules\Facades\Module;
-use Webmozart\Assert\Assert;
 
 use function Safe\define;
 use function Safe\glob;
 use function Safe\json_decode;
 use function Safe\preg_match;
 use function Safe\realpath;
+
+use Webmozart\Assert\Assert;
 
 // ------------------------------------------------
 
@@ -124,14 +125,14 @@ if (! function_exists('hex2rgba')) {
         }
 
         // Sanitize $color if "#" is provided
-        if ($color[0] === '#') {
+        if ('#' === $color[0]) {
             $color = mb_substr($color, 1);
         }
 
         // Check if color has 6 or 3 characters and get values
-        if (mb_strlen($color) === 6) {
+        if (6 === mb_strlen($color)) {
             $hex = [$color[0].$color[1], $color[2].$color[3], $color[4].$color[5]];
-        } elseif (mb_strlen($color) === 3) {
+        } elseif (3 === mb_strlen($color)) {
             $hex = [$color[0].$color[0], $color[1].$color[1], $color[2].$color[2]];
         } else {
             return $default;
@@ -141,7 +142,7 @@ if (! function_exists('hex2rgba')) {
         $rgb = array_map('hexdec', $hex);
 
         // Check if opacity is set(rgba or rgb)
-        if ($opacity !== -1.0) {
+        if (-1.0 !== $opacity) {
             if ($opacity < 0 || $opacity > 1) {
                 $opacity = 1.0;
             }
@@ -278,13 +279,13 @@ if (! function_exists('inAdmin')) {
             return config()->get('in_admin');
         }
         */
-        if (Request::segment(2) === 'admin') {
+        if ('admin' === Request::segment(2)) {
             return true;
         }
 
         $segments = Request::segments();
 
-        return (is_countable($segments) ? count($segments) : 0) > 0 && $segments[0] === 'livewire' && session('in_admin') === true;
+        return (is_countable($segments) ? count($segments) : 0) > 0 && 'livewire' === $segments[0] && true === session('in_admin');
     }
 }
 
@@ -383,7 +384,7 @@ if (! function_exists('params2ContainerItem')) {
      */
     function params2ContainerItem(?array $params = null): array
     {
-        if ($params === null) {
+        if (null === $params) {
             // Call to static method current() on an unknown class Route.
             // $params = optional(\Route::current())->parameters();
             // Cannot call method parameters() on mixed.
@@ -452,7 +453,7 @@ if (! function_exists('getModelByName')) {
             }
         );
 
-        if ($path === null) {
+        if (null === $path) {
             throw new Exception('['.$name.'] not in morph_map ['.__LINE__.']['.__FILE__.']');
         }
         Assert::string($path);
@@ -554,9 +555,9 @@ if (! function_exists('getAllModulesModels')) {
     /**
      * Get all models from all enabled modules.
      *
-     * @return array<string, string>
-     *
      * @throws ReflectionException
+     *
+     * @return array<string, string>
      */
     function getAllModulesModels(): array
     {
@@ -661,7 +662,7 @@ if (! function_exists('dottedToBrackets')) {
     function dottedToBrackets(string $str, string $quotation_marks = ''): string
     {
         return collect(explode('.', $str))->map(
-            static fn (string $v, $k): string => $k === 0 ? $v : '['.$v.']'
+            static fn (string $v, $k): string => 0 === $k ? $v : '['.$v.']'
         )->implode('');
     }
 }
@@ -698,7 +699,7 @@ if (! function_exists('getRelationships')) {
         foreach ($methods as $method) {
             $reflection = new ReflectionMethod($model, $method);
             $args = $reflection->getParameters();
-            if ($args !== []) {
+            if ([] !== $args) {
                 continue;
             }
 
@@ -1117,7 +1118,7 @@ if (! function_exists('authId')) {
         } catch (Error $e) {
             return null;
         }
-        if ($id === null) {
+        if (null === $id) {
             return null;
         }
 

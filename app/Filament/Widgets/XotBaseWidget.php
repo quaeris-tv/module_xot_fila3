@@ -68,7 +68,8 @@ abstract class XotBaseWidget extends Widget
      *
      * @template T
      *
-     * @param  \Closure(): T  $callback
+     * @param \Closure(): T $callback
+     *
      * @return T
      */
     protected function getCachedData(\Closure $callback): mixed
@@ -117,7 +118,7 @@ abstract class XotBaseWidget extends Widget
      */
     public function shouldPoll(): bool
     {
-        return $this->pollingInterval !== null;
+        return null !== $this->pollingInterval;
     }
 
     /**

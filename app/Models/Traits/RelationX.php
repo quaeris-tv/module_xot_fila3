@@ -15,13 +15,13 @@ use Webmozart\Assert\Assert;
 trait RelationX
 {
     /**
-     * @param  class-string<Model>  $related  aaa
-     * @param  class-string<Model>|string|null  $table  aaa
-     * @param  string|null  $foreignPivotKey  aaa
-     * @param  string|null  $relatedPivotKey  aaa
-     * @param  string|null  $parentKey  aaa
-     * @param  string|null  $relatedKey  aaa
-     * @param  string|null  $relation  aaa
+     * @param class-string<Model>             $related         aaa
+     * @param class-string<Model>|string|null $table           aaa
+     * @param string|null                     $foreignPivotKey aaa
+     * @param string|null                     $relatedPivotKey aaa
+     * @param string|null                     $parentKey       aaa
+     * @param string|null                     $relatedKey      aaa
+     * @param string|null                     $relation        aaa
      */
     public function belongsToManyX(
         string $related,

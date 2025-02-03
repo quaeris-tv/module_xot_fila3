@@ -22,7 +22,7 @@ abstract class XotBaseBlock
         return Block::make($name)
             ->schema($schema)
 
-            ->columns($context === 'form' ? 3 : 1);
+            ->columns('form' === $context ? 3 : 1);
     }
 
     /**

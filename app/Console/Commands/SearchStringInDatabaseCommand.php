@@ -55,7 +55,8 @@ class SearchStringInDatabaseCommand extends Command
     }
 
     /**
-     * @param  \Illuminate\Support\Collection<int, object>  $results
+     * @param \Illuminate\Support\Collection<int, object> $results
+     *
      * @return array<int, array{string, string}>
      */
     private function formatResults($results): array
