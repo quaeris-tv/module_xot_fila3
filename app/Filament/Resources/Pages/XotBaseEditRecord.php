@@ -13,7 +13,7 @@ abstract class XotBaseEditRecord extends EditRecord
     /**
      * Get the form schema with common fields.
      */
-    public function form(Form $form): Form
+    public function formOLD(Form $form): Form
     {
         dddx($this->getFormSchema());
 
