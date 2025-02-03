@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources\LogResource\Pages;
 
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
 use Modules\Xot\Filament\Resources\LogResource;
 use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 
@@ -18,8 +17,6 @@ use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
  */
 class ListLogs extends XotBaseListRecords
 {
-    
-
     protected static string $resource = LogResource::class;
 
     public function getListTableColumns(): array
