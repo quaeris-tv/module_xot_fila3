@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources;
 
-use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\KeyValue;
 use Modules\Xot\Filament\Resources\CacheResource\Pages;
 use Modules\Xot\Models\Cache;
 
@@ -12,13 +13,20 @@ class CacheResource extends XotBaseResource
 {
     protected static ?string $model = Cache::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static function form(Form $form): Form
+    public static function getFormSchema(): array
     {
-        return $form
-            ->schema([
-            ]);
+        return [
+            TextInput::make('key')
+                ->required()
+                ->maxLength(255),
+
+            TextInput::make('expiration')
+                ->required()
+                ->numeric(),
+
+            KeyValue::make('value')
+                ->columnSpanFull(),
+        ];
     }
 
     public static function getRelations(): array
