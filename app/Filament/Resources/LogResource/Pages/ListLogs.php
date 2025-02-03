@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources\LogResource\Pages;
 
+use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\Xot\Filament\Resources\LogResource;
 use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
@@ -49,6 +54,38 @@ class ListLogs extends XotBaseListRecords
                 ->dateTime()
                 ->sortable()
                 ->label('Created At'),
+        ];
+    }
+
+    public function getTableFilters(): array
+    {
+        return [
+            Tables\Filters\SelectFilter::make('level_name')
+                ->options([
+                    'emergency' => 'Emergency',
+                    'alert' => 'Alert',
+                    'critical' => 'Critical',
+                    'error' => 'Error',
+                    'warning' => 'Warning',
+                    'notice' => 'Notice',
+                    'info' => 'Info',
+                    'debug' => 'Debug',
+                ]),
+        ];
+    }
+
+    public function getTableActions(): array
+    {
+        return [
+            ViewAction::make(),
+            DeleteAction::make(),
+        ];
+    }
+
+    public function getTableBulkActions(): array
+    {
+        return [
+            DeleteBulkAction::make(),
         ];
     }
 }
