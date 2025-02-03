@@ -69,6 +69,9 @@ abstract class XotBaseResource extends FilamentResource
             ->schema(static::getFormSchema());
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public static function extendTableCallback(): array
     {
         return [
