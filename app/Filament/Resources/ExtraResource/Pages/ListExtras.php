@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources\ExtraResource\Pages;
 
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
 use Modules\Xot\Filament\Resources\ExtraResource;
 use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 

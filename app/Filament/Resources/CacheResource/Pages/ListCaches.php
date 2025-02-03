@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources\CacheResource\Pages;
 
 use Filament\Actions;
-use Filament\Tables;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Modules\UI\Enums\TableLayoutEnum;
