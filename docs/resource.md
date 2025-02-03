@@ -43,6 +43,7 @@ class MyResource extends XotBaseResource
    - ❌ `getTableColumns()`
    - ❌ `getTableFilters()`
    - ❌ `getTableActions()`
+   - ❌ `form(Form $form): Form` - Usare invece `getFormSchema()`
 
 2. **IMPLEMENTARE nella Resource**
    - ✅ `protected static ?string $model`
