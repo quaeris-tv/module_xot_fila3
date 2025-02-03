@@ -58,6 +58,12 @@ abstract class XotBaseResource extends FilamentResource
         return $res;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * per rendere obbligatorio questo metodo.
+     */
+>>>>>>> b107869d (Auto update submodule)
     abstract public static function getFormSchema(): array;
 
     public static function form(Form $form): Form
@@ -101,7 +107,18 @@ abstract class XotBaseResource extends FilamentResource
             'index' => $index::route('/'),
             'create' => $create::route('/create'),
             'edit' => $edit::route('/{record}/edit'),
+<<<<<<< HEAD
         ];
+=======
+            // 'view' => $view::route('/{record}'),
+        ];
+
+        if (class_exists($view)) {
+            $pages['view'] = $view::route('/{record}');
+        }
+
+        return $pages;
+>>>>>>> b107869d (Auto update submodule)
     }
 
     public static function getRelations(): array
