@@ -9,8 +9,6 @@ use Filament\Resources\Pages\EditRecord;
 
 abstract class XotBaseEditRecord extends EditRecord
 {
-<<<<<<< HEAD
-=======
     /**
      * Get the form schema with common fields.
      */
@@ -22,7 +20,7 @@ abstract class XotBaseEditRecord extends EditRecord
         // ->statePath('data')
     }
 
->>>>>>> origin/dev
+
     /**
      * Get the number of form columns.
      */
@@ -30,8 +28,6 @@ abstract class XotBaseEditRecord extends EditRecord
     {
         return 1;
     }
-<<<<<<< HEAD
-=======
 
     /**
      * Get the form schema.
@@ -42,5 +38,4 @@ abstract class XotBaseEditRecord extends EditRecord
     {
         return [];
     }
->>>>>>> origin/dev
 }

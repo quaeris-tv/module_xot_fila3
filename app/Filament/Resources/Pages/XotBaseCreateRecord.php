@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources\Pages;
 
-<<<<<<< HEAD
-=======
 use Filament\Forms;
->>>>>>> origin/dev
 use Filament\Resources\Pages\CreateRecord;
 
 abstract class XotBaseCreateRecord extends CreateRecord
 {
-<<<<<<< HEAD
-=======
     /**
      * Get the form schema with common fields.
      */
@@ -25,7 +20,7 @@ abstract class XotBaseCreateRecord extends CreateRecord
         // ->statePath('data')
     }
 
->>>>>>> origin/dev
+
     /**
      * Get the number of form columns.
      */
@@ -33,8 +28,6 @@ abstract class XotBaseCreateRecord extends CreateRecord
     {
         return 1;
     }
-<<<<<<< HEAD
-=======
 
     /**
      * Get the form schema.
@@ -45,5 +38,4 @@ abstract class XotBaseCreateRecord extends CreateRecord
     {
         return [];
     }
->>>>>>> origin/dev
 }

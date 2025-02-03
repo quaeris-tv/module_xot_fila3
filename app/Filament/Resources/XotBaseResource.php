@@ -112,11 +112,7 @@ abstract class XotBaseResource extends FilamentResource
 
         if (class_exists($view)) {
             $pages['view'] = $view::route('/{record}');
-<<<<<<< HEAD
         }
-=======
-        };
->>>>>>> origin/dev
 
         return $pages;
     }

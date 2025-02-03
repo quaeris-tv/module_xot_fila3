@@ -1,113 +1,675 @@
-<<<<<<< HEAD
 # Laravel XOT Architecture Documentation
 
-## Core Modules
-- **Xot**: Base module providing core services and providers
-- **Geo**: Location and mapping services
-- **Activity**: User activity tracking and logging
-- **UI**: Frontend components and themes
+## Overview
+Laraxot is a powerful modular framework built on top of Laravel, designed to provide a robust foundation for building scalable web applications. This documentation covers the architecture, best practices, and common patterns used throughout the framework.
 
-## Service Providers
-- XotBaseServiceProvider: Core service registration
-- GeoService: Location-based services
+## Core Architecture
 
-## Data Transfer Objects
-- LocationDTO: Represents geographic locations
-- ElevationResultDTO: Contains elevation data
+### Modules
+1. **Xot (Core)**
+   - Base services and providers
+   - Common utilities and helpers
+   - Core interfaces and abstractions
 
-## Actions
-- GetCoordinatesByAddressAction: Geocoding addresses
-- CalculateTravelTimeAction: Route calculations
-- ClusterLocationsAction: Location grouping
-- GetElevationAction: Elevation data retrieval
+2. **Geo**
+   - Location and mapping services
+   - Coordinate handling
+   - Address validation and normalization
 
-## Exceptions
-- InvalidLocationException: Invalid geographic data
-- InvalidElevationDataException: Invalid elevation data
+3. **Activity**
+   - User activity tracking
+   - Audit logging
+   - Event monitoring
 
-## Configuration
-- activity.php: Activity module configuration
-- services.php: External service integrations
-    - Failed API requests
-    - Empty results
-    - Invalid location data
+4. **UI**
+   - Frontend components
+   - Theme management
+   - Layout templates
 
-### Uso di Spatie\LaravelData
-- Utilizzare `DataCollection` per gestire le collezioni di dati in modo tipizzato e strutturato.
-- Assicurarsi che i dati siano rappresentati da oggetti di dati definiti con `Spatie\LaravelData`.
+### Base Classes
 
-### Modifiche al Codice
-- Il file `GetAddressFromGoogleMapsAction.php` è stato migliorato per essere più robusto e strettamente tipizzato.
-- Sono stati aggiunti controlli per garantire che la risposta dell'API sia valida prima di procedere con l'elaborazione.
-- È stata migliorata la gestione delle eccezioni per fornire messaggi di errore più dettagliati.
+#### XotBaseResource
+The foundation for all Filament resources in the application.
 
-### Gestione dei Valori Nulli
-- Utilizzare l'operatore null coalescing (??) per fornire valori di default quando i componenti dell'indirizzo sono mancanti
-- Esempio:
-  ```php
-  'locality' => $this->getComponent($result->address_components, ['locality']) ?? '',
-  'street' => $this->getComponent($result->address_components, ['route']) ?? '',
-  'district' => $this->getComponent($result->address_components, ['sublocality_level_1']) ?? '',
-  'street_number' => $this->getComponent($result->address_components, ['street_number']) ?? ''
-  ```
-- Questo approccio previene errori di tipo quando i componenti dell'indirizzo non sono presenti nella risposta di Google Maps
+```php
+class YourResource extends XotBaseResource
+{
+    // Must implement
+    public function getFormSchema(): array
+    
+    // Common overrides
+    public function getListTableColumns(): array
+    public function getRelations(): array
+    public function getPages(): array
+}
+```
 
-### Gestione delle Coordinate Geografiche
-- Quando si lavora con indirizzi completi, utilizzare `GetCoordinatesDataByFullAddressAction` per ottenere latitudine e longitudine
-- Esempio di implementazione:
-  ```php
-  public function setLongitudeAttribute(?float $value): void
-  {
-      if (is_null($value) && $this->full_address) {
-          $coordinatesAction = new GetCoordinatesDataByFullAddressAction();
-          $coordinatesData = $coordinatesAction->execute($this->full_address);
-          
-          if ($coordinatesData) {
-              $this->attributes['latitude'] = $coordinatesData->latitude;
-              $this->attributes['longitude'] = $coordinatesData->longitude;
-          }
-      }
-  }
-  ```
-- Questo pattern garantisce che le coordinate vengano automaticamente calcolate quando viene fornito un indirizzo completo
+#### XotBaseServiceProvider
+Core service provider for module registration and bootstrapping.
 
-### Aggiornamento Batch delle Coordinate
-- Implementazione di un sistema di aggiornamento batch per coordinate mancanti
-- Funzionalità chiave:
-  - Processamento in chunk per ottimizzare le prestazioni
-  - Gestione degli errori con notifiche dettagliate
-  - Supporto per aggiornamenti singoli e multipli
-- Esempio di implementazione batch:
-  ```php
-  private function populateAllCoordinates(): void {
-      $batchSize = 50;
-      $totalProcessed = 0;
-      $totalSuccess = 0;
-      $errors = [];
+```php
+class ModuleServiceProvider extends XotBaseServiceProvider
+{
+    public function boot(): void
+    {
+        $this->registerConfig();
+        $this->registerViews();
+        $this->registerTranslations();
+    }
+}
+```
 
-      static::getModel()::whereNull('latitude')
-          ->orWhereNull('longitude')
-          ->chunk($batchSize, function ($clients) use (&$totalProcessed, &$totalSuccess, &$errors) {
-              foreach ($clients as $client) {
-                  try {
-                      $addressData = app(GetAddressDataFromFullAddressAction::class)
-                          ->execute($client->full_address);
+## Data Management
 
-                      if ($addressData) {
-                          $client->update($addressData->toArray());
-                          ++$totalSuccess;
-                      }
-                  } catch (\Throwable $e) {
-                      $errors[] = "Error updating {$client->company_name}: {$e->getMessage()}";
-                  }
-                  ++$totalProcessed;
-              }
-          });
+### Data Transfer Objects (DTOs)
+Use strictly typed DTOs for data transfer between layers:
 
-      // Gestione notifiche
-      $message = "Processed {$totalProcessed} clients. Successfully updated {$totalSuccess} coordinates.";
-      if (!empty($errors)) {
-          Notification::make()
+```php
+class LocationData extends Data
+{
+    public function __construct(
+        public readonly float $latitude,
+        public readonly float $longitude,
+        public readonly ?string $address = null,
+    ) {}
+}
+```
+
+### Actions
+Implement single-responsibility actions for business logic:
+
+```php
+class GetCoordinatesByAddressAction
+{
+    public function execute(string $address): LocationData
+    {
+        // Implementation
+    }
+}
+```
+
+## Best Practices
+
+### 1. Module Organization
+```
+Modules/YourModule/
+├── Actions/
+├── Data/
+├── Filament/
+│   ├── Resources/
+│   └── Pages/
+├── Models/
+├── Providers/
+└── Tests/
+```
+
+### 2. Type Safety
+- Use strict types declaration
+- Implement return type hints
+- Define parameter types
+- Use PHP 8.x features where possible
+
+### 3. Error Handling
+```php
+try {
+    $result = $action->execute($input);
+} catch (InvalidDataException $e) {
+    Log::error('Data processing failed', [
+        'input' => $input,
+        'error' => $e->getMessage()
+    ]);
+    throw new ActionException($e->getMessage());
+}
+```
+
+### 4. Configuration Management
+- Use typed configuration files
+- Implement environment-specific settings
+- Document all configuration options
+
+## Common Patterns
+
+### 1. Repository Pattern
+```php
+class EloquentRepository implements RepositoryInterface
+{
+    public function __construct(
+        protected Model $model
+    ) {}
+
+    public function find(int $id): ?Model
+    {
+        return $this->model->find($id);
+    }
+}
+```
+
+### 2. Service Layer
+```php
+class LocationService
+{
+    public function __construct(
+        protected GetCoordinatesAction $getCoordinates,
+        protected ValidateAddressAction $validateAddress
+    ) {}
+
+    public function processLocation(string $address): LocationData
+    {
+        $validatedAddress = $this->validateAddress->execute($address);
+        return $this->getCoordinates->execute($validatedAddress);
+    }
+}
+```
+
+## Testing
+
+### 1. Unit Tests
+```php
+class LocationDataTest extends TestCase
+{
+    public function test_it_validates_coordinates(): void
+    {
+        $data = new LocationData(
+            latitude: 45.4642,
+            longitude: 9.1900
+        );
+        
+        $this->assertTrue($data->isValid());
+    }
+}
+```
+
+### 2. Feature Tests
+```php
+class LocationEndpointTest extends TestCase
+{
+    public function test_it_returns_coordinates_for_valid_address(): void
+    {
+        $response = $this->postJson('/api/locations', [
+            'address' => 'Via Roma, 1, Milano'
+        ]);
+        
+        $response->assertSuccessful()
+            ->assertJsonStructure(['latitude', 'longitude']);
+    }
+}
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Module Not Found**
+   - Check module registration in `modules.json`
+   - Verify namespace in `composer.json`
+   - Run `php artisan module:list` to verify status
+
+2. **Resource Loading Fails**
+   - Verify resource registration in service provider
+   - Check file permissions
+   - Clear cache with `php artisan optimize:clear`
+
+3. **Type Errors**
+   - Enable strict_types declaration
+   - Update PHP version compatibility
+   - Review type hints in method signatures
+
+## Security Considerations
+
+1. **Data Validation**
+   - Validate all input data
+   - Sanitize output
+   - Use type casting where appropriate
+
+2. **Authentication**
+   - Implement proper middleware
+   - Use role-based access control
+   - Log security events
+
+3. **API Security**
+   - Use API tokens
+   - Implement rate limiting
+   - Validate request signatures
+
+## Performance Optimization
+
+1. **Caching Strategy**
+   - Use Redis for session storage
+   - Cache frequent queries
+   - Implement model caching
+
+2. **Query Optimization**
+   - Use eager loading
+   - Implement database indexes
+   - Monitor query performance
+
+3. **Asset Management**
+   - Minimize and compress assets
+   - Use CDN for static files
+   - Implement lazy loading
+
+## Maintenance and Updates
+
+1. **Regular Tasks**
+   - Update dependencies
+   - Run security audits
+   - Monitor error logs
+   - Backup configuration
+
+2. **Version Control**
+   - Follow semantic versioning
+   - Document breaking changes
+   - Maintain changelog
+
+3. **Documentation**
+   - Keep README files updated
+   - Document API changes
+   - Maintain code examples
+
+## Integrazione con Spatie
+
+### Uso di Laravel Data
+
+1. **Data Collections**
+```php
+class AddressCollection extends DataCollection
+{
+    public static function type(): string
+    {
+        return AddressData::class;
+    }
+}
+```
+
+2. **Data Objects**
+```php
+class AddressData extends Data
+{
+    public function __construct(
+        public readonly string $street,
+        public readonly string $city,
+        public readonly string $country,
+        public readonly ?string $postalCode = null,
+    ) {}
+
+    public static function fromGoogleMaps(array $components): self
+    {
+        return new self(
+            street: self::getComponent($components, ['route']) ?? '',
+            city: self::getComponent($components, ['locality']) ?? '',
+            country: self::getComponent($components, ['country']) ?? '',
+            postalCode: self::getComponent($components, ['postal_code'])
+        );
+    }
+}
+```
+
+## Gestione Geografica
+
+### 1. Coordinate Management
+
+```php
+trait HasCoordinates
+{
+    public function setCoordinates(?float $latitude, ?float $longitude): void
+    {
+        $this->latitude = $latitude;
+        $this->longitude = $longitude;
+        $this->save();
+    }
+
+    public function updateCoordinatesFromAddress(): void
+    {
+        if ($this->full_address) {
+            $coordinates = app(GetCoordinatesAction::class)
+                ->execute($this->full_address);
+            
+            $this->setCoordinates(
+                $coordinates->latitude,
+                $coordinates->longitude
+            );
+        }
+    }
+}
+```
+
+### 2. Batch Processing
+
+```php
+class UpdateCoordinatesBatchAction
+{
+    public function execute(Collection $models, int $batchSize = 50): ProcessingResult
+    {
+        $results = new ProcessingResult();
+
+        $models->chunk($batchSize)
+            ->each(function ($chunk) use ($results) {
+                $this->processChunk($chunk, $results);
+            });
+
+        return $results;
+    }
+
+    protected function processChunk(Collection $chunk, ProcessingResult $results): void
+    {
+        $chunk->each(function ($model) use ($results) {
+            try {
+                $model->updateCoordinatesFromAddress();
+                $results->incrementSuccess();
+            } catch (Exception $e) {
+                $results->addError($model, $e->getMessage());
+            }
+        });
+    }
+}
+```
+
+### 3. Validazione Indirizzi
+
+```php
+class AddressValidator
+{
+    public function validate(string $address): ValidationResult
+    {
+        return new ValidationResult(
+            isValid: $this->checkFormat($address) && $this->exists($address),
+            normalizedAddress: $this->normalize($address)
+        );
+    }
+
+    protected function normalize(string $address): string
+    {
+        // Implementazione normalizzazione
+    }
+
+    protected function exists(string $address): bool
+    {
+        // Verifica esistenza via API
+    }
+}
+```
+
+## Gestione Errori e Logging
+
+### 1. Error Handling
+
+```php
+class GeoCodingException extends Exception
+{
+    public static function invalidAddress(string $address): self
+    {
+        return new self("Invalid address format: {$address}");
+    }
+
+    public static function apiError(string $message): self
+    {
+        return new self("Geocoding API error: {$message}");
+    }
+}
+```
+
+### 2. Logging Strategy
+
+```php
+class GeoLogger
+{
+    public function logGeocoding(string $address, ?LocationData $result): void
+    {
+        Log::channel('geo')
+            ->info('Geocoding request', [
+                'address' => $address,
+                'success' => $result !== null,
+                'coordinates' => $result?->toArray()
+            ]);
+    }
+
+    public function logError(string $operation, Exception $e): void
+    {
+        Log::channel('geo')
+            ->error("Geo {$operation} failed", [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+    }
+}
+```
+
+## Filament Integration
+
+### 1. Resource Organization
+
+```php
+class ModuleResource extends XotBaseResource
+{
+    protected static ?string $navigationGroup = 'Module Management';
+    
+    public function getFormSchema(): array
+    {
+        return [
+            Forms\Components\Group::make()
+                ->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\Toggle::make('is_active')
+                        ->required(),
+                ])
+        ];
+    }
+    
+    public function getListTableColumns(): array
+    {
+        return [
+            Tables\Columns\TextColumn::make('name')
+                ->searchable()
+                ->sortable(),
+            Tables\Columns\IconColumn::make('is_active')
+                ->boolean()
+                ->sortable(),
+        ];
+    }
+}
+```
+
+### 2. Custom Actions
+
+```php
+class ExportAction extends Action
+{
+    protected function setUp(): void
+    {
+        $this->icon('heroicon-o-download')
+            ->label('Export')
+            ->action(fn () => $this->export());
+    }
+    
+    protected function export(): void
+    {
+        // Implementazione export
+    }
+}
+```
+
+### 3. Form Components
+
+```php
+class CustomFormComponent extends Component
+{
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->afterStateUpdated(function ($state) {
+            $this->validateData($state);
+        });
+    }
+    
+    protected function validateData($state): void
+    {
+        // Validazione personalizzata
+    }
+}
+```
+
+## View Components
+
+### 1. Blade Components
+
+```php
+class ModuleCard extends Component
+{
+    public string $title;
+    public string $description;
+    
+    public function render(): View
+    {
+        return view('module::components.card');
+    }
+}
+```
+
+```blade
+{{-- module::components.card --}}
+<div class="card">
+    <div class="card-header">{{ $title }}</div>
+    <div class="card-body">{{ $description }}</div>
+    {{ $slot }}
+</div>
+```
+
+### 2. Livewire Components
+
+```php
+class ModuleList extends Component
+{
+    use WithPagination;
+    
+    public function render(): View
+    {
+        return view('module::livewire.list', [
+            'items' => Module::paginate(10)
+        ]);
+    }
+    
+    public function delete(int $id): void
+    {
+        Module::find($id)?->delete();
+        $this->emit('moduleDeleted');
+    }
+}
+```
+
+## Asset Management
+
+### 1. Vite Configuration
+
+```javascript
+// vite.config.js
+export default defineConfig({
+    build: {
+        outDir: 'public/build',
+        rollupOptions: {
+            input: [
+                'resources/js/app.js',
+                'resources/css/app.css',
+            ],
+        },
+    },
+    plugins: [
+        laravel({
+            input: [
+                'resources/js/app.js',
+                'resources/css/app.css',
+            ],
+            refresh: true,
+        }),
+    ],
+});
+```
+
+### 2. Asset Publishing
+
+```php
+class ModuleServiceProvider extends XotBaseServiceProvider
+{
+    public function boot(): void
+    {
+        $this->publishes([
+            __DIR__.'/../resources/js' => resource_path('js/modules/example'),
+            __DIR__.'/../resources/css' => resource_path('css/modules/example'),
+        ], 'module-assets');
+        
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'module');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'module');
+    }
+}
+```
+
+## CLI Commands
+
+### 1. Custom Commands
+
+```php
+class SyncModuleCommand extends Command
+{
+    protected $signature = 'module:sync {name}';
+    protected $description = 'Synchronize module data';
+    
+    public function handle(): int
+    {
+        $name = $this->argument('name');
+        
+        $this->info("Syncing module: {$name}");
+        // Implementazione sync
+        
+        return self::SUCCESS;
+    }
+}
+```
+
+### 2. Command Registration
+
+```php
+class ModuleServiceProvider extends XotBaseServiceProvider
+{
+    protected array $commands = [
+        SyncModuleCommand::class,
+        SetupModuleCommand::class,
+    ];
+    
+    public function boot(): void
+    {
+        $this->commands($this->commands);
+    }
+}
+```
+
+## Contributing
+
+### 1. Development Setup
+1. Clone the repository
+2. Install dependencies: `composer install`
+3. Set up environment: `cp .env.example .env`
+4. Generate key: `php artisan key:generate`
+5. Run migrations: `php artisan migrate`
+
+### 2. Testing
+1. Run tests: `php artisan test`
+2. Check code style: `./vendor/bin/pint`
+3. Static analysis: `./vendor/bin/phpstan analyse`
+
+### 3. Pull Request Process
+1. Create feature branch
+2. Make changes
+3. Add tests
+4. Update documentation
+5. Submit PR
+
+## License
+
+The Laravel XOT framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
               ->warning()
               ->title('Coordinate Update Completed with Errors')
               ->body($message."\n\n".implode("\n", array_slice($errors, 0, 5)))
