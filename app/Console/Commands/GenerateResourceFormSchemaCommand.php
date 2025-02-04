@@ -10,6 +10,7 @@ use Modules\Xot\App\Helpers\ResourceFormSchemaGenerator;
 class GenerateResourceFormSchemaCommand extends Command
 {
     protected $signature = 'xot:generate-resource-form-schema';
+
     protected $description = 'Generate getFormSchema method for XotBaseResource classes';
 
     public function handle()
@@ -56,14 +57,14 @@ class GenerateResourceFormSchemaCommand extends Command
 
                     file_put_contents($file, $modifiedContent);
                     $this->info("Updated Clusters Resource: {$fullClassName}");
-                    ++$clustersUpdated;
+                    $clustersUpdated++;
                 } else {
                     $this->warn("Could not process Clusters Resource: {$file}");
-                    ++$clustersSkipped;
+                    $clustersSkipped++;
                 }
             } catch (\Exception $e) {
                 $this->error("Error processing Clusters Resource {$file}: ".$e->getMessage());
-                ++$clustersSkipped;
+                $clustersSkipped++;
             }
         }
 

@@ -107,7 +107,7 @@ abstract class XotBaseResource extends FilamentResource
             'index' => $index::route('/'),
             'create' => $create::route('/create'),
             'edit' => $edit::route('/{record}/edit'),
-            //'view' => $view::route('/{record}'),
+            // 'view' => $view::route('/{record}'),
         ];
 
         if (class_exists($view)) {

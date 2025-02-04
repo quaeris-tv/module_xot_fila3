@@ -53,7 +53,7 @@ trait NavigationLabelTrait
         $res = static::transFunc(__FUNCTION__);
 
         $value = intval($res);
-        if (0 == $value) {
+        if ($value == 0) {
             $key = static::getKeyTransFunc(__FUNCTION__);
             $value = rand(1, 100);
             app(SaveTransAction::class)->execute($key, $value);
