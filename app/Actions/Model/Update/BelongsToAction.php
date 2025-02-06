@@ -31,7 +31,7 @@ class BelongsToAction
         }
         */
 
-        if (! Arr::isAssoc($relationDTO->data) && 1 === \count($relationDTO->data)) {
+        if (! Arr::isAssoc($relationDTO->data) && \count($relationDTO->data) === 1) {
             $related_id = $relationDTO->data[0];
             $related = $relationDTO->related->find($related_id);
             // Verifica che $related non sia una Collection, ma un singolo modello
@@ -51,7 +51,7 @@ class BelongsToAction
         if (Arr::isAssoc($relationDTO->data)) {
             $sub = $rows->firstOrCreate();
             // $sub = $rows->first() ?? $rows->getModel();
-            if (null === $sub) {
+            if ($sub === null) {
                 throw new \Exception('['.__LINE__.']['.class_basename($this).']');
             }
 

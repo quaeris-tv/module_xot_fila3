@@ -6,6 +6,4 @@ namespace Modules\Xot\Filament\Resources\Pages;
 
 use Filament\Resources\Pages\Page;
 
-abstract class XotBaseResourcePage extends Page
-{
-}
+abstract class XotBaseResourcePage extends Page {}

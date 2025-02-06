@@ -220,8 +220,7 @@ trait HasXotTable
             ->bulkActions($this->getTableBulkActions())
             ->actionsPosition(ActionsPosition::BeforeColumns)
             ->emptyStateActions($this->getTableEmptyStateActions())
-            ->striped()
-        ;
+            ->striped();
 
         /*
             ->defaultSort(
@@ -333,9 +332,9 @@ trait HasXotTable
     /**
      * Get model class.
      *
-     * @throws \Exception Se non viene trovata una classe modello valida
-     *
      * @return class-string<Model>
+     *
+     * @throws \Exception Se non viene trovata una classe modello valida
      */
     public function getModelClass(): string
     {
