@@ -66,8 +66,8 @@ abstract class XotBaseListRecords extends FilamentListRecords
     protected function getHeaderActions(): array
     {
         return [
-            \Filament\Actions\CreateAction::make(),
-            ExportXlsAction::make(),
+            // \Filament\Actions\CreateAction::make(), // moved into getTableActions()
+           // ExportXlsAction::make(), //fare versione per spostare in getTableActions()
         ];
     }
 

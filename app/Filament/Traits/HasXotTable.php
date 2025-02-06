@@ -54,7 +54,16 @@ trait HasXotTable
     {
         $actions = [];
 
-        $actions['create'] = Tables\Actions\CreateAction::make();
+        $actions['create'] = Tables\Actions\CreateAction::make()
+            ->button()
+            //->color('primary')
+            //->size('md')
+            //->icon('heroicon-o-plus')
+            //->iconPosition('before')
+            ->label('')
+            ->extraAttributes([
+                'class' => 'font-semibold shadow-sm hover:shadow-md transition-all duration-200',
+            ]);
 
         if ($this->shouldShowAssociateAction()) {
             $actions['associate'] = Tables\Actions\AssociateAction::make()
