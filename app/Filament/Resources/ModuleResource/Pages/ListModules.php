@@ -22,12 +22,7 @@ class ListModules extends XotBaseListRecords
 
     protected static string $resource = ModuleResource::class;
 
-    public function getGridTableColumns(): array
-    {
-        return [
-            Stack::make($this->getListTableColumns()),
-        ];
-    }
+   
 
     /**
      * @return array<string, Tables\Columns\Column>

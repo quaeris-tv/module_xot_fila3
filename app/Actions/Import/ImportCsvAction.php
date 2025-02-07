@@ -72,7 +72,7 @@ class ImportCsvAction
      * Get table columns excluding certain fields.
      *
      * @param  \Illuminate\Database\Schema\Builder  $conn
-     * @return ColumnData[]
+     * @return array<ColumnData>
      */
     private function getTableColumns($conn, string $tbl): array
     {
@@ -82,18 +82,18 @@ class ImportCsvAction
         return array_map(function (string $column) use ($conn, $tbl) {
             $type = $conn->getColumnType($tbl, $column);
 
-            return new ColumnData(
-                name: $column,
-                type: $type
-            );
+            return ColumnData::from([
+                'name' => $column,
+                'type' => $type
+            ]);
         }, array_diff($columns, $excludedColumns));
     }
 
     /**
      * Prepare fields for the SQL query.
      *
-     * @param  ColumnData[]  $columns
-     * @return string[]
+     * @param  array<ColumnData>  $columns
+     * @return array<string>
      */
     private function prepareFields(array $columns): array
     {
@@ -105,7 +105,7 @@ class ImportCsvAction
     /**
      * Build the SQL query for importing data.
      *
-     * @param  ColumnData[]  $columns
+     * @param  array<ColumnData>  $columns
      */
     private function buildSql(string $path, string $db, string $tbl, string $fieldsUpList, array $columns): string
     {
@@ -130,15 +130,13 @@ class ImportCsvAction
     }
 
     /**
-     * @param  array<mixed>  $columns
+     * @param  array<string>  $columns
      * @return array<ColumnData>
      */
     public function execute1(array $columns): array
     {
-        return array_map(function ($column): ColumnData {
-            Assert::string($column, 'Column must be a string');
-
-            return new ColumnData($column);
+        return array_map(function (string $column): ColumnData {
+            return ColumnData::from(['name' => $column]);
         }, $columns);
     }
 }

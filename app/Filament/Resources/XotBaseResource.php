@@ -10,9 +10,10 @@ use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\ModelClass\CountAction;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
-use Webmozart\Assert\Assert;
 
 use function Safe\glob;
+
+use Webmozart\Assert\Assert;
 
 abstract class XotBaseResource extends FilamentResource
 {
@@ -121,6 +122,9 @@ abstract class XotBaseResource extends FilamentResource
     {
         $reflector = new \ReflectionClass(static::class);
         $filename = $reflector->getFileName();
+        if (false == $filename) {
+            return [];
+        }
         $path = Str::of($filename)
             ->before('.php')
             ->append(DIRECTORY_SEPARATOR)
@@ -133,7 +137,7 @@ abstract class XotBaseResource extends FilamentResource
             $info = pathinfo($file);
             $res[] = static::class.'\RelationManagers\\'.$info['filename'];
         }
-
+        // @phpstan-ignore return.type
         return $res;
     }
 }

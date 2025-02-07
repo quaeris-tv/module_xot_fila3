@@ -23,44 +23,21 @@ class ListExtras extends XotBaseListRecords
         return [
             'id' => TextColumn::make('id')
                 ->sortable()
-                ->label('ID'),
+                ,
 
             'model_type' => TextColumn::make('model_type')
                 ->searchable()
-                ->label('Model Type'),
+                ,
 
             'model_id' => TextColumn::make('model_id')
                 ->sortable()
-                ->label('Model ID'),
+                ,
 
             'extra_attributes' => TextColumn::make('extra_attributes')
                 ->searchable()
-                ->label('Extra Attributes'),
+                ,
         ];
     }
 
-    /**
-     * @return array<Tables\Filters\BaseFilter>
-     */
-    public function getTableFilters(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return array<Tables\Actions\Action|Tables\Actions\ActionGroup>
-     */
-    public function getTableActions(): array
-    {
-        return [
-            EditAction::make(),
-        ];
-    }
-
-    public function getTableBulkActions(): array
-    {
-        return [
-            DeleteBulkAction::make(),
-        ];
-    }
+    
 }

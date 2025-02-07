@@ -87,7 +87,9 @@ class GetComponentsAction
                 $tmp->class_name = $relative_path.'\\'.$tmp->class_name;
             }
             try {
-                $reflection = new \ReflectionClass($tmp->comp_ns);
+                /** @var class-string $compNs */
+                $compNs = $tmp->comp_ns;
+                $reflection = new \ReflectionClass($compNs);
                 if ($reflection->isAbstract()) {
                     continue;
                 }

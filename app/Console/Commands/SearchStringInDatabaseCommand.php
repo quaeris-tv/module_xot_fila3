@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use stdClass;
 use Webmozart\Assert\Assert;
 
 class SearchStringInDatabaseCommand extends Command
@@ -47,6 +49,7 @@ class SearchStringInDatabaseCommand extends Command
             $query->orWhere($column, 'LIKE', "%{$searchString}%");
         }
 
+        /** @var Collection<int, stdClass> $results */
         $results = $query->get();
         if ($results->isNotEmpty()) {
             $this->info("Found matches in table: {$tableName}");
@@ -55,16 +58,16 @@ class SearchStringInDatabaseCommand extends Command
     }
 
     /**
-     * @param  \Illuminate\Support\Collection<int, object>  $results
+     * @param  Collection<int, stdClass>  $results
      * @return array<int, array{string, string}>
      */
-    private function formatResults($results): array
+    private function formatResults(Collection $results): array
     {
         $formatted = [];
         foreach ($results as $row) {
             foreach ((array) $row as $column => $value) {
-                if (is_string($value) && str_contains($value, $this->argument('search'))) {
-                    $formatted[] = [$column, $value];
+                if (is_string($value) && str_contains($value, (string) $this->argument('search'))) {
+                    $formatted[] = [(string) $column, $value];
                 }
             }
         }

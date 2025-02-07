@@ -131,12 +131,12 @@ trait HasXotTable
     /**
      * Get grid table columns.
      *
-     * @return array<int, Tables\Columns\Column|Stack>
+     * @return array<string, Tables\Columns\Column|Stack>
      */
     public function getGridTableColumns(): array
     {
         return [
-            Stack::make($this->getListTableColumns()),
+            'stack01'=>Stack::make($this->getListTableColumns()),
         ];
     }
 
