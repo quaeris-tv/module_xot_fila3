@@ -15,10 +15,8 @@ use Modules\Xot\Actions\ExecuteArtisanCommandAction;
 
 class ArtisanCommandsManager extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-command-line';
-    protected static ?string $navigationLabel = 'Gestione Artisan';
-    protected static ?string $title = 'Gestione Comandi Artisan';
-    protected static ?int $navigationSort = 100;
+    protected static ?string $navigationIcon = 'xot::terminal';
+    protected static ?string $navigationGroup = 'Sistema';
 
     public array $output = [];
     public string $currentCommand = '';
@@ -29,68 +27,78 @@ class ArtisanCommandsManager extends Page
         $this->authorize('manage-artisan-commands');
     }
 
+    public static function getNavigationLabel(): string
+    {
+        return __('xot::filament.pages.artisan-commands-manager.navigation_label');
+    }
+
+    public function getTitle(): string
+    {
+        return __('xot::filament.pages.artisan-commands-manager.title');
+    }
+
     protected function getHeaderActions(): array
     {
         return [
             Action::make('migrate')
-                ->label('Migrate Database')
-                ->icon('heroicon-o-arrow-path')
+                ->label(__('xot::filament.pages.artisan-commands-manager.commands.migrate.label'))
+                ->icon('xot::database-update')
                 ->color('primary')
                 ->size('lg')
                 ->iconPosition(IconPosition::Before)
                 ->action(fn () => $this->executeCommand('migrate')),
 
             Action::make('filament_upgrade')
-                ->label('Upgrade Filament')
-                ->icon('heroicon-o-arrow-up-circle')
+                ->label(__('xot::filament.pages.artisan-commands-manager.commands.filament_upgrade.label'))
+                ->icon('xot::upgrade')
                 ->color('warning')
                 ->size('lg')
                 ->iconPosition(IconPosition::Before)
                 ->action(fn () => $this->executeCommand('filament:upgrade')),
 
             Action::make('filament_optimize')
-                ->label('Optimize Filament')
-                ->icon('heroicon-o-sparkles')
+                ->label(__('xot::filament.pages.artisan-commands-manager.commands.filament_optimize.label'))
+                ->icon('xot::optimize')
                 ->color('success')
                 ->size('lg')
                 ->iconPosition(IconPosition::Before)
                 ->action(fn () => $this->executeCommand('filament:optimize')),
 
             Action::make('view_cache')
-                ->label('Cache Views')
-                ->icon('heroicon-o-eye')
+                ->label(__('xot::cache.pages.artisan-commands.commands.view_cache.label'))
+                ->icon(__('xot::cache.navigation.icons.view'))
                 ->color('gray')
                 ->size('lg')
                 ->iconPosition(IconPosition::Before)
                 ->action(fn () => $this->executeCommand('view:cache')),
 
             Action::make('config_cache')
-                ->label('Cache Config')
-                ->icon('heroicon-o-cog')
+                ->label(__('xot::cache.pages.artisan-commands.commands.config_cache.label'))
+                ->icon(__('xot::cache.navigation.icons.config'))
                 ->color('gray')
                 ->size('lg')
                 ->iconPosition(IconPosition::Before)
                 ->action(fn () => $this->executeCommand('config:cache')),
 
             Action::make('route_cache')
-                ->label('Cache Routes')
-                ->icon('heroicon-o-map')
+                ->label(__('xot::cache.pages.artisan-commands.commands.route_cache.label'))
+                ->icon(__('xot::cache.navigation.icons.route'))
                 ->color('gray')
                 ->size('lg')
                 ->iconPosition(IconPosition::Before)
                 ->action(fn () => $this->executeCommand('route:cache')),
 
             Action::make('event_cache')
-                ->label('Cache Events')
-                ->icon('heroicon-o-bell')
+                ->label(__('xot::cache.pages.artisan-commands.commands.event_cache.label'))
+                ->icon(__('xot::cache.navigation.icons.event'))
                 ->color('gray')
                 ->size('lg')
                 ->iconPosition(IconPosition::Before)
                 ->action(fn () => $this->executeCommand('event:cache')),
 
             Action::make('queue_restart')
-                ->label('Restart Queue')
-                ->icon('heroicon-o-arrow-path-rounded-square')
+                ->label(__('xot::filament.pages.artisan-commands-manager.commands.queue_restart.label'))
+                ->icon('xot::queue-restart')
                 ->color('danger')
                 ->size('lg')
                 ->iconPosition(IconPosition::Before)
@@ -114,11 +122,11 @@ class ArtisanCommandsManager extends Page
                             $statusBadge = match ($this->status) {
                                 'completed' => view('filament::components.badge')->with([
                                     'color' => 'success',
-                                    'label' => 'Completato',
+                                    'label' => __('xot::filament.pages.artisan-commands-manager.status.completed'),
                                 ])->render(),
                                 'failed' => view('filament::components.badge')->with([
                                     'color' => 'danger',
-                                    'label' => 'Fallito',
+                                    'label' => __('xot::filament.pages.artisan-commands-manager.status.failed'),
                                 ])->render(),
                                 default => '<div class="animate-spin w-4 h-4"></div>',
                             };
@@ -131,7 +139,7 @@ class ArtisanCommandsManager extends Page
                                 : '';
 
                             $output = empty($this->output)
-                                ? "<div class='text-gray-400'>In attesa dell'output...</div>"
+                                ? "<div class='text-gray-400'>".__('xot::filament.pages.artisan-commands-manager.status.waiting')."</div>"
                                 : implode("\n", array_map(fn ($line) => "<div class='whitespace-pre-wrap'>{$line}</div>", $this->output));
 
                             return $header.$output;
@@ -149,8 +157,8 @@ class ArtisanCommandsManager extends Page
         app(ExecuteArtisanCommandAction::class)->execute($command);
 
         Notification::make()
-            ->title('Comando avviato')
-            ->body("Esecuzione di: {$command}")
+            ->title(__('xot::filament.pages.artisan-commands-manager.messages.command_started'))
+            ->body(__('xot::filament.pages.artisan-commands-manager.messages.command_started_desc', ['command' => $command]))
             ->info()
             ->send();
     }
@@ -169,8 +177,8 @@ class ArtisanCommandsManager extends Page
         if ($command === $this->currentCommand) {
             $this->status = 'completed';
             Notification::make()
-                ->title('Comando completato')
-                ->body("Il comando {$command} è stato eseguito con successo")
+                ->title(__('xot::filament.pages.artisan-commands-manager.messages.command_completed'))
+                ->body(__('xot::filament.pages.artisan-commands-manager.messages.command_completed_desc', ['command' => $command]))
                 ->success()
                 ->send();
         }
@@ -183,8 +191,8 @@ class ArtisanCommandsManager extends Page
             $this->status = 'failed';
             $this->output[] = $error;
             Notification::make()
-                ->title('Errore')
-                ->body("Il comando {$command} è fallito")
+                ->title(__('xot::filament.pages.artisan-commands-manager.messages.command_failed'))
+                ->body(__('xot::filament.pages.artisan-commands-manager.messages.command_failed_desc', ['command' => $command]))
                 ->danger()
                 ->send();
         }
