@@ -194,4 +194,4 @@ class ArtisanCommandsManager extends Page
     {
         // Questo metodo viene chiamato dal polling e aggiorna automaticamente l'output
     }
-} 
+}

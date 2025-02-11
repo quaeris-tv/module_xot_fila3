@@ -64,4 +64,4 @@ class ExecuteArtisanCommandAction
     {
         return in_array($command, $this->allowedCommands, true);
     }
-} 
+}
