@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'pages' => [
         'artisan-commands-manager' => [
@@ -53,4 +55,4 @@ return [
             ],
         ],
     ],
-]; 
+];

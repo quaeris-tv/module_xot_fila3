@@ -139,7 +139,7 @@ class ArtisanCommandsManager extends Page
                                 : '';
 
                             $output = empty($this->output)
-                                ? "<div class='text-gray-400'>".__('xot::filament.pages.artisan-commands-manager.status.waiting')."</div>"
+                                ? "<div class='text-gray-400'>".__('xot::filament.pages.artisan-commands-manager.status.waiting').'</div>'
                                 : implode("\n", array_map(fn ($line) => "<div class='whitespace-pre-wrap'>{$line}</div>", $this->output));
 
                             return $header.$output;
