@@ -68,7 +68,7 @@ abstract class XotBaseRelationManager extends RelationManager
         $index = Arr::get($this->getResource()::getPages(), 'index');
         $index_page = $index->getPage();
         $columns = app($index_page)->getListTableColumns();
-
+        
         return $columns;
     }
 
