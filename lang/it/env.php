@@ -1,13 +1,16 @@
 <?php return array (
   'navigation' => 
   array (
-    'name' => 'Env',
-    'plural' => 'Env',
+    'name' => 'Ambiente',
+    'plural' => 'Ambiente',
     'group' => 
     array (
-      'name' => 'Admin',
+      'name' => 'Sistema',
+      'description' => 'Configurazione dell\'ambiente di sistema',
     ),
-    'sort' => 89,
+    'sort' => 15,
+    'label' => 'env.navigation',
+    'icon' => 'xot-env',
   ),
   'pages' => 
   array (

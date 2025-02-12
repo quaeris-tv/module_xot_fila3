@@ -1,13 +1,16 @@
 <?php return array (
   'navigation' => 
   array (
-    'name' => 'cache',
-    'plural' => 'cache',
+    'name' => 'Cache',
+    'plural' => 'Cache',
     'group' => 
     array (
-      'name' => 'Admin',
+      'name' => 'Sistema',
+      'description' => 'Gestione della cache del sistema',
     ),
-    'sort' => 29,
+    'sort' => 84,
+    'label' => 'cache.navigation',
+    'icon' => 'xot-cache',
   ),
   'pages' => 
   array (

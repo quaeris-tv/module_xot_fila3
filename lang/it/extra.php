@@ -7,7 +7,7 @@
     array (
       'name' => 'Admin',
     ),
-    'sort' => 22,
+    'sort' => 33,
   ),
   'pages' => 
   array (
