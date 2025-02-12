@@ -8,7 +8,7 @@
       'name' => 'Sistema',
       'description' => 'Monitoraggio dello stato del sistema',
     ),
-    'sort' => 3,
+    'sort' => 42,
     'label' => 'health.navigation',
     'icon' => 'xot-health',
   ),

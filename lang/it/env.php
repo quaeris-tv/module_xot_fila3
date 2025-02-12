@@ -8,7 +8,7 @@
       'name' => 'Sistema',
       'description' => 'Configurazione dell\'ambiente di sistema',
     ),
-    'sort' => 15,
+    'sort' => 26,
     'label' => 'env.navigation',
     'icon' => 'xot-env',
   ),

@@ -10,7 +10,7 @@
     array (
       'name' => 'Admin',
     ),
-    'sort' => 68,
+    'sort' => 11,
   ),
   'fields' => 
   array (
