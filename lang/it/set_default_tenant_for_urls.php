@@ -1,22 +1,32 @@
-<?php
-
-declare(strict_types=1);
-
-return [
-    'actions' => [
-        'authenticate' => [
-            'label' => 'authenticate',
-        ],
-    ],
-    'fields' => [
-        'email' => [
-            'label' => 'email',
-        ],
-        'password' => [
-            'label' => 'password',
-        ],
-        'remember' => [
-            'label' => 'remember',
-        ],
-    ],
-];
+<?php return array (
+  'actions' => 
+  array (
+    'authenticate' => 
+    array (
+      'label' => 'authenticate',
+    ),
+    'login' => 
+    array (
+      'label' => 'login',
+    ),
+    'request' => 
+    array (
+      'label' => 'request',
+    ),
+  ),
+  'fields' => 
+  array (
+    'email' => 
+    array (
+      'label' => 'email',
+    ),
+    'password' => 
+    array (
+      'label' => 'password',
+    ),
+    'remember' => 
+    array (
+      'label' => 'remember',
+    ),
+  ),
+);
