@@ -4968,8 +4968,6 @@ public function getInfolistSchema(): array
    - Schema InfoList personalizzabile
    - Tabs e sezioni
 
-<<<<<<< HEAD
-=======
 # RelationManager in Filament
 
 ## Struttura dei File
@@ -7670,7 +7668,6 @@ public function getInfolistSchema(): array
    - Schema InfoList personalizzabile
    - Tabs e sezioni
 
->>>>>>> origin/dev
 # Estensione Modelli tra Moduli
 
 ## Caso Standard
@@ -7863,7 +7860,6 @@ Modules/
   - Title section
   - Content area
   - Feedback section
-<<<<<<< HEAD
   - Contact section 
 
 ## Configurazione Moduli
@@ -8786,6 +8782,4 @@ class ClientMapWidget extends Widget
 3. Implementare sempre controlli di tipo
 4. Gestire i casi di errore in modo graceful
 5. La reattività funziona automaticamente con Livewire 3
-=======
   - Contact section 
->>>>>>> origin/dev
