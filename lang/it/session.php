@@ -1,29 +1,35 @@
-<?php
-
-declare(strict_types=1);
-
-return [
-    'navigation' => [
-        'name' => 'sessione',
-        'plural' => 'sessioni',
-        'group' => [
-            'name' => 'Admin',
-        ],
-        'sort' => 38,
-    ],
-    'pages' => [
-        'health_check_results' => [
-            'buttons' => [
-                'refresh' => 'Refresh',
-            ],
-            'heading' => 'Application Health',
-            'navigation' => [
-                'group' => 'Settings',
-                'label' => 'Application Health',
-            ],
-            'notifications' => [
-                'check_results' => 'Check results from',
-            ],
-        ],
-    ],
-];
+<?php return array (
+  'navigation' => 
+  array (
+    'name' => 'Sessioni',
+    'plural' => 'Sessioni',
+    'group' => 
+    array (
+      'name' => 'Sistema',
+      'description' => 'Gestione delle sessioni utente',
+    ),
+    'sort' => 100,
+    'label' => 'Gestione Sessioni',
+    'icon' => 'heroicon-o-user-circle',
+  ),
+  'pages' => 
+  array (
+    'health_check_results' => 
+    array (
+      'buttons' => 
+      array (
+        'refresh' => 'Aggiorna',
+      ),
+      'heading' => 'Stato Sessioni',
+      'navigation' => 
+      array (
+        'group' => 'Sistema',
+        'label' => 'Stato Sessioni',
+      ),
+      'notifications' => 
+      array (
+        'check_results' => 'Risultati del controllo da',
+      ),
+    ),
+  ),
+);

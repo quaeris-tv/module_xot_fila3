@@ -15,9 +15,9 @@
       'route' => 'xot::route-cache',
       'event' => 'xot::event-cache',
     ),
-    'sort' => 99,
+    'sort' => 43,
     'label' => 'Gestione Cache',
-    'icon' => 'xot-cache',
+    'icon' => 'xot::cache',
   ),
   'pages' => 
   array (

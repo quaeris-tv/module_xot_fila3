@@ -8,28 +8,29 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Pages;
 
-use Filament\Actions\Action;
-use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Actions\Action;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Artisan;
-use Modules\Xot\Filament\Traits\NavigationLabelTrait;
-use Modules\Xot\Filament\Widgets;
 use Spatie\Health\Checks\Checks;
-use Spatie\Health\Commands\RunHealthChecksCommand;
+use Modules\Xot\Filament\Widgets;
 use Spatie\Health\Facades\Health;
+use Illuminate\Support\Facades\Artisan;
+use Filament\Notifications\Notification;
+use Modules\Xot\Filament\Pages\XotBasePage;
 use Spatie\Health\ResultStores\ResultStore;
+use Spatie\Health\Commands\RunHealthChecksCommand;
+use Modules\Xot\Filament\Traits\NavigationLabelTrait;
 
-class HealthPage extends Page
+class HealthPage extends XotBasePage
 {
-    use NavigationLabelTrait;
+    //use NavigationLabelTrait;
 
     /**
      * @var array<string, string>
      */
     protected $listeners = ['refresh-component' => '$refresh'];
 
-    protected static ?string $navigationIcon = 'heroicon-o-heart';
+   // protected static ?string $navigationIcon = 'heroicon-o-heart';
 
     protected static string $view = 'xot::filament.pages.health';
 

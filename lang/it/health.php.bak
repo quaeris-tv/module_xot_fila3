@@ -1,16 +1,16 @@
 <?php return array (
   'navigation' => 
   array (
-    'name' => 'Extra',
-    'plural' => 'Extra',
+    'name' => 'Salute',
+    'plural' => 'Salute',
     'group' => 
     array (
       'name' => 'Sistema',
-      'description' => 'Funzionalità aggiuntive del sistema',
+      'description' => 'Monitoraggio dello stato del sistema',
     ),
     'sort' => 59,
-    'label' => 'Funzionalità Extra',
-    'icon' => 'heroicon-o-puzzle-piece',
+    'label' => 'health.navigation',
+    'icon' => 'xot-health',
   ),
   'pages' => 
   array (
@@ -30,6 +30,13 @@
       array (
         'check_results' => 'Check results from',
       ),
+    ),
+  ),
+  'actions' => 
+  array (
+    'refresh' => 
+    array (
+      'label' => 'refresh',
     ),
   ),
 );

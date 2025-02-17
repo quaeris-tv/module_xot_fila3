@@ -6,12 +6,19 @@ namespace Modules\Xot\Filament\Pages;
 
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
 use Filament\Support\Enums\IconPosition;
 use Livewire\Attributes\On;
 use Modules\Xot\Actions\ExecuteArtisanCommandAction;
+use Modules\Xot\Filament\Traits\NavigationLabelTrait;
 
-class ArtisanCommandsManager extends XotBasePage
+class ArtisanCommandsManager extends Page
 {
+    use NavigationLabelTrait;
+
+    protected static ?string $navigationIcon = 'heroicon-o-command-line';
+    protected static string $view = 'xot::filament.pages.artisan-commands-manager';
+
     public array $output = [];
     public string $currentCommand = '';
     public string $status = '';
@@ -95,7 +102,7 @@ class ArtisanCommandsManager extends XotBasePage
             Action::make('queue_restart')
                 ->label(__('xot::artisan-commands-manager.commands.queue_restart.label'))
                 ->icon('heroicon-o-arrow-path')
-                ->color('gray')
+                ->color('danger')
                 ->size('lg')
                 ->iconPosition(IconPosition::Before)
                 ->disabled(fn () => $this->isRunning)
@@ -109,68 +116,75 @@ class ArtisanCommandsManager extends XotBasePage
         $this->currentCommand = $command;
         $this->isRunning = true;
 
-        try {
-            app(ExecuteArtisanCommandAction::class)->execute($command);
-        } catch (\Exception $e) {
-            Notification::make()
-                ->title(__('xot::artisan-commands-manager.notifications.error'))
-                ->body($e->getMessage())
-                ->danger()
-                ->send();
-
-            $this->isRunning = false;
-        }
+        app(ExecuteArtisanCommandAction::class)->execute($command);
     }
 
     #[On('artisan-command.started')]
     public function handleCommandStarted(string $command): void
     {
-        $this->isRunning = true;
+        if ($command === $this->currentCommand) {
+            $this->status = 'running';
+            $this->isRunning = true;
+            $this->dispatch('refresh-component');
+        }
     }
 
     #[On('artisan-command.output')]
     public function handleCommandOutput(string $command, string $output): void
     {
-        $this->output[] = $output;
+        if ($command === $this->currentCommand) {
+            $this->output[] = $output;
+            $this->dispatch('refresh-component');
+        }
     }
 
     #[On('artisan-command.completed')]
     public function handleCommandCompleted(string $command): void
     {
-        $this->status = 'completed';
-        $this->isRunning = false;
+        if ($command === $this->currentCommand) {
+            $this->status = 'completed';
+            $this->isRunning = false;
+            $this->dispatch('refresh-component');
 
-        Notification::make()
-            ->title(__('xot::artisan-commands-manager.notifications.success'))
-            ->success()
-            ->send();
+            Notification::make()
+                ->title(__('xot::artisan-commands-manager.messages.command_completed'))
+                ->body(__('xot::artisan-commands-manager.messages.command_completed_desc', ['command' => $command]))
+                ->success()
+                ->send();
+        }
     }
 
     #[On('artisan-command.failed')]
     public function handleCommandFailed(string $command, string $error): void
     {
-        $this->status = 'failed';
-        $this->isRunning = false;
-        $this->output[] = "[ERROR] {$error}";
+        if ($command === $this->currentCommand) {
+            $this->status = 'failed';
+            $this->isRunning = false;
+            $this->output[] = $error;
+            $this->dispatch('refresh-component');
 
-        Notification::make()
-            ->title(__('xot::artisan-commands-manager.notifications.error'))
-            ->body($error)
-            ->danger()
-            ->send();
+            Notification::make()
+                ->title(__('xot::artisan-commands-manager.messages.command_failed'))
+                ->body(__('xot::artisan-commands-manager.messages.command_failed_desc', ['command' => $command]))
+                ->danger()
+                ->send();
+        }
     }
 
     #[On('artisan-command.error')]
     public function handleCommandError(string $command, string $error): void
     {
-        $this->status = 'failed';
-        $this->isRunning = false;
-        $this->output[] = "[ERROR] {$error}";
+        if ($command === $this->currentCommand) {
+            $this->status = 'failed';
+            $this->isRunning = false;
+            $this->output[] = "Error: {$error}";
+            $this->dispatch('refresh-component');
 
-        Notification::make()
-            ->title(__('xot::artisan-commands-manager.notifications.error'))
-            ->body($error)
-            ->danger()
-            ->send();
+            Notification::make()
+                ->title(__('xot::artisan-commands-manager.messages.command_failed'))
+                ->body($error)
+                ->danger()
+                ->send();
+        }
     }
 }

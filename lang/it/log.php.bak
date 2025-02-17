@@ -11,8 +11,8 @@
       'name' => 'Sistema',
       'description' => 'Visualizzazione dei log di sistema',
     ),
-    'sort' => 91,
-    'label' => 'Visualizza Log',
+    'sort' => 99,
+    'label' => 'log.navigation',
     'icon' => 'xot-log',
   ),
   'fields' => 
@@ -40,11 +40,11 @@
     ),
     'export' => 
     array (
-      'filename_prefix' => 'Log al',
+      'filename_prefix' => 'Aree al',
       'columns' => 
       array (
-        'name' => 'Nome log',
-        'parent_name' => 'Nome log superiore',
+        'name' => 'Nome area',
+        'parent_name' => 'Nome area livello superiore',
       ),
     ),
   ),

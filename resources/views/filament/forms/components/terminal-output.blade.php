@@ -1,8 +1,3 @@
-<x-dynamic-component
-    :component="$getFieldWrapperView()"
-    :field="$field"
->
-    <div class="p-4 font-mono text-sm bg-black text-white rounded-lg overflow-auto max-h-96 dark:border dark:border-gray-700">
-        {!! $getState() !!}
-    </div>
-</x-dynamic-component> 
+<div class="bg-gray-900 text-gray-100 font-mono p-4 rounded-lg overflow-auto max-h-96">
+    {!! $getState() !!}
+</div>

@@ -4,22 +4,26 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Pages;
 
-use Filament\Pages\Page;
+use Filament\Pages\Page as FilamentPage;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Modules\Xot\Filament\Traits\TransTrait;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Concerns\InteractsWithForms;
 
 /**
  * Undocumented class.
  *
  * @property ?string $model
  */
-abstract class XotBasePage extends Page
+abstract class XotBasePage extends FilamentPage implements HasForms
 {
     use TransTrait;
+    use InteractsWithForms;
 
     protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
 
-    protected static string $view = 'job::filament.pages.job-monitor';
+    //protected static string $view = 'job::filament.pages.job-monitor';
 
     protected static ?string $model = null; // ---
 
@@ -32,6 +36,11 @@ abstract class XotBasePage extends Page
     public static function getModuleName(): string
     {
         return Str::between(static::class, 'Modules\\', '\Filament');
+    }
+
+    public static function getModuleNameLow(): string
+    {
+        return Str::of(static::getModuleName())->lower()->toString();
     }
 
     public static function trans(string $key): string
@@ -86,6 +95,20 @@ abstract class XotBasePage extends Page
         $this->model = $res;
         // self::$model = $res;
 
+        return $res;
+    }
+
+    public function getView(): string{
+        $moduleName = static::getModuleName();
+        $moduleNameLow = static::getModuleNameLow();
+        $pieces=Str::of(static::class)->after('Modules\\'.$moduleName.'\\')->explode('\\')->toArray();
+        $pieces=Arr::map($pieces,fn($item)=>Str::kebab($item));
+        
+        $res=$moduleNameLow.'::'.implode('.',$pieces);
+        if(!view()->exists($res)){
+            throw new \Exception('View ['.$res.'] not found');
+        }
+        
         return $res;
     }
 }

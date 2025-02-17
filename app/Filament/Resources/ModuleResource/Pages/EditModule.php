@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources\ModuleResource\Pages;
 
 use Filament\Actions;
+use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\File;
 use Modules\Xot\Actions\Array\SaveArrayAction;
 use Modules\Xot\Filament\Resources\ModuleResource;
@@ -13,7 +14,7 @@ use Modules\Xot\Models\Module;
 /**
  * @property Module $record
  */
-class EditModule extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord
+class EditModule extends EditRecord
 {
     protected static string $resource = ModuleResource::class;
 
