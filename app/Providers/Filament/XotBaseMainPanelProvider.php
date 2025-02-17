@@ -25,7 +25,7 @@ use Modules\Xot\Filament\Pages\MainDashboard;
 use Nwidart\Modules\Facades\Module;
 
 /**
- * ---
+ * ---.
  */
 abstract class XotBaseMainPanelProvider extends PanelProvider
 {
