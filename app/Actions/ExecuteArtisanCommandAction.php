@@ -43,20 +43,20 @@ class ExecuteArtisanCommandAction
             // Cattura l'output in tempo reale
             while ($process->running()) {
                 $data = $process->latestOutput();
-                if (!empty($data)) {
+                if (! empty($data)) {
                     $formattedData = trim($data);
-                    if (!empty($formattedData)) {
+                    if (! empty($formattedData)) {
                         $output[] = $formattedData;
                         Event::dispatch('artisan-command.output', [$command, $formattedData]);
                     }
                 }
 
                 $errorData = $process->latestErrorOutput();
-                if (!empty($errorData)) {
+                if (! empty($errorData)) {
                     $formattedError = trim($errorData);
-                    if (!empty($formattedError)) {
-                        $output[] = '[ERROR] ' . $formattedError;
-                        Event::dispatch('artisan-command.output', [$command, '[ERROR] ' . $formattedError]);
+                    if (! empty($formattedError)) {
+                        $output[] = '[ERROR] '.$formattedError;
+                        Event::dispatch('artisan-command.output', [$command, '[ERROR] '.$formattedError]);
                     }
                 }
 
@@ -67,15 +67,15 @@ class ExecuteArtisanCommandAction
 
             // Capture any remaining output
             $finalOutput = trim($result->output());
-            if (!empty($finalOutput)) {
+            if (! empty($finalOutput)) {
                 $output[] = $finalOutput;
                 Event::dispatch('artisan-command.output', [$command, $finalOutput]);
             }
 
             $finalErrorOutput = trim($result->errorOutput());
-            if (!empty($finalErrorOutput)) {
-                $output[] = '[ERROR] ' . $finalErrorOutput;
-                Event::dispatch('artisan-command.output', [$command, '[ERROR] ' . $finalErrorOutput]);
+            if (! empty($finalErrorOutput)) {
+                $output[] = '[ERROR] '.$finalErrorOutput;
+                Event::dispatch('artisan-command.output', [$command, '[ERROR] '.$finalErrorOutput]);
             }
 
             if ($result->successful()) {
@@ -92,14 +92,9 @@ class ExecuteArtisanCommandAction
                 'status' => $status,
                 'exitCode' => $result->exitCode(),
             ];
-
         } catch (\Throwable $e) {
             Event::dispatch('artisan-command.error', [$command, $e->getMessage()]);
-            throw new \RuntimeException(
-                "Errore durante l'esecuzione del comando {$command}: {$e->getMessage()}",
-                (int) $e->getCode(),
-                $e
-            );
+            throw new \RuntimeException("Errore durante l'esecuzione del comando {$command}: {$e->getMessage()}", (int) $e->getCode(), $e);
         }
     }
 
