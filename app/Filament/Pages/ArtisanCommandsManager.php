@@ -11,7 +11,7 @@ use Livewire\Attributes\On;
 use Modules\Xot\Actions\ExecuteArtisanCommandAction;
 
 /**
- * ---
+ * ---.
  */
 class ArtisanCommandsManager extends XotBasePage
 {
