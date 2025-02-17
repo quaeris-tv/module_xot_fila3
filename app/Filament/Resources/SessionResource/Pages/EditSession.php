@@ -8,7 +8,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Modules\Xot\Filament\Resources\SessionResource;
 
-class EditSession extends EditRecord
+class EditSession extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord
 {
     protected static string $resource = SessionResource::class;
 

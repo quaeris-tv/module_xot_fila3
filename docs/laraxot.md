@@ -1108,9 +1108,9 @@ Laraxot è un framework basato su Laravel che fornisce funzionalità estese per 
 Non estendere MAI direttamente le classi Filament. Utilizzare sempre le classi astratte corrispondenti con prefisso `XotBase` dal modulo Xot.
 
 Esempi:
-- ❌ `extends Resource`  ✅ `extends XotBaseResource`
+- ❌ `extends \Modules\Xot\Filament\Resources\XotBaseResource`  ✅ `extends XotBaseResource`
 - ❌ `extends ListRecords` ✅ `extends XotBaseListRecords`
-- ❌ `extends EditRecord` ✅ `extends XotBaseEditRecord`
+- ❌ `extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord` ✅ `extends XotBaseEditRecord`
 - ❌ `extends CreateRecord` ✅ `extends XotBaseCreateRecord`
 - ❌ `extends ViewRecord` ✅ `extends XotBaseViewRecord`
 
@@ -4057,7 +4057,7 @@ In Laraxot, non si estendono mai direttamente le classi Filament. Invece, si uti
 ```php
 // ❌ ERRATO
 use Filament\Resources\Resource;
-class MyResource extends Resource
+class MyResource extends \Modules\Xot\Filament\Resources\XotBaseResource
 
 // ✅ CORRETTO
 use Modules\Xot\Filament\Resources\XotBaseResource;

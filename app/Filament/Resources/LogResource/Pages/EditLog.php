@@ -8,7 +8,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Modules\Xot\Filament\Resources\LogResource;
 
-class EditLog extends EditRecord
+class EditLog extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord
 {
     protected static string $resource = LogResource::class;
 

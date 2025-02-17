@@ -8,7 +8,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Modules\Xot\Filament\Resources\ExtraResource;
 
-class EditExtra extends EditRecord
+class EditExtra extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord
 {
     protected static string $resource = ExtraResource::class;
 

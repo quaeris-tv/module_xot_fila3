@@ -8,7 +8,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Modules\Xot\Filament\Resources\CacheLockResource;
 
-class EditCacheLock extends EditRecord
+class EditCacheLock extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord
 {
     protected static string $resource = CacheLockResource::class;
 
