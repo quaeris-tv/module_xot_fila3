@@ -24,8 +24,8 @@ abstract class XotBaseRelationManager extends RelationManager
 
     protected static string $relationship = '';
 
-    //@var class-string<XotBaseResource> 
-    //protected static string $resource;
+    // @var class-string<XotBaseResource>
+    // protected static string $resource;
 
     public static function getModuleName(): string
     {

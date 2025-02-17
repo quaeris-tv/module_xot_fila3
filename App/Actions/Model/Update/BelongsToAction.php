@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
 use Webmozart\Assert\Assert;
-use RuntimeException;
 
 class BelongsToAction
 {
@@ -34,7 +33,7 @@ class BelongsToAction
 
         if (! Arr::isAssoc($relationDTO->data) && \count($relationDTO->data) > 0) {
             $related_id = $relationDTO->data[0] ?? null;
-            if ($related_id === null) {
+            if (null === $related_id) {
                 return;
             }
             $related = $relationDTO->related->find($related_id);
@@ -55,7 +54,7 @@ class BelongsToAction
         if (Arr::isAssoc($relationDTO->data)) {
             $sub = $rows->firstOrCreate();
             // $sub = $rows->first() ?? $rows->getModel();
-            if ($sub === null) {
+            if (null === $sub) {
                 throw new \Exception('['.__LINE__.']['.class_basename($this).']');
             }
 
@@ -88,8 +87,8 @@ class BelongsToAction
         $relatedModel = $relation->getRelated();
         $foreignKey = $relation->getForeignKeyName();
 
-        if (!isset($data[$foreignKey])) {
-            throw new RuntimeException("Foreign key [{$foreignKey}] not found in data");
+        if (! isset($data[$foreignKey])) {
+            throw new \RuntimeException("Foreign key [{$foreignKey}] not found in data");
         }
 
         $model->setAttribute($foreignKey, $data[$foreignKey]);

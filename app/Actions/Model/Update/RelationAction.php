@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Xot\Actions\Model\FilterRelationsAction;
 use Spatie\QueueableAction\QueueableAction;
 use Webmozart\Assert\Assert;
-use RuntimeException;
 
 class RelationAction
 {
@@ -20,16 +19,16 @@ class RelationAction
     public function execute(Model $model, array $data): void
     {
         $relations = app(FilterRelationsAction::class)->execute($model, $data);
-        
+
         foreach ($relations as $relation) {
             $relationType = class_basename(get_class($relation));
-            
+
             $actionClass = match ($relationType) {
                 'BelongsTo' => BelongsToAction::class,
                 'BelongsToMany' => BelongsToManyAction::class,
                 'HasMany' => HasManyAction::class,
                 'HasOne' => HasOneAction::class,
-                default => throw new RuntimeException("Unsupported relation type: $relationType"),
+                default => throw new \RuntimeException("Unsupported relation type: $relationType"),
             };
 
             /** @var object $action */

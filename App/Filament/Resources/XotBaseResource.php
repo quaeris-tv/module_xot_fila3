@@ -137,6 +137,7 @@ abstract class XotBaseResource extends FilamentResource
             $info = pathinfo($file);
             $res[] = static::class.'\RelationManagers\\'.$info['filename'];
         }
+
         // @phpstan-ignore return.type
         return $res;
     }

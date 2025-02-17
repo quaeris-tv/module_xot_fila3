@@ -16,13 +16,15 @@ class GenerateResourceFormSchemaCommand extends Command
     public function handle(): int
     {
         $generator = new ResourceFormSchemaGenerator();
-        
+
         try {
             $generator->generateForAllResources();
             $this->info('Schemi dei form generati con successo');
+
             return Command::SUCCESS;
         } catch (\Exception $e) {
-            $this->error('Errore durante la generazione degli schemi: ' . $e->getMessage());
+            $this->error('Errore durante la generazione degli schemi: '.$e->getMessage());
+
             return Command::FAILURE;
         }
     }

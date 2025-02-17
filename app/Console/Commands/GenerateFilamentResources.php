@@ -6,7 +6,6 @@ namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
 use Nwidart\Modules\Facades\Module;
-use RuntimeException;
 
 class GenerateFilamentResources extends Command
 {
@@ -20,16 +19,18 @@ class GenerateFilamentResources extends Command
         $moduleName = $this->argument('module');
 
         $module = Module::find($moduleName);
-        if (!$module) {
+        if (! $module) {
             $this->error(sprintf('Modulo %s non trovato', $moduleName));
+
             return Command::FAILURE;
         }
 
         $this->info(sprintf('Generazione risorse Filament per il modulo %s', $moduleName));
 
         $modelPath = sprintf('Modules/%s/Models', $moduleName);
-        if (!is_dir(base_path($modelPath))) {
+        if (! is_dir(base_path($modelPath))) {
             $this->error(sprintf('Directory dei modelli non trovata in %s', $modelPath));
+
             return Command::FAILURE;
         }
 

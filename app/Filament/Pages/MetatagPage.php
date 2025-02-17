@@ -92,7 +92,7 @@ class MetatagPage extends Page implements HasForms
                                 ->options(array_merge(['custom' => '--- custom ---'], $metatag->getAllColors())),
                             ColorPicker::make('hex')
 
-                                ->visible(fn (Get $get): bool => $get('color') == 'custom')
+                                ->visible(fn (Get $get): bool => 'custom' == $get('color'))
                                 ->required(), // e.g., '#0071b0'
                         ])
                     // ->keyValueArray(true) // Store as key-value pairs in the 'colors' array

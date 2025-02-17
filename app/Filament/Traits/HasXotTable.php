@@ -56,10 +56,10 @@ trait HasXotTable
 
         $actions['create'] = Tables\Actions\CreateAction::make()
             ->button()
-            //->color('primary')
-            //->size('md')
-            //->icon('heroicon-o-plus')
-            //->iconPosition('before')
+            // ->color('primary')
+            // ->size('md')
+            // ->icon('heroicon-o-plus')
+            // ->iconPosition('before')
             ->label('')
             ->extraAttributes([
                 'class' => 'font-semibold shadow-sm hover:shadow-md transition-all duration-200',
@@ -136,7 +136,7 @@ trait HasXotTable
     public function getGridTableColumns(): array
     {
         return [
-            'stack01'=>Stack::make($this->getListTableColumns()),
+            'stack01' => Stack::make($this->getListTableColumns()),
         ];
     }
 
@@ -332,9 +332,9 @@ trait HasXotTable
     /**
      * Get model class.
      *
-     * @return class-string<Model>
-     *
      * @throws \Exception Se non viene trovata una classe modello valida
+     *
+     * @return class-string<Model>
      */
     public function getModelClass(): string
     {

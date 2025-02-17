@@ -9,7 +9,6 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Modules\UI\Enums\TableLayoutEnum;
 use Modules\Xot\Filament\Resources\ModuleResource;
@@ -21,8 +20,6 @@ class ListModules extends XotBaseListRecords
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
 
     protected static string $resource = ModuleResource::class;
-
-   
 
     /**
      * @return array<string, Tables\Columns\Column>

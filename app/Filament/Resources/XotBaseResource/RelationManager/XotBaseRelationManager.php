@@ -24,8 +24,8 @@ abstract class XotBaseRelationManager extends RelationManager
 
     protected static string $relationship = '';
 
-    //@var class-string<XotBaseResource> 
-    //protected static string $resource;
+    // @var class-string<XotBaseResource>
+    // protected static string $resource;
 
     public static function getModuleName(): string
     {
@@ -68,7 +68,7 @@ abstract class XotBaseRelationManager extends RelationManager
         $index = Arr::get($this->getResource()::getPages(), 'index');
         $index_page = $index->getPage();
         $columns = app($index_page)->getListTableColumns();
-        
+
         return $columns;
     }
 

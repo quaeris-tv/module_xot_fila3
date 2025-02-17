@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources\ExtraResource\Pages;
 
-use Filament\Tables;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Modules\Xot\Filament\Resources\ExtraResource;
 use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
@@ -22,22 +19,16 @@ class ListExtras extends XotBaseListRecords
     {
         return [
             'id' => TextColumn::make('id')
-                ->sortable()
-                ,
+                ->sortable(),
 
             'model_type' => TextColumn::make('model_type')
-                ->searchable()
-                ,
+                ->searchable(),
 
             'model_id' => TextColumn::make('model_id')
-                ->sortable()
-                ,
+                ->sortable(),
 
             'extra_attributes' => TextColumn::make('extra_attributes')
-                ->searchable()
-                ,
+                ->searchable(),
         ];
     }
-
-    
 }

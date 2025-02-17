@@ -32,7 +32,7 @@ class QueryExport implements FromQuery, ShouldQueue, WithChunkReading, WithHeadi
     public QueryBuilder|EloquentBuilder $query;
 
     /**
-     * @param  array<int, string>  $fields
+     * @param array<int, string> $fields
      */
     public function __construct(QueryBuilder|EloquentBuilder $query, ?string $transKey = null, array $fields = [])
     {
@@ -67,7 +67,7 @@ class QueryExport implements FromQuery, ShouldQueue, WithChunkReading, WithHeadi
          * @var \Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null
          */
         $first = $this->query->first();
-        if ($first === null) {
+        if (null === $first) {
             return collect([]);
         }
 
@@ -99,7 +99,7 @@ class QueryExport implements FromQuery, ShouldQueue, WithChunkReading, WithHeadi
     }
 
     /**
-     * @param  \Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null  $item
+     * @param \Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null $item
      */
     public function map($item): array
     {

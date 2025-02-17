@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
-use RuntimeException;
+
 use function Safe\shell_exec;
 use function Safe\sprintf;
 
@@ -36,8 +36,8 @@ class ImportMdbToSQLite extends Command
         /** @var string */
         $sqliteDb = $this->ask('Per favore, inserisci il nome del database SQLite (includi l\'estensione .sqlite)');
 
-        $this->info(sprintf("File .mdb: %s", $mdbFile));
-        $this->info(sprintf("Database SQLite: %s", $sqliteDb));
+        $this->info(sprintf('File .mdb: %s', $mdbFile));
+        $this->info(sprintf('Database SQLite: %s', $sqliteDb));
 
         try {
             $this->info('Esportando tabelle dal file .mdb in CSV...');
@@ -58,53 +58,48 @@ class ImportMdbToSQLite extends Command
     /**
      * Esporta tutte le tabelle dal file .mdb in formato CSV.
      *
-     * @param string $mdbFile
      * @return array<int, string>
      */
     private function exportTablesToCSV(string $mdbFile): array
     {
         $tables = [];
         try {
-            $result = shell_exec(sprintf("mdb-tables %s", $mdbFile));
-            
+            $result = shell_exec(sprintf('mdb-tables %s', $mdbFile));
+
             foreach (explode("\n", trim($result)) as $table) {
                 if (empty($table)) {
                     continue;
                 }
                 $tables[] = $table;
-                $csvFile = storage_path(sprintf("app/%s.csv", $table));
-                shell_exec(sprintf("mdb-export %s %s > %s", $mdbFile, $table, $csvFile));
+                $csvFile = storage_path(sprintf('app/%s.csv', $table));
+                shell_exec(sprintf('mdb-export %s %s > %s', $mdbFile, $table, $csvFile));
             }
 
             return $tables;
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf('Errore durante l\'esportazione delle tabelle: %s', $e->getMessage()));
+            throw new \RuntimeException(sprintf('Errore durante l\'esportazione delle tabelle: %s', $e->getMessage()));
         }
     }
 
     /**
      * Crea le tabelle nel database SQLite basandosi sullo schema del file .mdb.
-     *
-     * @param string $mdbFile
-     * @param string $sqliteDb
-     * @return void
      */
     private function createTables(string $mdbFile, string $sqliteDb): void
     {
         try {
-            $schema = shell_exec(sprintf("mdb-schema %s sqlite", $mdbFile));
+            $schema = shell_exec(sprintf('mdb-schema %s sqlite', $mdbFile));
             $tables = explode(";\n", $schema);
 
             foreach ($tables as $tableSchema) {
                 if (empty($tableSchema)) {
                     continue;
                 }
-                
+
                 $tableSchema = str_replace('`', '"', $tableSchema);
                 shell_exec(sprintf('sqlite3 %s "%s;"', $sqliteDb, $tableSchema));
             }
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf('Errore durante la creazione delle tabelle: %s', $e->getMessage()));
+            throw new \RuntimeException(sprintf('Errore durante la creazione delle tabelle: %s', $e->getMessage()));
         }
     }
 
@@ -112,18 +107,16 @@ class ImportMdbToSQLite extends Command
      * Importa i dati CSV nelle tabelle SQLite.
      *
      * @param array<int, string> $tables
-     * @param string $sqliteDb
-     * @return void
      */
     private function importDataToSQLite(array $tables, string $sqliteDb): void
     {
         try {
             foreach ($tables as $table) {
-                $csvFile = storage_path(sprintf("app/%s.csv", $table));
+                $csvFile = storage_path(sprintf('app/%s.csv', $table));
                 shell_exec(sprintf('sqlite3 %s ".mode csv" ".import %s %s"', $sqliteDb, $csvFile, $table));
             }
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf('Errore durante l\'importazione dei dati: %s', $e->getMessage()));
+            throw new \RuntimeException(sprintf('Errore durante l\'importazione dei dati: %s', $e->getMessage()));
         }
     }
 }

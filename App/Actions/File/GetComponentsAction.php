@@ -7,11 +7,12 @@ namespace Modules\Xot\Actions\File;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Modules\Xot\Datas\ComponentFileData;
+
+use function Safe\json_decode;
+
 use Spatie\LaravelData\DataCollection;
 use Spatie\QueueableAction\QueueableAction;
 use Webmozart\Assert\Assert;
-
-use function Safe\json_decode;
 
 class GetComponentsAction
 {
@@ -56,7 +57,7 @@ class GetComponentsAction
 
         $comps = [];
         foreach ($files as $file) {
-            if ($file->getExtension() !== 'php') {
+            if ('php' !== $file->getExtension()) {
                 continue;
             }
             $tmp = (object) [];
@@ -71,7 +72,7 @@ class GetComponentsAction
             $relative_path = $file->getRelativePath();
             Assert::string($relative_path = Str::replace('/', '\\', $relative_path), '['.__LINE__.']['.class_basename(static::class).']');
 
-            if ($relative_path !== '') {
+            if ('' !== $relative_path) {
                 $tmp->comp_name = '';
                 $piece = collect(explode('\\', $relative_path))
                     ->map(

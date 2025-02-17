@@ -11,7 +11,6 @@ use Modules\Xot\Actions\Model\UpdateAction;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
 use Webmozart\Assert\Assert;
-use RuntimeException;
 
 class BelongsToManyAction
 {
@@ -54,7 +53,7 @@ class BelongsToManyAction
                 $ids[] = $res->getKey();
                 $models[] = $res;
             } else {
-                throw new RuntimeException(sprintf('Key "%s" not found in relation data.', $keyName));
+                throw new \RuntimeException(sprintf('Key "%s" not found in relation data.', $keyName));
             }
         }
 
@@ -67,7 +66,7 @@ class BelongsToManyAction
 
                 $rows->syncWithoutDetaching($ids);
             } catch (\Exception $e) {
-                throw new RuntimeException(sprintf('Error during syncWithoutDetaching: %s', $e->getMessage()));
+                throw new \RuntimeException(sprintf('Error during syncWithoutDetaching: %s', $e->getMessage()));
             }
         }
     }

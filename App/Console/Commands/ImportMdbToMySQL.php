@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
-use RuntimeException;
+
 use function Safe\shell_exec;
 
 class ImportMdbToMySQL extends Command
@@ -30,13 +30,13 @@ class ImportMdbToMySQL extends Command
     public function handle(): int
     {
         $mdbFile = $this->ask('Inserisci il percorso del file .mdb');
-        if (!is_string($mdbFile)) {
-            throw new RuntimeException('Il percorso del file deve essere una stringa');
+        if (! is_string($mdbFile)) {
+            throw new \RuntimeException('Il percorso del file deve essere una stringa');
         }
 
         $mysqlDb = $this->ask('Inserisci il nome del database MySQL');
-        if (!is_string($mysqlDb)) {
-            throw new RuntimeException('Il nome del database deve essere una stringa');
+        if (! is_string($mysqlDb)) {
+            throw new \RuntimeException('Il nome del database deve essere una stringa');
         }
 
         $this->info("File .mdb: $mdbFile");
@@ -46,6 +46,7 @@ class ImportMdbToMySQL extends Command
         $tables = $this->exportTablesToSQL($mdbFile);
         if (empty($tables)) {
             $this->error('Nessuna tabella trovata nel file .mdb');
+
             return Command::FAILURE;
         }
 
@@ -53,6 +54,7 @@ class ImportMdbToMySQL extends Command
         $this->importTablesIntoMySQL($tables, $mysqlDb);
 
         $this->info('Importazione completata con successo!');
+
         return Command::SUCCESS;
     }
 
@@ -65,7 +67,7 @@ class ImportMdbToMySQL extends Command
     {
         $tables = [];
         $tableList = shell_exec("mdb-tables $mdbFile");
-        if (!$tableList) {
+        if (! $tableList) {
             return [];
         }
 
