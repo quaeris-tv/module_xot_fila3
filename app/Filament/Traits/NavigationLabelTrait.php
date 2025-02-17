@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Traits;
 
 use Illuminate\Support\Str;
-use Webmozart\Assert\Assert;
 use Modules\Lang\Actions\SaveTransAction;
 use Modules\Media\Actions\Image\SvgExistsAction;
+use Webmozart\Assert\Assert;
 
 trait NavigationLabelTrait
 {
@@ -70,14 +70,11 @@ trait NavigationLabelTrait
         $default = 'heroicon-o-question-mark-circle';
         $icon = static::transFunc(__FUNCTION__);
 
-        
-        if(app(SvgExistsAction::class)->execute($icon)){
+        if (app(SvgExistsAction::class)->execute($icon)) {
             return $icon;
         }
-        
-        return $default;
 
-        
+        return $default;
     }
     /*
 

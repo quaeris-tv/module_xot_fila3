@@ -62,11 +62,11 @@ if (! function_exists('isRunningTestBench')) {
 
         return $res;
         */
-        //$path = app(Modules\Xot\Actions\File\FixPathAction::class)->execute('\vendor\orchestra\testbench-core\laravel');
-        //$base = app(Modules\Xot\Actions\File\FixPathAction::class)->execute(base_path());
-        //$res = Str::endsWith($base, $path);
+        // $path = app(Modules\Xot\Actions\File\FixPathAction::class)->execute('\vendor\orchestra\testbench-core\laravel');
+        // $base = app(Modules\Xot\Actions\File\FixPathAction::class)->execute(base_path());
+        // $res = Str::endsWith($base, $path);
 
-        //return $res;
+        // return $res;
         return false;
     }
 }
