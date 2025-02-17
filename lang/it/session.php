@@ -8,7 +8,7 @@
       'name' => 'Sistema',
       'description' => 'Gestione delle sessioni utente',
     ),
-    'sort' => 34,
+    'sort' => 7,
     'label' => 'Gestione Sessioni',
     'icon' => 'heroicon-o-user-circle',
   ),

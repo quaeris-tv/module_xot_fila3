@@ -8,7 +8,7 @@
       'name' => 'Sistema',
       'description' => 'Funzionalità aggiuntive del sistema',
     ),
-    'sort' => 51,
+    'sort' => 97,
     'label' => 'Funzionalità Extra',
     'icon' => 'heroicon-o-puzzle-piece',
   ),

@@ -11,7 +11,7 @@
       'name' => 'Sistema',
       'description' => 'Visualizzazione dei log di sistema',
     ),
-    'sort' => 35,
+    'sort' => 78,
     'label' => 'Visualizza Log',
     'icon' => 'xot-log',
   ),

@@ -8,7 +8,7 @@
       'name' => 'Sistema',
       'description' => 'Gestione dei lock della cache',
     ),
-    'sort' => 66,
+    'sort' => 91,
     'label' => 'Lock Cache',
     'icon' => 'heroicon-o-lock-closed',
   ),

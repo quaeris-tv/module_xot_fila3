@@ -11,7 +11,7 @@
       'name' => 'Sistema',
       'description' => 'Gestione dei meta tag del sito',
     ),
-    'sort' => 33,
+    'sort' => 55,
     'label' => 'Gestione Metatag',
     'icon' => 'heroicon-o-tag',
   ),

@@ -8,7 +8,7 @@
       'name' => 'Sistema',
       'description' => 'Gestione dei moduli del sistema',
     ),
-    'sort' => 99,
+    'sort' => 83,
     'label' => 'Gestione Moduli',
     'icon' => 'xot-module',
   ),
