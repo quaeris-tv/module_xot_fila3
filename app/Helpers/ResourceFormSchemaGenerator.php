@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Xot\App\Helpers;
+namespace Modules\Xot\Helpers;
 
 use Illuminate\Support\Str;
 

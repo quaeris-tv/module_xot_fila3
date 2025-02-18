@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Xot\App\Console\Commands;
+namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
 use Modules\Xot\App\Helpers\ResourceFormSchemaGenerator;
