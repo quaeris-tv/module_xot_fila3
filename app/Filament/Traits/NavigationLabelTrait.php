@@ -6,6 +6,7 @@ namespace Modules\Xot\Filament\Traits;
 
 use Illuminate\Support\Str;
 use Modules\Lang\Actions\SaveTransAction;
+use Modules\Xot\Actions\File\SvgExistsAction;
 use Webmozart\Assert\Assert;
 
 trait NavigationLabelTrait
@@ -53,7 +54,8 @@ trait NavigationLabelTrait
         $res = static::transFunc(__FUNCTION__);
 
         $value = intval($res);
-        if ($value == 0) {
+
+        if (0 == $value) {
             $key = static::getKeyTransFunc(__FUNCTION__);
             $value = rand(1, 100);
             app(SaveTransAction::class)->execute($key, $value);
@@ -68,22 +70,13 @@ trait NavigationLabelTrait
     {
         $default = 'heroicon-o-question-mark-circle';
 
-        try {
-            // return static::trans('navigation.icon', true);
-            $res = static::transFunc(__FUNCTION__, true);
-        } catch (\Throwable $th) {
-            return $default;
+        $icon = static::transFunc(__FUNCTION__);
+
+        if (app(SvgExistsAction::class)->execute($icon)) {
+            return $icon;
         }
 
-        if (str_contains($res, ' ')) {
-            return $default;
-        }
-
-        if (Str::endsWith($res, '.navigation')) {
-            return $default;
-        }
-
-        return $res;
+        return $default;
     }
     /*
 

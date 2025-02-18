@@ -7,6 +7,12 @@ return [
         'authenticate' => [
             'label' => 'authenticate',
         ],
+        'login' => [
+            'label' => 'login',
+        ],
+        'request' => [
+            'label' => 'request',
+        ],
     ],
     'fields' => [
         'email' => [

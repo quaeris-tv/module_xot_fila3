@@ -5,43 +5,58 @@ declare(strict_types=1);
 namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 use Nwidart\Modules\Facades\Module;
-use RuntimeException;
 
 class GenerateFilamentResources extends Command
 {
-    protected $signature = 'filament:generate-resources {module : Nome del modulo}';
+    protected $signature = 'filament:generate-resources';
 
-    protected $description = 'Genera le risorse Filament per un modulo specifico';
+    protected $description = 'Generate Filament resources for all models';
 
     public function handle(): int
     {
-        /** @var string $moduleName */
         $moduleName = $this->argument('module');
-
         $module = Module::find($moduleName);
-        if (!$module) {
-            $this->error(sprintf('Modulo %s non trovato', $moduleName));
+
+        if (! $module) {
+            $this->error("Il modulo '{$moduleName}' non esiste.");
+
             return Command::FAILURE;
         }
 
-        $this->info(sprintf('Generazione risorse Filament per il modulo %s', $moduleName));
+        $this->info("Generazione delle Filament Resources per il modulo: {$moduleName}");
 
-        $modelPath = sprintf('Modules/%s/Models', $moduleName);
-        if (!is_dir(base_path($modelPath))) {
-            $this->error(sprintf('Directory dei modelli non trovata in %s', $modelPath));
+        $modelsPath = $module->getPath().'/app/Models';
+        if (! File::isDirectory($modelsPath)) {
+            $this->error("Nessuna cartella 'Models' trovata nel modulo {$moduleName}.");
+
             return Command::FAILURE;
         }
 
-        $this->info(sprintf('Cercando modelli in %s', $modelPath));
+        $models = File::files($modelsPath);
+        foreach ($models as $model) {
+            $modelName = $model->getFilenameWithoutExtension();
 
-        $namespace = sprintf('Modules\\%s\\Models', ucfirst($moduleName));
-        $this->call('filament:make:resource', [
-            '--generate' => true,
-            '--simple' => true,
-            'name' => $moduleName,
-            '--namespace' => $namespace,
-        ]);
+            $panel = strtolower($moduleName).'::admin';
+            $params = [
+                'name' => $modelName,
+                '--panel' => $panel,
+                '--model-namespace' => "Modules\\{$moduleName}\\Models",
+                '--generate' => true,
+                '--factory' => true,
+                '--force' => true,
+            ];
+            try {
+                Artisan::call('make:filament-resource', $params);
+            } catch (\Exception $e) {
+                $this->error($e->getMessage());
+            }
+            $this->info("Resource generata per il modello: {$modelName}");
+        }
+
+        $this->info('Tutte le resources sono state generate con successo!');
 
         return Command::SUCCESS;
     }

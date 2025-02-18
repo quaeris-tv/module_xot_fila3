@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Traits;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Modules\Lang\Actions\SaveTransAction;
 use Modules\Xot\Actions\GetTransKeyAction;
@@ -75,11 +76,29 @@ trait TransTrait
         /** @var string|array<int|string,mixed>|null $trans */
         $trans = trans($key);
 
-        if (! is_string($trans) && ! is_array($trans)) {
-            return 'fix:'.$key;
+        if ($key == $trans) {
+            $group = Str::of($key)->before('.')->toString();
+            $item = Str::of($key)->after($group.'.')->toString();
+            $group_arr = trans($group);
+            if (is_array($group_arr)) {
+                $trans = Arr::get($group_arr, $item);
+            }
+        }
+        if (is_numeric($trans)) {
+            return strval($trans);
         }
 
-        if (is_string($trans)) {
+        // if (! is_string($trans) && ! is_numeric($trans) && ! is_array($trans)) {
+        //    return 'fix:'.$key;
+        // }
+        if (is_array($trans)) {
+            $first = current($trans);
+            if (is_string($first) || is_numeric($first)) {
+                return (string) $first;
+            }
+        }
+
+        if (is_string($trans) /* || is_numeric($trans) */) {
             if ($trans === $key) {
                 $newTrans = Str::of($key)
                     ->between('::', '.')
@@ -93,10 +112,20 @@ trait TransTrait
             return $trans;
         }
 
-        $first = current($trans);
-        if (is_string($first) || is_numeric($first)) {
-            return (string) $first;
+        if (is_null($trans)) {
+            $newTrans = Str::of($key)
+                   ->between('::', '.')
+                   ->replace('_', ' ')
+                   ->toString();
+            app(SaveTransAction::class)->execute($key, $newTrans);
+
+            return $newTrans;
         }
+
+        // $first = current($trans);
+        // if (is_string($first) || is_numeric($first)) {
+        //    return (string) $first;
+        // }
 
         return 'fix:'.$key;
     }

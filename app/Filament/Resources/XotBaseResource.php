@@ -26,7 +26,7 @@ abstract class XotBaseResource extends FilamentResource
     // protected static ?string $activeNavigationIcon = 'heroicon-s-document-text';
     // protected static bool $shouldRegisterNavigation = false;
     // protected static ?string $navigationGroup = 'Parametri di Sistema';
-    protected static ?int $navigationSort = null;
+    // protected static ?int $navigationSort = null;
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
@@ -86,6 +86,9 @@ abstract class XotBaseResource extends FilamentResource
 
     public static function getNavigationBadge(): ?string
     {
+        $sort = static::getNavigationSort();
+
+        return number_format($sort, 0).'';
         try {
             $count = app(CountAction::class)->execute(static::getModel());
 
@@ -122,9 +125,6 @@ abstract class XotBaseResource extends FilamentResource
     {
         $reflector = new \ReflectionClass(static::class);
         $filename = $reflector->getFileName();
-        if (false == $filename) {
-            return [];
-        }
         $path = Str::of($filename)
             ->before('.php')
             ->append(DIRECTORY_SEPARATOR)
@@ -137,7 +137,7 @@ abstract class XotBaseResource extends FilamentResource
             $info = pathinfo($file);
             $res[] = static::class.'\RelationManagers\\'.$info['filename'];
         }
-        // @phpstan-ignore return.type
+
         return $res;
     }
 }

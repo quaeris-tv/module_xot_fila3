@@ -11,11 +11,13 @@ use function Safe\preg_match;
  */
 class PhoneValueObject
 {
-    private function __construct(private readonly string $phone) {}
+    private function __construct(private readonly string $phone)
+    {
+    }
 
     public static function fromString(string $phone): self
     {
-        if (preg_match('/^\+1\d{10}$/', $phone) === 0) {
+        if (0 === preg_match('/^\+1\d{10}$/', $phone)) {
             throw new \InvalidArgumentException('It is not valid phone value');
         }
 

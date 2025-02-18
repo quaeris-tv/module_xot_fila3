@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions\File;
 
-use Webmozart\Assert\Assert;
-
-use function Safe\preg_match;
 use function Safe\file_get_contents;
+use function Safe\preg_match;
+
 use Spatie\QueueableAction\QueueableAction;
 
 class GetClassNameByPathAction
@@ -21,8 +20,6 @@ class GetClassNameByPathAction
         preg_match('/namespace\s+(.+);/', $content, $namespaceMatch);
         preg_match('/class\s+(\w+)/', $content, $classMatch);
 
-        Assert::isArray($namespaceMatch);
-        Assert::isArray($classMatch);
         $namespace = $namespaceMatch[1] ?? '';
         $className = $classMatch[1] ?? '';
 

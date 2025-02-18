@@ -11,7 +11,6 @@ use Modules\Xot\Actions\Model\UpdateAction;
 use Modules\Xot\Datas\RelationData as RelationDTO;
 use Spatie\QueueableAction\QueueableAction;
 use Webmozart\Assert\Assert;
-use RuntimeException;
 
 class BelongsToManyAction
 {
@@ -25,8 +24,8 @@ class BelongsToManyAction
             // $this->saveMultiselectTwoSides($row, $relation->name, $relation->data);
             $to = $relationDTO->data['to'] ?? [];
 
-            // Converti in array se necessario
-            $to = (array) $to;
+            // Assicura che $to sia un array di ID validi
+            $to = is_iterable($to) ? iterator_to_array($to) : (array) $to;
             Assert::allScalar($to, 'The "to" field must contain only scalar values.');
 
             $rows->sync($to);
@@ -54,20 +53,20 @@ class BelongsToManyAction
                 $ids[] = $res->getKey();
                 $models[] = $res;
             } else {
-                throw new RuntimeException(sprintf('Key "%s" not found in relation data.', $keyName));
+                throw new \RuntimeException(sprintf('Key "%s" not found in relation data.', $keyName));
             }
         }
 
         // Sincronizza gli ID raccolti
         if (! empty($ids)) {
             try {
-                // Converti in array se necessario
-                $ids = (array) $ids;
+                // Assicura che $ids sia un array di valori scalari
+                $ids = is_iterable($ids) ? iterator_to_array($ids) : (array) $ids;
                 Assert::allScalar($ids, 'The "ids" array must contain only scalar values.');
 
                 $rows->syncWithoutDetaching($ids);
             } catch (\Exception $e) {
-                throw new RuntimeException(sprintf('Error during syncWithoutDetaching: %s', $e->getMessage()));
+                throw new \RuntimeException(sprintf('Error during syncWithoutDetaching: %s', $e->getMessage()));
             }
         }
     }
