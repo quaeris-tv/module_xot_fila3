@@ -10,9 +10,10 @@ use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\ModelClass\CountAction;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
-use Webmozart\Assert\Assert;
 
 use function Safe\glob;
+
+use Webmozart\Assert\Assert;
 
 abstract class XotBaseResource extends FilamentResource
 {
@@ -25,7 +26,7 @@ abstract class XotBaseResource extends FilamentResource
     // protected static ?string $activeNavigationIcon = 'heroicon-s-document-text';
     // protected static bool $shouldRegisterNavigation = false;
     // protected static ?string $navigationGroup = 'Parametri di Sistema';
-    protected static ?int $navigationSort = null;
+    // protected static ?int $navigationSort = null;
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
@@ -85,6 +86,9 @@ abstract class XotBaseResource extends FilamentResource
 
     public static function getNavigationBadge(): ?string
     {
+        $sort = static::getNavigationSort();
+
+        return number_format($sort, 0).'';
         try {
             $count = app(CountAction::class)->execute(static::getModel());
 

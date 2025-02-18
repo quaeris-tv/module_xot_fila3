@@ -8,7 +8,7 @@
       'name' => 'Sistema',
       'description' => 'Gestione della cache del sistema',
     ),
-    'sort' => 89,
+    'sort' => 29,
     'label' => 'cache.navigation',
     'icon' => 'xot-cache',
   ),
