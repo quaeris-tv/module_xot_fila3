@@ -19,7 +19,7 @@ class SvgExistsAction
      *
      * @param string $svgName Il nome dell'SVG da verificare (es: 'heroicon-o-user')
      *
-     * @return bool True se l'SVG esiste, false altrimenti
+     * @return bool True se l'SVG esiste, false altrimenti.
      */
     public function execute(string $svgName): bool
     {

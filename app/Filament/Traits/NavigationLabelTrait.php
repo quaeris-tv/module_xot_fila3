@@ -61,7 +61,6 @@ trait NavigationLabelTrait
             app(SaveTransAction::class)->execute($key, $value);
         }
 
-        // static::$navigationSort = $value;
 
         return $value;
     }
