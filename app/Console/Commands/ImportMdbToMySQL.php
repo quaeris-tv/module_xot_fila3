@@ -8,8 +8,6 @@ use Illuminate\Console\Command;
 
 use function Safe\shell_exec;
 
-use Webmozart\Assert\Assert;
-
 class ImportMdbToMySQL extends Command
 {
     /**

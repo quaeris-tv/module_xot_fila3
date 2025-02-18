@@ -21,11 +21,11 @@ class GenerateModelByModelClass
      * Execute the function with the given model class.
      *
      * @param string $model_class the class name of the model
-<<<<<<< HEAD
-=======
+     *                            <<<<<<< HEAD
+     *                            =======
      *
      * @return void
->>>>>>> origin/dev
+     *              >>>>>>> origin/dev
      */
     public function execute(string $model_class): string
     {

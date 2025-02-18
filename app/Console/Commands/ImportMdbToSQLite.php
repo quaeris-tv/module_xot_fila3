@@ -58,13 +58,12 @@ class ImportMdbToSQLite extends Command
     /**
      * Esporta tutte le tabelle dal file .mdb in formato CSV.
      *
-<<<<<<< HEAD
-     * @return array<int, string>
-=======
-     * @param string $mdbFile
+     * <<<<<<< HEAD
      *
+     * @return array<int, string>
+     *                            =======
      * @return array
->>>>>>> origin/dev
+     *                            >>>>>>> origin/dev
      */
     private function exportTablesToCSV(string $mdbFile): array
     {
@@ -89,12 +88,11 @@ class ImportMdbToSQLite extends Command
 
     /**
      * Crea le tabelle nel database SQLite basandosi sullo schema del file .mdb.
-<<<<<<< HEAD
-=======
+     * <<<<<<< HEAD
+     * =======.
      *
-     * @param string $mdbFile
      * @param string $sqliteDb
->>>>>>> origin/dev
+     *                         >>>>>>> origin/dev
      */
     private function createTables(string $mdbFile, string $sqliteDb): void
     {
@@ -118,12 +116,12 @@ class ImportMdbToSQLite extends Command
     /**
      * Importa i dati CSV nelle tabelle SQLite.
      *
-<<<<<<< HEAD
+     * <<<<<<< HEAD
+     *
      * @param array<int, string> $tables
-=======
-     * @param array  $tables
-     * @param string $sqliteDb
->>>>>>> origin/dev
+     *                                     =======
+     * @param string             $sqliteDb
+     *                                     >>>>>>> origin/dev
      */
     private function importDataToSQLite(array $tables, string $sqliteDb): void
     {
