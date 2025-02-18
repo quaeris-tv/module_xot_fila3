@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Modules\Xot\Filament\Resources\LogResource\Pages;
 
 use Filament\Tables;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Modules\Xot\Filament\Resources\LogResource;
 use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
@@ -53,7 +56,7 @@ class ListLogs extends XotBaseListRecords
     public function getTableFilters(): array
     {
         return [
-            'level_name' => Tables\Filters\SelectFilter::make('level_name')
+            Tables\Filters\SelectFilter::make('level_name')
                 ->options([
                     'emergency' => 'Emergency',
                     'alert' => 'Alert',
@@ -64,6 +67,21 @@ class ListLogs extends XotBaseListRecords
                     'info' => 'Info',
                     'debug' => 'Debug',
                 ]),
+        ];
+    }
+
+    public function getTableActions(): array
+    {
+        return [
+            ViewAction::make(),
+            DeleteAction::make(),
+        ];
+    }
+
+    public function getTableBulkActions(): array
+    {
+        return [
+            DeleteBulkAction::make(),
         ];
     }
 }

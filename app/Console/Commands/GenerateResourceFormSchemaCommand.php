@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Xot\Console\Commands;
+namespace Modules\Xot\App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Modules\Xot\App\Helpers\ResourceFormSchemaGenerator;
@@ -11,24 +11,20 @@ class GenerateResourceFormSchemaCommand extends Command
 {
     protected $signature = 'xot:generate-resource-form-schema';
 
-    protected $description = 'Genera gli schemi dei form per le risorse Filament';
+    protected $description = 'Generate getFormSchema method for XotBaseResource classes';
 
-    public function handle(): int
+    public function handle()
     {
-        $generator = new ResourceFormSchemaGenerator();
+        $result = ResourceFormSchemaGenerator::generateForAllResources();
 
-        try {
-            $generator->generateForAllResources();
-            $this->info('Schemi dei form generati con successo');
+        $this->info('Resource Form Schema Generation Report:');
+        $this->info('Updated Resources: '.count($result['updated']));
 
-            return Command::SUCCESS;
-        } catch (\Exception $e) {
-            $this->error('Errore durante la generazione degli schemi: '.$e->getMessage());
-
-            return Command::FAILURE;
+        if (! empty($result['updated'])) {
+            $this->table(['Updated Resources'],
+                array_map(fn ($resource) => [$resource], $result['updated'])
+            );
         }
-<<<<<<< HEAD
-=======
 
         if (! empty($result['skipped'])) {
             $this->warn('Skipped Resources: '.count($result['skipped']));
@@ -76,6 +72,5 @@ class GenerateResourceFormSchemaCommand extends Command
         $this->warn("Clusters Resources Skipped: {$clustersSkipped}");
 
         return 0;
->>>>>>> origin/dev
     }
 }

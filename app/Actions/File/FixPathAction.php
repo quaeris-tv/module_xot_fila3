@@ -10,9 +10,6 @@ namespace Modules\Xot\Actions\File;
 
 use Spatie\QueueableAction\QueueableAction;
 
-/**
- * --.
- */
 class FixPathAction
 {
     use QueueableAction;

@@ -125,9 +125,6 @@ abstract class XotBaseResource extends FilamentResource
     {
         $reflector = new \ReflectionClass(static::class);
         $filename = $reflector->getFileName();
-        if (false == $filename) {
-            return [];
-        }
         $path = Str::of($filename)
             ->before('.php')
             ->append(DIRECTORY_SEPARATOR)
@@ -141,7 +138,6 @@ abstract class XotBaseResource extends FilamentResource
             $res[] = static::class.'\RelationManagers\\'.$info['filename'];
         }
 
-        // @phpstan-ignore return.type
         return $res;
     }
 }

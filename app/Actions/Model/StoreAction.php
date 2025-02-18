@@ -7,12 +7,8 @@ namespace Modules\Xot\Actions\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use Modules\Xot\Actions\Model\Update\BelongsToAction;
-use Modules\Xot\Actions\Model\Update\BelongsToManyAction;
-use Modules\Xot\Actions\Model\Update\HasManyAction;
-use Modules\Xot\Actions\Model\Update\HasOneAction;
-use Modules\Xot\Datas\RelationData;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class StoreAction
 {
@@ -43,17 +39,13 @@ class StoreAction
         $relations = app(FilterRelationsAction::class)->execute($model, $data);
 
         foreach ($relations as $relation) {
-            $relationType = class_basename(get_class($relation));
-
-            $relationAction = match ($relationType) {
-                'BelongsTo' => app(BelongsToAction::class),
-                'BelongsToMany' => app(BelongsToManyAction::class),
-                'HasMany' => app(HasManyAction::class),
-                'HasOne' => app(HasOneAction::class),
-                default => throw new \RuntimeException("Unsupported relation type: $relationType"),
-            };
-
-            $relationAction->execute($model, RelationData::from($relation));
+            $action_class = __NAMESPACE__.'\\Store\\'.$relation->relationship_type.'Action';
+            $action = app($action_class);
+            Assert::object($action);
+            if (! method_exists($action, 'execute')) {
+                throw new \Exception('method [execute] not found in ['.$action_class.']');
+            }
+            $action->execute($model, $relation);
         }
 
         // $msg = 'created! ['.$model->getKey().']!';

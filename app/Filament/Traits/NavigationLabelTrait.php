@@ -6,11 +6,7 @@ namespace Modules\Xot\Filament\Traits;
 
 use Illuminate\Support\Str;
 use Modules\Lang\Actions\SaveTransAction;
-<<<<<<< HEAD
-use Modules\Media\Actions\Image\SvgExistsAction;
-=======
 use Modules\Xot\Actions\File\SvgExistsAction;
->>>>>>> origin/dev
 use Webmozart\Assert\Assert;
 
 trait NavigationLabelTrait
@@ -58,10 +54,7 @@ trait NavigationLabelTrait
         $res = static::transFunc(__FUNCTION__);
 
         $value = intval($res);
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/dev
         if (0 == $value) {
             $key = static::getKeyTransFunc(__FUNCTION__);
             $value = rand(1, 100);
@@ -76,13 +69,9 @@ trait NavigationLabelTrait
     public static function getNavigationIcon(): string
     {
         $default = 'heroicon-o-question-mark-circle';
+
         $icon = static::transFunc(__FUNCTION__);
 
-<<<<<<< HEAD
-=======
-        $icon = static::transFunc(__FUNCTION__);
-
->>>>>>> origin/dev
         if (app(SvgExistsAction::class)->execute($icon)) {
             return $icon;
         }

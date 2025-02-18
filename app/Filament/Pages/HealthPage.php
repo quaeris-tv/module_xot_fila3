@@ -10,6 +10,7 @@ namespace Modules\Xot\Filament\Pages;
 
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
@@ -19,16 +20,16 @@ use Spatie\Health\Commands\RunHealthChecksCommand;
 use Spatie\Health\Facades\Health;
 use Spatie\Health\ResultStores\ResultStore;
 
-class HealthPage extends XotBasePage
+class HealthPage extends Page
 {
-    // use NavigationLabelTrait;
+    use NavigationLabelTrait;
 
     /**
      * @var array<string, string>
      */
     protected $listeners = ['refresh-component' => '$refresh'];
 
-    // protected static ?string $navigationIcon = 'heroicon-o-heart';
+    protected static ?string $navigationIcon = 'heroicon-o-heart';
 
     protected static string $view = 'xot::filament.pages.health';
 

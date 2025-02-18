@@ -7,7 +7,6 @@ namespace Modules\Xot\Console\Commands;
 use Illuminate\Console\Command;
 
 use function Safe\shell_exec;
-use function Safe\sprintf;
 
 class ImportMdbToSQLite extends Command
 {
@@ -27,111 +26,97 @@ class ImportMdbToSQLite extends Command
 
     /**
      * Esegui il comando.
+     *
+     * @return void
      */
-    public function handle(): void
+    public function handle()
     {
-        /** @var string */
+        // Chiedi il percorso del file .mdb
         $mdbFile = $this->ask('Per favore, inserisci il percorso del file .mdb');
 
-        /** @var string */
+        // Chiedi il nome del file SQLite
         $sqliteDb = $this->ask('Per favore, inserisci il nome del database SQLite (includi l\'estensione .sqlite)');
 
-        $this->info(sprintf('File .mdb: %s', $mdbFile));
-        $this->info(sprintf('Database SQLite: %s', $sqliteDb));
+        // Mostra i parametri ricevuti (opzionale, per verificare)
+        $this->info("File .mdb: $mdbFile");
+        $this->info("Database SQLite: $sqliteDb");
 
-        try {
-            $this->info('Esportando tabelle dal file .mdb in CSV...');
-            $tables = $this->exportTablesToCSV($mdbFile);
+        // Esporta le tabelle dal file .mdb
+        $this->info('Esportando tabelle dal file .mdb in CSV...');
+        $tables = $this->exportTablesToCSV($mdbFile);
 
-            $this->info('Creando tabelle nel database SQLite...');
-            $this->createTables($mdbFile, $sqliteDb);
+        // Crea le tabelle SQLite
+        $this->info('Creando tabelle nel database SQLite...');
+        $this->createTablesInSQLite($mdbFile, $sqliteDb);
 
-            $this->info('Importando i dati CSV nelle tabelle SQLite...');
-            $this->importDataToSQLite($tables, $sqliteDb);
+        // Carica i dati CSV nelle tabelle SQLite
+        $this->info('Importando i dati CSV nelle tabelle SQLite...');
+        $this->importDataToSQLite($tables, $sqliteDb);
 
-            $this->info('Processo completato!');
-        } catch (\Exception $e) {
-            $this->error($e->getMessage());
-        }
+        $this->info('Processo completato!');
     }
 
     /**
      * Esporta tutte le tabelle dal file .mdb in formato CSV.
      *
-     * <<<<<<< HEAD
+     * @param string $mdbFile
      *
-     * @return array<int, string>
-     *                            =======
      * @return array
-     *                            >>>>>>> origin/dev
      */
-    private function exportTablesToCSV(string $mdbFile): array
+    private function exportTablesToCSV($mdbFile)
     {
         $tables = [];
-        try {
-            $result = shell_exec(sprintf('mdb-tables %s', $mdbFile));
+        $tableList = shell_exec("mdb-tables $mdbFile");
 
-            foreach (explode("\n", trim($result)) as $table) {
-                if (empty($table)) {
-                    continue;
-                }
-                $tables[] = $table;
-                $csvFile = storage_path(sprintf('app/%s.csv', $table));
-                shell_exec(sprintf('mdb-export %s %s > %s', $mdbFile, $table, $csvFile));
+        // Esporta ogni tabella in un file CSV
+        foreach (explode("\n", trim($tableList)) as $table) {
+            if (empty($table)) {
+                continue;
             }
-
-            return $tables;
-        } catch (\Exception $e) {
-            throw new \RuntimeException(sprintf('Errore durante l\'esportazione delle tabelle: %s', $e->getMessage()));
+            $tables[] = $table;
+            $csvFile = storage_path("app/{$table}.csv");
+            shell_exec("mdb-export $mdbFile $table > $csvFile");
         }
+
+        return $tables;
     }
 
     /**
      * Crea le tabelle nel database SQLite basandosi sullo schema del file .mdb.
-     * <<<<<<< HEAD
-     * =======.
      *
+     * @param string $mdbFile
      * @param string $sqliteDb
-     *                         >>>>>>> origin/dev
      */
-    private function createTables(string $mdbFile, string $sqliteDb): void
+    private function createTablesInSQLite($mdbFile, $sqliteDb)
     {
-        try {
-            $schema = shell_exec(sprintf('mdb-schema %s sqlite', $mdbFile));
-            $tables = explode(";\n", $schema);
+        $schema = shell_exec("mdb-schema $mdbFile sqlite");
+        $tables = explode(";\n", $schema);
 
-            foreach ($tables as $tableSchema) {
-                if (empty($tableSchema)) {
-                    continue;
-                }
-
-                $tableSchema = str_replace('`', '"', $tableSchema);
-                shell_exec(sprintf('sqlite3 %s "%s;"', $sqliteDb, $tableSchema));
+        foreach ($tables as $tableSchema) {
+            if (empty($tableSchema)) {
+                continue;
             }
-        } catch (\Exception $e) {
-            throw new \RuntimeException(sprintf('Errore durante la creazione delle tabelle: %s', $e->getMessage()));
+            // Adatta le virgolette per SQLite
+            $tableSchema = str_replace('`', '"', $tableSchema);
+
+            // Crea la tabella in SQLite
+            $command = "sqlite3 $sqliteDb \"$tableSchema;\"";
+            shell_exec($command);
         }
     }
 
     /**
      * Importa i dati CSV nelle tabelle SQLite.
      *
-     * <<<<<<< HEAD
-     *
-     * @param array<int, string> $tables
-     *                                     =======
-     * @param string             $sqliteDb
-     *                                     >>>>>>> origin/dev
+     * @param array  $tables
+     * @param string $sqliteDb
      */
-    private function importDataToSQLite(array $tables, string $sqliteDb): void
+    private function importDataToSQLite($tables, $sqliteDb)
     {
-        try {
-            foreach ($tables as $table) {
-                $csvFile = storage_path(sprintf('app/%s.csv', $table));
-                shell_exec(sprintf('sqlite3 %s ".mode csv" ".import %s %s"', $sqliteDb, $csvFile, $table));
-            }
-        } catch (\Exception $e) {
-            throw new \RuntimeException(sprintf('Errore durante l\'importazione dei dati: %s', $e->getMessage()));
+        foreach ($tables as $table) {
+            $csvFile = storage_path("app/{$table}.csv");
+            $command = "sqlite3 $sqliteDb \".mode csv\" \".import $csvFile $table\"";
+            shell_exec($command);
         }
     }
 }

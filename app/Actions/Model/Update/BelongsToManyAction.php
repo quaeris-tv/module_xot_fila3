@@ -24,8 +24,8 @@ class BelongsToManyAction
             // $this->saveMultiselectTwoSides($row, $relation->name, $relation->data);
             $to = $relationDTO->data['to'] ?? [];
 
-            // Converti in array se necessario
-            $to = (array) $to;
+            // Assicura che $to sia un array di ID validi
+            $to = is_iterable($to) ? iterator_to_array($to) : (array) $to;
             Assert::allScalar($to, 'The "to" field must contain only scalar values.');
 
             $rows->sync($to);
@@ -60,8 +60,8 @@ class BelongsToManyAction
         // Sincronizza gli ID raccolti
         if (! empty($ids)) {
             try {
-                // Converti in array se necessario
-                $ids = (array) $ids;
+                // Assicura che $ids sia un array di valori scalari
+                $ids = is_iterable($ids) ? iterator_to_array($ids) : (array) $ids;
                 Assert::allScalar($ids, 'The "ids" array must contain only scalar values.');
 
                 $rows->syncWithoutDetaching($ids);

@@ -16,7 +16,7 @@ use Modules\Xot\Filament\Traits\HasXotTable;
 use Webmozart\Assert\Assert;
 
 /**
- * @property class-string<XotBaseResource> $resource
+ * @property class-string<Model> $resource
  */
 abstract class XotBaseRelationManager extends RelationManager
 {
@@ -24,8 +24,8 @@ abstract class XotBaseRelationManager extends RelationManager
 
     protected static string $relationship = '';
 
-    // @var class-string<XotBaseResource>
-    // protected static string $resource;
+    /** @var class-string<XotBaseResource> */
+    protected static string $resource;
 
     public static function getModuleName(): string
     {
@@ -107,11 +107,8 @@ abstract class XotBaseRelationManager extends RelationManager
     protected function getResource(): string
     {
         try {
-            /** @var class-string<XotBaseResource> $resourceClass */
-            $resourceClass = $this->resource;
-            Assert::isInstanceOf($resourceClass, XotBaseResource::class);
-
-            return $resourceClass;
+            /* @var class-string<XotBaseResource> */
+            return static::$resource;
         } catch (\Exception $e) {
             $class = $this::class;
             $resource_name = Str::of(class_basename($this))
@@ -124,7 +121,6 @@ abstract class XotBaseRelationManager extends RelationManager
                 ->append('Resources\\')
                 ->toString();
             Assert::classExists($resource_class = $ns.'\\'.$resource_name);
-            Assert::isInstanceOf($resource_class, XotBaseResource::class);
 
             return $resource_class;
         }

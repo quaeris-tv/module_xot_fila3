@@ -74,12 +74,7 @@ class ImportCsvAction
      *
      * @param \Illuminate\Database\Schema\Builder $conn
      *
-     * <<<<<<< HEAD
-     *
-     * @return array<ColumnData>
-     *                           =======
      * @return ColumnData[]
-     *                           >>>>>>> origin/dev
      */
     private function getTableColumns($conn, string $tbl): array
     {
@@ -89,25 +84,19 @@ class ImportCsvAction
         return array_map(function (string $column) use ($conn, $tbl) {
             $type = $conn->getColumnType($tbl, $column);
 
-            return ColumnData::from([
-                'name' => $column,
-                'type' => $type,
-            ]);
+            return new ColumnData(
+                name: $column,
+                type: $type
+            );
         }, array_diff($columns, $excludedColumns));
     }
 
     /**
      * Prepare fields for the SQL query.
      *
-     * <<<<<<< HEAD
+     * @param ColumnData[] $columns
      *
-     * @param array<ColumnData> $columns
-     * @param ColumnData[]      $columns
-     *
-     * @return array<string>
-     *                       =======
      * @return string[]
-     *                       >>>>>>> origin/dev
      */
     private function prepareFields(array $columns): array
     {
@@ -119,12 +108,7 @@ class ImportCsvAction
     /**
      * Build the SQL query for importing data.
      *
-     * <<<<<<< HEAD
-     *
-     * @param array<ColumnData> $columns
-     *                                   =======
-     * @param ColumnData[]      $columns
-     *                                   >>>>>>> origin/dev
+     * @param ColumnData[] $columns
      */
     private function buildSql(string $path, string $db, string $tbl, string $fieldsUpList, array $columns): string
     {
@@ -149,19 +133,16 @@ class ImportCsvAction
     }
 
     /**
-     * <<<<<<< HEAD.
-     *
-     * @param array<string> $columns
-     *                               =======
-     * @param array<mixed>  $columns
-     *                               >>>>>>> origin/dev
+     * @param array<mixed> $columns
      *
      * @return array<ColumnData>
      */
     public function execute1(array $columns): array
     {
-        return array_map(function (string $column): ColumnData {
-            return ColumnData::from(['name' => $column]);
+        return array_map(function ($column): ColumnData {
+            Assert::string($column, 'Column must be a string');
+
+            return new ColumnData($column);
         }, $columns);
     }
 }
