@@ -11,10 +11,5 @@ class EditSession extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecor
 {
     protected static string $resource = SessionResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+   
 }

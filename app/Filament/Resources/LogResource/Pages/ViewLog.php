@@ -12,10 +12,5 @@ class ViewLog extends ViewRecord
 {
     protected static string $resource = LogResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+   
 }

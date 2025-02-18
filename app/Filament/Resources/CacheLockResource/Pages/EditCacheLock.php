@@ -11,10 +11,5 @@ class EditCacheLock extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRec
 {
     protected static string $resource = CacheLockResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+   
 }

@@ -11,10 +11,5 @@ class EditCache extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord
 {
     protected static string $resource = CacheResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+   
 }

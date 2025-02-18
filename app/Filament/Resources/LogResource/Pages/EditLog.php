@@ -11,10 +11,5 @@ class EditLog extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord
 {
     protected static string $resource = LogResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+   
 }
