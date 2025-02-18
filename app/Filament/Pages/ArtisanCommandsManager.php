@@ -16,8 +16,11 @@ use Modules\Xot\Actions\ExecuteArtisanCommandAction;
 class ArtisanCommandsManager extends XotBasePage
 {
     public array $output = [];
+
     public string $currentCommand = '';
+
     public string $status = '';
+
     public bool $isRunning = false;
 
     protected $listeners = [

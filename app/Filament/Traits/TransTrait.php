@@ -114,9 +114,9 @@ trait TransTrait
 
         if (is_null($trans)) {
             $newTrans = Str::of($key)
-                   ->between('::', '.')
-                   ->replace('_', ' ')
-                   ->toString();
+                ->between('::', '.')
+                ->replace('_', ' ')
+                ->toString();
             app(SaveTransAction::class)->execute($key, $newTrans);
 
             return $newTrans;

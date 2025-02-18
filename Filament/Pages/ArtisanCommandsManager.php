@@ -16,12 +16,17 @@ use Modules\Xot\Actions\ExecuteArtisanCommandAction;
 class ArtisanCommandsManager extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-command-line';
+
     protected static ?string $navigationLabel = 'Gestione Artisan';
+
     protected static ?string $title = 'Gestione Comandi Artisan';
+
     protected static ?int $navigationSort = 100;
 
     public array $output = [];
+
     public string $currentCommand = '';
+
     public string $status = '';
 
     public function mount(): void
