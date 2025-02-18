@@ -7,10 +7,11 @@ namespace Modules\Xot\Services;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-use Webmozart\Assert\Assert;
 
 use function is_array;
 use function Safe\preg_replace;
+
+use Webmozart\Assert\Assert;
 
 /**
  * Class RouteDynService.
@@ -44,7 +45,7 @@ class RouteDynService
         $prefix = mb_strtolower($name);
         // /*
         $param_name = self::getParamName($v, $namespace);
-        if ($param_name !== '') {
+        if ('' !== $param_name) {
             /*
             Call to function is_array() with string will always evaluate to false.
             if (\is_array($param_name)) {
@@ -94,7 +95,7 @@ class RouteDynService
         Assert::string($namespace = $v['name']);
         $namespace = str_replace('{', '', $namespace);
         $namespace = str_replace('}', '', $namespace);
-        if ($namespace === '') {
+        if ('' === $namespace) {
             return null;
         }
 
@@ -115,7 +116,7 @@ class RouteDynService
 
         Assert::nullOrString($v['act'] = $v['name']);
         $v['act'] = preg_replace('/{.*}\//', '', (string) $v['act']);
-        if ($v['act'] === null) {
+        if (null === $v['act']) {
             $v['act'] = '';
         }
 
@@ -183,7 +184,7 @@ class RouteDynService
             $opts['only'] = $v['only'];
         }
 
-        if ($param_name === '' && ! isset($opts['only'])) {
+        if ('' === $param_name && ! isset($opts['only'])) {
             $opts['only'] = ['index'];
         }
 
@@ -250,7 +251,7 @@ class RouteDynService
         Assert::string($name = $v['name']);
         $as = Str::slug($name); // !!!!!! test da controllare
         $uses = self::getUses($v, $namespace);
-        if ($curr !== null) {
+        if (null !== $curr) {
             $uses = '\\'.self::$namespace_start.'\\'.$curr.'\\'.$uses;
         } else {
             $uses = '\\'.self::$namespace_start.'\\'.$uses;
@@ -265,7 +266,7 @@ class RouteDynService
         Assert::isArray($array, 'The $array parameter must be an array.');
         Assert::notEmpty($array, 'The $array parameter cannot be empty.');
 
-        if ($namespace_start !== null) {
+        if (null !== $namespace_start) {
             self::$namespace_start = $namespace_start;
         }
 
@@ -293,7 +294,7 @@ class RouteDynService
 
     public static function createRouteResource(array $v, ?string $namespace): void
     {
-        if ($v['name'] === null) {
+        if (null === $v['name']) {
             return;
         }
         Assert::string($v['name']);
@@ -323,7 +324,7 @@ class RouteDynService
         }
         }
          */
-        if ($curr === null) {
+        if (null === $curr) {
             $curr = $sub_namespace;
         } else {
             $piece = explode('\\', $curr);
@@ -390,13 +391,13 @@ class RouteDynService
 
     public static function prefixedResourceNames(string $prefix): array
     {
-        if (mb_substr($prefix, -1) === '.') {
+        if ('.' === mb_substr($prefix, -1)) {
             $prefix = mb_substr($prefix, 0, -1);
         }
 
         // Strict comparison using === between null and non-empty-string will always evaluate to false.
         // if ('' === $prefix || null === $prefix) {
-        if ($prefix === '') {
+        if ('' === $prefix) {
             return ['index' => $prefix.'index', 'create' => $prefix.'create', 'store' => $prefix.'store', 'show' => $prefix.'show', 'edit' => $prefix.'edit', 'update' => $prefix.'update', 'destroy' => $prefix.'destroy'];
         }
 
