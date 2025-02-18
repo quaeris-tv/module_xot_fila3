@@ -22,7 +22,7 @@ trait HasCustomRelations
 {
     public function customRelation(string $related, \Closure $baseConstraints, ?\Closure $eagerConstraints = null, ?\Closure $eagerMatcher = null): CustomRelation
     {
-        $instance = new $related;
+        $instance = new $related();
         // Call to an undefined method object::newQuery()
         Assert::isInstanceOf($instance, Model::class, '['.__LINE__.']['.class_basename($this).']');
         $query = $instance->newQuery();

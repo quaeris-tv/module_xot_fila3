@@ -75,31 +75,31 @@ trait TransTrait
         $key = static::getKeyTransFunc($func);
         /** @var string|array<int|string,mixed>|null $trans */
         $trans = trans($key);
-        
-        if($key==$trans){
+
+        if ($key == $trans) {
             $group = Str::of($key)->before('.')->toString();
-            $item=Str::of($key)->after($group.'.')->toString();
-            $group_arr=trans($group);
-            if(is_array($group_arr)){
-                $trans=Arr::get($group_arr,$item);
+            $item = Str::of($key)->after($group.'.')->toString();
+            $group_arr = trans($group);
+            if (is_array($group_arr)) {
+                $trans = Arr::get($group_arr, $item);
             }
         }
-        if(is_numeric($trans)){
+        if (is_numeric($trans)) {
             return strval($trans);
         }
 
-        //if (! is_string($trans) && ! is_numeric($trans) && ! is_array($trans)) {
+        // if (! is_string($trans) && ! is_numeric($trans) && ! is_array($trans)) {
         //    return 'fix:'.$key;
-        //}
-        if(is_array($trans)){
+        // }
+        if (is_array($trans)) {
             $first = current($trans);
             if (is_string($first) || is_numeric($first)) {
                 return (string) $first;
             }
         }
 
-        if (is_string($trans) /*|| is_numeric($trans)*/) {
-            if ($trans === $key  ) {
+        if (is_string($trans) /* || is_numeric($trans) */) {
+            if ($trans === $key) {
                 $newTrans = Str::of($key)
                     ->between('::', '.')
                     ->replace('_', ' ')
@@ -112,21 +112,21 @@ trait TransTrait
             return $trans;
         }
 
-        if(is_null($trans)){
-             $newTrans = Str::of($key)
-                    ->between('::', '.')
-                    ->replace('_', ' ')
-                    ->toString();
-                app(SaveTransAction::class)->execute($key, $newTrans);
+        if (is_null($trans)) {
+            $newTrans = Str::of($key)
+                   ->between('::', '.')
+                   ->replace('_', ' ')
+                   ->toString();
+            app(SaveTransAction::class)->execute($key, $newTrans);
 
-                return $newTrans;  
+            return $newTrans;
         }
-        
-        //$first = current($trans);
-        //if (is_string($first) || is_numeric($first)) {
+
+        // $first = current($trans);
+        // if (is_string($first) || is_numeric($first)) {
         //    return (string) $first;
-        //}
-        
+        // }
+
         return 'fix:'.$key;
     }
 
