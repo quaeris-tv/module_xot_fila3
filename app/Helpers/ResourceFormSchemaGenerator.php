@@ -119,7 +119,12 @@ class ResourceFormSchemaGenerator
 
             $fileContents = file_get_contents($filename);
 
+<<<<<<< HEAD
             if (str_contains($fileContents, 'public function getFormSchema')) {
+=======
+            // Check if getFormSchema method already exists
+            if (false !== strpos($fileContents, 'public function getFormSchema')) {
+>>>>>>> origin/dev
                 return false;
             }
 
@@ -132,7 +137,12 @@ class ResourceFormSchemaGenerator
             $formSchemaMethod .= "                ->required(),\n";
             $formSchemaMethod .= "        ];\n    }\n";
 
+<<<<<<< HEAD
             $isInClustersDir = str_contains($filename, 'Clusters');
+=======
+            // Detect if the class is in a Clusters directory
+            $isInClustersDir = false !== strpos($filename, 'Clusters');
+>>>>>>> origin/dev
 
             $modifiedContents = preg_replace(
                 '/}(\s*)$/',

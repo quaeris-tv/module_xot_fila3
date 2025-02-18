@@ -23,7 +23,15 @@ class CountAction
     /**
      * Execute the count action for the given model class.
      *
+<<<<<<< HEAD
      * @param class-string<Model> $modelClass
+=======
+     * @param class-string<Model> $modelClass The fully qualified model class name
+     *
+     * @throws \InvalidArgumentException If model class is invalid or not found
+     *
+     * @return int The total count of records
+>>>>>>> origin/dev
      */
     public function execute(string $modelClass): int
     {
@@ -39,8 +47,17 @@ class CountAction
         $driver = $connection->getDriverName();
         $table = $model->getTable();
 
+<<<<<<< HEAD
         // Handle special cases
         if (':memory:' === $database || 'sqlite' === $driver) {
+=======
+        // Handle in-memory database
+        if (':memory:' === $database) {
+            return (int) $model->count();
+        }
+        // Handle SQLite specifically
+        if ('sqlite' === $driver) {
+>>>>>>> origin/dev
             return (int) $model->count();
         }
 

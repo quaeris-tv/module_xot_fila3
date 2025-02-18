@@ -31,11 +31,16 @@ class BelongsToAction
         }
         */
 
+<<<<<<< HEAD
         if (! Arr::isAssoc($relationDTO->data) && \count($relationDTO->data) > 0) {
             $related_id = $relationDTO->data[0] ?? null;
             if (null === $related_id) {
                 return;
             }
+=======
+        if (! Arr::isAssoc($relationDTO->data) && 1 === \count($relationDTO->data)) {
+            $related_id = $relationDTO->data[0];
+>>>>>>> origin/dev
             $related = $relationDTO->related->find($related_id);
             // Verifica che $related non sia una Collection, ma un singolo modello
             if ($related instanceof \Illuminate\Database\Eloquent\Collection) {

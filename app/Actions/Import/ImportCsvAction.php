@@ -74,7 +74,11 @@ class ImportCsvAction
      *
      * @param \Illuminate\Database\Schema\Builder $conn
      *
+<<<<<<< HEAD
      * @return array<ColumnData>
+=======
+     * @return ColumnData[]
+>>>>>>> origin/dev
      */
     private function getTableColumns($conn, string $tbl): array
     {
@@ -94,9 +98,15 @@ class ImportCsvAction
     /**
      * Prepare fields for the SQL query.
      *
+<<<<<<< HEAD
      * @param array<ColumnData> $columns
      *
      * @return array<string>
+=======
+     * @param ColumnData[] $columns
+     *
+     * @return string[]
+>>>>>>> origin/dev
      */
     private function prepareFields(array $columns): array
     {
@@ -108,7 +118,11 @@ class ImportCsvAction
     /**
      * Build the SQL query for importing data.
      *
+<<<<<<< HEAD
      * @param array<ColumnData> $columns
+=======
+     * @param ColumnData[] $columns
+>>>>>>> origin/dev
      */
     private function buildSql(string $path, string $db, string $tbl, string $fieldsUpList, array $columns): string
     {
@@ -133,7 +147,11 @@ class ImportCsvAction
     }
 
     /**
+<<<<<<< HEAD
      * @param array<string> $columns
+=======
+     * @param array<mixed> $columns
+>>>>>>> origin/dev
      *
      * @return array<ColumnData>
      */
