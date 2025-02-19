@@ -6,17 +6,23 @@ namespace Modules\Xot\Actions\ModelClass;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Spatie\QueueableAction\QueueableAction;
 use Webmozart\Assert\Assert;
 
 /**
  * Counts records for a given model class using optimized table information.
- *
- * -implements \Spatie\QueueableAction\QueueableAction
  */
 class CountAction
 {
     use QueueableAction;
+
+    /**
+     * Cached table counts per database.
+     *
+     * @var array<string, array<string, int>>
+     */
+    protected static array $tableCounts = [];
 
     /**
      * Execute the count action for the given model class.
@@ -45,25 +51,35 @@ class CountAction
         $driver = $connection->getDriverName();
         $table = $model->getTable();
 
-        // Handle in-memory database
-        if (':memory:' === $database) {
-            return (int) $model->count();
-        }
-        // Handle SQLite specifically
-        if ('sqlite' === $driver) {
+        // Handle special cases
+        if (':memory:' === $database || 'sqlite' === $driver) {
             return (int) $model->count();
         }
 
-        // Get count from table information for better performance
-        $count = DB::table('information_schema.TABLES')
+        // Get or load table counts for this database
+        if (!isset(static::$tableCounts[$database])) {
+            static::$tableCounts[$database] = $this->loadTableCounts($database);
+        }
+
+        return static::$tableCounts[$database][$table] ?? 0;
+    }
+
+    /**
+     * Load all table counts for a database in a single query.
+     *
+     * @param string $database Database name
+     * @return array<string, int> Array of table counts indexed by table name
+     */
+    protected function loadTableCounts(string $database): array
+    {
+        $counts = DB::table('information_schema.TABLES')
             ->where('TABLE_SCHEMA', $database)
-            ->where('TABLE_NAME', $table)
-            ->value('TABLE_ROWS');
+            ->pluck('TABLE_ROWS', 'TABLE_NAME')
+            ->map(fn ($count) => is_int($count) ? $count : 0)
+            ->all();
 
-        $result = is_int($count) ? $count : 0;
-
-        Assert::integer($result, 'Count must be an integer');
-
-        return $result;
+        Assert::isArray($counts);
+        
+        return $counts;
     }
 }

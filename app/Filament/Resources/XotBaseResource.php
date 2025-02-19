@@ -86,9 +86,6 @@ abstract class XotBaseResource extends FilamentResource
 
     public static function getNavigationBadge(): ?string
     {
-        $sort = static::getNavigationSort();
-
-        return number_format($sort, 0).'';
         try {
             $count = app(CountAction::class)->execute(static::getModel());
 
