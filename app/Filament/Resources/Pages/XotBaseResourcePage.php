@@ -27,7 +27,7 @@ abstract class XotBaseResourcePage extends FilamentPage
      *
      * @return array<array<string, string>>
      */
-    protected function getBreadcrumbs(): array
+    public function getBreadcrumbs(): array
     {
         return [];
     }
