@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions;
 
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Process;
 use Spatie\QueueableAction\QueueableAction;
 
 class ExecuteArtisanCommandAction
