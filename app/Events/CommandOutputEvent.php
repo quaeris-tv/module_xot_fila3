@@ -19,7 +19,7 @@ class CommandOutputEvent implements ShouldBroadcast
     public function __construct(
         public string $processId,
         public string $output,
-        public string $type = 'output'
+        public string $type = 'output',
     ) {
     }
 
