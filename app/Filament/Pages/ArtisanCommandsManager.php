@@ -8,6 +8,7 @@ use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\IconPosition;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Reactive;
 use Modules\Xot\Actions\ExecuteArtisanCommandAction;
 
 /**
@@ -16,21 +17,20 @@ use Modules\Xot\Actions\ExecuteArtisanCommandAction;
 class ArtisanCommandsManager extends XotBasePage
 {
     public array $output = [];
-
     public string $currentCommand = '';
-
     public string $status = '';
-
     public bool $isRunning = false;
+    public ?string $processId = null;
 
     protected $listeners = [
+        'echo:private-command-output,CommandOutput' => 'handleBroadcastOutput',
         'refresh-component' => '$refresh',
-        'artisan-command.started' => 'handleCommandStarted',
-        'artisan-command.output' => 'handleCommandOutput',
-        'artisan-command.completed' => 'handleCommandCompleted',
-        'artisan-command.failed' => 'handleCommandFailed',
-        'artisan-command.error' => 'handleCommandError',
     ];
+
+    public function getPollingInterval(): ?string
+    {
+        return $this->isRunning ? '1s' : null;
+    }
 
     protected function getHeaderActions(): array
     {
@@ -116,7 +116,8 @@ class ArtisanCommandsManager extends XotBasePage
         $this->isRunning = true;
 
         try {
-            app(ExecuteArtisanCommandAction::class)->execute($command);
+            $this->processId = uniqid('cmd_');
+            app(ExecuteArtisanCommandAction::class)->execute($command, $this->processId);
         } catch (\Exception $e) {
             Notification::make()
                 ->title(__('xot::artisan-commands-manager.notifications.error'))
@@ -128,55 +129,43 @@ class ArtisanCommandsManager extends XotBasePage
         }
     }
 
-    #[On('artisan-command.started')]
-    public function handleCommandStarted(string $command): void
+    public function getListeners()
     {
-        $this->isRunning = true;
+        return array_merge(parent::getListeners(), [
+            "echo-private:command.{$this->processId},CommandOutput" => 'handleRealTimeOutput',
+        ]);
     }
 
-    #[On('artisan-command.output')]
-    public function handleCommandOutput(string $command, string $output): void
+    public function handleRealTimeOutput($event)
     {
-        $this->output[] = $output;
+        if ($event['processId'] === $this->processId) {
+            $this->output[] = $event['output'];
+
+            if ($event['type'] === 'completed') {
+                $this->isRunning = false;
+                $this->status = 'completed';
+                Notification::make()
+                    ->title(__('xot::artisan-commands-manager.notifications.success'))
+                    ->success()
+                    ->send();
+            } elseif ($event['type'] === 'error') {
+                $this->isRunning = false;
+                $this->status = 'failed';
+                Notification::make()
+                    ->title(__('xot::artisan-commands-manager.notifications.error'))
+                    ->body($event['output'])
+                    ->danger()
+                    ->send();
+            }
+        }
     }
 
-    #[On('artisan-command.completed')]
-    public function handleCommandCompleted(string $command): void
+    public function render()
     {
-        $this->status = 'completed';
-        $this->isRunning = false;
-
-        Notification::make()
-            ->title(__('xot::artisan-commands-manager.notifications.success'))
-            ->success()
-            ->send();
-    }
-
-    #[On('artisan-command.failed')]
-    public function handleCommandFailed(string $command, string $error): void
-    {
-        $this->status = 'failed';
-        $this->isRunning = false;
-        $this->output[] = "[ERROR] {$error}";
-
-        Notification::make()
-            ->title(__('xot::artisan-commands-manager.notifications.error'))
-            ->body($error)
-            ->danger()
-            ->send();
-    }
-
-    #[On('artisan-command.error')]
-    public function handleCommandError(string $command, string $error): void
-    {
-        $this->status = 'failed';
-        $this->isRunning = false;
-        $this->output[] = "[ERROR] {$error}";
-
-        Notification::make()
-            ->title(__('xot::artisan-commands-manager.notifications.error'))
-            ->body($error)
-            ->danger()
-            ->send();
+        return view('xot::filament.pages.artisan-commands-manager', [
+            'output' => $this->output,
+            'isRunning' => $this->isRunning,
+            'currentCommand' => $this->currentCommand,
+        ]);
     }
 }
