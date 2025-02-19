@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Pages;
 
-use Filament\Pages\Page;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
 use Filament\Support\Enums\IconPosition;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Reactive;
 use Modules\Xot\Actions\ExecuteArtisanCommandAction;
 
 /**
@@ -21,7 +19,7 @@ class ArtisanCommandsManager extends Page
     protected static ?string $navigationLabel = 'Artisan Commands';
     protected static ?string $title = 'Artisan Commands Manager';
     protected static ?string $slug = 'artisan-commands';
-    
+
     public array $output = [];
     public string $currentCommand = '';
     public string $status = '';
@@ -147,14 +145,14 @@ class ArtisanCommandsManager extends Page
         if ($event['processId'] === $this->processId) {
             $this->output[] = $event['output'];
 
-            if ($event['type'] === 'completed') {
+            if ('completed' === $event['type']) {
                 $this->isRunning = false;
                 $this->status = 'completed';
                 Notification::make()
                     ->title(__('xot::artisan-commands-manager.notifications.success'))
                     ->success()
                     ->send();
-            } elseif ($event['type'] === 'error') {
+            } elseif ('error' === $event['type']) {
                 $this->isRunning = false;
                 $this->status = 'failed';
                 Notification::make()
