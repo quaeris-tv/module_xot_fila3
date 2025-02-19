@@ -6,7 +6,6 @@ namespace Modules\Xot\Actions\ModelClass;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
 use Spatie\QueueableAction\QueueableAction;
 use Webmozart\Assert\Assert;
 
@@ -57,7 +56,7 @@ class CountAction
         }
 
         // Get or load table counts for this database
-        if (!isset(static::$tableCounts[$database])) {
+        if (! isset(static::$tableCounts[$database])) {
             static::$tableCounts[$database] = $this->loadTableCounts($database);
         }
 
@@ -68,6 +67,7 @@ class CountAction
      * Load all table counts for a database in a single query.
      *
      * @param string $database Database name
+     *
      * @return array<string, int> Array of table counts indexed by table name
      */
     protected function loadTableCounts(string $database): array
@@ -79,7 +79,7 @@ class CountAction
             ->all();
 
         Assert::isArray($counts);
-        
+
         return $counts;
     }
 }
