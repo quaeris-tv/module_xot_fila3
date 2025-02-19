@@ -160,7 +160,7 @@ class ArtisanCommandsManager extends XotBasePage
         }
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View
     {
         return view('xot::filament.pages.artisan-commands-manager', [
             'output' => $this->output,
