@@ -120,7 +120,7 @@ abstract class XotBaseRelationManager extends RelationManager
                 ->before('Resources\\')
                 ->append('Resources\\')
                 ->toString();
-            Assert::classExists($resource_class = $ns.'\\'.$resource_name);
+            Assert::classExists($resource_class = $ns.''.$resource_name);
 
             return $resource_class;
         }
