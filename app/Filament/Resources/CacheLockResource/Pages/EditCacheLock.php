@@ -6,15 +6,11 @@ namespace Modules\Xot\Filament\Resources\CacheLockResource\Pages;
 
 use Filament\Actions;
 use Modules\Xot\Filament\Resources\CacheLockResource;
+use Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord;
 
-class EditCacheLock extends EditRecord
+class EditCacheLock extends XotBaseEditRecord
 {
     protected static string $resource = CacheLockResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+   
 }

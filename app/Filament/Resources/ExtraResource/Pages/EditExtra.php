@@ -6,15 +6,11 @@ namespace Modules\Xot\Filament\Resources\ExtraResource\Pages;
 
 use Filament\Actions;
 use Modules\Xot\Filament\Resources\ExtraResource;
+use Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord;
 
-class EditExtra extends EditRecord
+class EditExtra extends XotBaseEditRecord
 {
     protected static string $resource = ExtraResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+    
 }

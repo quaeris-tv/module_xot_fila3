@@ -13,7 +13,7 @@ use Modules\Xot\Models\Module;
 /**
  * @property Module $record
  */
-class EditModule extends EditRecord
+class EditModule extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord
 {
     protected static string $resource = ModuleResource::class;
 

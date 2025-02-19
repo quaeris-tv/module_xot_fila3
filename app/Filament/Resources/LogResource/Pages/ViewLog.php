@@ -8,14 +8,9 @@ use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use Modules\Xot\Filament\Resources\LogResource;
 
-class ViewLog extends ViewRecord
+class ViewLog extends \Modules\Xot\Filament\Resources\Pages\XotBaseViewRecord
 {
     protected static string $resource = LogResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+    
 }
