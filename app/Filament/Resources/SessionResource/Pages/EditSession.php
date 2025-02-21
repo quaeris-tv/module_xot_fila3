@@ -7,7 +7,7 @@ namespace Modules\Xot\Filament\Resources\SessionResource\Pages;
 use Filament\Actions;
 use Modules\Xot\Filament\Resources\SessionResource;
 
-class EditSession extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord
+class EditSession extends EditRecord
 {
     protected static string $resource = SessionResource::class;
 
