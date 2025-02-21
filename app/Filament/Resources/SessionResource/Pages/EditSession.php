@@ -11,9 +11,5 @@ class EditSession extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecor
 {
     protected static string $resource = SessionResource::class;
 
-<<<<<<< HEAD
    
-=======
-    
->>>>>>> 086d1e724c9461c982fe9b9cebfb2696790ff71e
 }
