@@ -6,8 +6,10 @@ namespace Modules\Xot\Filament\Resources\LogResource\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
 use Modules\Xot\Filament\Resources\LogResource;
+use Modules\Xot\Filament\Resources\Pages\XotBaseCreateRecord;
 
-class CreateLog extends CreateRecord
+
+class CreateLog extends XotBaseCreateRecord
 {
     protected static string $resource = LogResource::class;
 }

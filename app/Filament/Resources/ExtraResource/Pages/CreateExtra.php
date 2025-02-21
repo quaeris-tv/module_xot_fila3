@@ -6,8 +6,9 @@ namespace Modules\Xot\Filament\Resources\ExtraResource\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
 use Modules\Xot\Filament\Resources\ExtraResource;
+use Modules\Xot\Filament\Resources\Pages\XotBaseCreateRecord;
 
-class CreateExtra extends CreateRecord
+class CreateExtra extends XotBaseCreateRecord
 {
     protected static string $resource = ExtraResource::class;
 }
