@@ -1,4 +1,5 @@
-<?php return array (
+<?php 
+return array (
   'navigation' => 
   array (
     'name' => 'Stato Sistema',
@@ -182,4 +183,4 @@
     ),
   ),
   'title' => 'health',
-);
+);
