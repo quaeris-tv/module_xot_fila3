@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Actions;
 
-use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Process;
 use Spatie\QueueableAction\QueueableAction;
 
@@ -23,7 +23,7 @@ class ExecuteArtisanCommandAction
         'queue:restart',
     ];
 
-    public function execute(string $command): array
+    public function execute(string $command, string $processId): array
     {
         if (! $this->isCommandAllowed($command)) {
             throw new \RuntimeException("Comando non consentito: {$command}");
@@ -32,7 +32,12 @@ class ExecuteArtisanCommandAction
         $output = [];
         $status = 'running';
 
-        Event::dispatch('artisan-command.started', [$command]);
+        // Store process info in cache
+        Cache::put("artisan.command.{$processId}", [
+            'command' => $command,
+            'status' => $status,
+            'output' => [],
+        ], now()->addHours(1));
 
         try {
             $process = Process::path(base_path())
@@ -47,7 +52,8 @@ class ExecuteArtisanCommandAction
                     $formattedData = trim($data);
                     if (! empty($formattedData)) {
                         $output[] = $formattedData;
-                        Event::dispatch('artisan-command.output', [$command, $formattedData]);
+                        $this->broadcastOutput($processId, $formattedData);
+                        $this->updateCache($processId, $formattedData);
                     }
                 }
 
@@ -56,11 +62,12 @@ class ExecuteArtisanCommandAction
                     $formattedError = trim($errorData);
                     if (! empty($formattedError)) {
                         $output[] = '[ERROR] '.$formattedError;
-                        Event::dispatch('artisan-command.output', [$command, '[ERROR] '.$formattedError]);
+                        $this->broadcastOutput($processId, '[ERROR] '.$formattedError, 'error');
+                        $this->updateCache($processId, '[ERROR] '.$formattedError);
                     }
                 }
 
-                usleep(50000); // 50ms pause to prevent CPU overload
+                usleep(100000); // 100ms pause to prevent CPU overload
             }
 
             $result = $process->wait();
@@ -69,22 +76,31 @@ class ExecuteArtisanCommandAction
             $finalOutput = trim($result->output());
             if (! empty($finalOutput)) {
                 $output[] = $finalOutput;
-                Event::dispatch('artisan-command.output', [$command, $finalOutput]);
+                $this->broadcastOutput($processId, $finalOutput);
+                $this->updateCache($processId, $finalOutput);
             }
 
             $finalErrorOutput = trim($result->errorOutput());
             if (! empty($finalErrorOutput)) {
                 $output[] = '[ERROR] '.$finalErrorOutput;
-                Event::dispatch('artisan-command.output', [$command, '[ERROR] '.$finalErrorOutput]);
+                $this->broadcastOutput($processId, '[ERROR] '.$finalErrorOutput, 'error');
+                $this->updateCache($processId, '[ERROR] '.$finalErrorOutput);
             }
 
             if ($result->successful()) {
                 $status = 'completed';
-                Event::dispatch('artisan-command.completed', [$command]);
+                $this->broadcastOutput($processId, 'Comando completato con successo', 'completed');
             } else {
                 $status = 'failed';
-                Event::dispatch('artisan-command.failed', [$command, $finalErrorOutput]);
+                $this->broadcastOutput($processId, $finalErrorOutput, 'error');
             }
+
+            // Update final status in cache
+            Cache::put("artisan.command.{$processId}", [
+                'command' => $command,
+                'status' => $status,
+                'output' => $output,
+            ], now()->addHours(1));
 
             return [
                 'command' => $command,
@@ -93,7 +109,7 @@ class ExecuteArtisanCommandAction
                 'exitCode' => $result->exitCode(),
             ];
         } catch (\Throwable $e) {
-            Event::dispatch('artisan-command.error', [$command, $e->getMessage()]);
+            $this->broadcastOutput($processId, $e->getMessage(), 'error');
             throw new \RuntimeException("Errore durante l'esecuzione del comando {$command}: {$e->getMessage()}", (int) $e->getCode(), $e);
         }
     }
@@ -101,5 +117,17 @@ class ExecuteArtisanCommandAction
     private function isCommandAllowed(string $command): bool
     {
         return in_array($command, $this->allowedCommands, true);
+    }
+
+    private function broadcastOutput(string $processId, string $output, string $type = 'output'): void
+    {
+        event(new CommandOutputEvent($processId, $output, $type));
+    }
+
+    private function updateCache(string $processId, string $output): void
+    {
+        $data = Cache::get("artisan.command.{$processId}", ['output' => []]);
+        $data['output'][] = $output;
+        Cache::put("artisan.command.{$processId}", $data, now()->addHours(1));
     }
 }
