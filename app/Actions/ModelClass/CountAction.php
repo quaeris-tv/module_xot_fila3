@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\ModelClass;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\Xot\Models\InformationSchemaTable;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 /**
  * Counts records for a given model class using optimized table information.
@@ -33,7 +34,6 @@ class CountAction
      */
     public function execute(string $modelClass): int
     {
-<<<<<<< HEAD
         if (! class_exists($modelClass)) {
             throw new \InvalidArgumentException("Model class [$modelClass] does not exist");
         }
@@ -81,8 +81,5 @@ class CountAction
         Assert::isArray($counts);
 
         return $counts;
-=======
-        return InformationSchemaTable::getModelCount($modelClass);
->>>>>>> 5229aadf75b4eae8b1c70ad33044ea248f81a37d
     }
 }

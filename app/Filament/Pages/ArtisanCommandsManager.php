@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Pages;
 
-use Filament\Pages\Page;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
 use Filament\Support\Enums\IconPosition;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Reactive;
 use Modules\Xot\Actions\ExecuteArtisanCommandAction;
-use Illuminate\Contracts\View\View;
 
 /**
  * ---.
@@ -22,14 +19,12 @@ class ArtisanCommandsManager extends Page
     protected static ?string $navigationLabel = 'Artisan Commands';
     protected static ?string $title = 'Artisan Commands Manager';
     protected static ?string $slug = 'artisan-commands';
-    
+
     public array $output = [];
     public string $currentCommand = '';
     public string $status = '';
     public bool $isRunning = false;
     public ?string $processId = null;
-
-    public int $pollInterval = 100; // 100ms polling interval
 
     protected $listeners = [
         'echo:private-command-output,CommandOutput' => 'handleBroadcastOutput',
@@ -147,18 +142,17 @@ class ArtisanCommandsManager extends Page
 
     public function handleRealTimeOutput($event)
     {
-<<<<<<< HEAD
         if ($event['processId'] === $this->processId) {
             $this->output[] = $event['output'];
 
-            if ($event['type'] === 'completed') {
+            if ('completed' === $event['type']) {
                 $this->isRunning = false;
                 $this->status = 'completed';
                 Notification::make()
                     ->title(__('xot::artisan-commands-manager.notifications.success'))
                     ->success()
                     ->send();
-            } elseif ($event['type'] === 'error') {
+            } elseif ('error' === $event['type']) {
                 $this->isRunning = false;
                 $this->status = 'failed';
                 Notification::make()
@@ -168,10 +162,6 @@ class ArtisanCommandsManager extends Page
                     ->send();
             }
         }
-=======
-        $this->output[] = $output;
-        $this->dispatch('terminal-update');
->>>>>>> 5229aadf75b4eae8b1c70ad33044ea248f81a37d
     }
 
     public function render(): \Illuminate\Contracts\View\View
@@ -182,37 +172,4 @@ class ArtisanCommandsManager extends Page
             'currentCommand' => $this->currentCommand,
         ]);
     }
-
-    public function getViewData(): array
-    {
-        return [
-            'output' => $this->output,
-            'isRunning' => $this->isRunning,
-            'currentCommand' => $this->currentCommand,
-            'status' => $this->status,
-            'pollInterval' => $this->pollInterval,
-        ];
-    }
-
-    protected function getViewComponents(): array
-    {
-        return [
-            'terminal' => 'xot::components.terminal',
-        ];
-    }
-
-
-  
-    /*
-    public function render(): View
-    {
-        return view('xot::pages.artisan-commands-manager', [
-            'output' => $this->output,
-            'isRunning' => $this->isRunning,
-            'currentCommand' => $this->currentCommand,
-            'status' => $this->status,
-            'pollInterval' => $this->pollInterval,
-        ]);
-    }
-        */
 }
