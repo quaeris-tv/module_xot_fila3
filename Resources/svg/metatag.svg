@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6">
   <style>
-    @keyframes write {
+    @keyframes type {
       0% { transform: translateX(0); }
       50% { transform: translateX(2px); }
       100% { transform: translateX(0); }
     }
-    @keyframes fade {
+    @keyframes blink {
       0% { opacity: 0.8; }
       50% { opacity: 1; }
       100% { opacity: 0.8; }
     }
-    .paper {
+    .tag {
       fill: currentColor;
       transform-origin: center;
       opacity: 0.8;
       transition: all 0.3s ease;
     }
-    .lines {
+    .code {
       fill: currentColor;
       transform-origin: center;
     }
-    svg:hover .paper {
+    svg:hover .tag {
       opacity: 1;
     }
-    svg:hover .lines {
-      animation: write 1.5s infinite;
+    svg:hover .code {
+      animation: type 1.5s infinite;
     }
   </style>
-  <path class="paper" d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
-  <path class="lines" d="M8 12h8v2H8zM8 16h8v2H8z" fill-opacity="0.6"/>
+  <path class="tag" d="M7.5 5.6L5 7l1.4 2.5L5 12l2.5 1.4L9 16l2.5-1.4L14 16l1.4-2.5L18 12l-1.4-2.5L18 7l-2.5-1.4L14 3l-2.5 1.4L9 3 7.5 5.6z"/>
+  <path class="code" d="M11 7h2v2h-2zM11 11h2v2h-2zM11 15h2v2h-2z" fill-opacity="0.6"/>
 </svg>
