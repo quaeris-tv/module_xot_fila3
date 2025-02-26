@@ -27,7 +27,7 @@
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "filament/spatie-laravel-translatable-plugin": "^3.2",
-        "aaronfrancis/fast-paginate":"*",
+        "hammerstone/fast-paginate": "^1.1",
         "guzzlehttp/guzzle": "*",
         "laravel/folio": "^1.1",
         "laravel/framework": "^11.34",
@@ -56,11 +56,8 @@
         "thecodingmachine/safe": "^2.5",
         "tightenco/parental": "^1.4"
     },
-    "require-comment": {
-        "hammerstone/fast-paginate": "^1.1"
-    },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.15",
+        "barryvdh/laravel-debugbar": "^3.14",
         "barryvdh/laravel-ide-helper": "^3.2",
         "fakerphp/faker": "^1.24",
         "larastan/larastan": "*",
