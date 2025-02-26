@@ -37,3 +37,9 @@ build/
 vendor/
 build/
 node_modules
+docs/cache/
+cache/
+.git-blame-ignore-revs
+.php-cs-fixer.cache
+*.exe
+.php-cs-fixer.cache
