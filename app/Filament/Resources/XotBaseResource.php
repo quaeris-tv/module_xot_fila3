@@ -99,7 +99,8 @@ abstract class XotBaseResource extends FilamentResource
     {
         $prefix = static::class.'\Pages\\';
         $name = Str::of(class_basename(static::class))->before('Resource')->toString();
-        $index = Str::of($prefix)->append('List'.$name.'s')->toString();
+        $plural = Str::of($name)->plural()->toString();
+        $index = Str::of($prefix)->append('List'.$plural)->toString();
         $create = Str::of($prefix)->append('Create'.$name.'')->toString();
         $edit = Str::of($prefix)->append('Edit'.$name.'')->toString();
         $view = Str::of($prefix)->append('View'.$name.'')->toString();
