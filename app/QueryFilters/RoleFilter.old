@@ -18,7 +18,7 @@ class RoleFilter
 {
     /**
      * we need to use laravel convention so we need to create the
-     * method name 'handle' because when we use pipeline in laravel
+     * @method name 'handle' because when we use pipeline in laravel
      * then default method name is handle.
      *
      * request => argument that you passed in send() method
