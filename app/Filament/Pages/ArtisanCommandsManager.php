@@ -6,10 +6,10 @@ namespace Modules\Xot\Filament\Pages;
 
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
 use Filament\Support\Enums\IconPosition;
 use Livewire\Attributes\On;
 use Modules\Xot\Actions\ExecuteArtisanCommandAction;
-use Illuminate\Contracts\View\View;
 
 /**
  * ---.
@@ -23,8 +23,6 @@ class ArtisanCommandsManager extends XotBasePage
     public string $status = '';
 
     public bool $isRunning = false;
-
-    public int $pollInterval = 100; // 100ms polling interval
 
     protected $listeners = [
         'refresh-component' => '$refresh',
@@ -183,37 +181,4 @@ class ArtisanCommandsManager extends XotBasePage
             ->danger()
             ->send();
     }
-
-    public function getViewData(): array
-    {
-        return [
-            'output' => $this->output,
-            'isRunning' => $this->isRunning,
-            'currentCommand' => $this->currentCommand,
-            'status' => $this->status,
-            'pollInterval' => $this->pollInterval,
-        ];
-    }
-
-    protected function getViewComponents(): array
-    {
-        return [
-            'terminal' => 'xot::components.terminal',
-        ];
-    }
-
-
-  
-    /*
-    public function render(): View
-    {
-        return view('xot::pages.artisan-commands-manager', [
-            'output' => $this->output,
-            'isRunning' => $this->isRunning,
-            'currentCommand' => $this->currentCommand,
-            'status' => $this->status,
-            'pollInterval' => $this->pollInterval,
-        ]);
-    }
-        */
 }

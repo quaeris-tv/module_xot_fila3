@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Modules\Xot\Actions\ModelClass;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\Xot\Models\InformationSchemaTable;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 /**
  * Counts records for a given model class using optimized table information.

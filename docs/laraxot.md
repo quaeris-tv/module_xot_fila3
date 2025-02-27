@@ -1111,8 +1111,8 @@ Esempi:
 - ❌ `extends \Modules\Xot\Filament\Resources\XotBaseResource`  ✅ `extends XotBaseResource`
 - ❌ `extends ListRecords` ✅ `extends XotBaseListRecords`
 - ❌ `extends \Modules\Xot\Filament\Resources\Pages\XotBaseEditRecord` ✅ `extends XotBaseEditRecord`
-- ❌ `extends \Modules\Xot\Filament\Resources\Pages\XotBaseCreateRecord` ✅ `extends XotBaseCreateRecord`
-- ❌ `extends \Modules\Xot\Filament\Resources\Pages\XotBaseViewRecord` ✅ `extends XotBaseViewRecord`
+- ❌ `extends CreateRecord` ✅ `extends XotBaseCreateRecord`
+- ❌ `extends ViewRecord` ✅ `extends XotBaseViewRecord`
 
 ### Differenze Importanti
 Quando si estendono le classi XotBase, alcuni metodi hanno nomi diversi rispetto alle classi Filament originali:
