@@ -27,6 +27,10 @@
         "filament/filament": "^3.3",
         "filament/spatie-laravel-media-library-plugin": "^3.3",
         "filament/spatie-laravel-translatable-plugin": "^3.3",
+<<<<<<< HEAD
+=======
+        "aaronfrancis/fast-paginate":"*",
+>>>>>>> 5df350d5 (up)
         "guzzlehttp/guzzle": "*",
         "laravel/folio": "^1.1",
         "laravel/framework": "*",
@@ -59,6 +63,9 @@
     },
     "require-comment": {
        
+    },
+    "require-comment": {
+        "hammerstone/fast-paginate": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
