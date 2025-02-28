@@ -42,3 +42,10 @@ cache/
 .git-blame-ignore-revs
 .php-cs-fixer.cache
 *.exe
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+.php-cs-fixer.cache
+=======
+>>>>>>> 5ecd18f4 (up)
+>>>>>>> 6d7c5a3e (fix(XotBaseWidget): add caching, polling and authorization features to the widget)
