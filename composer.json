@@ -29,6 +29,7 @@
         "filament/spatie-laravel-translatable-plugin": "^3.2",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         "aaronfrancis/fast-paginate": "*",
 =======
         "aaronfrancis/fast-paginate":"*",
@@ -36,6 +37,9 @@
 =======
         "hammerstone/fast-paginate": "^1.1",
 >>>>>>> 5ecd18f4 (up)
+=======
+        "hammerstone/fast-paginate": "^1.1",
+>>>>>>> a8ae41de (fix(XotBaseWidget): refactor widget to support caching, polling and authorization)
         "guzzlehttp/guzzle": "*",
         "laravel/folio": "^1.1",
         "laravel/framework": "*",
