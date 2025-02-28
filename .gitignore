@@ -45,8 +45,11 @@ cache/
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 871cff65 (fix(XotBaseWidget): refactor widget to support caching, polling and authorization)
+=======
+>>>>>>> fc0104d5 (fix(GetViewByClassAction): refactor widget to support caching, polling and authorization)
 =======
 <<<<<<< HEAD
 .php-cs-fixer.cache
@@ -59,4 +62,9 @@ cache/
 =======
 >>>>>>> dd421439 (fix(XotBaseWidget): refactor widget to support caching, polling and authorization)
 >>>>>>> a8ae41de (fix(XotBaseWidget): refactor widget to support caching, polling and authorization)
+<<<<<<< HEAD
 >>>>>>> 871cff65 (fix(XotBaseWidget): refactor widget to support caching, polling and authorization)
+=======
+=======
+>>>>>>> 0943a3cb (.)
+>>>>>>> fc0104d5 (fix(GetViewByClassAction): refactor widget to support caching, polling and authorization)

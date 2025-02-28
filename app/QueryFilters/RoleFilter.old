@@ -21,6 +21,7 @@ class RoleFilter
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * method name 'handle' because when we use pipeline in laravel
 =======
 <<<<<<< HEAD
@@ -38,6 +39,9 @@ class RoleFilter
      * method name 'handle' because when we use pipeline in laravel
 >>>>>>> 755e82bc (.)
 >>>>>>> 07c992f1 (Here is a possible commit message:)
+=======
+     * method name 'handle' because when we use pipeline in laravel
+>>>>>>> fc0104d5 (fix(GetViewByClassAction): refactor widget to support caching, polling and authorization)
      * then default method name is handle.
      *
      * request => argument that you passed in send() method
