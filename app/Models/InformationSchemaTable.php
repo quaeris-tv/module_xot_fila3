@@ -159,34 +159,50 @@ class InformationSchemaTable extends Model
     /**
      * Get table statistics from Sushi or information_schema as fallback.
      *
-     * @param string $tableName The name of the table
-     * @param string $database The database name
+     * @param string $schema The schema name
+     * @param string $table The table name
      */
-    public static function getTableStats(string $tableName, string $database): ?self
+    public static function getTableStats(string $schema, string $table): ?self
     {
-        // Prima prova dal modello Sushi
-        $stats = static::query()
-            ->where('TABLE_SCHEMA', $database)
-            ->where('TABLE_NAME', $tableName)
+        $result = DB::connection('mysql')
+            ->table('information_schema.TABLES')
+            ->select([
+                'TABLE_CATALOG',
+                'TABLE_SCHEMA',
+                'TABLE_NAME',
+                'TABLE_TYPE',
+                'ENGINE',
+                'VERSION',
+                'ROW_FORMAT',
+                'TABLE_ROWS',
+                'AVG_ROW_LENGTH',
+                'DATA_LENGTH',
+                'MAX_DATA_LENGTH',
+                'INDEX_LENGTH',
+                'DATA_FREE',
+                'AUTO_INCREMENT',
+                'CREATE_TIME',
+                'UPDATE_TIME',
+                'CHECK_TIME',
+                'TABLE_COLLATION',
+                'CHECKSUM',
+                'CREATE_OPTIONS',
+                'TABLE_COMMENT'
+            ])
+            ->where('TABLE_SCHEMA', '=', $schema)
+            ->where('TABLE_NAME', '=', $table)
             ->first();
-
-       
-        if ($stats) {
-            return $stats;
-        }
-
-        // Se non trova nulla, prova da information_schema
-        $query = "SELECT * FROM information_schema.TABLES 
-                 WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
-        
-        $result = DB::selectOne($query, [$database, $tableName]);
 
         if (!$result) {
             return null;
         }
 
-        // Crea una nuova istanza del modello con i dati
-        return static::newFromBuilder((array) $result);
+        // Creiamo una nuova istanza e popoliamola manualmente
+        $instance = new self();
+        foreach ((array) $result as $key => $value) {
+            $instance->setAttribute($key, $value);
+        }
+        return $instance;
     }
 
     /**

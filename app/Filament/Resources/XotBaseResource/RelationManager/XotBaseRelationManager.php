@@ -110,7 +110,6 @@ abstract class XotBaseRelationManager extends RelationManager
             /* @var class-string<XotBaseResource> */
             return static::$resource;
         } catch (\Exception $e) {
-            dddx($e->getMessage());
             $class = $this::class;
             $resource_name = Str::of(class_basename($this))
                 ->beforeLast('RelationManager')
@@ -121,7 +120,7 @@ abstract class XotBaseRelationManager extends RelationManager
                 ->before('Resources\\')
                 ->append('Resources\\')
                 ->toString();
-            Assert::classExists($resource_class = $ns.''.$resource_name);
+            Assert::classExists($resource_class = $ns.'\\'.$resource_name);
 
             return $resource_class;
         }
