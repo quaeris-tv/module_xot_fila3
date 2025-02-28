@@ -42,7 +42,3 @@ cache/
 .git-blame-ignore-revs
 .php-cs-fixer.cache
 *.exe
-<<<<<<< HEAD
-.php-cs-fixer.cache
-=======
->>>>>>> 5ecd18f4 (up)
