@@ -30,11 +30,10 @@ use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
 use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
 use Modules\Xot\View\Composers\XotComposer;
-
-use function Safe\realpath;
-
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Webmozart\Assert\Assert;
+
+use function Safe\realpath;
 
 /**
  * Class XotServiceProvider.
@@ -68,6 +67,7 @@ class XotServiceProvider extends XotBaseServiceProvider
         $this->registerConfigs();
         $this->registerExceptionHandlersRepository();
         $this->extendExceptionHandler();
+        $this->registerCommands();
     }
 
     public function registerProviders(): void
@@ -233,4 +233,6 @@ class XotServiceProvider extends XotBaseServiceProvider
     {
         View::composer('*', XotComposer::class);
     }
+
+
 } // end class

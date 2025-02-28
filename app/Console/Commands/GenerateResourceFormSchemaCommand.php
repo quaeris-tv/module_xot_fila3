@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
-use Modules\Xot\App\Helpers\ResourceFormSchemaGenerator;
+use Modules\Xot\Helpers\ResourceFormSchemaGenerator;
 
 class GenerateResourceFormSchemaCommand extends Command
 {
@@ -21,14 +21,16 @@ class GenerateResourceFormSchemaCommand extends Command
         $this->info('Updated Resources: '.count($result['updated']));
 
         if (! empty($result['updated'])) {
-            $this->table(['Updated Resources'],
+            $this->table(
+                ['Updated Resources'],
                 array_map(fn ($resource) => [$resource], $result['updated'])
             );
         }
 
         if (! empty($result['skipped'])) {
             $this->warn('Skipped Resources: '.count($result['skipped']));
-            $this->table(['Skipped Resources'],
+            $this->table(
+                ['Skipped Resources'],
                 array_map(fn ($resource) => [$resource], $result['skipped'])
             );
         }
