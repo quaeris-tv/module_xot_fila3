@@ -43,9 +43,12 @@ cache/
 .php-cs-fixer.cache
 *.exe
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 .php-cs-fixer.cache
 =======
 >>>>>>> dd421439 (fix(XotBaseWidget): refactor widget to support caching, polling and authorization)
 >>>>>>> a8ae41de (fix(XotBaseWidget): refactor widget to support caching, polling and authorization)
+=======
+>>>>>>> 0943a3cb (.)
