@@ -24,7 +24,7 @@ abstract class XotBaseWidget extends FilamentWidget
     public function __construct()
     {
         //parent::__construct();//Cannot call constructor
-        $view=app(GetViewByClassAction::class)->execute(static::class);
-        static::$view=$view;
+        $view = app(GetViewByClassAction::class)->execute(static::class);
+        static::$view = $view;
     }
 }
