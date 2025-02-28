@@ -134,6 +134,8 @@ MARKDOWN;
         $foreignKeys = $tableInfo['foreign_keys'];
         $recordCount = $tableInfo['record_count'];
 
+        $primaryKeyColumns = $primaryKey ? implode(', ', $primaryKey['columns']) : 'Nessuna';
+
         $content = <<<MARKDOWN
 # Tabella: {$tableName}
 
@@ -141,7 +143,7 @@ MARKDOWN;
 Tabella `{$tableName}` nel database.
 
 - **Numero di record**: {$recordCount}
-- **Chiave primaria**: {$primaryKey ? implode(', ', $primaryKey['columns']) : 'Nessuna'}
+- **Chiave primaria**: {$primaryKeyColumns}
 
 ## Struttura
 
@@ -183,11 +185,15 @@ MARKDOWN;
             $content .= "|------|---------|---------------------|--------------------|\n";
 
             foreach ($foreignKeys as $foreignKeyName => $foreignKey) {
-                $columns = implode(', ', $foreignKey['columns']);
-                $refTable = $foreignKey['references_table'];
-                $refColumns = implode(', ', $foreignKey['references_columns']);
+                // Verifica che gli array necessari esistano e usa array vuoti se non esistono
+                $localColumns = $foreignKey['local_columns'] ?? $foreignKey['columns'] ?? [];
+                $refTable = $foreignKey['foreign_table'] ?? $foreignKey['references_table'] ?? 'unknown_table';
+                $refColumns = $foreignKey['foreign_columns'] ?? $foreignKey['references_columns'] ?? [];
                 
-                $content .= "| {$foreignKeyName} | {$columns} | {$refTable} | {$refColumns} |\n";
+                $columns = implode(', ', $localColumns);
+                $refColumnsStr = implode(', ', $refColumns);
+                
+                $content .= "| {$foreignKeyName} | {$columns} | {$refTable} | {$refColumnsStr} |\n";
             }
         }
 
@@ -248,6 +254,14 @@ MARKDOWN;
         ];
         
         foreach ($relationships as $relationship) {
+            // Verifica che tutti i campi necessari esistano
+            if (!isset($relationship['from_table']) || !isset($relationship['to_table']) || 
+                !isset($relationship['type']) || 
+                !isset($relationship['from_columns']) || !isset($relationship['to_columns']) ||
+                empty($relationship['from_columns']) || empty($relationship['to_columns'])) {
+                continue;
+            }
+            
             if ($relationship['from_table'] === $tableName && $relationship['type'] === 'belongs_to') {
                 $tableRelationships['belongs_to'][] = $relationship;
             } elseif ($relationship['from_table'] === $tableName && $relationship['type'] === 'has_many') {

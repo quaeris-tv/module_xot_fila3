@@ -96,9 +96,14 @@ class DatabaseSchemaExporterCommand extends Command
      */
     private function getTables(string $connection): array
     {
-        $tables = DB::connection($connection)->getDoctrineSchemaManager()->listTableNames();
+        // Versione più moderna e compatibile per ottenere l'elenco delle tabelle
+        $databaseName = DB::connection($connection)->getDatabaseName();
+        $tables = DB::connection($connection)
+            ->select("SELECT table_name FROM information_schema.tables WHERE table_schema = ? AND table_type = 'BASE TABLE'", [$databaseName]);
 
-        return array_values($tables);
+        return array_map(function ($table) {
+            return $table->table_name;
+        }, $tables);
     }
 
     /**
@@ -196,21 +201,36 @@ class DatabaseSchemaExporterCommand extends Command
     private function getTableForeignKeys(string $connection, string $table): array
     {
         $foreignKeys = [];
+        $databaseName = DB::connection($connection)->getDatabaseName();
 
-        try {
-            $schema = DB::connection($connection)->getDoctrineSchemaManager();
-            $doctrineForeignKeys = $schema->listTableForeignKeys($table);
+        // Utilizziamo query SQL dirette per ottenere le chiavi esterne
+        $fkResults = DB::connection($connection)->select('
+            SELECT 
+                k.CONSTRAINT_NAME as constraint_name,
+                k.COLUMN_NAME as column_name,
+                k.REFERENCED_TABLE_NAME as referenced_table,
+                k.REFERENCED_COLUMN_NAME as referenced_column
+            FROM information_schema.KEY_COLUMN_USAGE k
+            WHERE 
+                k.TABLE_SCHEMA = ? AND
+                k.TABLE_NAME = ? AND
+                k.REFERENCED_TABLE_NAME IS NOT NULL
+            ORDER BY constraint_name
+        ', [$databaseName, $table]);
 
-            foreach ($doctrineForeignKeys as $key) {
-                $foreignKeys[$key->getName()] = [
-                    'columns' => $key->getLocalColumns(),
-                    'references_table' => $key->getForeignTableName(),
-                    'references_columns' => $key->getForeignColumns(),
+        // Raggruppiamo le chiavi esterne per nome del vincolo
+        foreach ($fkResults as $fk) {
+            if (! isset($foreignKeys[$fk->constraint_name])) {
+                $foreignKeys[$fk->constraint_name] = [
+                    'name' => $fk->constraint_name,
+                    'local_columns' => [],
+                    'foreign_table' => $fk->referenced_table,
+                    'foreign_columns' => [],
                 ];
             }
-        } catch (\Exception $e) {
-            // Alcune tabelle potrebbero non supportare le chiavi esterne
-            $this->warn("Impossibile ottenere le chiavi esterne per la tabella {$table}: ".$e->getMessage());
+
+            $foreignKeys[$fk->constraint_name]['local_columns'][] = $fk->column_name;
+            $foreignKeys[$fk->constraint_name]['foreign_columns'][] = $fk->referenced_column;
         }
 
         return $foreignKeys;
@@ -252,18 +272,18 @@ class DatabaseSchemaExporterCommand extends Command
                 $relationships[] = [
                     'type' => 'belongs_to',
                     'from_table' => $table,
-                    'from_columns' => $foreignKey['columns'],
-                    'to_table' => $foreignKey['references_table'],
-                    'to_columns' => $foreignKey['references_columns'],
+                    'from_columns' => $foreignKey['local_columns'],
+                    'to_table' => $foreignKey['foreign_table'],
+                    'to_columns' => $foreignKey['foreign_columns'],
                 ];
 
                 // Aggiungi anche la relazione inversa (has_many)
                 $relationships[] = [
                     'type' => 'has_many',
-                    'from_table' => $foreignKey['references_table'],
-                    'from_columns' => $foreignKey['references_columns'],
+                    'from_table' => $foreignKey['foreign_table'],
+                    'from_columns' => $foreignKey['foreign_columns'],
                     'to_table' => $table,
-                    'to_columns' => $foreignKey['columns'],
+                    'to_columns' => $foreignKey['local_columns'],
                 ];
             }
         }
