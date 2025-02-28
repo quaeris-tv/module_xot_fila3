@@ -27,7 +27,7 @@
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "filament/spatie-laravel-translatable-plugin": "^3.2",
-        "hammerstone/fast-paginate": "^1.1",
+        "aaronfrancis/fast-paginate": "*",
         "guzzlehttp/guzzle": "*",
         "laravel/folio": "^1.1",
         "laravel/framework": "*",
@@ -54,7 +54,6 @@
         "spatie/laravel-tags": "*",
         "livewire/volt": "*",
         "tightenco/parental": "*",
-        "hammerstone/fast-paginate": "*",
         "spatie/laravel-queueable-action": "*"
         
     },
