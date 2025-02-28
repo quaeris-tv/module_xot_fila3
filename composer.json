@@ -27,7 +27,23 @@
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "filament/spatie-laravel-translatable-plugin": "^3.2",
+<<<<<<< HEAD
         "aaronfrancis/fast-paginate":"*",
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+        "aaronfrancis/fast-paginate": "*",
+=======
+        "aaronfrancis/fast-paginate":"*",
+>>>>>>> 8045aaff (up)
+=======
+        "hammerstone/fast-paginate": "^1.1",
+>>>>>>> 5ecd18f4 (up)
+=======
+        "hammerstone/fast-paginate": "^1.1",
+>>>>>>> a8ae41de (fix(XotBaseWidget): refactor widget to support caching, polling and authorization)
+>>>>>>> 871cff65 (fix(XotBaseWidget): refactor widget to support caching, polling and authorization)
         "guzzlehttp/guzzle": "*",
         "laravel/folio": "^1.1",
         "laravel/framework": "*",
