@@ -48,7 +48,9 @@ trait TransTrait
         /** @var string */
         $transKey = app(GetTransKeyAction::class)->execute(static::class);
 
-        return $transKey.'.'.$key;
+        $key = $transKey.'.'.$key;
+        $key = Str::of($key)->replace('.cluster.pages.', '.')->toString();
+        return $key;
     }
 
     /**
@@ -64,7 +66,9 @@ trait TransTrait
         /** @var string */
         $transKey = app(GetTransKeyAction::class)->execute(static::class);
 
-        return $transKey.'.'.$key;
+        $key = $transKey.'.'.$key;
+        $key = Str::of($key)->replace('.cluster.pages.', '.')->toString();
+        return $key;
     }
 
     /**
