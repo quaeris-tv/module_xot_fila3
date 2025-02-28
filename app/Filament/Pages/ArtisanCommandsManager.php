@@ -8,10 +8,7 @@ use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Enums\IconPosition;
-<<<<<<< HEAD
 use Livewire\Attributes\On;
-=======
->>>>>>> 7b10b1fe (up)
 use Modules\Xot\Actions\ExecuteArtisanCommandAction;
 
 /**
@@ -19,25 +16,14 @@ use Modules\Xot\Actions\ExecuteArtisanCommandAction;
  */
 class ArtisanCommandsManager extends XotBasePage
 {
-<<<<<<< HEAD
-=======
-    protected static ?string $navigationIcon = 'heroicon-o-command-line';
-    protected static ?string $navigationLabel = 'Artisan Commands';
-    protected static ?string $title = 'Artisan Commands Manager';
-    protected static ?string $slug = 'artisan-commands';
-
->>>>>>> 7b10b1fe (up)
     public array $output = [];
 
-<<<<<<< HEAD
     public string $currentCommand = '';
 
     public string $status = '';
 
     public bool $isRunning = false;
 
-=======
->>>>>>> 7b10b1fe (up)
     protected $listeners = [
         'refresh-component' => '$refresh',
         'artisan-command.started' => 'handleCommandStarted',
@@ -152,31 +138,8 @@ class ArtisanCommandsManager extends XotBasePage
     #[On('artisan-command.output')]
     public function handleCommandOutput(string $command, string $output): void
     {
-<<<<<<< HEAD
         $this->output[] = $output;
         $this->dispatch('terminal-update');
-=======
-        if ($event['processId'] === $this->processId) {
-            $this->output[] = $event['output'];
-
-            if ('completed' === $event['type']) {
-                $this->isRunning = false;
-                $this->status = 'completed';
-                Notification::make()
-                    ->title(__('xot::artisan-commands-manager.notifications.success'))
-                    ->success()
-                    ->send();
-            } elseif ('error' === $event['type']) {
-                $this->isRunning = false;
-                $this->status = 'failed';
-                Notification::make()
-                    ->title(__('xot::artisan-commands-manager.notifications.error'))
-                    ->body($event['output'])
-                    ->danger()
-                    ->send();
-            }
-        }
->>>>>>> 7b10b1fe (up)
     }
 
     #[On('artisan-command.completed')]
@@ -190,7 +153,6 @@ class ArtisanCommandsManager extends XotBasePage
             ->success()
             ->send();
     }
-<<<<<<< HEAD
 
     #[On('artisan-command.failed')]
     public function handleCommandFailed(string $command, string $error): void
@@ -219,6 +181,4 @@ class ArtisanCommandsManager extends XotBasePage
             ->danger()
             ->send();
     }
-=======
->>>>>>> 7b10b1fe (up)
 }
