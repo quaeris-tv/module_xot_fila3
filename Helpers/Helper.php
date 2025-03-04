@@ -26,21 +26,6 @@ use function Safe\realpath;
 
 use Webmozart\Assert\Assert;
 
-// ------------------------------------------------
-
-/* --- MAH
-if (! function_exists('get_current_theme_name')) {
-    function current_theme_name(): string {
-        $theme_name = config('xra.pub_theme');
-
-        if (inAdmin()) {
-            $theme_name = config('xra.adm_theme');
-        }
-
-        return '_'.Str::lower($theme_name);
-    }
-}
-*/
 if (! function_exists('isRunningTestBench')) {
     function isRunningTestBench(): bool
     {
