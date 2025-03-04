@@ -69,7 +69,10 @@ abstract class XotBaseServiceProvider extends ServiceProvider
     public function registerBladeIcons(): void
     {
         if ('' === $this->name) {
-            throw new \Exception('name is empty on ['.static::class.']');
+            //throw new \Exception('name is empty on ['.static::class.']');
+            $name=class_basename(static::class);
+            $name=Str::of($name)->beforeLast('ServiceProvider')->__toString();
+            $this->name=$name;
         }
 
         Assert::string($relativePath = config('modules.paths.generator.assets.path'));
