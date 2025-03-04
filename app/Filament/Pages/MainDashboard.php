@@ -32,7 +32,7 @@ class MainDashboard extends Dashboard
             }
         );
 
-        if (1 === $modules->count()) {
+        if ($modules->count() === 1) {
             Assert::notNull($modules->first(), '['.__LINE__.']['.class_basename($this).']');
             $panel_name = $modules->first()->name;
             $module_name = Str::before($panel_name, '::admin');
@@ -40,7 +40,7 @@ class MainDashboard extends Dashboard
             redirect($url);
         }
 
-        if (0 === $modules->count()) {
+        if ($modules->count() === 0) {
             $url = '/'.app()->getLocale();
             redirect($url);
         }

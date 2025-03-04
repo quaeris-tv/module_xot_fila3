@@ -18,7 +18,7 @@ class ResourceFormSchemaGenerator
             $fileContents = file_get_contents($filename);
 
             // Check if getFormSchema method already exists
-            if (false !== strpos($fileContents, 'public function getFormSchema')) {
+            if (strpos($fileContents, 'public function getFormSchema') !== false) {
                 return false;
             }
 
@@ -36,7 +36,7 @@ class ResourceFormSchemaGenerator
             $formSchemaMethod .= "        ];\n    }\n";
 
             // Detect if the class is in a Clusters directory
-            $isInClustersDir = false !== strpos($filename, 'Clusters');
+            $isInClustersDir = strpos($filename, 'Clusters') !== false;
 
             // Insert the method before the last closing brace
             $modifiedContents = preg_replace(

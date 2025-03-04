@@ -7,7 +7,6 @@ namespace Modules\Xot\Actions\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Spatie\QueueableAction\QueueableAction;
-use Modules\Xot\Actions\Module\GetModuleNameByModelClassAction;
 
 class GetViewByClassAction
 {
@@ -32,6 +31,7 @@ class GetViewByClassAction
                     $value = Str::of($value)->beforeLast($singular)->toString();
                 }
             }
+
             return Str::of($value)->slug()->toString();
         });
 

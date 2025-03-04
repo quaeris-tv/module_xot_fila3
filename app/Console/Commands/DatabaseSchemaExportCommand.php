@@ -33,7 +33,7 @@ class DatabaseSchemaExportCommand extends Command
         $outputPath = $this->option('output');
 
         // Assicurati che il percorso sia assoluto
-        if (!Str::startsWith($outputPath, '/')) {
+        if (! Str::startsWith($outputPath, '/')) {
             $outputPath = base_path($outputPath);
         }
 
@@ -48,7 +48,7 @@ class DatabaseSchemaExportCommand extends Command
 
             // Ottieni tutte le tabelle
             $tables = DB::select('SHOW TABLES');
-            $tablesKey = 'Tables_in_' . $databaseName;
+            $tablesKey = 'Tables_in_'.$databaseName;
 
             $schema = [
                 'database' => $databaseName,
@@ -110,11 +110,11 @@ class DatabaseSchemaExportCommand extends Command
                 foreach ($indices as $index) {
                     $indexName = $index->Key_name;
 
-                    if (!isset($groupedIndices[$indexName])) {
+                    if (! isset($groupedIndices[$indexName])) {
                         $groupedIndices[$indexName] = [
                             'name' => $indexName,
                             'columns' => [],
-                            'unique' => !$index->Non_unique,
+                            'unique' => ! $index->Non_unique,
                             'type' => $index->Index_type,
                         ];
                     }
@@ -156,7 +156,7 @@ class DatabaseSchemaExportCommand extends Command
 
             // Crea directory se non esiste
             $directory = dirname($outputPath);
-            if (!File::exists($directory)) {
+            if (! File::exists($directory)) {
                 File::makeDirectory($directory, 0755, true);
             }
 
@@ -169,7 +169,8 @@ class DatabaseSchemaExportCommand extends Command
             $this->generateReport($schema);
 
         } catch (\Exception $e) {
-            $this->error("Errore durante l'estrazione dello schema: " . $e->getMessage());
+            $this->error("Errore durante l'estrazione dello schema: ".$e->getMessage());
+
             return 1;
         }
 
@@ -199,7 +200,7 @@ class DatabaseSchemaExportCommand extends Command
      */
     protected function getMigrationName(string $tableName): string
     {
-        return 'create_' . $tableName . '_table';
+        return 'create_'.$tableName.'_table';
     }
 
     /**
@@ -207,14 +208,14 @@ class DatabaseSchemaExportCommand extends Command
      */
     protected function generateReport(array $schema): void
     {
-        $this->info("Riepilogo Schema Database");
-        $this->info("=============================================");
-        $this->info("Database: " . $schema['database']);
-        $this->info("Numero tabelle: " . count($schema['tables']));
-        $this->info("Numero relazioni: " . count($schema['relationships']));
+        $this->info('Riepilogo Schema Database');
+        $this->info('=============================================');
+        $this->info('Database: '.$schema['database']);
+        $this->info('Numero tabelle: '.count($schema['tables']));
+        $this->info('Numero relazioni: '.count($schema['relationships']));
 
         $this->newLine();
-        $this->info("Tabelle principali:");
+        $this->info('Tabelle principali:');
 
         // Mostra le tabelle più rilevanti (con più relazioni o colonne)
         $relevantTables = collect($schema['tables'])
@@ -241,6 +242,6 @@ class DatabaseSchemaExportCommand extends Command
         );
 
         $this->newLine();
-        $this->info("File JSON generato correttamente. Puoi usarlo per creare modelli, migrazioni, factories e seeder.");
+        $this->info('File JSON generato correttamente. Puoi usarlo per creare modelli, migrazioni, factories e seeder.');
     }
 }

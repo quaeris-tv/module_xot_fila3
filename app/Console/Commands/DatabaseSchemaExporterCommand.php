@@ -140,7 +140,7 @@ class DatabaseSchemaExporterCommand extends Command
         foreach ($columnInfo as $column) {
             $columns[$column->Field] = [
                 'type' => $column->Type,
-                'nullable' => 'YES' === $column->Null,
+                'nullable' => $column->Null === 'YES',
                 'default' => $column->Default,
                 'comment' => $column->Comment ?? '',
                 'extra' => $column->Extra ?? '',

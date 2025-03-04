@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Clusters;
 
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Contracts\Support\Htmlable;
 use Filament\Clusters\Cluster as FilamentCluster;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Lang;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
 
 class XotBaseCluster extends FilamentCluster
@@ -29,10 +29,10 @@ class XotBaseCluster extends FilamentCluster
             'key' => $key,
             'res' => $res,
         ]);
-        //return Lang::get('broker::cliente.navigation_group');
+
+        // return Lang::get('broker::cliente.navigation_group');
         return 'AAAAAAAAA';
     }
-
 
     /*
     protected static ?string $navigationIcon = 'heroicon-o-users';

@@ -2,11 +2,11 @@
 
 namespace Modules\Xot\Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
-use Mockery;
-use Filament\Tables\Table;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Mockery;
 use Modules\Xot\App\Filament\Traits\HasXotTable;
+use PHPUnit\Framework\TestCase;
 
 class HasXotTableTest extends TestCase
 {
@@ -20,29 +20,27 @@ class HasXotTableTest extends TestCase
 
     /**
      * Test the table method with all methods implemented.
-     *
-     * @return void
      */
-    public function testTableMethodWithAllMethodsImplemented(): void
+    public function test_table_method_with_all_methods_implemented(): void
     {
         // Create mock object that uses HasXotTable trait
         $mock = Mockery::mock(HasTableWithXot::class);
-        
+
         // Expect getTableHeaderActions to be called
         $mock->shouldReceive('getTableHeaderActions')
             ->once()
             ->andReturn([]);
-            
+
         // Expect getTableActions to be called
         $mock->shouldReceive('getTableActions')
             ->once()
             ->andReturn([]);
-            
+
         // Expect getTableBulkActions to be called
         $mock->shouldReceive('getTableBulkActions')
             ->once()
             ->andReturn([]);
-            
+
         // Other required method stubs
         $mock->shouldReceive('getModelClass')
             ->andReturn(DummyModel::class);
@@ -56,7 +54,7 @@ class HasXotTableTest extends TestCase
             ->andReturn(1);
         $mock->shouldReceive('getTableEmptyStateActions')
             ->andReturn([]);
-            
+
         // Create a mock for Table
         $tableMock = Mockery::mock(Table::class);
         $tableMock->shouldReceive('recordTitleAttribute')->andReturnSelf();
@@ -73,24 +71,22 @@ class HasXotTableTest extends TestCase
         $tableMock->shouldReceive('actionsPosition')->andReturnSelf();
         $tableMock->shouldReceive('emptyStateActions')->andReturnSelf();
         $tableMock->shouldReceive('striped')->andReturnSelf();
-        
+
         // Call the table method
         $result = $mock->table($tableMock);
-        
+
         // Assert the result is a Table instance
         $this->assertSame($tableMock, $result);
     }
-    
+
     /**
      * Test the table method without any of the optional methods implemented.
-     *
-     * @return void
      */
-    public function testTableMethodWithNoOptionalMethodsImplemented(): void
+    public function test_table_method_with_no_optional_methods_implemented(): void
     {
         // Create mock object that uses HasXotTable trait but doesn't implement optional methods
         $mock = Mockery::mock(HasTableWithoutOptionalMethods::class);
-        
+
         // Other required method stubs
         $mock->shouldReceive('getModelClass')
             ->andReturn(DummyModel::class);
@@ -104,7 +100,7 @@ class HasXotTableTest extends TestCase
             ->andReturn(1);
         $mock->shouldReceive('getTableEmptyStateActions')
             ->andReturn([]);
-            
+
         // Create a mock for Table
         $tableMock = Mockery::mock(Table::class);
         $tableMock->shouldReceive('recordTitleAttribute')->andReturnSelf();
@@ -119,10 +115,10 @@ class HasXotTableTest extends TestCase
         $tableMock->shouldReceive('actionsPosition')->andReturnSelf();
         $tableMock->shouldReceive('emptyStateActions')->andReturnSelf();
         $tableMock->shouldReceive('striped')->andReturnSelf();
-        
+
         // Call the table method
         $result = $mock->table($tableMock);
-        
+
         // Assert the result is a Table instance
         $this->assertSame($tableMock, $result);
     }
@@ -134,13 +130,14 @@ class HasXotTableTest extends TestCase
 class HasTableWithXot implements HasTable
 {
     use HasXotTable;
-    
+
     // Implement the methods required by HasTable interface
     public function getLayoutView()
     {
         $mock = Mockery::mock();
         $mock->shouldReceive('getTableColumns')->andReturn([]);
         $mock->shouldReceive('getTableContentGrid')->andReturn([]);
+
         return $mock;
     }
 }
@@ -151,16 +148,17 @@ class HasTableWithXot implements HasTable
 class HasTableWithoutOptionalMethods implements HasTable
 {
     use HasXotTable;
-    
+
     // Implement the methods required by HasTable interface
     public function getLayoutView()
     {
         $mock = Mockery::mock();
         $mock->shouldReceive('getTableColumns')->andReturn([]);
         $mock->shouldReceive('getTableContentGrid')->andReturn([]);
+
         return $mock;
     }
-    
+
     // Purposely NOT implementing:
     // - getTableHeaderActions
     // - getTableActions
@@ -173,4 +171,4 @@ class HasTableWithoutOptionalMethods implements HasTable
 class DummyModel
 {
     // Empty dummy model
-} 
+}

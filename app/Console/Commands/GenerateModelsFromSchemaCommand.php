@@ -84,7 +84,7 @@ class GenerateModelsFromSchemaCommand extends Command
         $schemaContent = File::get($schemaFilePath);
         $schema = json_decode($schemaContent, true);
 
-        if (JSON_ERROR_NONE !== json_last_error()) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             $this->error('Errore nella decodifica del file JSON: '.json_last_error_msg());
 
             return 1;
@@ -148,7 +148,7 @@ class GenerateModelsFromSchemaCommand extends Command
         $casts = [];
         foreach ($tableInfo['columns'] as $columnName => $column) {
             $castType = $this->getCastType($column['type']);
-            if ('string' !== $castType) {
+            if ($castType !== 'string') {
                 $casts[$columnName] = $castType;
             }
         }
@@ -307,7 +307,7 @@ PHP;
         $indexesStr = '';
 
         foreach ($indexes as $indexName => $index) {
-            if ('PRIMARY' === $indexName) {
+            if ($indexName === 'PRIMARY') {
                 continue;
             }
 
@@ -368,7 +368,7 @@ PHP;
         $baseType = strtolower(preg_replace('/\(.*\)/', '', $sqlType));
 
         foreach ($this->typeMappings as $sqlPattern => $laravelType) {
-            if (0 === strpos($baseType, $sqlPattern)) {
+            if (strpos($baseType, $sqlPattern) === 0) {
                 return $laravelType;
             }
         }
@@ -410,15 +410,15 @@ PHP;
 
         $code = "\$table->{$methodName}('{$columnName}'";
 
-        if ('string' === $methodName && null !== $length) {
+        if ($methodName === 'string' && $length !== null) {
             $code .= ", {$length}";
-        } elseif ('decimal' === $methodName) {
+        } elseif ($methodName === 'decimal') {
             if (preg_match('/\((\d+),\s*(\d+)\)/', $columnType, $matches)) {
                 $precision = (int) $matches[1];
                 $scale = (int) $matches[2];
                 $code .= ", {$precision}, {$scale}";
             }
-        } elseif ('enum' === $methodName) {
+        } elseif ($methodName === 'enum') {
             if (preg_match('/enum\(\'(.*)\'\)/', $columnType, $matches)) {
                 $options = explode("','", $matches[1]);
                 $optionsStr = implode("', '", $options);
@@ -432,7 +432,7 @@ PHP;
             $code .= '->nullable()';
         }
 
-        if (isset($column['default']) && null !== $column['default']) {
+        if (isset($column['default']) && $column['default'] !== null) {
             $default = $column['default'];
             if (is_string($default) && ! is_numeric($default)) {
                 $default = "'{$default}'";
@@ -440,7 +440,7 @@ PHP;
             $code .= "->default({$default})";
         }
 
-        if (! empty($column['extra']) && false !== strpos($column['extra'], 'auto_increment')) {
+        if (! empty($column['extra']) && strpos($column['extra'], 'auto_increment') !== false) {
             $code .= '->autoIncrement()';
         }
 
@@ -501,7 +501,7 @@ PHP;
                 continue;
             }
 
-            if ($relationship['from_table'] === $tableName && 'belongs_to' === $relationship['type']) {
+            if ($relationship['from_table'] === $tableName && $relationship['type'] === 'belongs_to') {
                 $modelRelationships[] = [
                     'type' => 'belongs_to',
                     'method' => Str::camel(Str::singular($relationship['to_table'])),
@@ -509,7 +509,7 @@ PHP;
                     'foreign_key' => $relationship['from_columns'][0],
                     'owner_key' => $relationship['to_columns'][0],
                 ];
-            } elseif ($relationship['to_table'] === $tableName && 'has_many' === $relationship['type']) {
+            } elseif ($relationship['to_table'] === $tableName && $relationship['type'] === 'has_many') {
                 $modelRelationships[] = [
                     'type' => 'has_many',
                     'method' => Str::camel(Str::plural($relationship['from_table'])),
@@ -531,7 +531,7 @@ PHP;
         $methodName = $relationship['method'];
         $modelName = $relationship['model'];
 
-        if ('belongs_to' === $relationship['type']) {
+        if ($relationship['type'] === 'belongs_to') {
             return <<<PHP
     /**
      * Relazione: {$methodName}.
@@ -541,7 +541,7 @@ PHP;
         return \$this->belongsTo({$modelName}::class, '{$relationship['foreign_key']}', '{$relationship['owner_key']}');
     }
 PHP;
-        } elseif ('has_many' === $relationship['type']) {
+        } elseif ($relationship['type'] === 'has_many') {
             return <<<PHP
     /**
      * Relazione: {$methodName}.

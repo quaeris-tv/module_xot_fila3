@@ -50,6 +50,7 @@ trait TransTrait
 
         $key = $transKey.'.'.$key;
         $key = Str::of($key)->replace('.cluster.pages.', '.')->toString();
+
         return $key;
     }
 
@@ -68,6 +69,7 @@ trait TransTrait
 
         $key = $transKey.'.'.$key;
         $key = Str::of($key)->replace('.cluster.pages.', '.')->toString();
+
         return $key;
     }
 
