@@ -36,7 +36,7 @@ class InformationSchemaTable extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<string>
+     * @var list<string>
      */
     protected $fillable = [
         'TABLE_CATALOG',
@@ -252,24 +252,17 @@ class InformationSchemaTable extends Model
      */
     public static function getAccurateRowCount(string $tableName, string $database): int
     {
-        $stats = static::getTableStats($tableName, $database);
-        
-        if (!$stats) {
+        $stats = static::getTableStats($database, $tableName);
+        if ($stats === null) {
             return 0;
         }
 
-        // For InnoDB tables with less than 1000 rows or when TABLE_ROWS is 0,
-        // use COUNT(*) for better accuracy
-        if ($stats->ENGINE === 'InnoDB' && ($stats->TABLE_ROWS < 1000 || $stats->TABLE_ROWS === 0)) {
-            try {
-                return (int) DB::table($tableName)->count();
-            } catch (\Exception $e) {
-                // Se fallisce il count diretto, ritorna il valore stimato
-                return (int) $stats->TABLE_ROWS;
-            }
+        $rows = $stats->getAttribute('TABLE_ROWS');
+        if ($rows === null) {
+            return 0;
         }
 
-        return (int) $stats->TABLE_ROWS;
+        return (int) $rows;
     }
 
     /**
@@ -280,37 +273,30 @@ class InformationSchemaTable extends Model
      */
     public static function getTableSize(string $tableName, string $database): int
     {
-        $stats = static::getTableStats($tableName, $database);
-        
-        if (!$stats) {
+        $stats = static::getTableStats($database, $tableName);
+        if ($stats === null) {
             return 0;
         }
 
-        return (int) ($stats->DATA_LENGTH + $stats->INDEX_LENGTH);
+        $dataLength = $stats->getAttribute('DATA_LENGTH');
+        $indexLength = $stats->getAttribute('INDEX_LENGTH');
+
+        if ($dataLength === null || $indexLength === null) {
+            return 0;
+        }
+
+        return (int) $dataLength + (int) $indexLength;
     }
 
     /**
-     * Refresh the Sushi cache for a specific table.
+     * Refresh the cache for a specific table.
      *
      * @param string $tableName The name of the table
      * @param string $database The database name
      */
     public static function refreshCache(string $tableName, string $database): void
     {
-        $query = "SELECT * FROM information_schema.TABLES 
-                 WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
-        
-        $result = DB::selectOne($query, [$database, $tableName]);
-
-        if ($result) {
-            $data = (array) $result;
-            static::updateOrCreate(
-                [
-                    'TABLE_SCHEMA' => $database,
-                    'TABLE_NAME' => $tableName,
-                ],
-                $data
-            );
-        }
+        DB::connection('mysql')
+            ->statement("ANALYZE TABLE `{$database}`.`{$tableName}`");
     }
 } 

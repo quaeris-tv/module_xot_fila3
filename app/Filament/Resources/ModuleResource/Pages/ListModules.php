@@ -16,6 +16,8 @@ use Modules\Xot\Filament\Resources\ModuleResource;
 use Modules\Xot\Filament\Resources\Pages\XotBaseListRecords;
 use Nwidart\Modules\Facades\Module;
 
+use Modules\Xot\Filament\Resources\RelationManagers\XotBaseRelationManager;
+
 class ListModules extends XotBaseListRecords
 {
     public TableLayoutEnum $layoutView = TableLayoutEnum::LIST;
@@ -73,11 +75,11 @@ class ListModules extends XotBaseListRecords
     {
         return [
             ViewAction::make()
-                ->label(''),
+                ,
             EditAction::make()
-                ->label(''),
+                ,
             DeleteAction::make()
-                ->label('')
+                
                 ->requiresConfirmation(),
         ];
     }
@@ -85,7 +87,7 @@ class ListModules extends XotBaseListRecords
     /**
      * @return array<string, Tables\Actions\BulkAction>
      */
-    protected function getTableBulkActions(): array
+    public function getTableBulkActions(): array
     {
         return [
             'delete' => DeleteBulkAction::make(),

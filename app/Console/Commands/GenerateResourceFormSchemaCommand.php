@@ -6,6 +6,14 @@ namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
 use Modules\Xot\Helpers\ResourceFormSchemaGenerator;
+use function Safe\json_encode;
+use function Safe\json_decode;
+use function Safe\file_get_contents;
+use function Safe\file_put_contents;
+use function Safe\glob;
+use function Safe\preg_match;
+use function Safe\preg_replace;
+use function Safe\error_log;
 
 class GenerateResourceFormSchemaCommand extends Command
 {
@@ -13,7 +21,7 @@ class GenerateResourceFormSchemaCommand extends Command
 
     protected $description = 'Generate getFormSchema method for XotBaseResource classes';
 
-    public function handle()
+    public function handle(): int
     {
         $result = ResourceFormSchemaGenerator::generateForAllResources();
 
@@ -23,7 +31,7 @@ class GenerateResourceFormSchemaCommand extends Command
         if (! empty($result['updated'])) {
             $this->table(
                 ['Updated Resources'],
-                array_map(fn ($resource) => [$resource], $result['updated'])
+                array_map(fn (string $resource): array => [$resource], $result['updated'])
             );
         }
 
@@ -31,12 +39,16 @@ class GenerateResourceFormSchemaCommand extends Command
             $this->warn('Skipped Resources: '.count($result['skipped']));
             $this->table(
                 ['Skipped Resources'],
-                array_map(fn ($resource) => [$resource], $result['skipped'])
+                array_map(fn (string $resource): array => [$resource], $result['skipped'])
             );
         }
 
         // Additional handling for Clusters resources
         $clustersResources = glob('/var/www/html/base_techplanner_fila3/laravel/Modules/*/app/Filament/Clusters/*/Resources/*Resource.php');
+        if ($clustersResources === false) {
+            throw new \RuntimeException('Failed to glob clusters resources');
+        }
+
         $clustersUpdated = 0;
         $clustersSkipped = 0;
 
@@ -44,10 +56,19 @@ class GenerateResourceFormSchemaCommand extends Command
             try {
                 // Get the full class name
                 $content = file_get_contents($file);
-                preg_match('/namespace\s+([\w\\\\]+);/', $content, $namespaceMatch);
-                preg_match('/class\s+(\w+)\s+extends\s+XotBaseResource/', $content, $classMatch);
+                if ($content === false) {
+                    throw new \RuntimeException("Failed to read file: {$file}");
+                }
 
-                if (isset($namespaceMatch[1]) && isset($classMatch[1])) {
+                if (preg_match('/namespace\s+([\w\\\\]+);/', $content, $namespaceMatch) === false) {
+                    throw new \RuntimeException("Failed to match namespace in file: {$file}");
+                }
+
+                if (preg_match('/class\s+(\w+)\s+extends\s+XotBaseResource/', $content, $classMatch) === false) {
+                    throw new \RuntimeException("Failed to match class in file: {$file}");
+                }
+
+                if (!empty($namespaceMatch[1]) && !empty($classMatch[1])) {
                     $fullClassName = $namespaceMatch[1].'\\'.$classMatch[1];
 
                     // Modify the file to add getFormSchema method
@@ -57,7 +78,14 @@ class GenerateResourceFormSchemaCommand extends Command
                         $content
                     );
 
-                    file_put_contents($file, $modifiedContent);
+                    if ($modifiedContent === false) {
+                        throw new \RuntimeException("Failed to modify content for file: {$file}");
+                    }
+
+                    if (file_put_contents($file, $modifiedContent) === false) {
+                        throw new \RuntimeException("Failed to write file: {$file}");
+                    }
+
                     $this->info("Updated Clusters Resource: {$fullClassName}");
                     ++$clustersUpdated;
                 } else {

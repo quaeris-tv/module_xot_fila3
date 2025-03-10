@@ -4,10 +4,18 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Filament\Resources\ExtraResource\Pages;
 
-use Filament\Resources\Pages\CreateRecord;
 use Modules\Xot\Filament\Resources\ExtraResource;
 
-class CreateExtra extends CreateRecord
+
+
+
+use Modules\Xot\Filament\Resources\RelationManagers\XotBaseRelationManager;
+
+
+
+
+
+class CreateExtra extends \Modules\Xot\Filament\Resources\Pages\XotBaseCreateRecord
 {
     protected static string $resource = ExtraResource::class;
 }

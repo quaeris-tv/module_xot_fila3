@@ -14,7 +14,7 @@ class ImportButton
     public function execute(): Action
     {
         return Action::make('import')
-            ->label('')
+            
             ->tooltip('import XLS')
             ->icon('heroicon-o-arrow-up-on-square')
             // ->visible(null != $year)

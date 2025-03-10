@@ -122,6 +122,7 @@ abstract class XotBaseResource extends FilamentResource
     {
         $reflector = new \ReflectionClass(static::class);
         $filename = $reflector->getFileName();
+        Assert::string($filename, 'Filename must be a string');
         $path = Str::of($filename)
             ->before('.php')
             ->append(DIRECTORY_SEPARATOR)

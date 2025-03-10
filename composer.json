@@ -50,7 +50,7 @@
         "spipu/html2pdf": "^5.2",
         "staudenmeir/laravel-adjacency-list": "^1.22",
         "symfony/dom-crawler": "*",
-        "thecodingmachine/safe": "^2.5",
+        "thecodingmachine/safe": "^3.0",
         "spatie/laravel-tags": "*",
         "livewire/volt": "*",
         "tightenco/parental": "*",

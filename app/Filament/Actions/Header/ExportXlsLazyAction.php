@@ -24,7 +24,7 @@ class ExportXlsLazyAction extends Action
     {
         parent::setUp();
         $this->translateLabel()
-            ->label('')
+            
             ->tooltip(__('xot::actions.export_xls'))
             ->icon('heroicon-o-arrow-down-tray')
             ->action(static function (ListRecords $livewire) {

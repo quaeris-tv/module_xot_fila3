@@ -23,7 +23,7 @@ class ExportXlsAction extends Action
         parent::setUp();
         $this->translateLabel()
 
-            ->label('')
+            
             ->tooltip(__('xot::actions.export_xls'))
 
             // ->icon('heroicon-o-cloud-arrow-down')

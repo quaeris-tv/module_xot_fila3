@@ -22,7 +22,7 @@ class ExportXlsTableAction extends Action
     {
         parent::setUp();
         $this->translateLabel()
-            ->label('')
+            
             ->tooltip(__('xot::actions.export_xls'))
              // ->icon('fas-file-excel')
             ->icon('heroicon-o-arrow-down-tray')

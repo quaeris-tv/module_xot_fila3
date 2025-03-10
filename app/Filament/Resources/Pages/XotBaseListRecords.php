@@ -27,20 +27,7 @@ abstract class XotBaseListRecords extends FilamentListRecords
 {
     use HasXotTable;
 
-    /*
-     * Get the table instance.
-
-    public function table(Table $table): Table
-    {
-        $defaultSort = $this->getDefaultSort();
-        $column = key($defaultSort);
-        $direction = current($defaultSort);
-
-        return $table
-            ->columns($this->getListTableColumns())
-            ->defaultSort($column, $direction);
-    }
-    */
+    
     /**
      * Get the table columns.
      *

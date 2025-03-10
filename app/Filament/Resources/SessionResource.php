@@ -9,6 +9,15 @@ use Filament\Forms\Components\TextInput;
 use Modules\Xot\Filament\Resources\SessionResource\Pages;
 use Modules\Xot\Models\Session;
 
+
+
+
+use Modules\Xot\Filament\Resources\RelationManagers\XotBaseRelationManager;
+
+
+
+
+
 class SessionResource extends XotBaseResource
 {
     protected static ?string $model = Session::class;

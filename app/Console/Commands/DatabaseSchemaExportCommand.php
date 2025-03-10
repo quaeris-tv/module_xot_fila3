@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
+use function Safe\json_encode;
+use function Safe\json_decode;
+use function Safe\file_get_contents;
+use function Safe\file_put_contents;
+use function Safe\glob;
+use function Safe\preg_match;
+use function Safe\preg_replace;
+use function Safe\error_log;
+
 class DatabaseSchemaExportCommand extends Command
 {
     /**
@@ -27,7 +36,7 @@ class DatabaseSchemaExportCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $connection = $this->argument('connection') ?: $this->ask('Inserisci il nome della connessione database');
         $outputPath = $this->option('output');
@@ -161,7 +170,11 @@ class DatabaseSchemaExportCommand extends Command
             }
 
             // Salva lo schema in un file JSON
-            File::put($outputPath, json_encode($schema, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+            $jsonContent = json_encode($schema, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            if ($jsonContent === false) {
+                throw new \RuntimeException('Failed to encode schema to JSON');
+            }
+            File::put($outputPath, $jsonContent);
 
             $this->info("Schema del database esportato con successo in: {$outputPath}");
 
@@ -218,9 +231,9 @@ class DatabaseSchemaExportCommand extends Command
 
         // Mostra le tabelle più rilevanti (con più relazioni o colonne)
         $relevantTables = collect($schema['tables'])
-            ->map(function ($table, $tableName) use ($schema) {
+            ->map(function (array $table, string $tableName) use ($schema): array {
                 $relationCount = collect($schema['relationships'])
-                    ->filter(function ($rel) use ($tableName) {
+                    ->filter(function (array $rel) use ($tableName): bool {
                         return $rel['local_table'] === $tableName || $rel['foreign_table'] === $tableName;
                     })
                     ->count();

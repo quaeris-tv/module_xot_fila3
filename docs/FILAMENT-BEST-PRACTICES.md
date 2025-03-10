@@ -452,6 +452,35 @@ Action::make('invia_email')
     })
 ```
 
+## Uso delle funzioni Safe\*
+
+Le funzioni `Safe\*` sono una libreria che fornisce versioni 'sicure' delle funzioni native di PHP, che lanciano eccezioni invece di restituire `false` in caso di errore. Questo approccio è particolarmente utile in contesti dove la gestione degli errori è cruciale.
+
+### Quando usare Safe\*
+- Quando si vuole gestire esplicitamente gli errori
+- Quando si vuole evitare controlli multipli su `false`
+- Quando si vuole migliorare la leggibilità del codice
+
+### Esempio di utilizzo
+```php
+use function Safe\file_get_contents;
+
+try {
+    $content = file_get_contents('file.txt');
+} catch (\Safe\Exceptions\FilesystemException $e) {
+    // Gestione dell'errore
+}
+```
+
+### Alternative
+Se non si vuole usare `Safe\*`, si possono usare le funzioni native di PHP con controlli espliciti:
+```php
+$content = file_get_contents('file.txt');
+if ($content === false) {
+    // Gestione dell'errore
+}
+```
+
 ## Ottimizzazione delle Prestazioni
 
 ### Eager Loading

@@ -209,7 +209,12 @@ abstract class XotBaseMigration extends Migration
      */
     public function down(): void
     {
-        $this->getConn()->dropIfExists($this->getTable());
+        $this->dropTableIfExists($this->getTable());
+    }
+
+    public function dropTableIfExists(string $table): void
+    {
+        $this->getConn()->dropIfExists($table);
     }
 
     public function renameTable(string $from, string $to): void

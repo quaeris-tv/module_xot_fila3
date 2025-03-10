@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Mockery;
 use Filament\Tables\Table;
 use Filament\Tables\Contracts\HasTable;
-use Modules\Xot\App\Filament\Traits\HasXotTable;
+use Modules\Xot\Filament\Traits\HasXotTable;
 
 class HasXotTableTest extends TestCase
 {
@@ -27,22 +27,22 @@ class HasXotTableTest extends TestCase
     {
         // Create mock object that uses HasXotTable trait
         $mock = Mockery::mock(HasTableWithXot::class);
-        
+
         // Expect getTableHeaderActions to be called
         $mock->shouldReceive('getTableHeaderActions')
             ->once()
             ->andReturn([]);
-            
+
         // Expect getTableActions to be called
         $mock->shouldReceive('getTableActions')
             ->once()
             ->andReturn([]);
-            
+
         // Expect getTableBulkActions to be called
         $mock->shouldReceive('getTableBulkActions')
             ->once()
             ->andReturn([]);
-            
+
         // Other required method stubs
         $mock->shouldReceive('getModelClass')
             ->andReturn(DummyModel::class);
@@ -56,7 +56,7 @@ class HasXotTableTest extends TestCase
             ->andReturn(1);
         $mock->shouldReceive('getTableEmptyStateActions')
             ->andReturn([]);
-            
+
         // Create a mock for Table
         $tableMock = Mockery::mock(Table::class);
         $tableMock->shouldReceive('recordTitleAttribute')->andReturnSelf();
@@ -73,14 +73,14 @@ class HasXotTableTest extends TestCase
         $tableMock->shouldReceive('actionsPosition')->andReturnSelf();
         $tableMock->shouldReceive('emptyStateActions')->andReturnSelf();
         $tableMock->shouldReceive('striped')->andReturnSelf();
-        
+
         // Call the table method
         $result = $mock->table($tableMock);
-        
+
         // Assert the result is a Table instance
         $this->assertSame($tableMock, $result);
     }
-    
+
     /**
      * Test the table method without any of the optional methods implemented.
      *
@@ -90,7 +90,7 @@ class HasXotTableTest extends TestCase
     {
         // Create mock object that uses HasXotTable trait but doesn't implement optional methods
         $mock = Mockery::mock(HasTableWithoutOptionalMethods::class);
-        
+
         // Other required method stubs
         $mock->shouldReceive('getModelClass')
             ->andReturn(DummyModel::class);
@@ -104,7 +104,7 @@ class HasXotTableTest extends TestCase
             ->andReturn(1);
         $mock->shouldReceive('getTableEmptyStateActions')
             ->andReturn([]);
-            
+
         // Create a mock for Table
         $tableMock = Mockery::mock(Table::class);
         $tableMock->shouldReceive('recordTitleAttribute')->andReturnSelf();
@@ -119,10 +119,10 @@ class HasXotTableTest extends TestCase
         $tableMock->shouldReceive('actionsPosition')->andReturnSelf();
         $tableMock->shouldReceive('emptyStateActions')->andReturnSelf();
         $tableMock->shouldReceive('striped')->andReturnSelf();
-        
+
         // Call the table method
         $result = $mock->table($tableMock);
-        
+
         // Assert the result is a Table instance
         $this->assertSame($tableMock, $result);
     }
@@ -134,14 +134,245 @@ class HasXotTableTest extends TestCase
 class HasTableWithXot implements HasTable
 {
     use HasXotTable;
-    
-    // Implement the methods required by HasTable interface
-    public function getLayoutView()
+
+    public function getLayoutView(): mixed
     {
         $mock = Mockery::mock();
         $mock->shouldReceive('getTableColumns')->andReturn([]);
         $mock->shouldReceive('getTableContentGrid')->andReturn([]);
         return $mock;
+    }
+
+    public function getTable(): Table
+    {
+        return Mockery::mock(Table::class);
+    }
+
+    public function getTablePage(): ?int
+    {
+        return 1;
+    }
+
+    public function getTableRecordsPerPage(): int
+    {
+        return 10;
+    }
+
+    public function getTableSortColumn(): ?string
+    {
+        return null;
+    }
+
+    public function getTableSortDirection(): ?string
+    {
+        return null;
+    }
+
+    public function getTableFilters(): array
+    {
+        return [];
+    }
+
+    public function getTableFiltersForm(): mixed
+    {
+        return null;
+    }
+
+    public function getTableFilterState(): array
+    {
+        return [];
+    }
+
+    public function getTableGrouping(): ?string
+    {
+        return null;
+    }
+
+    public function getTableSearchIndicator(): ?string
+    {
+        return null;
+    }
+
+    public function getTableColumnSearchIndicators(): array
+    {
+        return [];
+    }
+
+    public function getTableColumnToggleForm(): mixed
+    {
+        return null;
+    }
+
+    public function getTableRecords(): array
+    {
+        return [];
+    }
+
+    public function getTableRecord(): mixed
+    {
+        return null;
+    }
+
+    public function getTableRecordKey(): mixed
+    {
+        return null;
+    }
+
+    public function getSelectedTableRecords(): array
+    {
+        return [];
+    }
+
+    public function getAllTableRecordsCount(): int
+    {
+        return 0;
+    }
+
+    public function getAllSelectableTableRecordsCount(): int
+    {
+        return 0;
+    }
+
+    public function getAllSelectableTableRecordKeys(): array
+    {
+        return [];
+    }
+
+    public function getTableQueryForExport(): mixed
+    {
+        return null;
+    }
+
+    public function getFilteredTableQuery(): mixed
+    {
+        return null;
+    }
+
+    public function getFilteredSortedTableQuery(): mixed
+    {
+        return null;
+    }
+
+    public function getAllTableSummaryQuery(): mixed
+    {
+        return null;
+    }
+
+    public function getPageTableSummaryQuery(): mixed
+    {
+        return null;
+    }
+
+    public function getMountedTableAction(): ?string
+    {
+        return null;
+    }
+
+    public function getMountedTableActionForm(): mixed
+    {
+        return null;
+    }
+
+    public function getMountedTableActionRecord(): mixed
+    {
+        return null;
+    }
+
+    public function getMountedTableActionRecordKey(): mixed
+    {
+        return null;
+    }
+
+    public function getMountedTableBulkAction(): ?string
+    {
+        return null;
+    }
+
+    public function getMountedTableBulkActionForm(): mixed
+    {
+        return null;
+    }
+
+    public function getActiveTableLocale(): ?string
+    {
+        return null;
+    }
+
+    public function isTableLoaded(): bool
+    {
+        return true;
+    }
+
+    public function isTableReordering(): bool
+    {
+        return false;
+    }
+
+    public function hasTableSearch(): bool
+    {
+        return false;
+    }
+
+    public function isTableColumnToggledHidden(): bool
+    {
+        return false;
+    }
+
+    public function callMountedTableAction(): mixed
+    {
+        return null;
+    }
+
+    public function callTableColumnAction(): mixed
+    {
+        return null;
+    }
+
+    public function deselectAllTableRecords(): void
+    {
+    }
+
+    public function mountTableAction(): void
+    {
+    }
+
+    public function mountTableBulkAction(): void
+    {
+    }
+
+    public function mountedTableActionRecord(): mixed
+    {
+        return null;
+    }
+
+    public function replaceMountedTableAction(): void
+    {
+    }
+
+    public function replaceMountedTableBulkAction(): void
+    {
+    }
+
+    public function resetTableSearch(): void
+    {
+    }
+
+    public function resetTableColumnSearch(): void
+    {
+    }
+
+    public function toggleTableReordering(): void
+    {
+    }
+
+    public function parseTableFilterName(): string
+    {
+        return '';
+    }
+
+    public function makeFilamentTranslatableContentDriver(): mixed
+    {
+        return null;
     }
 }
 
@@ -151,20 +382,246 @@ class HasTableWithXot implements HasTable
 class HasTableWithoutOptionalMethods implements HasTable
 {
     use HasXotTable;
-    
-    // Implement the methods required by HasTable interface
-    public function getLayoutView()
+
+    public function getLayoutView(): mixed
     {
         $mock = Mockery::mock();
         $mock->shouldReceive('getTableColumns')->andReturn([]);
         $mock->shouldReceive('getTableContentGrid')->andReturn([]);
         return $mock;
     }
-    
-    // Purposely NOT implementing:
-    // - getTableHeaderActions
-    // - getTableActions
-    // - getTableBulkActions
+
+    public function getTable(): Table
+    {
+        return Mockery::mock(Table::class);
+    }
+
+    public function getTablePage(): ?int
+    {
+        return 1;
+    }
+
+    public function getTableRecordsPerPage(): int
+    {
+        return 10;
+    }
+
+    public function getTableSortColumn(): ?string
+    {
+        return null;
+    }
+
+    public function getTableSortDirection(): ?string
+    {
+        return null;
+    }
+
+    public function getTableFilters(): array
+    {
+        return [];
+    }
+
+    public function getTableFiltersForm(): mixed
+    {
+        return null;
+    }
+
+    public function getTableFilterState(): array
+    {
+        return [];
+    }
+
+    public function getTableGrouping(): ?string
+    {
+        return null;
+    }
+
+    public function getTableSearchIndicator(): ?string
+    {
+        return null;
+    }
+
+    public function getTableColumnSearchIndicators(): array
+    {
+        return [];
+    }
+
+    public function getTableColumnToggleForm(): mixed
+    {
+        return null;
+    }
+
+    public function getTableRecords(): array
+    {
+        return [];
+    }
+
+    public function getTableRecord(): mixed
+    {
+        return null;
+    }
+
+    public function getTableRecordKey(): mixed
+    {
+        return null;
+    }
+
+    public function getSelectedTableRecords(): array
+    {
+        return [];
+    }
+
+    public function getAllTableRecordsCount(): int
+    {
+        return 0;
+    }
+
+    public function getAllSelectableTableRecordsCount(): int
+    {
+        return 0;
+    }
+
+    public function getAllSelectableTableRecordKeys(): array
+    {
+        return [];
+    }
+
+    public function getTableQueryForExport(): mixed
+    {
+        return null;
+    }
+
+    public function getFilteredTableQuery(): mixed
+    {
+        return null;
+    }
+
+    public function getFilteredSortedTableQuery(): mixed
+    {
+        return null;
+    }
+
+    public function getAllTableSummaryQuery(): mixed
+    {
+        return null;
+    }
+
+    public function getPageTableSummaryQuery(): mixed
+    {
+        return null;
+    }
+
+    public function getMountedTableAction(): ?string
+    {
+        return null;
+    }
+
+    public function getMountedTableActionForm(): mixed
+    {
+        return null;
+    }
+
+    public function getMountedTableActionRecord(): mixed
+    {
+        return null;
+    }
+
+    public function getMountedTableActionRecordKey(): mixed
+    {
+        return null;
+    }
+
+    public function getMountedTableBulkAction(): ?string
+    {
+        return null;
+    }
+
+    public function getMountedTableBulkActionForm(): mixed
+    {
+        return null;
+    }
+
+    public function getActiveTableLocale(): ?string
+    {
+        return null;
+    }
+
+    public function isTableLoaded(): bool
+    {
+        return true;
+    }
+
+    public function isTableReordering(): bool
+    {
+        return false;
+    }
+
+    public function hasTableSearch(): bool
+    {
+        return false;
+    }
+
+    public function isTableColumnToggledHidden(): bool
+    {
+        return false;
+    }
+
+    public function callMountedTableAction(): mixed
+    {
+        return null;
+    }
+
+    public function callTableColumnAction(): mixed
+    {
+        return null;
+    }
+
+    public function deselectAllTableRecords(): void
+    {
+    }
+
+    public function mountTableAction(): void
+    {
+    }
+
+    public function mountTableBulkAction(): void
+    {
+    }
+
+    public function mountedTableActionRecord(): mixed
+    {
+        return null;
+    }
+
+    public function replaceMountedTableAction(): void
+    {
+    }
+
+    public function replaceMountedTableBulkAction(): void
+    {
+    }
+
+    public function resetTableSearch(): void
+    {
+    }
+
+    public function resetTableColumnSearch(): void
+    {
+    }
+
+    public function toggleTableReordering(): void
+    {
+    }
+
+    public function parseTableFilterName(): string
+    {
+        return '';
+    }
+
+    public function makeFilamentTranslatableContentDriver(): mixed
+    {
+        return null;
+    }
 }
 
 /**
@@ -173,4 +630,4 @@ class HasTableWithoutOptionalMethods implements HasTable
 class DummyModel
 {
     // Empty dummy model
-} 
+}

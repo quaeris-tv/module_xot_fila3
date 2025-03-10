@@ -16,7 +16,7 @@ use Modules\Xot\Filament\Traits\HasXotTable;
 use Webmozart\Assert\Assert;
 
 /**
- * @property class-string<Model> $resource
+ * @property class-string<\Modules\Xot\Filament\Resources\XotBaseResource> $resource
  */
 abstract class XotBaseRelationManager extends RelationManager
 {
