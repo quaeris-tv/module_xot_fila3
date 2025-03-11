@@ -22,7 +22,7 @@ class GenerateModelByModelClass
      *
      * @param string $model_class the class name of the model
      *
-     * @return void
+     * @return string
      */
     public function execute(string $model_class): string
     {
@@ -74,7 +74,7 @@ class GenerateModelByModelClass
      *
      * @return void
      */
-    public function generate(string $model_class)
+    public function generate(string $model_class): void
     {
         $model_name = class_basename($model_class);
         $module_name = Str::of($model_class)->between('Modules\\', '\Models\\')->toString();

@@ -56,7 +56,7 @@ class ListLogs extends XotBaseListRecords
     public function getTableFilters(): array
     {
         return [
-            Tables\Filters\SelectFilter::make('level_name')
+            'level_name' => Tables\Filters\SelectFilter::make('level_name')
                 ->options([
                     'emergency' => 'Emergency',
                     'alert' => 'Alert',
@@ -70,18 +70,24 @@ class ListLogs extends XotBaseListRecords
         ];
     }
 
+    /**
+     * @return array<string, Tables\Actions\Action|Tables\Actions\ActionGroup>
+     */
     public function getTableActions(): array
     {
         return [
-            ViewAction::make(),
-            DeleteAction::make(),
+            'view' => ViewAction::make(),
+            'delete' => DeleteAction::make(),
         ];
     }
 
+    /**
+     * @return array<string, Tables\Actions\BulkAction>
+     */
     public function getTableBulkActions(): array
     {
         return [
-            DeleteBulkAction::make(),
+            'delete' => DeleteBulkAction::make(),
         ];
     }
 }

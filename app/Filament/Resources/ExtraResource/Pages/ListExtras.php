@@ -54,14 +54,17 @@ class ListExtras extends XotBaseListRecords
     public function getTableActions(): array
     {
         return [
-            EditAction::make(),
+            'edit' => EditAction::make(),
         ];
     }
 
+    /**
+     * @return array<string, Tables\Actions\BulkAction>
+     */
     public function getTableBulkActions(): array
     {
         return [
-            DeleteBulkAction::make(),
+            'delete' => DeleteBulkAction::make(),
         ];
     }
 }
