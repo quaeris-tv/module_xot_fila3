@@ -83,7 +83,16 @@ class GenerateModelsFromSchemaCommand extends Command
 
         $schemaContent = File::get($schemaFilePath);
         try {
+            /** @var array{database: string, tables: array<string, array>, relationships: array} $schema */
             $schema = \Safe\json_decode($schemaContent, true);
+            
+            // Verifica che il JSON decodificato abbia la struttura attesa
+            if (!isset($schema['database']) || !is_string($schema['database']) ||
+                !isset($schema['tables']) || !is_array($schema['tables']) ||
+                !isset($schema['relationships']) || !is_array($schema['relationships'])) {
+                $this->error('Il file schema non contiene la struttura attesa (database, tables, relationships)');
+                return 1;
+            }
         } catch (\Exception $e) {
             $this->error('Errore nella decodifica del file JSON: ' . $e->getMessage());
             return 1;
@@ -110,10 +119,19 @@ class GenerateModelsFromSchemaCommand extends Command
 
         // Elabora ciascuna tabella e genera i modelli
         foreach ($schema['tables'] as $tableName => $tableInfo) {
-            $this->generateModel($tableName, $tableInfo, $schema['relationships'], $namespace, $modelPath);
+            // Assicurati che $tableName sia una stringa
+            $tableNameStr = is_string($tableName) ? $tableName : (string)$tableName;
+            
+            // Assicurati che $tableInfo sia un array
+            if (!is_array($tableInfo)) {
+                $this->warn("Informazioni per la tabella {$tableNameStr} non valide, la salto.");
+                continue;
+            }
+            
+            $this->generateModel($tableNameStr, $tableInfo, $schema['relationships'], $namespace, $modelPath);
 
             if ($migrationPath) {
-                $this->generateMigration($tableName, $tableInfo, $migrationPath);
+                $this->generateMigration($tableNameStr, $tableInfo, $migrationPath);
             }
 
             $progressBar->advance();
@@ -386,8 +404,8 @@ PHP;
         $baseType = \Safe\preg_replace('/\(.*\)/', '', $columnType);
         $length = null;
 
-        if (\Safe\preg_match('/\((\d+)\)/', $columnType, $matches)) {
-            $length = $matches[1];
+        if (is_string($columnType) && \Safe\preg_match('/\((\d+)\)/', $columnType, $matches)) {
+            $length = isset($matches[1]) ? (int)$matches[1] : null;
         }
 
         $methodName = match ($baseType) {
@@ -414,9 +432,9 @@ PHP;
         if ('string' === $methodName && null !== $length) {
             $code .= "->length({$length})";
         } elseif ('decimal' === $methodName) {
-            if (\Safe\preg_match('/\((\d+),\s*(\d+)\)/', $columnType, $matches)) {
-                $precision = (int) $matches[1];
-                $scale = (int) $matches[2];
+            if (is_string($columnType) && \Safe\preg_match('/\((\d+),\s*(\d+)\)/', $columnType, $matches)) {
+                $precision = isset($matches[1]) ? (int)$matches[1] : 0;
+                $scale = isset($matches[2]) ? (int)$matches[2] : 0;
                 $code .= ", {$precision}, {$scale}";
             }
         } elseif ('enum' === $methodName) {
@@ -437,16 +455,19 @@ PHP;
             $default = $column['default'];
             if (is_string($default) && ! is_numeric($default)) {
                 $default = "'{$default}'";
+            } elseif (!is_string($default) && !is_numeric($default)) {
+                $default = "''";
             }
             $code .= "->default({$default})";
         }
 
-        if (! empty($column['extra']) && false !== strpos($column['extra'], 'auto_increment')) {
+        if (isset($column['extra']) && is_string($column['extra']) && false !== strpos((string)$column['extra'], 'auto_increment')) {
             $code .= '->autoIncrement()';
         }
 
-        if (! empty($column['comment'])) {
-            $code .= "->comment('{$column['comment']}')";
+        if (isset($column['comment']) && is_string($column['comment']) && $column['comment'] !== '') {
+            $comment = (string)$column['comment'];
+            $code .= "->comment('{$comment}')";
         }
 
         $code .= ';';

@@ -25,6 +25,11 @@ class GetProductsArrayDummyAction
         Assert::isArray($products['products']);
         // filtering some attributes
         $products = Arr::map($products['products'], function ($item) {
+            // Verifichiamo che $item sia un array prima di usare Arr::only
+            if (!is_array($item)) {
+                return []; // Restituiamo un array vuoto se $item non è un array
+            }
+            
             return Arr::only(
                 $item,
                 [

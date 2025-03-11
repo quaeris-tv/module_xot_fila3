@@ -7,11 +7,20 @@ namespace Modules\Xot\Actions;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Process;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
+/**
+ * Classe per eseguire comandi Artisan in modo sicuro.
+ */
 class ExecuteArtisanCommandAction
 {
     use QueueableAction;
 
+    /**
+     * Lista dei comandi consentiti per motivi di sicurezza.
+     * 
+     * @var array<int, string>
+     */
     private array $allowedCommands = [
         'migrate',
         'filament:upgrade',
@@ -23,12 +32,29 @@ class ExecuteArtisanCommandAction
         'queue:restart',
     ];
 
+    /**
+     * Esegue un comando Artisan e restituisce i risultati.
+     *
+     * @param string $command Il comando Artisan da eseguire (senza "php artisan")
+     * 
+     * @throws \RuntimeException Se il comando non è consentito o si verifica un errore
+     * 
+     * @return array{
+     *     command: string,
+     *     output: array<int, string>,
+     *     status: 'completed'|'failed',
+     *     exitCode: int
+     * } Array con informazioni sull'esecuzione del comando
+     */
     public function execute(string $command): array
     {
+        Assert::stringNotEmpty($command, 'Il comando non può essere vuoto');
+        
         if (! $this->isCommandAllowed($command)) {
             throw new \RuntimeException("Comando non consentito: {$command}");
         }
 
+        /** @var array<int, string> $output */
         $output = [];
         $status = 'running';
 
@@ -60,12 +86,12 @@ class ExecuteArtisanCommandAction
                     }
                 }
 
-                usleep(50000); // 50ms pause to prevent CPU overload
+                usleep(50000); // 50ms di pausa per evitare sovraccarico della CPU
             }
 
             $result = $process->wait();
 
-            // Capture any remaining output
+            // Cattura qualsiasi output residuo
             $finalOutput = trim($result->output());
             if (! empty($finalOutput)) {
                 $output[] = $finalOutput;
@@ -90,16 +116,27 @@ class ExecuteArtisanCommandAction
                 'command' => $command,
                 'output' => $output,
                 'status' => $status,
-                'exitCode' => $result->exitCode(),
+                'exitCode' => $result->exitCode() ?? 0,
             ];
         } catch (\Throwable $e) {
             Event::dispatch('artisan-command.error', [$command, $e->getMessage()]);
-            throw new \RuntimeException("Errore durante l'esecuzione del comando {$command}: {$e->getMessage()}", (int) $e->getCode(), $e);
+            throw new \RuntimeException(
+                "Errore durante l'esecuzione del comando {$command}: {$e->getMessage()}", 
+                (int) $e->getCode(), 
+                $e
+            );
         }
     }
 
+    /**
+     * Verifica se un comando è presente nella lista dei comandi consentiti.
+     *
+     * @param string $command Il comando da verificare
+     * @return bool True se il comando è consentito, false altrimenti
+     */
     private function isCommandAllowed(string $command): bool
     {
+        Assert::stringNotEmpty($command, 'Il comando non può essere vuoto');
         return in_array($command, $this->allowedCommands, true);
     }
 }

@@ -27,7 +27,7 @@ abstract class XotBaseListRecords extends FilamentListRecords
 {
     use HasXotTable;
 
-    
+
     /**
      * Get the table columns.
      *
@@ -82,7 +82,8 @@ abstract class XotBaseListRecords extends FilamentListRecords
             $count = $query->count();
 
             /* @var \Illuminate\Contracts\Pagination\Paginator */
-            return $query->fastPaginate($count);
+            Assert::isInstanceOf($res = $query->fastPaginate($count), Paginator::class);
+            return $res;
         }
 
         if (is_numeric($perPage)) {
@@ -90,10 +91,12 @@ abstract class XotBaseListRecords extends FilamentListRecords
             Assert::greaterThan($perPageInt, 0);
 
             /* @var \Illuminate\Contracts\Pagination\Paginator */
-            return $query->fastPaginate($perPageInt);
+            Assert::isInstanceOf($res = $query->fastPaginate($perPageInt), Paginator::class);
+            return $res;
         }
 
         /* @var \Illuminate\Contracts\Pagination\Paginator */
-        return $query->fastPaginate(10);
+        Assert::isInstanceOf($res = $query->fastPaginate(10), Paginator::class);
+        return $res;
     }
 }

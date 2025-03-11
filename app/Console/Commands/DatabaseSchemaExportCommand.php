@@ -231,6 +231,8 @@ class DatabaseSchemaExportCommand extends Command
 
     /**
      * Genera un report riassuntivo dello schema.
+     * 
+     * @param array{database: string, connection: string, tables: array<string, array>, relationships: array<int, array>, generated_at: string} $schema Schema del database esportato
      */
     protected function generateReport(array $schema): void
     {
@@ -244,11 +246,19 @@ class DatabaseSchemaExportCommand extends Command
         $this->info("Tabelle principali:");
 
         // Mostra le tabelle più rilevanti (con più relazioni o colonne)
+        if (!isset($schema['tables']) || !is_array($schema['tables']) || !isset($schema['relationships']) || !is_array($schema['relationships'])) {
+            $this->error('Schema non valido: mancano tables o relationships');
+            return;
+        }
+
         /** @var \Illuminate\Support\Collection<string, array<string, mixed>> $relevantTables */
         $relevantTables = collect($schema['tables'])
             ->map(function (array $table, string $tableName) use ($schema): array {
-                /** @var \Illuminate\Support\Collection<int, array<string, mixed>> $relationCount */
-                $relationCount = collect($schema['relationships'])
+                /** @var \Illuminate\Support\Collection<int, array<string, mixed>> $relationships */
+                $relationships = collect($schema['relationships']);
+                
+                /** @var int $relationCount */
+                $relationCount = $relationships
                     ->filter(function (array $rel) use ($tableName): bool {
                         return $rel['local_table'] === $tableName || $rel['foreign_table'] === $tableName;
                     })
@@ -256,9 +266,9 @@ class DatabaseSchemaExportCommand extends Command
 
                 return [
                     'name' => $tableName,
-                    'columns' => count($table['columns']),
+                    'columns' => isset($table['columns']) && is_array($table['columns']) ? count($table['columns']) : 0,
                     'relations' => $relationCount,
-                    'model' => $table['model_name'],
+                    'model' => $table['model_name'] ?? '',
                 ];
             })
             ->sortByDesc('relations')

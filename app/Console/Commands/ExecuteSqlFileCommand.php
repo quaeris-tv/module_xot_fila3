@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Console\Commands;
 
+use Webmozart\Assert\Assert;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -34,6 +35,7 @@ class ExecuteSqlFileCommand extends Command
     {
         // Chiedi il percorso del file .sql
         $filePath = $this->ask('Inserisci il percorso del file .sql');
+        Assert::string($filePath);
         if (! file_exists($filePath)) {
             $this->error('Il file specificato non esiste.');
 
