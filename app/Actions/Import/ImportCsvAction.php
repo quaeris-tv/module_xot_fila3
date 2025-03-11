@@ -142,7 +142,10 @@ class ImportCsvAction
         return array_map(function ($column): ColumnData {
             Assert::string($column, 'Column must be a string');
 
-            return new ColumnData($column);
+            return new ColumnData(
+                name: $column,
+                type: 'string' // Tipo predefinito, modificare se necessario
+            );
         }, $columns);
     }
 }

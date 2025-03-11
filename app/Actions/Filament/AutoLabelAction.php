@@ -19,7 +19,7 @@ use Webmozart\Assert\Assert;
 class AutoLabelAction
 {
     use QueueableAction;
-    
+
     /**
      * Get the component name based on its actual type.
      *
@@ -28,25 +28,24 @@ class AutoLabelAction
      */
     private function getComponentName(Field|Component $component): string
     {
-        // For Filament Field components
+        // Per i componenti Field di Filament
         if (method_exists($component, 'getName')) {
             return $component->getName();
         }
-        
-        // For general Filament components that have getStatePath
-        // Component class always has this method according to PHPStan
-        if ($component instanceof \Filament\Forms\Components\Component) {
+
+        // Per i componenti generali di Filament che hanno getStatePath
+        if (method_exists($component, 'getStatePath')) {
             return $component->getStatePath();
         }
-        
-        // Fallback to reflection for other cases
+
+        // Fallback a reflection per altri casi
         $reflectionClass = new \ReflectionClass($component);
         if ($reflectionClass->hasProperty('name') && $reflectionClass->getProperty('name')->isPublic()) {
             $property = $reflectionClass->getProperty('name');
             return (string) $property->getValue($component);
         }
-        
-        // Last resort fallback
+
+        // Ultima risorsa
         return class_basename($component);
     }
 
@@ -62,10 +61,10 @@ class AutoLabelAction
         $backtrace = debug_backtrace();
         Assert::string($class = Arr::get($backtrace, '5.class'));
         $trans_key = app(GetTransKeyAction::class)->execute($class);
-        
+
         // Get component name based on its actual class
         $componentName = $this->getComponentName($component);
-        
+
         $label_key = $trans_key.'.fields.'.$componentName.'.label';
         $label = trans($label_key);
         if (is_string($label)) {

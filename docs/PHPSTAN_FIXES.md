@@ -197,3 +197,106 @@ if (!empty($matches) && isset($matches[1]) && isset($matches[2])) {
 ```
 
 Questo controllo è più appropriato perché verifica che l'array `$matches` contenga effettivamente dei risultati, non solo che sia un array.
+
+### 2. Correzione in Actions/Filament/AutoLabelAction.php
+
+Il problema è che il codice chiamava il metodo `getName()` sui componenti Filament, ma non tutti i componenti hanno questo metodo. La soluzione è stata modificare il metodo `getComponentName()` per utilizzare un approccio più robusto:
+
+```php
+private function getComponentName(Field|Component $component): string
+{
+    // Per i componenti Field di Filament
+    if (method_exists($component, 'getName')) {
+        return $component->getName();
+    }
+    
+    // Per i componenti generali di Filament che hanno getStatePath
+    if (method_exists($component, 'getStatePath')) {
+        return $component->getStatePath();
+    }
+    
+    // Fallback a reflection per altri casi
+    $reflectionClass = new \ReflectionClass($component);
+    if ($reflectionClass->hasProperty('name') && $reflectionClass->getProperty('name')->isPublic()) {
+        $property = $reflectionClass->getProperty('name');
+        return (string) $property->getValue($component);
+    }
+    
+    // Ultima risorsa
+    return class_basename($component);
+}
+```
+
+Questo approccio controlla esplicitamente se i metodi esistono prima di chiamarli, utilizzando vari fallback se il metodo principale non è disponibile.
+
+### 3. Correzione in Actions/File/GetComponentsAction.php
+
+L'errore riguardava l'utilizzo del costruttore di `ReflectionClass` che richiedeva un parametro di tipo `class-string<T of object>`, ma veniva passata una stringa generica. Abbiamo risolto questo problema aggiungendo un controllo che verifica se la classe esiste prima di istanziare la `ReflectionClass` e usando un'annotazione PHPDoc per indicare a PHPStan che la variabile è di tipo `class-string`:
+
+```php
+try {
+    // Assicuriamoci che comp_ns sia una classe valida prima di creare la ReflectionClass
+    if (!class_exists($tmp->comp_ns)) {
+        throw new \Exception("La classe {$tmp->comp_ns} non esiste");
+    }
+    /** @var class-string $classString */
+    $classString = $tmp->comp_ns;
+    $reflection = new \ReflectionClass($classString);
+    if ($reflection->isAbstract()) {
+        continue;
+    }
+} catch (\Exception $e) {
+    // gestione dell'errore
+}
+```
+
+Questo approccio garantisce che venga passato al costruttore di `ReflectionClass` solo un nome di classe valido, evitando l'errore di tipo rilevato da PHPStan.
+
+### 4. Correzione in Actions/Import/ImportCsvAction.php
+
+L'errore riguardava la creazione di un oggetto `ColumnData` con un solo parametro, mentre il costruttore ne richiede due. Abbiamo risolto il problema fornendo entrambi i parametri richiesti:
+
+```php
+// Prima:
+return new ColumnData($column);
+
+// Dopo:
+return new ColumnData(
+    name: $column,
+    type: 'string' // Tipo predefinito, modificare se necessario
+);
+```
+
+Abbiamo aggiunto il parametro `type` con un valore predefinito 'string', che soddisfa il requisito del costruttore di `ColumnData`.
+
+### 5. Correzione in Actions/Model/GetSchemaManagerByModelClassAction.php
+
+L'errore riguardava la chiamata al metodo `getDoctrineSchemaManager()` che è stato deprecato nelle versioni recenti di Laravel. Abbiamo aggiornato il codice per utilizzare l'approccio più recente:
+
+```php
+// Prima:
+return $connection->getDoctrineSchemaManager();
+
+// Dopo:
+return $connection->getDoctrineConnection()->createSchemaManager();
+```
+
+Questo approccio utilizza prima `getDoctrineConnection()` e poi chiama `createSchemaManager()` sul risultato, che è il modo attualmente supportato per ottenere lo schema manager di Doctrine.
+
+### 6. Correzione in Actions/Model/StoreAction.php
+
+L'errore riguardava l'accesso a una proprietà `relationship_type` che non esiste nella classe `Relation`. Abbiamo modificato il codice per determinare il tipo di relazione in base al nome della classe:
+
+```php
+// Prima:
+$action_class = __NAMESPACE__.'\\Store\\'.$relation->relationship_type.'Action';
+
+// Dopo:
+// Ottieni il tipo di relazione dal nome della classe
+$relationClass = get_class($relation);
+$relationshipType = class_basename($relationClass);
+
+$action_class = __NAMESPACE__.'\\Store\\'.$relationshipType.'Action';
+```
+
+Questo approccio utilizza `get_class()` e `class_basename()` per ottenere il nome della classe della relazione e lo utilizza come tipo di relazione, evitando di accedere a una proprietà non esistente.

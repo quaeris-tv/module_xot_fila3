@@ -18,6 +18,6 @@ class GetSchemaManagerByModelClassAction
         Assert::isInstanceOf($model = app($modelClass), EloquentModel::class);
         $connection = $model->getConnection();
 
-        return $connection->getDoctrineSchemaManager();
+        return $connection->getDoctrineConnection()->createSchemaManager();
     }
 }
