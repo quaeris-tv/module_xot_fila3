@@ -300,3 +300,20 @@ $action_class = __NAMESPACE__.'\\Store\\'.$relationshipType.'Action';
 ```
 
 Questo approccio utilizza `get_class()` e `class_basename()` per ottenere il nome della classe della relazione e lo utilizza come tipo di relazione, evitando di accedere a una proprietà non esistente.
+
+### 7. Correzione in Actions/Model/Update/BelongsToAction.php
+
+L'errore riguardava l'accesso diretto all'offset 0 di un array associativo, che non garantisce la presenza di tale indice. Abbiamo modificato il codice per utilizzare `Arr::first()` che gestisce in modo sicuro l'accesso al primo elemento dell'array:
+
+```php
+// Prima:
+$related_id = $relationDTO->data[0];
+
+// Dopo:
+$related_id = Arr::first($relationDTO->data);
+if (null === $related_id) {
+    return; // Non ci sono dati da elaborare
+}
+```
+
+Questo approccio è più sicuro perché `Arr::first()` restituisce `null` se l'array è vuoto o se l'indice 0 non esiste, evitando così l'errore di accesso a un offset non esistente.

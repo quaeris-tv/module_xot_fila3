@@ -92,9 +92,11 @@ class GetComponentsAction
                 if (!class_exists($tmp->comp_ns)) {
                     throw new \Exception("La classe {$tmp->comp_ns} non esiste");
                 }
-                /** @var class-string $classString */
-                $classString = $tmp->comp_ns;
-                $reflection = new \ReflectionClass($classString);
+                
+                // La classe esiste, quindi possiamo convertirla in modo sicuro a class-string
+                /** @var class-string<object> $className */
+                $className = (string)$tmp->comp_ns;
+                $reflection = new \ReflectionClass($className);
                 if ($reflection->isAbstract()) {
                     continue;
                 }
