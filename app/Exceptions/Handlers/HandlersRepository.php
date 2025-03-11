@@ -86,6 +86,7 @@ class HandlersRepository
         if ($handler instanceof \Closure) {
             $reflection = new \ReflectionFunction($handler);
         } else {
+            /** @var callable $handler */
             $reflection = new \ReflectionFunction(\Closure::fromCallable($handler));
         }
 
@@ -93,6 +94,15 @@ class HandlersRepository
             return false;
         }
 
-        return $params[0]->getClass() instanceof \ReflectionClass ? $params[0]->getClass()->isInstance($e) : true;
+        if (!isset($params[0]) || !$params[0]->hasType()) {
+            return true;
+        }
+
+        $type = $params[0]->getType();
+        if (!$type instanceof \ReflectionNamedType || $type->isBuiltin()) {
+            return true;
+        }
+
+        return is_a($e, $type->getName(), true);
     }
 }

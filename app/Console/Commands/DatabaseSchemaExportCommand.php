@@ -42,26 +42,32 @@ class DatabaseSchemaExportCommand extends Command
         $outputPath = $this->option('output');
 
         // Assicurati che il percorso sia assoluto
-        if (!Str::startsWith($outputPath, '/')) {
+        if ($outputPath !== null && !Str::startsWith($outputPath, '/')) {
             $outputPath = base_path($outputPath);
         }
 
-        $this->info("Estrazione schema dal database usando la connessione: {$connection}");
+        // Assicurati che connection sia una stringa
+        $connectionStr = is_string($connection) ? $connection : (string)$connection;
+        
+        $this->info("Estrazione schema dal database usando la connessione: {$connectionStr}");
 
         try {
             // Imposta la connessione database
-            DB::setDefaultConnection($connection);
+            DB::setDefaultConnection($connectionStr);
             $databaseName = DB::connection()->getDatabaseName();
 
-            $this->info("Connesso al database: {$databaseName}");
+            // Assicurati che databaseName sia una stringa
+            $databaseNameStr = is_string($databaseName) ? $databaseName : (string)$databaseName;
+            
+            $this->info("Connesso al database: {$databaseNameStr}");
 
             // Ottieni tutte le tabelle
             $tables = DB::select('SHOW TABLES');
-            $tablesKey = 'Tables_in_' . $databaseName;
+            $tablesKey = 'Tables_in_' . $databaseNameStr;
 
             $schema = [
-                'database' => $databaseName,
-                'connection' => $connection,
+                'database' => $databaseNameStr,
+                'connection' => $connectionStr,
                 'tables' => [],
                 'relationships' => [],
                 'generated_at' => now()->toIso8601String(),
@@ -83,7 +89,12 @@ class DatabaseSchemaExportCommand extends Command
                 $createTableSql = $createTable[0]->{'Create Table'};
 
                 // Estrai foreign keys
-                preg_match_all('/CONSTRAINT\s+`([^`]+)`\s+FOREIGN\s+KEY\s+\(`([^`]+)`\)\s+REFERENCES\s+`([^`]+)`\s+\(`([^`]+)`\)/i', $createTableSql, $foreignKeys, PREG_SET_ORDER);
+                try {
+                    $result = \Safe\preg_match_all('/CONSTRAINT\s+`([^`]+)`\s+FOREIGN\s+KEY\s+\(`([^`]+)`\)\s+REFERENCES\s+`([^`]+)`\s+\(`([^`]+)`\)/i', $createTableSql, $foreignKeys, PREG_SET_ORDER);
+                } catch (\Exception $e) {
+                    $this->error("Errore nell'analisi delle foreign keys per la tabella {$tableName}: " . $e->getMessage());
+                    $foreignKeys = [];
+                }
 
                 $tableSchema = [
                     'name' => $tableName,
@@ -164,19 +175,22 @@ class DatabaseSchemaExportCommand extends Command
             $this->newLine(2);
 
             // Crea directory se non esiste
-            $directory = dirname($outputPath);
-            if (!File::exists($directory)) {
-                File::makeDirectory($directory, 0755, true);
-            }
+            if ($outputPath !== null) {
+                $directory = dirname($outputPath);
+                if (!File::exists($directory)) {
+                    File::makeDirectory($directory, 0755, true);
+                }
 
-            // Salva lo schema in un file JSON
-            $jsonContent = json_encode($schema, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-            if ($jsonContent === false) {
-                throw new \RuntimeException('Failed to encode schema to JSON');
+                // Salva lo schema in un file JSON
+                try {
+                    $jsonContent = \Safe\json_encode($schema, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                    File::put($outputPath, $jsonContent);
+                    $this->info("Schema del database esportato con successo in: {$outputPath}");
+                } catch (\Exception $e) {
+                    $this->error("Errore nell'encoding JSON dello schema: " . $e->getMessage());
+                    return Command::FAILURE;
+                }
             }
-            File::put($outputPath, $jsonContent);
-
-            $this->info("Schema del database esportato con successo in: {$outputPath}");
 
             // Genera un report riassuntivo
             $this->generateReport($schema);
@@ -230,8 +244,10 @@ class DatabaseSchemaExportCommand extends Command
         $this->info("Tabelle principali:");
 
         // Mostra le tabelle più rilevanti (con più relazioni o colonne)
+        /** @var \Illuminate\Support\Collection<string, array<string, mixed>> $relevantTables */
         $relevantTables = collect($schema['tables'])
             ->map(function (array $table, string $tableName) use ($schema): array {
+                /** @var \Illuminate\Support\Collection<int, array<string, mixed>> $relationCount */
                 $relationCount = collect($schema['relationships'])
                     ->filter(function (array $rel) use ($tableName): bool {
                         return $rel['local_table'] === $tableName || $rel['foreign_table'] === $tableName;

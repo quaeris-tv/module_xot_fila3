@@ -24,6 +24,12 @@ class ArtisanCommandsManager extends XotBasePage
 
     public bool $isRunning = false;
 
+    /**
+     * Livewire event listeners for this component.
+     * 
+     * @var array<string, string>
+     * @phpstan-var array<string, string>
+     */
     protected $listeners = [
         'refresh-component' => '$refresh',
         'artisan-command.started' => 'handleCommandStarted',

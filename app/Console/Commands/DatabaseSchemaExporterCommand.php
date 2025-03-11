@@ -84,9 +84,14 @@ class DatabaseSchemaExporterCommand extends Command
 
         // Salva i dati in un file JSON
         $filename = "{$outputDir}/{$databaseName}_schema.json";
-        File::put($filename, json_encode($databaseSchema, JSON_PRETTY_PRINT));
-
-        $this->info("Schema del database esportato con successo in: {$filename}");
+        try {
+            $jsonContent = \Safe\json_encode($databaseSchema, JSON_PRETTY_PRINT);
+            File::put($filename, $jsonContent);
+            $this->info("Schema del database esportato con successo in: {$filename}");
+        } catch (\Exception $e) {
+            $this->error("Errore nell'encoding JSON dello schema: " . $e->getMessage());
+            return Command::FAILURE;
+        }
 
         return 0;
     }

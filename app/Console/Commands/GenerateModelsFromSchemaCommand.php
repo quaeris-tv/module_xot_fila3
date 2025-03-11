@@ -82,11 +82,10 @@ class GenerateModelsFromSchemaCommand extends Command
         }
 
         $schemaContent = File::get($schemaFilePath);
-        $schema = json_decode($schemaContent, true);
-
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            $this->error('Errore nella decodifica del file JSON: '.json_last_error_msg());
-
+        try {
+            $schema = \Safe\json_decode($schemaContent, true);
+        } catch (\Exception $e) {
+            $this->error('Errore nella decodifica del file JSON: ' . $e->getMessage());
             return 1;
         }
 
@@ -142,7 +141,9 @@ class GenerateModelsFromSchemaCommand extends Command
 
         $fillableColumns = array_keys($tableInfo['columns']);
         $fillableColumns = array_filter($fillableColumns, function ($column) use ($primaryKey) {
-            return $column !== $primaryKey && ! Str::endsWith($column, ['_at', 'created_at', 'updated_at', 'deleted_at']);
+            // Assicuriamoci che $column sia una stringa
+            $columnStr = (string)$column;
+            return $columnStr !== $primaryKey && ! Str::endsWith($columnStr, ['_at', 'created_at', 'updated_at', 'deleted_at']);
         });
 
         $casts = [];
@@ -185,7 +186,7 @@ class GenerateModelsFromSchemaCommand extends Command
             $tableInfo['foreign_keys']
         );
 
-        $timestamp = date('Y_m_d_His');
+        $timestamp = \Safe\date('Y_m_d_His');
         $migrationFilePath = $migrationPath.'/'.$timestamp.'_create_'.$tableName.'_table.php';
 
         File::put($migrationFilePath, $migrationContent);
@@ -365,7 +366,7 @@ PHP;
      */
     protected function getCastType(string $sqlType): string
     {
-        $baseType = strtolower(preg_replace('/\(.*\)/', '', $sqlType));
+        $baseType = strtolower(\Safe\preg_replace('/\(.*\)/', '', $sqlType));
 
         foreach ($this->typeMappings as $sqlPattern => $laravelType) {
             if (0 === strpos($baseType, $sqlPattern)) {
@@ -381,12 +382,12 @@ PHP;
      */
     protected function generateColumnCode(string $columnName, array $column): string
     {
-        $columnType = strtolower($column['type']);
-        $baseType = preg_replace('/\(.*\)/', '', $columnType);
+        $columnType = $column['type'];
+        $baseType = \Safe\preg_replace('/\(.*\)/', '', $columnType);
         $length = null;
 
-        if (preg_match('/\((\d+)\)/', $columnType, $matches)) {
-            $length = (int) $matches[1];
+        if (\Safe\preg_match('/\((\d+)\)/', $columnType, $matches)) {
+            $length = $matches[1];
         }
 
         $methodName = match ($baseType) {
@@ -411,15 +412,15 @@ PHP;
         $code = "\$table->{$methodName}('{$columnName}'";
 
         if ('string' === $methodName && null !== $length) {
-            $code .= ", {$length}";
+            $code .= "->length({$length})";
         } elseif ('decimal' === $methodName) {
-            if (preg_match('/\((\d+),\s*(\d+)\)/', $columnType, $matches)) {
+            if (\Safe\preg_match('/\((\d+),\s*(\d+)\)/', $columnType, $matches)) {
                 $precision = (int) $matches[1];
                 $scale = (int) $matches[2];
                 $code .= ", {$precision}, {$scale}";
             }
         } elseif ('enum' === $methodName) {
-            if (preg_match('/enum\(\'(.*)\'\)/', $columnType, $matches)) {
+            if (\Safe\preg_match('/enum\(\'(.*)\'\)/', $columnType, $matches)) {
                 $options = explode("','", $matches[1]);
                 $optionsStr = implode("', '", $options);
                 $code .= ", ['{$optionsStr}']";
@@ -432,7 +433,7 @@ PHP;
             $code .= '->nullable()';
         }
 
-        if (isset($column['default']) && null !== $column['default']) {
+        if (isset($column['default']) && $column['default'] !== '') {
             $default = $column['default'];
             if (is_string($default) && ! is_numeric($default)) {
                 $default = "'{$default}'";

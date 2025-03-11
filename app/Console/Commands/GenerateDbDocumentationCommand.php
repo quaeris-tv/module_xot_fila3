@@ -37,10 +37,10 @@ class GenerateDbDocumentationCommand extends Command
         }
 
         $schemaContent = File::get($schemaFilePath);
-        $schema = json_decode($schemaContent, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            $this->error("Errore nella decodifica del file JSON: " . json_last_error_msg());
+        try {
+            $schema = \Safe\json_decode($schemaContent, true);
+        } catch (\Exception $e) {
+            $this->error("Errore nella decodifica del file JSON: " . $e->getMessage());
             return 1;
         }
 
@@ -236,7 +236,11 @@ MARKDOWN;
         if (!empty($tableInfo['sample_data'])) {
             $content .= "\n## Dati di Esempio\n\n";
             $content .= "```json\n";
-            $content .= json_encode($tableInfo['sample_data'], JSON_PRETTY_PRINT);
+            try {
+                $content .= \Safe\json_encode($tableInfo['sample_data'], JSON_PRETTY_PRINT);
+            } catch (\Exception $e) {
+                $content .= "Errore nella formattazione dei dati di esempio: " . $e->getMessage();
+            }
             $content .= "\n```\n";
         }
 

@@ -20,10 +20,15 @@ abstract class XotBaseWidget extends FilamentWidget
     public string $title = '';
     public string $icon = '';
     /**
+     * The view that should be rendered for the widget.
+     *
+     * This property allows either a string that can be rendered as a view
+     * (prefixed with a namespace like 'module-name::view-name') or a path to a
+     * Blade view file.
+     *
      * @var view-string
-     * @phpstan-var view-string
      */
-    protected static string $view; // = 'ui::empty';
+    protected static string $view;
 
 
     public function __construct()

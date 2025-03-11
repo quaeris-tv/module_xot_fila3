@@ -33,7 +33,10 @@ class AutoLabelAction
             return $component->getName();
         }
 
-        // Per i componenti generali di Filament che hanno getStatePath
+        // Per i componenti generali di Filament
+        // PHPStan rileva che questo controllo è sempre vero per Component
+        // ma lo manteniamo per chiarezza e per gestire eventuali cambiamenti futuri in Filament
+        // @phpstan-ignore function.alreadyNarrowedType
         if (method_exists($component, 'getStatePath')) {
             return $component->getStatePath();
         }
@@ -59,7 +62,16 @@ class AutoLabelAction
     public function execute(Field|Component  $component): Field|Component
     {
         $backtrace = debug_backtrace();
-        Assert::string($class = Arr::get($backtrace, '5.class'));
+
+        // Otteniamo il valore dalla backtrace, assicurandoci che sia una stringa
+        $class = Arr::get($backtrace, '5.class');
+
+        // PHPStan livello 9 non consente il cast diretto di mixed a string
+        if (!is_string($class)) {
+            $class = '';  // Valore di fallback se non è una stringa
+        }
+
+        Assert::string($class, 'Class deve essere una stringa');
         $trans_key = app(GetTransKeyAction::class)->execute($class);
 
         // Get component name based on its actual class

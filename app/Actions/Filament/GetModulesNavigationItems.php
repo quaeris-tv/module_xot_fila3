@@ -40,7 +40,9 @@ class GetModulesNavigationItems
             try {
                 $configPath = module_path($module, $relativeConfigPath);
             } catch (\Error $e) {
-                $configPath = base_path('Modules/'.$module.'/'.$relativeConfigPath);
+                // Assicuriamoci che $relativeConfigPath sia una stringa
+                $relConfigPathStr = is_string($relativeConfigPath) ? $relativeConfigPath : '';
+                $configPath = base_path('Modules/'.$module.'/'.$relConfigPathStr);
             }
             /**
              * @var array

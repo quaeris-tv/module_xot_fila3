@@ -133,18 +133,22 @@ class ImportCsvAction
     }
 
     /**
-     * @param array<mixed> $columns
+     * Transform columns into ColumnData objects.
      *
-     * @return array<ColumnData>
+     * @param string[] $columns
+     *
+     * @return ColumnData[]
+     * @deprecated This method is currently unused but kept for future expansion.
+     * @phpstan-ignore method.unused
      */
-    public function execute1(array $columns): array
+    private function transformColumnsToColumnData(array $columns): array
     {
         return array_map(function ($column): ColumnData {
             Assert::string($column, 'Column must be a string');
 
             return new ColumnData(
                 name: $column,
-                type: 'string' // Tipo predefinito, modificare se necessario
+                type: 'string' // Default type, modify if necessary
             );
         }, $columns);
     }
