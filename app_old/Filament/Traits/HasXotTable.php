@@ -50,7 +50,7 @@ trait HasXotTable
      *
      * @return array<string, Action|ActionGroup>
      */
-    protected function getTableHeaderActions(): array
+    public function getTableHeaderActions(): array
     {
         $actions = [];
 
@@ -58,14 +58,14 @@ trait HasXotTable
 
         if ($this->shouldShowAssociateAction()) {
             $actions['associate'] = Tables\Actions\AssociateAction::make()
-                ->label('')
+                
                 ->icon('heroicon-o-paper-clip')
                 ->tooltip(__('user::actions.associate_user'));
         }
 
         if ($this->shouldShowAttachAction()) {
             $actions['attach'] = Tables\Actions\AttachAction::make()
-                ->label('')
+                
                 ->icon('heroicon-o-link')
                 ->tooltip(__('user::actions.attach_user'))
                 ->preloadRecordSelect();
@@ -164,97 +164,20 @@ trait HasXotTable
      */
     public function getTableHeading(): ?string
     {
-        $key = static::getKeyTrans('table.heading');
-        /** @var string|array<int|string,mixed>|null $trans */
-        $trans = trans($key);
-
-        return (is_string($trans) && $trans !== $key) ? $trans : null;
-    }
-
-    /**
-     * Get table empty state actions.
-     *
-     * @return array<string, Action>
-     */
-    public function getTableEmptyStateActions(): array
-    {
-        return [];
-    }
-
-    /**
-     * Configure the table.
-     */
-    public function table(Table $table): Table
-    {
-        $modelClass = $this->getModelClass();
-        if (! app(TableExistsByModelClassActions::class)->execute($modelClass)) {
-            $this->notifyTableMissing();
-
-            return $this->configureEmptyTable($table);
-        }
-
-        /** @var Model $model */
-        $model = app($modelClass);
-        Assert::isInstanceOf($model, Model::class);
-
-        $table = $table
-            ->recordTitleAttribute($this->getTableRecordTitleAttribute())
-            ->heading($this->getTableHeading())
-            ->columns($this->layoutView->getTableColumns())
-            ->contentGrid($this->layoutView->getTableContentGrid())
-            ->headerActions($this->getTableHeaderActions())
-            ->filters($this->getTableFilters())
-            ->filtersLayout(FiltersLayout::AboveContent)
-            ->filtersFormColumns($this->getTableFiltersFormColumns())
-            ->persistFiltersInSession()
-            ->actions($this->getTableActions())
-            ->bulkActions($this->getTableBulkActions())
-            ->actionsPosition(ActionsPosition::BeforeColumns)
-            ->emptyStateActions($this->getTableEmptyStateActions())
-            ->striped();
-
-        /*
-            ->defaultSort(
-                column: $this->getDefaultTableSortColumn(),
-                direction: $this->getDefaultTableSortDirection(),
-            );
-        */
-        return $table;
-    }
-
-    /**
-     * Get default table sort column.
-     */
-    protected function getDefaultTableSortColumn(): ?string
-    {
-        try {
-            $modelClass = $this->getModelClass();
-            /** @var Model $model */
-            $model = app($modelClass);
-            Assert::isInstanceOf($model, Model::class);
-
-            return $model->getTable().'.id';
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
-
-    /**
-     * Get default table sort direction.
-     */
-    protected function getDefaultTableSortDirection(): ?string
-    {
-        return 'desc';
+        return null;
     }
 
     /**
      * Get table filters.
      *
-     * @return array<string, Tables\Filters\Filter|TernaryFilter|BaseFilter>
+     * @return array<BaseFilter>
      */
-    protected function getTableFilters(): array
+    public function getTableFilters(): array
     {
-        return [];
+        return [
+            TernaryFilter::make('is_active')
+                ->label(__('user::fields.is_active.label')),
+        ];
     }
 
     /**
@@ -262,7 +185,7 @@ trait HasXotTable
      *
      * @return array<string, Action|ActionGroup>
      */
-    protected function getTableActions(): array
+    public function getTableActions(): array
     {
         $actions = [];
 
@@ -280,7 +203,7 @@ trait HasXotTable
 
         if ($this->shouldShowReplicateAction()) {
             $actions['replicate'] = Tables\Actions\ReplicateAction::make()
-                ->label('')
+                
                 ->tooltip(__('user::actions.replicate'))
                 ->iconButton();
         }
@@ -293,7 +216,7 @@ trait HasXotTable
 
         if ($this->shouldShowDetachAction()) {
             $actions['detach'] = Tables\Actions\DetachAction::make()
-                ->label('')
+                
                 ->tooltip(__('user::actions.detach'))
                 ->icon('heroicon-o-link-slash')
                 ->color('danger')
@@ -308,11 +231,11 @@ trait HasXotTable
      *
      * @return array<string, BulkAction>
      */
-    protected function getTableBulkActions(): array
+    public function getTableBulkActions(): array
     {
         return [
             'delete' => DeleteBulkAction::make()
-                ->label('')
+                
                 ->tooltip(__('user::actions.delete_selected'))
                 ->icon('heroicon-o-trash')
                 ->color('danger')

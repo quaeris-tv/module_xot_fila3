@@ -403,7 +403,7 @@ if (! function_exists('params2ContainerItem')) {
             $pattern = '/(container|item)(\d+)/';
             preg_match($pattern, $k, $matches);
 
-            if (is_array($matches) && isset($matches[1]) && isset($matches[2])) {
+            if (!empty($matches) && isset($matches[1]) && isset($matches[2])) {
                 $sk = $matches[1];
                 $sv = $matches[2];
                 // @phpstan-ignore offsetAccess.nonOffsetAccessible

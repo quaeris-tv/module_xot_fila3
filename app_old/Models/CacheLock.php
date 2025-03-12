@@ -10,7 +10,6 @@ namespace Modules\Xot\Models;
  * @property string $key
  * @property string $owner
  * @property int    $expiration
- *
  * @method static \Modules\Xot\Database\Factories\CacheLockFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  newQuery()
@@ -18,9 +17,7 @@ namespace Modules\Xot\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereExpiration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereOwner($value)
- *
  * @property int $expiration
- *
  * @method static \Modules\Xot\Database\Factories\CacheLockFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  newQuery()
@@ -28,10 +25,8 @@ namespace Modules\Xot\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereExpiration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CacheLock  whereOwner($value)
- *
  * @property \Modules\Xot\Contracts\ProfileContract|null $creator
  * @property \Modules\Xot\Contracts\ProfileContract|null $updater
- *
  * @mixin \Eloquent
  */
 class CacheLock extends BaseModel

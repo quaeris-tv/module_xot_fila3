@@ -6,6 +6,7 @@ namespace Modules\Xot\Filament\Pages;
 
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
 use Filament\Support\Enums\IconPosition;
 use Livewire\Attributes\On;
 use Modules\Xot\Actions\ExecuteArtisanCommandAction;
@@ -16,10 +17,19 @@ use Modules\Xot\Actions\ExecuteArtisanCommandAction;
 class ArtisanCommandsManager extends XotBasePage
 {
     public array $output = [];
+
     public string $currentCommand = '';
+
     public string $status = '';
+
     public bool $isRunning = false;
 
+    /**
+     * Livewire event listeners for this component.
+     * 
+     * @var array<string, string>
+     * @phpstan-var array<string, string>
+     */
     protected $listeners = [
         'refresh-component' => '$refresh',
         'artisan-command.started' => 'handleCommandStarted',
@@ -135,6 +145,7 @@ class ArtisanCommandsManager extends XotBasePage
     public function handleCommandOutput(string $command, string $output): void
     {
         $this->output[] = $output;
+        $this->dispatch('terminal-update');
     }
 
     #[On('artisan-command.completed')]

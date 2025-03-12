@@ -10,10 +10,9 @@ use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Support\Str;
 use Modules\Xot\Actions\ModelClass\CountAction;
 use Modules\Xot\Filament\Traits\NavigationLabelTrait;
+use Webmozart\Assert\Assert;
 
 use function Safe\glob;
-
-use Webmozart\Assert\Assert;
 
 abstract class XotBaseResource extends FilamentResource
 {
@@ -60,6 +59,7 @@ abstract class XotBaseResource extends FilamentResource
 
     /**
      * per rendere obbligatorio questo metodo.
+     * @return array<string,\Filament\Forms\Components\Component>
      */
     abstract public static function getFormSchema(): array;
 
@@ -86,9 +86,6 @@ abstract class XotBaseResource extends FilamentResource
 
     public static function getNavigationBadge(): ?string
     {
-        $sort = static::getNavigationSort();
-
-        return number_format($sort, 0).'';
         try {
             $count = app(CountAction::class)->execute(static::getModel());
 
@@ -102,11 +99,22 @@ abstract class XotBaseResource extends FilamentResource
     {
         $prefix = static::class.'\Pages\\';
         $name = Str::of(class_basename(static::class))->before('Resource')->toString();
-        $index = Str::of($prefix)->append('List'.$name.'s')->toString();
+        $plural = Str::of($name)->plural()->toString();
+        $index = Str::of($prefix)->append('List'.$plural)->toString();
         $create = Str::of($prefix)->append('Create'.$name.'')->toString();
         $edit = Str::of($prefix)->append('Edit'.$name.'')->toString();
         $view = Str::of($prefix)->append('View'.$name.'')->toString();
 
+        /** @var class-string<\Filament\Resources\Pages\Page> $index */
+        $index = $index;
+        /** @var class-string<\Filament\Resources\Pages\Page> $create */
+        $create = $create;
+        /** @var class-string<\Filament\Resources\Pages\Page> $edit */
+        $edit = $edit;
+        /** @var class-string<\Filament\Resources\Pages\Page> $view */
+        $view = $view;
+        
+        /** @var array<string, \Filament\Resources\Pages\PageRegistration> $pages */
         $pages = [
             'index' => $index::route('/'),
             'create' => $create::route('/create'),
@@ -121,10 +129,14 @@ abstract class XotBaseResource extends FilamentResource
         return $pages;
     }
 
+    /**
+     * @return array<class-string<\Filament\Resources\RelationManagers\RelationManager>|\Filament\Resources\RelationManagers\RelationGroup|\Filament\Resources\RelationManagers\RelationManagerConfiguration>
+     */
     public static function getRelations(): array
     {
         $reflector = new \ReflectionClass(static::class);
         $filename = $reflector->getFileName();
+        Assert::string($filename, 'Filename must be a string');
         $path = Str::of($filename)
             ->before('.php')
             ->append(DIRECTORY_SEPARATOR)
@@ -132,10 +144,25 @@ abstract class XotBaseResource extends FilamentResource
             ->toString();
 
         $files = glob($path.DIRECTORY_SEPARATOR.'*RelationManager.php');
+        /** @var array<class-string<\Filament\Resources\RelationManagers\RelationManager>|\Filament\Resources\RelationManagers\RelationGroup|\Filament\Resources\RelationManagers\RelationManagerConfiguration> $res */
         $res = [];
         foreach ($files as $file) {
+            // Ensure $file is a string before passing to pathinfo
+            if (!is_string($file)) {
+                continue;
+            }
+            
             $info = pathinfo($file);
-            $res[] = static::class.'\RelationManagers\\'.$info['filename'];
+            if (!isset($info['filename']) || !is_string($info['filename'])) {
+                continue;
+            }
+            
+            $className = static::class.'\RelationManagers\\'.$info['filename'];
+            // Verifica che la classe esista ed estenda RelationManager
+            if (class_exists($className) && is_subclass_of($className, \Filament\Resources\RelationManagers\RelationManager::class)) {
+                /** @var class-string<\Filament\Resources\RelationManagers\RelationManager> $className */
+                $res[] = $className;
+            }
         }
 
         return $res;

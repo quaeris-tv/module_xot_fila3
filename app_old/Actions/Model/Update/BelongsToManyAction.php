@@ -61,7 +61,7 @@ class BelongsToManyAction
         if (! empty($ids)) {
             try {
                 // Assicura che $ids sia un array di valori scalari
-                $ids = is_iterable($ids) ? iterator_to_array($ids) : (array) $ids;
+                // $ids è già un array non vuoto a questo punto, quindi non serve verificare se è iterabile
                 Assert::allScalar($ids, 'The "ids" array must contain only scalar values.');
 
                 $rows->syncWithoutDetaching($ids);

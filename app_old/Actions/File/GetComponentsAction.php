@@ -88,7 +88,15 @@ class GetComponentsAction
                 $tmp->class_name = $relative_path.'\\'.$tmp->class_name;
             }
             try {
-                $reflection = new \ReflectionClass($tmp->comp_ns);
+                // Assicuriamoci che comp_ns sia una classe valida prima di creare la ReflectionClass
+                if (!class_exists($tmp->comp_ns)) {
+                    throw new \Exception("La classe {$tmp->comp_ns} non esiste");
+                }
+                
+                // La classe esiste, quindi possiamo convertirla in modo sicuro a class-string
+                /** @var class-string<object> $className */
+                $className = (string)$tmp->comp_ns;
+                $reflection = new \ReflectionClass($className);
                 if ($reflection->isAbstract()) {
                     continue;
                 }
