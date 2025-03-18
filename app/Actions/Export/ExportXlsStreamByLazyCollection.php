@@ -104,6 +104,7 @@ class ExportXlsStreamByLazyCollection
         }
         
         $headArray = is_array($first) ? $first : $first->toArray();
+        /** @var \Illuminate\Support\Collection<int, string> $headings */
         $headings = collect($headArray)->keys();
         
         if (null !== $transKey) {

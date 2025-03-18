@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -56,7 +56,10 @@ class DatabaseSchemaExporterCommand extends Command
         $tables = DB::connection($connection)
             ->select('SHOW TABLES');
         
-        $databaseName = config("database.connections.{$connection}.database");
+        // Otteniamo il nome del database dalla configurazione
+        $databaseConfig = config("database.connections.{$connection}.database");
+        // Convertiamo esplicitamente in stringa, gestendo il caso in cui il valore potrebbe essere null
+        $databaseName = is_string($databaseConfig) ? $databaseConfig : '';
         
         // Il risultato contiene un array di oggetti con una proprietà del tipo Tables_in_{database}
         $tableKey = "Tables_in_{$databaseName}";

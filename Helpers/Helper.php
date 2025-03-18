@@ -403,7 +403,7 @@ if (! function_exists('params2ContainerItem')) {
             $pattern = '/(container|item)(\d+)/';
             preg_match($pattern, $k, $matches);
 
-            if (!empty($matches) && isset($matches[1]) && isset($matches[2])) {
+            if (!empty($matches) && isset($matches[1]) && isset($matches[2]) && is_string($matches[1]) && is_string($matches[2])) {
                 $sk = $matches[1];
                 $sv = $matches[2];
                 // @phpstan-ignore offsetAccess.nonOffsetAccessible
@@ -953,14 +953,20 @@ if (! function_exists('debugStack')) {
             throw new RuntimeException('XDebug must be installed to use this function');
         }
 
-        xdebug_set_filter(
-            XDEBUG_FILTER_TRACING,
-            XDEBUG_PATH_EXCLUDE,
-            // [LARAVEL_DIR.'/vendor/']
-            [__DIR__.'/../../vendor/']
-        );
+        if (function_exists('xdebug_set_filter') && defined('XDEBUG_FILTER_TRACING') && defined('XDEBUG_PATH_EXCLUDE')) {
+            xdebug_set_filter(
+                XDEBUG_FILTER_TRACING,
+                XDEBUG_PATH_EXCLUDE,
+                // [LARAVEL_DIR.'/vendor/']
+                [__DIR__.'/../../vendor/']
+            );
+        }
 
-        xdebug_print_function_stack();
+        if (function_exists('xdebug_print_function_stack')) {
+            xdebug_print_function_stack();
+        } else {
+            debug_print_backtrace();
+        }
     }
 }
 
@@ -1113,7 +1119,7 @@ if (! function_exists('authId')) {
     function authId(): ?string
     {
         try {
-            $id = Filament::auth()->id() ?? auth()->id();
+            $id = Filament::auth() && method_exists(Filament::auth(), 'id') ? Filament::auth()->id() : (auth()->check() ? auth()->id() : null);
         } catch (Exception $e) {
             return null;
         } catch (Error $e) {
