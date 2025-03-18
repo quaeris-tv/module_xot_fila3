@@ -96,7 +96,7 @@ class ResourceFormSchemaGenerator
                     }
                 }
             } catch (\Exception $e) {
-                $results['skipped'][] = $file.': '.$e->getMessage();
+                $results['skipped'][] = (string)$file.': '.$e->getMessage();
             }
         }
 

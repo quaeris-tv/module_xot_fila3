@@ -75,7 +75,8 @@ class XlsByModelClassAction
         // Nascondiamo i campi esclusi
         if ([] !== $excludes) {
             $rows = $rows->map(function ($item) use ($excludes) {
-                if (method_exists($item, 'makeHidden')) {
+                if (is_object($item) && method_exists($item, 'makeHidden')) {
+                    /** @var Model $item */
                     return $item->makeHidden($excludes);
                 }
                 return $item;

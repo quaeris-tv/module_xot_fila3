@@ -12,6 +12,7 @@ namespace Modules\Xot\Filament\Actions\Header;
 // use Filament\Tables\Actions\Action;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Xot\Actions\Export\ExportXlsByLazyCollection;
 use Modules\Xot\Actions\Export\ExportXlsByQuery;
 use Modules\Xot\Actions\Export\ExportXlsStreamByLazyCollection;
@@ -35,27 +36,50 @@ class ExportXlsLazyAction extends Action
                 $resource = $livewire->getResource();
                 $fields = [];
                 if (method_exists($resource, 'getXlsFields')) {
-                    Assert::isArray($fields = $resource::getXlsFields($livewire->tableFilters));
+                    $fields = $resource::getXlsFields($livewire->tableFilters);
+                    // Convertiamo tutti i valori a stringhe
+                    if (is_array($fields)) {
+                        $fields = array_map(fn ($field): string => (string) $field, $fields);
+                    } else {
+                        $fields = [];
+                    }
+                    Assert::isArray($fields);
                 }
 
                 $lazy = $livewire->getFilteredTableQuery();
-                if (empty($fields)) {
-                    $fields = [];
-                }
-
+                
                 if ($lazy->count() < 7) {
-                    $query = $lazy->getQuery();
-
-                    return app(ExportXlsByQuery::class)->execute($query, $filename, $transKey, $fields);
+                    Assert::isInstanceOf($lazy, Builder::class);
+                    // Ottieni il criterio per la query
+                    $query = $lazy;
+                    
+                    // Convertiamo l'array di campi in array<int|string, string>
+                    $stringFields = array_values($fields);
+                    
+                    return app(ExportXlsByQuery::class)->execute(
+                        $query, 
+                        $filename, 
+                        $stringFields, 
+                        null
+                    );
                 }
 
-                $lazy = $lazy->cursor();
+                $lazyCursor = $lazy->cursor();
 
-                if ($lazy->count() > 3000) {
-                    return app(ExportXlsStreamByLazyCollection::class)->execute($lazy, $filename, $transKey, $fields);
+                if ($lazyCursor->count() > 3000) {
+                    return app(ExportXlsStreamByLazyCollection::class)->execute(
+                        $lazyCursor, 
+                        $filename, 
+                        $transKey, 
+                        array_values($fields)
+                    );
                 }
 
-                return app(ExportXlsByLazyCollection::class)->execute($lazy, $filename, $transKey, $fields);
+                return app(ExportXlsByLazyCollection::class)->execute(
+                    $lazyCursor, 
+                    $filename, 
+                    array_values($fields)
+                );
             });
     }
 

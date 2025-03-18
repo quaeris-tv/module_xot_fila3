@@ -50,7 +50,10 @@ class ExportTreeXlsAction extends Action
                 $resource = $livewire->getResource();
                 $fields = [];
                 if (method_exists($resource, 'getXlsFields')) {
-                    Assert::isArray($fields = $resource::getXlsFields($tableFilters));
+                    $fields = $resource::getXlsFields($tableFilters);
+                    // Convertiamo tutti i valori a stringhe
+                    $fields = array_map(fn ($field) => (string) $field, (array) $fields);
+                    Assert::isArray($fields);
                 }
 
                 return app(ExportXlsByCollection::class)->execute($rows, $filename, $transKey, $fields);

@@ -245,14 +245,24 @@ class XotData extends Data implements Wireable
         return $profile;
     }
 
+    /**
+     * Verifica se l'utente autenticato è un super amministratore.
+     */
     public function iAmSuperAdmin(): bool
     {
-        $user = auth()->user();
+        $user = \Illuminate\Support\Facades\Auth::user();
         if (null === $user) {
             return false;
         }
 
-        return $user->hasRole('super-admin');
+        if (! method_exists($user, 'hasRole')) {
+            return false;
+        }
+
+        // Utilizziamo un'asserzione per garantire che hasRole restituisca un booleano
+        $result = $user->hasRole('super-admin');
+        
+        return $result === true;
     }
 
     public function getProfileModel(): ProfileContract

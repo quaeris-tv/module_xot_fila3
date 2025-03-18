@@ -204,6 +204,7 @@ class InformationSchemaTable extends Model
             })
             ->toArray();
 
+        /** @var array<int, array<string, mixed>> $results */
         return $results;
     }
 
@@ -336,7 +337,11 @@ class InformationSchemaTable extends Model
             return 0;
         }
 
-        return (int) $dataLength + (int) $indexLength;
+        // Assicuriamo che i valori siano convertiti correttamente in intero
+        $dataLengthInt = is_numeric($dataLength) ? (int) $dataLength : 0;
+        $indexLengthInt = is_numeric($indexLength) ? (int) $indexLength : 0;
+        
+        return $dataLengthInt + $indexLengthInt;
     }
 
     /**

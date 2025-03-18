@@ -39,10 +39,22 @@ class ExportXlsAction extends Action
                 $resource = $livewire->getResource();
                 $fields = [];
                 if (method_exists($resource, 'getXlsFields')) {
-                    Assert::isArray($fields = $resource::getXlsFields($livewire->tableFilters));
+                    $fields = $resource::getXlsFields($livewire->tableFilters);
+                    // Convertiamo tutti i valori a stringhe
+                    if (is_array($fields)) {
+                        $fields = array_map(fn ($field): string => (string) $field, $fields);
+                    } else {
+                        $fields = [];
+                    }
+                    Assert::isArray($fields);
                 }
 
-                return app(ExportXlsByCollection::class)->execute($rows, $filename, $transKey, $fields);
+                return app(ExportXlsByCollection::class)->execute(
+                    $rows, 
+                    $filename, 
+                    $transKey, 
+                    array_values($fields)
+                );
             });
     }
 
