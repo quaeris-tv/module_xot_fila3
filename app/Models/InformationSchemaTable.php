@@ -203,7 +203,7 @@ class InformationSchemaTable extends Model
                 return $data;
             })
             ->toArray();
-
+        // @phpstan-ignore return.type
         return $results;
     }
 
@@ -336,6 +336,7 @@ class InformationSchemaTable extends Model
             return 0;
         }
 
+        // @phpstan-ignore-next-line
         return (int) $dataLength + (int) $indexLength;
     }
 

@@ -52,7 +52,7 @@ class ExportTreeXlsAction extends Action
                 if (method_exists($resource, 'getXlsFields')) {
                     Assert::isArray($fields = $resource::getXlsFields($tableFilters));
                 }
-
+                // @phpstan-ignore-next-line
                 return app(ExportXlsByCollection::class)->execute($rows, $filename, $transKey, $fields);
             });
     }

@@ -77,8 +77,8 @@ class ResourceFormSchemaGenerator
         $results = ['updated' => [], 'skipped' => []];
 
         foreach ($resourceFiles as $file) {
+            Assert::string($file);
             try {
-                Assert::string($file);
                 $content = file_get_contents($file);
                 $namespaceMatch = [];
                 $classMatch = [];

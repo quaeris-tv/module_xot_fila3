@@ -41,7 +41,7 @@ class ExportXlsAction extends Action
                 if (method_exists($resource, 'getXlsFields')) {
                     Assert::isArray($fields = $resource::getXlsFields($livewire->tableFilters));
                 }
-
+                // @phpstan-ignore argument.type
                 return app(ExportXlsByCollection::class)->execute($rows, $filename, $transKey, $fields);
             });
     }

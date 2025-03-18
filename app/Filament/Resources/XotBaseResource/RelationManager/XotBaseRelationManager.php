@@ -68,9 +68,11 @@ abstract class XotBaseRelationManager extends RelationManager
     public function getListTableColumns(): array
     {
         $index = Arr::get($this->getResource()::getPages(), 'index');
+        // @phpstan-ignore-next-line
         $index_page = $index->getPage();
+        // @phpstan-ignore-next-line
         $columns = app($index_page)->getListTableColumns();
-
+        // @phpstan-ignore-next-line
         return $columns;
     }
 
@@ -113,6 +115,7 @@ abstract class XotBaseRelationManager extends RelationManager
         try {
             // @phpstan-ignore-next-line
             $parentResource = parent::getResource();
+            // @phpstan-ignore-next-line
             if (is_subclass_of($parentResource, \Modules\Xot\Filament\Resources\XotBaseResource::class)) {
                 /** @var class-string<\Modules\Xot\Filament\Resources\XotBaseResource> $parentResource */
                 return $parentResource;

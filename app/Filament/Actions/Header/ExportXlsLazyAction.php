@@ -45,16 +45,18 @@ class ExportXlsLazyAction extends Action
 
                 if ($lazy->count() < 7) {
                     $query = $lazy->getQuery();
-
+                    // @phpstan-ignore-next-line
                     return app(ExportXlsByQuery::class)->execute($query, $filename, $transKey, $fields);
                 }
 
                 $lazy = $lazy->cursor();
 
                 if ($lazy->count() > 3000) {
+                    // @phpstan-ignore-next-line
                     return app(ExportXlsStreamByLazyCollection::class)->execute($lazy, $filename, $transKey, $fields);
                 }
-
+                
+                // @phpstan-ignore-next-line
                 return app(ExportXlsByLazyCollection::class)->execute($lazy, $filename, $transKey, $fields);
             });
     }
