@@ -150,7 +150,7 @@ class CustomRelation extends Relation
      * @param \Closure|string|array|\Illuminate\Database\Query\Expression $column
      * @param mixed                                                       $operator
      * @param mixed                                                       $value
-     * @param string                                                      $boolean
+     * @param string $boolean
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

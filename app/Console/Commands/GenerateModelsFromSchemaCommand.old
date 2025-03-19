@@ -70,13 +70,13 @@ class GenerateModelsFromSchemaCommand extends Command
      */
     public function handle(): int
     {
-        $schemaFilePath = $this->argument('schema_file');
-        $namespace = $this->argument('namespace');
-        $modelPath = $this->argument('model_path');
-        $migrationPath = $this->argument('migration_path');
+        $schemaFilePath = is_object($this) ? $this->argument : null('schema_file');
+        $namespace = is_object($this) ? $this->argument : null('namespace');
+        $modelPath = is_object($this) ? $this->argument : null('model_path');
+        $migrationPath = is_object($this) ? $this->argument : null('migration_path');
 
         if (! File::exists($schemaFilePath)) {
-            $this->error("Il file schema {$schemaFilePath} non esiste!");
+            is_object($this) ? $this->error : null("Il file schema {$schemaFilePath} non esiste!");
 
             return 1;
         }
@@ -90,60 +90,60 @@ class GenerateModelsFromSchemaCommand extends Command
             if (!isset($schema['database']) || !is_string($schema['database']) ||
                 !isset($schema['tables']) || !is_array($schema['tables']) ||
                 !isset($schema['relationships']) || !is_array($schema['relationships'])) {
-                $this->error('Il file schema non contiene la struttura attesa (database, tables, relationships)');
+                is_object($this) ? $this->error : null('Il file schema non contiene la struttura attesa (database, tables, relationships)');
                 return 1;
             }
         } catch (\Exception $e) {
-            $this->error('Errore nella decodifica del file JSON: ' . $e->getMessage());
+            is_object($this) ? $this->error : null('Errore nella decodifica del file JSON: ' . is_object($e) ? $e->getMessage : null());
             return 1;
         }
 
-        $this->info("Schema caricato con successo dal file: {$schemaFilePath}");
-        $this->info("Database: {$schema['database']}");
-        $this->info('Numero di tabelle: '.count($schema['tables']));
+        is_object($this) ? $this->info : null("Schema caricato con successo dal file: {$schemaFilePath}");
+        is_object($this) ? $this->info : null("Database: {$schema['database']}");
+        is_object($this) ? $this->info : null('Numero di tabelle: '.count($schema['tables']));
 
         // Assicurati che la directory dei modelli esista
         if (! File::exists($modelPath)) {
             File::makeDirectory($modelPath, 0755, true);
-            $this->info("Directory dei modelli creata: {$modelPath}");
+            is_object($this) ? $this->info : null("Directory dei modelli creata: {$modelPath}");
         }
 
         // Assicurati che la directory delle migrazioni esista (se specificata)
         if ($migrationPath && ! File::exists($migrationPath)) {
             File::makeDirectory($migrationPath, 0755, true);
-            $this->info("Directory delle migrazioni creata: {$migrationPath}");
+            is_object($this) ? $this->info : null("Directory delle migrazioni creata: {$migrationPath}");
         }
 
-        $progressBar = $this->output->createProgressBar(count($schema['tables']));
-        $progressBar->start();
+        $progressBar = is_object($this) ? $this->output : null->createProgressBar(count($schema['tables']));
+        is_object($progressBar) ? $progressBar->start : null();
 
         // Elabora ciascuna tabella e genera i modelli
         foreach ($schema['tables'] as $tableName => $tableInfo) {
             // Assicurati che $tableName sia una stringa
-            $tableNameStr = is_string($tableName) ? $tableName : (string)$tableName;
+            $tableNameStr = is_string($tableName) ? $tableName : is_string($tableName) ? $tableName : (string) $tableName;
             
             // Assicurati che $tableInfo sia un array
             if (!is_array($tableInfo)) {
-                $this->warn("Informazioni per la tabella {$tableNameStr} non valide, la salto.");
+                is_object($this) ? $this->warn : null("Informazioni per la tabella {$tableNameStr} non valide, la salto.");
                 continue;
             }
             
-            $this->generateModel($tableNameStr, $tableInfo, $schema['relationships'], $namespace, $modelPath);
+            is_object($this) ? $this->generateModel : null($tableNameStr, $tableInfo, $schema['relationships'], $namespace, $modelPath);
 
             if ($migrationPath) {
-                $this->generateMigration($tableNameStr, $tableInfo, $migrationPath);
+                is_object($this) ? $this->generateMigration : null($tableNameStr, $tableInfo, $migrationPath);
             }
 
-            $progressBar->advance();
+            is_object($progressBar) ? $progressBar->advance : null();
         }
 
-        $progressBar->finish();
-        $this->newLine();
+        is_object($progressBar) ? $progressBar->finish : null();
+        is_object($this) ? $this->newLine : null();
 
-        $this->info('Generazione dei modelli completata con successo!');
+        is_object($this) ? $this->info : null('Generazione dei modelli completata con successo!');
 
         if ($migrationPath) {
-            $this->info('Generazione delle migrazioni completata con successo!');
+            is_object($this) ? $this->info : null('Generazione delle migrazioni completata con successo!');
         }
 
         return 0;
@@ -154,27 +154,27 @@ class GenerateModelsFromSchemaCommand extends Command
      */
     protected function generateModel(string $tableName, array $tableInfo, array $relationships, string $namespace, string $modelPath): void
     {
-        $modelName = $this->getModelName($tableName);
+        $modelName = is_object($this) ? $this->getModelName : null($tableName);
         $primaryKey = $tableInfo['primary_key'] ? $tableInfo['primary_key']['columns'][0] : 'id';
 
         $fillableColumns = array_keys($tableInfo['columns']);
         $fillableColumns = array_filter($fillableColumns, function ($column) use ($primaryKey) {
             // Assicuriamoci che $column sia una stringa
-            $columnStr = (string)$column;
+            $columnStr = is_string($column) ? $column : (string) $column;
             return $columnStr !== $primaryKey && ! Str::endsWith($columnStr, ['_at', 'created_at', 'updated_at', 'deleted_at']);
         });
 
         $casts = [];
         foreach ($tableInfo['columns'] as $columnName => $column) {
-            $castType = $this->getCastType($column['type']);
+            $castType = is_object($this) ? $this->getCastType : null($column['type']);
             if ('string' !== $castType) {
                 $casts[$columnName] = $castType;
             }
         }
 
-        $modelRelationships = $this->getModelRelationships($tableName, $relationships, $tableInfo['foreign_keys']);
+        $modelRelationships = is_object($this) ? $this->getModelRelationships : null($tableName, $relationships, $tableInfo['foreign_keys']);
 
-        $modelContent = $this->generateModelContent(
+        $modelContent = is_object($this) ? $this->generateModelContent : null(
             $modelName,
             $namespace,
             $tableName,
@@ -195,7 +195,7 @@ class GenerateModelsFromSchemaCommand extends Command
     {
         $className = 'Create'.Str::studly($tableName).'Table';
 
-        $migrationContent = $this->generateMigrationContent(
+        $migrationContent = is_object($this) ? $this->generateMigrationContent : null(
             $className,
             $tableName,
             $tableInfo['columns'],
@@ -233,11 +233,11 @@ class GenerateModelsFromSchemaCommand extends Command
             ))."',\n    ]";
 
         $relationshipsStr = implode("\n\n", array_map(
-            fn ($rel) => $this->generateRelationshipMethod($rel),
+            fn ($rel) => is_object($this) ? $this->generateRelationshipMethod : null($rel),
             $relationships
         ));
 
-        $relationshipImports = $this->getRelationshipImports($relationships);
+        $relationshipImports = is_object($this) ? $this->getRelationshipImports : null($relationships);
 
         return <<<PHP
 <?php
@@ -319,7 +319,7 @@ PHP;
         $columnsStr = '';
 
         foreach ($columns as $columnName => $column) {
-            $columnsStr .= $this->generateColumnCode($columnName, $column)."\n            ";
+            $columnsStr .= is_object($this) ? $this->generateColumnCode : null($columnName, $column)."\n            ";
         }
 
         $indexesStr = '';
@@ -329,13 +329,13 @@ PHP;
                 continue;
             }
 
-            $indexesStr .= $this->generateIndexCode($indexName, $index)."\n            ";
+            $indexesStr .= is_object($this) ? $this->generateIndexCode : null($indexName, $index)."\n            ";
         }
 
         $foreignKeysStr = '';
 
         foreach ($foreignKeys as $foreignKeyName => $foreignKey) {
-            $foreignKeysStr .= $this->generateForeignKeyCode($foreignKeyName, $foreignKey)."\n            ";
+            $foreignKeysStr .= is_object($this) ? $this->generateForeignKeyCode : null($foreignKeyName, $foreignKey)."\n            ";
         }
 
         return <<<PHP
@@ -385,7 +385,7 @@ PHP;
     {
         $baseType = strtolower(\Safe\preg_replace('/\(.*\)/', '', $sqlType));
 
-        foreach ($this->typeMappings as $sqlPattern => $laravelType) {
+        foreach (is_object($this) ? $this->typeMappings : null as $sqlPattern => $laravelType) {
             if (0 === strpos($baseType, $sqlPattern)) {
                 return $laravelType;
             }
@@ -460,12 +460,12 @@ PHP;
             $code .= "->default({$default})";
         }
 
-        if (isset($column['extra']) && is_string($column['extra']) && false !== strpos((string)$column['extra'], 'auto_increment')) {
+        if (isset($column['extra']) && is_string($column['extra']) && false !== strpos(is_string($column) ? $column : (string) $column['extra'], 'auto_increment')) {
             $code .= '->autoIncrement()';
         }
 
         if (isset($column['comment']) && is_string($column['comment']) && $column['comment'] !== '') {
-            $comment = (string)$column['comment'];
+            $comment = is_string($column) ? $column : (string) $column['comment'];
             $code .= "->comment('{$comment}')";
         }
 
@@ -482,10 +482,10 @@ PHP;
         $columns = "['".implode("', '", $index['columns'])."']";
 
         if ($index['unique']) {
-            return "\$table->unique({$columns}, '{$indexName}');";
+            return "\is_object($table) ? $table->unique : null({$columns}, '{$indexName}');";
         }
 
-        return "\$table->index({$columns}, '{$indexName}');";
+        return "\is_object($table) ? $table->index : null({$columns}, '{$indexName}');";
     }
 
     /**
@@ -501,7 +501,7 @@ PHP;
         $columns = "'".implode("', '", $localColumns)."'";
         $referencesColumns = "'".implode("', '", $foreignColumns)."'";
 
-        return "\$table->foreign('{$columns}', '{$foreignKeyName}')
+        return "\is_object($table) ? $table->foreign : null('{$columns}', '{$foreignKeyName}')
                 ->references({$referencesColumns})
                 ->on('{$foreignTable}')
                 ->onDelete('cascade')
@@ -559,7 +559,7 @@ PHP;
      */
     public function {$methodName}(): BelongsTo
     {
-        return \$this->belongsTo({$modelName}::class, '{$relationship['foreign_key']}', '{$relationship['owner_key']}');
+        return \is_object($this) ? $this->belongsTo : null({$modelName}::class, '{$relationship['foreign_key']}', '{$relationship['owner_key']}');
     }
 PHP;
         } elseif ('has_many' === $relationship['type']) {
@@ -569,7 +569,7 @@ PHP;
      */
     public function {$methodName}(): HasMany
     {
-        return \$this->hasMany({$modelName}::class, '{$relationship['foreign_key']}', '{$relationship['local_key']}');
+        return \is_object($this) ? $this->hasMany : null({$modelName}::class, '{$relationship['foreign_key']}', '{$relationship['local_key']}');
     }
 PHP;
         }

@@ -42,19 +42,11 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         parent::boot();
-        // 36     Cannot access offset 'router' on Illuminate\Contracts\Foundation\Application
-        // $router = $this->app['router'];
         $router = app('router');
-        // dddx([$router, $router1]);
 
         $this->registerLang();
-
         $this->registerRoutePattern($router);
         $this->registerMyMiddleware($router);
-
-        // $lang = request()->user()?->locale ?? app()->getLocale();
-        // URL::defaults(['locale' => $request->user()?->locale]);
-        // URL::defaults(['lang' => $lang]);
     }
 
     /**
@@ -63,7 +55,6 @@ class RouteServiceProvider extends ServiceProvider
     public function map(): void
     {
         $this->mapApiRoutes();
-
         $this->mapWebRoutes();
     }
 
@@ -92,10 +83,6 @@ class RouteServiceProvider extends ServiceProvider
 
     public function registerMyMiddleware(Router $router): void
     {
-        // $router->prependMiddlewareToGroup('web', SetDefaultLocaleForUrls::class);
-        // $router->prependMiddlewareToGroup('api', SetDefaultLocaleForUrls::class);
-        // $router->pushMiddlewareToGroup('web', \Spatie\ResponseCache\Middlewares\CacheResponse::class);
-        // $router->pushMiddlewareToGroup('api', \Spatie\ResponseCache\Middlewares\CacheResponse::class);
         $router->prependMiddlewareToGroup('web', SetDefaultTenantForUrlsMiddleware::class);
         $router->prependMiddlewareToGroup('api', SetDefaultTenantForUrlsMiddleware::class);
     }
@@ -105,7 +92,7 @@ class RouteServiceProvider extends ServiceProvider
         $langs = ['it', 'en'];
         $user = request()->user();
         $lang = app()->getLocale();
-        if (null !== $user) {
+        if ($user !== null) {
             $lang = $user->lang ?? $lang;
         }
         $locales = config('laravellocalization.supportedLocales');
@@ -113,29 +100,22 @@ class RouteServiceProvider extends ServiceProvider
             $langs = array_keys($locales);
         }
 
-        // if (! \is_array($langs)) {
-        //    throw new \Exception('[.__LINE__.]['.class_basename(__CLASS__).']');
-        // }
-
-        if (\in_array(request()->segment(1), $langs, false)) {
+        if (in_array(request()->segment(1), $langs, false)) {
             $lang = request()->segment(1);
-            if (null !== $lang) {
+            if ($lang !== null) {
                 app()->setLocale($lang);
             }
         }
 
         URL::defaults([
-            // 'tenant' => Filament::getTenant(),
             'lang' => $lang,
         ]);
     }
 
     public function registerRoutePattern(Router $router): void
     {
-        // ---------- Lang Route Pattern
         $langs = config('laravellocalization.supportedLocales');
-        if (! \is_array($langs)) {
-            // throw new \Exception('[.__LINE__.]['.class_basename(__CLASS__).']');
+        if (! is_array($langs)) {
             $langs = ['it' => 'it', 'en' => 'en'];
         }
 
@@ -143,21 +123,17 @@ class RouteServiceProvider extends ServiceProvider
         $lang_pattern = '/|'.$lang_pattern.'|/i';
 
         $router->pattern('lang', $lang_pattern);
-        // -------------------------------------------------------------
 
         $models = config('morph_map');
-        if (! \is_array($models)) {
-            // throw new Exception('[' . print_r($models, true) . '][' . __LINE__ . '][' . class_basename(__CLASS__) . ']');
+        if (! is_array($models)) {
             $models = [];
         }
 
         $models_collect = collect(array_keys($models));
         $models_collect->implode('|');
         $models_collect->map(
-            static fn ($item) => Str::plural((string) $item)
+            fn ($item) => Str::plural(is_string($item) ? $item : (string) $item)
         )->implode('|');
-
-        // $router->pattern('container0', $container0_pattern);
     }
 
     // end registerRoutePattern

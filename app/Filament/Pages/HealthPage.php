@@ -55,15 +55,21 @@ class HealthPage extends Page
             // Checks\PingCheck::new()->url('https://google.com')->name('Google'),
         ];
         if (class_exists(\Spatie\CpuLoadHealthCheck\CpuLoadCheck::class)) {
-            $checks[] = \Spatie\CpuLoadHealthCheck\CpuLoadCheck::new();
+            /** @var \Spatie\CpuLoadHealthCheck\CpuLoadCheck $check */
+            $check = \Spatie\CpuLoadHealthCheck\CpuLoadCheck::new();
+            $checks[] = $check;
         }
         if (class_exists(\Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck::class)) {
-            $checks[] = \Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck::new();
+            /** @var \Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck $check */
+            $check = \Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck::new();
+            $checks[] = $check;
         }
         if (class_exists(\Laraxot\SmtpHealthCheck\SmtpCheck::class)) {
-            $checks[] = \Laraxot\SmtpHealthCheck\SmtpCheck::new();
+            /** @var \Laraxot\SmtpHealthCheck\SmtpCheck $check */
+            $check = \Laraxot\SmtpHealthCheck\SmtpCheck::new();
+            $checks[] = $check;
         }
-        // @phpstan-ignore argument.type
+        /** @var array<\Spatie\Health\Checks\Check> $checks */
         Health::checks($checks);
         Artisan::call(RunHealthChecksCommand::class);
         $this->dispatch('refresh-component');
@@ -97,7 +103,7 @@ class HealthPage extends Page
         $checkResults = app(ResultStore::class)->latestResults();
 
         return [
-            'lastRanAt' => new Carbon($checkResults?->finishedAt),
+            'lastRanAt' => $checkResults?->finishedAt,
             'checkResults' => $checkResults,
         ];
     }

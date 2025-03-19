@@ -46,7 +46,7 @@ class ExportXlsStreamByLazyCollection
                 
                 // Assicuriamo che le intestazioni siano stringhe
                 $headStrings = array_map(function ($item) {
-                    return (string) $item;
+                    return is_string($item) ? $item : (string) $item;
                 }, $head);
                 
                 fputcsv($file, $headStrings);
@@ -69,7 +69,7 @@ class ExportXlsStreamByLazyCollection
                         if ($item === null) {
                             return null;
                         }
-                        return (string) $item;
+                        return is_string($item) ? $item : (string) $item;
                     }, $rowData);
                     
                     fputcsv($file, $safeRowData);
@@ -133,6 +133,6 @@ class ExportXlsStreamByLazyCollection
         }
 
         /** @var array<string> */
-        return $headings->map(fn ($item) => (string)$item)->toArray();
+        return $headings->map(fn ($item) => is_string($item) ? $item : (string) $item)->toArray();
     }
 }

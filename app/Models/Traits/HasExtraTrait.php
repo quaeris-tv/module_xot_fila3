@@ -17,9 +17,9 @@ use Webmozart\Assert\Assert;
 /**
  * Modules\Xot\Models\HasExtraTrait.
  *
- * @property string             $currency
+ * @property string $currency
  * @property float              $price
- * @property string             $price_complete
+ * @property string $price_complete
  * @property int                $qty
  * @property ExtraContract|null $extra
  */
@@ -49,7 +49,11 @@ trait HasExtraTrait
      */
     public function getExtra(string $name)
     {
-        $value = $this->extra?->extra_attributes->get($name);
+
+        if($this->extra==null){
+            return null;
+        }
+        $value = $this->extra->extra_attributes->get($name);
         if (
             is_array($value) || is_int($value)
             // || is_float($value)
@@ -75,8 +79,8 @@ trait HasExtraTrait
                 ->firstOrCreate([], ['extra_attributes' => json_encode([])]);
             Assert::implementsInterface($extra, ExtraContract::class, '['.__LINE__.']['.class_basename($this).']['.$extra.']');
         }
-
-        $extra?->extra_attributes->set($name, $value);
-        $extra?->save();
+        Assert::notNull($extra);
+        $extra->extra_attributes->set($name, $value);
+        $extra->save();
     }
 }

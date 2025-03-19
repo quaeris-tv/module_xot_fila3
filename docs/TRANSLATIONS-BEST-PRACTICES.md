@@ -293,6 +293,38 @@ Tables\Columns\TextColumn::make('nome')
     ->label('Nome Utente')
 ```
 
+### 1.1 Non utilizzare mai ->label() in getInfolistSchema()
+
+Questa regola si applica anche al metodo `getInfolistSchema()`. Non bisogna mai utilizzare il metodo `->label()` nei componenti di Infolist:
+
+#### ✅ DO - Utilizzare il componente senza label
+
+```php
+// Corretto
+public function getInfolistSchema(): array
+{
+    return [
+        'nome' => TextEntry::make('nome'),
+        'email' => TextEntry::make('email')
+    ];
+}
+```
+
+#### ❌ DON'T - Non utilizzare label() esplicito
+
+```php
+// NON FARE MAI QUESTO
+public function getInfolistSchema(): array
+{
+    return [
+        'nome' => TextEntry::make('nome')->label('Nome Utente'),
+        'email' => TextEntry::make('email')->label('Indirizzo Email')
+    ];
+}
+```
+
+Il `LangServiceProvider` gestisce automaticamente l'etichettatura di tutti i componenti attraverso il sistema di traduzione. L'uso di `->label()` interferisce con questo meccanismo automatico e può portare a incoerenze nell'interfaccia utente.
+
 ### 2. Utilizzo in altri contesti
 
 Per altri contesti, utilizzare la funzione `trans()` o la direttiva `@lang` con i percorsi completi:

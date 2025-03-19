@@ -47,9 +47,11 @@ class GetAllModelsByModuleNameAction
                  * @var class-string
                  */
                 $class = $ns.'\\'.$name;
-                $tmp->class = $class;
-                $name = Str::snake($name);
-                $tmp->name = $name;
+                if ($tmp !== null) {
+                    $tmp->class = $class;
+                    $name = Str::snake($name);
+                    $tmp->name = $name;
+                }
                 // 434    Parameter #1 $argument of class ReflectionClass constructor expects class-string<T of object>|T of object, string given.
                 try {
                     $reflection_class = new \ReflectionClass($tmp->class);

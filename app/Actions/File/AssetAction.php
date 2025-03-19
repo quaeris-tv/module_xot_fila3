@@ -45,7 +45,7 @@ class AssetAction
 
         $ns_after0 = Str::before($ns_after, '/');
         $ns_after1 = Str::after($ns_after, '/');
-        $ns_after = str_replace('.', '/', (string) $ns_after0).'/'.$ns_after1;
+        $ns_after = str_replace('.', '/', is_string($ns_after0) ? $ns_after0 : (string) $ns_after0).'/'.$ns_after1;
 
         if (Str::startsWith($ns_after, '/')) {
             $ns_after = Str::after($ns_after, '/');
@@ -74,7 +74,8 @@ class AssetAction
                     File::copy($filename_from, $filename_to);
                 } catch (\Exception $e) {
                     throw new \Exception('message:['.$e->getMessage().']
-                        path :['.$path.']
+                        public_path ['.public_path().']
+                        path ['.$path.']
                         file from ['.$filename_from.']
                         file to ['.$filename_to.']', $e->getCode(), $e);
                 }

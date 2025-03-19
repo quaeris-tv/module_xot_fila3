@@ -8,7 +8,7 @@
         
         // Verifica che tableList non sia null
         if ($tableList === null) {
-            $this->error("Impossibile ottenere la lista delle tabelle da $mdbFile");
+            is_object($this) ? $this->error : null("Impossibile ottenere la lista delle tabelle da $mdbFile");
             return $tables;
         }
         

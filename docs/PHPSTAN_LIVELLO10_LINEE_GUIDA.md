@@ -441,6 +441,20 @@ protected function getInfolistSchema(): array
 
 Anche se i file sono fisicamente collocati nella directory `app` del modulo, il namespace **NON** deve includere questo segmento.
 
+#### Errore Comune: Namespace Actions
+
+Uno degli errori più frequenti riguarda il namespace delle Actions:
+
+- ✅ **CORRETTO**: `namespace Modules\Xot\Actions;`
+- ❌ **ERRATO**: `namespace Modules\Xot\app\Actions;`
+
+Anche se il file Actions si trova fisicamente in `Modules/Xot/app/Actions/`, il namespace deve sempre essere `Modules\Xot\Actions` (senza il segmento `app`).
+
+Gli errori PHPStan relativi a questo problema sono spesso del tipo:
+```
+Class 'Modules\Xot\app\Actions\MyAction' not found.
+```
+
 #### Namespace Corretti per i Componenti Principali
 
 | Tipo di Componente       | Percorso Fisico                         | Namespace Corretto                 |

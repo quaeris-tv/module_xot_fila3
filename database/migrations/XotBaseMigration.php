@@ -227,20 +227,24 @@ abstract class XotBaseMigration extends Migration
     public function renameColumn(string $from, string $to): void
     {
         $this->getConn()->table($this->getTable(), function (Blueprint $table) use ($from, $to) {
-            $table->renameColumn($from, $to);
+
+                $table->renameColumn($from, $to);
+
         });
     }
 
-    public function tableCreate(\Closure $next): void
+    public function tableCreate(\Closure $next, ?string $table = null): void
     {
-        if (! $this->tableExists()) {
-            $this->getConn()->create($this->getTable(), $next);
+        $tableName = $table ?? $this->getTable();
+        if (! $this->tableExists($tableName)) {
+            $this->getConn()->create($tableName, $next);
         }
     }
 
-    public function tableUpdate(\Closure $next): void
+    public function tableUpdate(\Closure $next, ?string $table = null): void
     {
-        $this->getConn()->table($this->getTable(), $next);
+        $tableName = $table ?? $this->getTable();
+        $this->getConn()->table($tableName, $next);
     }
 
     public function timestamps(Blueprint $table, bool $hasSoftDeletes = false): void
@@ -248,12 +252,14 @@ abstract class XotBaseMigration extends Migration
         $xot = XotData::make();
         $userClass = $xot->getUserClass();
 
-        $table->timestamps();
-        $table->foreignIdFor($userClass, 'user_id')->nullable();
-        $table->foreignIdFor($userClass, 'updated_by')->nullable();
-        $table->foreignIdFor($userClass, 'created_by')->nullable();
 
-        if ($hasSoftDeletes) {
+            $table->timestamps();
+            $table->foreignIdFor($userClass, 'user_id')->nullable();
+            $table->foreignIdFor($userClass, 'updated_by')->nullable();
+            $table->foreignIdFor($userClass, 'created_by')->nullable();
+
+
+        if ($hasSoftDeletes ) {
             $table->softDeletes();
         }
     }
@@ -293,11 +299,15 @@ abstract class XotBaseMigration extends Migration
         $this->{$methodName}($table);
 
         if ($this->hasColumn('model_id') && 'bigint' === $this->getColumnType('model_id')) {
-            $table->string('model_id', 36)->index()->change();
+
+                $table->string('model_id', 36)->index()->change();
+
         }
 
         if ($this->hasColumn('team_id') && 'bigint' === $this->getColumnType('team_id')) {
-            $table->uuid('team_id')->nullable()->change();
+
+                $table->uuid('team_id')->nullable()->change();
+
         }
     }
 

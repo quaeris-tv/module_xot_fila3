@@ -200,3 +200,27 @@ return [
 ## Conclusione
 
 Seguendo queste linee guida, garantirai un'implementazione corretta e coerente del metodo `getInfolistSchema()`, facilitando la manutenzione del codice e prevenendo errori di tipo rilevati da PHPStan. Ricorda: usa **sempre** chiavi di tipo stringa per gli array restituiti. 
+
+## Non Utilizzare il Metodo ->label()
+
+In nessuna circostanza si deve utilizzare il metodo `->label()` nei componenti restituiti da `getInfolistSchema()`. Questo perché le etichette vengono gestite automaticamente dal `LangServiceProvider` del sistema.
+
+### Implementazione Errata:
+```php
+return [
+    'id' => TextEntry::make('id')->label('Identificativo'),
+    'nome' => TextEntry::make('nome')->label('Nome Utente'),
+];
+```
+
+### Implementazione Corretta:
+```php
+return [
+    'id' => TextEntry::make('id'),
+    'nome' => TextEntry::make('nome'),
+];
+```
+
+Il `LangServiceProvider` gestisce automaticamente le traduzioni delle label basandosi sulla struttura dei file di traduzione. Aggiungere manualmente le label compromette questo meccanismo automatico e crea incoerenze nel sistema.
+
+Infatti, il servizio `AutoLabelAction` intercetta la creazione dei componenti e applica automaticamente le traduzioni corrette, rendendo superfluo (e dannoso) l'uso esplicito del metodo `->label()`. 

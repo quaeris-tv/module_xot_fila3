@@ -38,102 +38,79 @@ class GetComponentsAction
         }
 
         $exists = File::exists($components_json);
-        // $force_recreate = true;
         if ($exists && ! $force_recreate) {
             Assert::string($content = File::get($components_json), '['.__LINE__.']['.class_basename(static::class).']');
-
-            // return (array) json_decode((string) $content, null, 512, JSON_THROW_ON_ERROR);
-            // return (array) json_decode($content, false, 512, JSON_THROW_ON_ERROR);
             $comps = json_decode($content, false);
             if (! is_array($comps)) {
                 $comps = [];
             }
-            $res = ComponentFileData::collection($comps);
-
-            return $res;
+            return ComponentFileData::collection($comps);
         }
 
         $files = File::allFiles($path);
-
         $comps = [];
+        
         foreach ($files as $file) {
             if ('php' !== $file->getExtension()) {
                 continue;
             }
-            $tmp = (object) [];
+
             $class_name = $file->getFilenameWithoutExtension();
-
-            $tmp->class_name = $class_name;
-            Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '['.__LINE__.']['.class_basename(static::class).']');
-            $tmp->comp_name = Str::slug(Str::snake($comp_name));
-            $tmp->comp_name = $prefix.$tmp->comp_name;
-
-            $tmp->comp_ns = $namespace.'\\'.$class_name;
             $relative_path = $file->getRelativePath();
             Assert::string($relative_path = Str::replace('/', '\\', $relative_path), '['.__LINE__.']['.class_basename(static::class).']');
 
-            if ('' !== $relative_path) {
-                $tmp->comp_name = '';
-                $piece = collect(explode('\\', $relative_path))
-                    ->map(
-                        static fn ($item) => Str::slug(Str::snake($item))
-                    )
-                    ->implode('.');
-                $tmp->comp_name .= $piece;
-                Assert::string($comp_name = Str::replace('\\', ' ', $class_name), '['.__LINE__.']['.class_basename(static::class).']');
+            $comp_name = Str::slug(Str::snake(Str::replace('\\', ' ', $class_name)));
+            $comp_name = $prefix . $comp_name;
+            $comp_ns = $namespace . '\\' . $class_name;
 
-                $tmp->comp_name .= '.'.Str::slug(Str::snake($comp_name));
-                $tmp->comp_name = $prefix.$tmp->comp_name;
-                $tmp->comp_ns = $namespace.'\\'.$relative_path.'\\'.$class_name;
-                $tmp->class_name = $relative_path.'\\'.$tmp->class_name;
+            if ('' !== $relative_path) {
+                $comp_name = '';
+                $piece = collect(explode('\\', $relative_path))
+                    ->map(fn ($item) => Str::slug(Str::snake($item)))
+                    ->implode('.');
+                
+                $comp_name = $prefix . $piece . '.' . Str::slug(Str::snake(Str::replace('\\', ' ', $class_name)));
+                $comp_ns = $namespace . '\\' . $relative_path . '\\' . $class_name;
+                $class_name = $relative_path . '\\' . $class_name;
             }
+
             try {
-                // Assicuriamoci che comp_ns sia una classe valida prima di creare la ReflectionClass
-                if (!class_exists($tmp->comp_ns)) {
-                    throw new \Exception("La classe {$tmp->comp_ns} non esiste");
+                if (!class_exists($comp_ns)) {
+                    throw new \Exception("La classe {$comp_ns} non esiste");
                 }
                 
-                // La classe esiste, quindi possiamo convertirla in modo sicuro a class-string
-                /** @var class-string<object> $className */
-                $className = (string)$tmp->comp_ns;
-                $reflection = new \ReflectionClass($className);
+                /** @var class-string<object> $comp_ns */
+                $reflection = new \ReflectionClass($comp_ns);
                 if ($reflection->isAbstract()) {
                     continue;
                 }
+
+                $comps[] = ComponentFileData::from([
+                    'name' => $comp_name,
+                    'class' => $class_name,
+                    'ns' => $comp_ns,
+                ])->toArray();
+
             } catch (\Exception $e) {
                 dddx([
-                    'tmp' => $tmp,
+                    'comp_name' => $comp_name,
+                    'class_name' => $class_name,
+                    'comp_ns' => $comp_ns,
                     'path' => $path,
                     'namespace' => $namespace,
                     'prefix' => $prefix,
-                    'e' => $e->getMessage(),
+                    'message' => $e->getMessage(),
                 ]);
             }
-
-            $tmp = ComponentFileData::from([
-                'name' => $tmp->comp_name,
-                'class' => $tmp->class_name,
-
-                // 'path'=>$path.DIRECTORY_SEPARATOR.$relative_path,
-                'ns' => $tmp->comp_ns,
-            ])->toArray();
-
-            $comps[] = $tmp;
         }
 
-        $content = json_encode($comps, JSON_THROW_ON_ERROR);
-
-        $old_content = '';
-        if (File::exists($components_json)) {
-            $old_content = File::get($components_json);
-        }
+        $content = \Safe\json_encode($comps, JSON_THROW_ON_ERROR);
+        $old_content = File::exists($components_json) ? File::get($components_json) : '';
 
         if ($old_content !== $content) {
             File::put($components_json, $content);
         }
 
-        $res = ComponentFileData::collection($comps);
-
-        return $res;
+        return ComponentFileData::collection($comps);
     }
 }

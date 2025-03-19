@@ -19,7 +19,7 @@
                 <category>{{ $item->post_type }}</category>
                 <author><![CDATA[{{ $item->created_by }}]]></author>
                 {{-- guid o id?? --}}
-                <guid>{{ $item->id }}</guid>
+                <guid>{{ $item-> }}</guid>
                 <pubDate>{{ $item->created_at->toRssString() }}</pubDate>
             </item>
         @endforeach

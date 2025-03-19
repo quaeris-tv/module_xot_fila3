@@ -22,10 +22,10 @@ class GetViewNameSpacePathAction
     {
         if (null !== $module_name && '' !== $module_name) {
             $module_path = Module::getModulePath($module_name);
-            /** @var string $namespace_path */
+            /** @var non-falsy-string $namespace_path */
             $namespace_path = $module_path.'Resources/views';
         } else {
-            /** @var string $namespace_path */
+            /** @var non-falsy-string $namespace_path */
             $namespace_path = resource_path('views');
         }
 

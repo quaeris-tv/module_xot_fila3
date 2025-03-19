@@ -23,9 +23,9 @@ use Spatie\ModelStatus\Status;
  * @property string|null              $updated_by
  * @property string|null              $title
  * @property PivotContract|null       $pivot
- * @property string                   $tennant_name
+ * @property string $tennant_name
  * @property UserContract|null        $user
- * @property string                   $status
+ * @property string $status
  * @property Collection|array<Status> $statuses
  * @property int|null                 $statuses_count
  *

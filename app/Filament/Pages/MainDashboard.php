@@ -34,7 +34,7 @@ class MainDashboard extends Dashboard
 
         if (1 === $modules->count()) {
             Assert::notNull($modules->first(), '['.__LINE__.']['.class_basename($this).']');
-            $panel_name = $modules->first()->name;
+            $panel_name = $modules->first()?->name;
             $module_name = Str::before($panel_name, '::admin');
             $url = '/'.$module_name.'/admin';
             redirect($url);

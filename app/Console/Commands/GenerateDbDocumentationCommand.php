@@ -162,24 +162,24 @@ MARKDOWN;
         foreach ($columns as $columnName => $column) {
             $type = '';
             if (isset($column['type']) && (is_string($column['type']) || is_numeric($column['type']))) {
-                $type = (string)$column['type'];
+                $type = is_string($column) ? $column : (string) $column['type'];
             }
 
             $nullable = isset($column['nullable']) && $column['nullable'] ? 'Sì' : 'No';
 
             $default = 'NULL';
             if (isset($column['default']) && (is_string($column['default']) || is_numeric($column['default']))) {
-                $default = (string)$column['default'];
+                $default = is_string($column) ? $column : (string) $column['default'];
             }
 
             $extra = '';
             if (isset($column['extra']) && (is_string($column['extra']) || is_numeric($column['extra']))) {
-                $extra = (string)$column['extra'];
+                $extra = is_string($column) ? $column : (string) $column['extra'];
             }
 
             $comment = '';
             if (isset($column['comment']) && (is_string($column['comment']) || is_numeric($column['comment']))) {
-                $comment = (string)$column['comment'];
+                $comment = is_string($column) ? $column : (string) $column['comment'];
             }
             
             $columnNameSafe = is_string($columnName) ? $columnName : '';

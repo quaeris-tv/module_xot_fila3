@@ -63,6 +63,6 @@ class XDebug extends Component
         $out1 = ob_get_contents();
         ob_end_clean();
 
-        return (string) $out1;
+        return is_string($out1) ? $out1 : (string) $out1;
     }
 }

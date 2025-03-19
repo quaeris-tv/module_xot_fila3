@@ -16,11 +16,11 @@ namespace Modules\Xot\Models;
  * @property int         $id
  * @property int         $bucket
  * @property int         $period
- * @property string      $type
- * @property string      $key
+ * @property string $type
+ * @property string $key
  * @property string|null $key_hash
- * @property string      $aggregate
- * @property string      $value
+ * @property string $aggregate
+ * @property string $value
  * @property int|null    $count
  * @method static \Illuminate\Database\Eloquent\Builder|PulseAggregate whereAggregate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PulseAggregate whereBucket($value)

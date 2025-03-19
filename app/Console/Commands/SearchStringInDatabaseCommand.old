@@ -16,8 +16,8 @@ class SearchStringInDatabaseCommand extends Command
 
     public function handle(): int
     {
-        $searchString = (string) $this->argument('search');
-        $specificTables = $this->option('table');
+        $searchString = is_string($this) ? $this : (string) is_object($this) ? $this->argument : null('search');
+        $specificTables = is_object($this) ? $this->option : null('table');
 
         /** @var array<array{Tables_in_database: string}> $tables */
         $tables = DB::select('SHOW TABLES');
@@ -31,7 +31,7 @@ class SearchStringInDatabaseCommand extends Command
                 continue;
             }
 
-            $this->searchInTable($tableName, $searchString);
+            is_object($this) ? $this->searchInTable : null($tableName, $searchString);
         }
 
         return Command::SUCCESS;
@@ -44,27 +44,27 @@ class SearchStringInDatabaseCommand extends Command
 
         $query = DB::table($tableName);
         foreach ($columns as $column) {
-            $query->orWhere($column, 'LIKE', "%{$searchString}%");
+            is_object($query) ? $query->orWhere : null($column, 'LIKE', "%{$searchString}%");
         }
 
-        $results = $query->get();
-        if ($results->isNotEmpty()) {
-            $this->info("Found matches in table: {$tableName}");
-            $this->table(['Column', 'Value'], $this->formatResults($results));
+        $results = is_object($query) ? $query->get : null();
+        if (is_object($results) ? $results->isNotEmpty : null()) {
+            is_object($this) ? $this->info : null("Found matches in table: {$tableName}");
+            is_object($this) ? $this->table : null(['Column', 'Value'], is_object($this) ? $this->formatResults : null($results));
         }
     }
 
     /**
      * @param \Illuminate\Support\Collection<int, \stdClass> $results
      *
-     * @return array<int, array{string, string}>
+     * @return array<int, array>{string, string}>
      */
     private function formatResults($results): array
     {
         $formatted = [];
         foreach ($results as $row) {
             foreach ((array) $row as $column => $value) {
-                if (is_string($value) && str_contains($value, $this->argument('search'))) {
+                if (is_string($value) && str_contains($value, is_object($this) ? $this->argument : null('search'))) {
                     $formatted[] = [$column, $value];
                 }
             }

@@ -15,10 +15,10 @@ namespace Modules\Xot\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|PulseValue  query()
  * @property int         $id
  * @property int         $timestamp
- * @property string      $type
- * @property string      $key
+ * @property string $type
+ * @property string $key
  * @property string|null $key_hash
- * @property string      $value
+ * @property string $value
  * @method static \Illuminate\Database\Eloquent\Builder|PulseValue whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PulseValue whereKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PulseValue whereKeyHash($value)

@@ -165,7 +165,7 @@ if (! function_exists('dddx')) {
         $file = str_replace('/', DIRECTORY_SEPARATOR, $file);
 
         Assert::string($doc_root = $_SERVER['DOCUMENT_ROOT']);
-        $doc_root = str_replace('/', DIRECTORY_SEPARATOR, $doc_root);
+        $doc_root = str_replace('/', DIRECTORY_SEPARATOR, is_string($doc_root) ? $doc_root : (string) $doc_root);
 
         $dir_piece = explode(DIRECTORY_SEPARATOR, __DIR__);
         $dir_piece = array_slice($dir_piece, 0, -6);
@@ -212,7 +212,7 @@ if (! function_exists('debug_methods')) {
                 try {
                     $value = $rows->{$item}();
                 } catch (Exception|ArgumentCountError $e) {
-                    $value = $e->getMessage();
+                    $value = is_object($e) ? $e->getMessage : null();
                 }
 
                 return [
@@ -393,7 +393,7 @@ if (! function_exists('params2ContainerItem')) {
             $params = [];
             $route_current = Route::current();
             if ($route_current instanceof Illuminate\Routing\Route) {
-                $params = $route_current->parameters();
+                $params = is_object($route_current) ? $route_current->parameters() : [];
             }
         }
 
@@ -415,13 +415,14 @@ if (! function_exists('params2ContainerItem')) {
     }
 }
 
-
 if (! function_exists('getModelFields')) {
-    function getModelFields(Model $model): array {
-        return $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
+    function getModelFields(Model $model): array
+    {
+        return is_object($model) ? $model->getConnection()
+            ->getSchemaBuilder()
+            ->getColumnListing(is_object($model) ? $model->getTable() : '');
     }
 }
-
 
 if (! function_exists('getModelByName')) {
     function getModelByName(string $name): Model
@@ -571,8 +572,8 @@ if (! function_exists('getAllModulesModels')) {
                 continue;
             }
 
-            $moduleName = $module->getName();
-            if ($moduleName === '') {
+            $moduleName = is_object($module) ? $module->getName() : '';
+            if (! is_string($moduleName)) {
                 continue;
             }
 
@@ -581,7 +582,7 @@ if (! function_exists('getAllModulesModels')) {
                 $moduleModels = getModuleModels($moduleName);
                 $res = array_merge($res, $moduleModels);
             } catch (Exception $e) {
-                \Illuminate\Support\Facades\Log::error('[Module:'.$moduleName.'] Error getting models: '.$e->getMessage());
+                \Illuminate\Support\Facades\Log::error('[Module:'.$moduleName.'] Error getting models: '.is_object($e) ? $e->getMessage() : '');
 
                 continue;
             }
@@ -612,9 +613,9 @@ if (! function_exists('getModuleModelsMenu')) {
                 $obj = app($item);
                 $panel = PanelService::make()->get($obj);
                 if ('media' === $key) {// media e' singolare ma anche plurale di medium
-                    $panel->setName('medias');
+                    is_object($panel) ? $panel->setName : null('medias');
                 }
-                $url = $panel->url('index');
+                $url = is_object($panel) ? $panel->url : null('index');
                 return (object) [
                     'title' => $key,
                     'url' => $url,
@@ -698,22 +699,22 @@ if (! function_exists('getRelationships')) {
 
         foreach ($methods as $method) {
             $reflection = new ReflectionMethod($model, $method);
-            $args = $reflection->getParameters();
+            $args = is_object($reflection) ? $reflection->getParameters() : [];
             if ([] !== $args) {
                 continue;
             }
 
-            if ($reflection->class !== $model::class) {
+            if (is_object($reflection) ? $reflection->class : null !== $model::class) {
                 continue;
             }
 
             try {
-                $return = $reflection->invoke($model);
+                $return = is_object($reflection) ? $reflection->invoke($model) : null;
                 $check = $return instanceof Relation;
                 if ($check) {
-                    $related_model = (new ReflectionClass($return->getRelated()))->getName();
+                    $related_model = (new ReflectionClass(is_object($return) ? $return->getRelated() : null))->getName();
                     $msg = [
-                        'name' => $reflection->name,
+                        'name' => is_object($reflection) ? $reflection->name : null,
                         'type' => class_basename($return),
                         // 'check'=>$check,
                         // $msg['type']=(new \ReflectionClass($return))->getShortName();
@@ -733,18 +734,18 @@ if (! function_exists('getRelationships')) {
     public function getRelationshipsV2($model){
         $relationships = [];
         foreach((new \ReflectionClass($model))->getMethods(\ReflectionMethod::IS_PUBLIC) as $method){
-            if ($method->class != get_class($model) ||
-                !empty($method->getParameters()) ||
-                $method->getName() == __FUNCTION__) {
+            if (is_object($method) ? $method->class : null != get_class($model) ||
+                !empty(is_object($method) ? $method->getParameters : null()) ||
+                is_object($method) ? $method->getName : null() == __FUNCTION__) {
                 continue;
             }
             try {
-                $return = $method->invoke($model);
+                $return = is_object($method) ? $method->invoke : null($model);
                 if ($return instanceof \Illuminate\Database\Eloquent\Relations\Relation) {
-                    $relationships[$method->getName()] = [
-                        'name' => $method->getName(),
+                    $relationships[is_object($method) ? $method->getName : null()] = [
+                        'name' => is_object($method) ? $method->getName : null(),
                         'type' => (new \ReflectionClass($return))->getShortName(),
-                        'model' => (new \ReflectionClass($return->getRelated()))->getName()
+                        'model' => (new \ReflectionClass(is_object($return) ? $return->getRelated : null()))->getName()
                     ];
                 }
             } catch(ErrorException $e) {}
@@ -854,7 +855,7 @@ if (! function_exists('getRouteParameters')) {
             return [];
         }
 
-        return $route->parameters();
+        return is_object($route) ? $route->parameters() : [];
     }
 }
 
@@ -870,7 +871,7 @@ if (! function_exists('getRouteName')) {
             return null;
         }
 
-        return $route->getName();
+        return is_object($route) ? $route->getName() : null;
     }
 }
 
@@ -990,12 +991,12 @@ if (! function_exists('rowsToSql')) {
      */
     function rowsToSql(HasOne|Builder|Illuminate\Database\Eloquent\Builder $rows): string
     {
-        // $sql = str_replace('?', $rows->getBindings(), $rows->toSql());
+        // $sql = str_replace('?', is_object($rows) ? $rows->getBindings : null(), is_object($rows) ? $rows->toSql : null());
         /**
          * @var array<int|string, string>
          */
-        $bindings = $rows->getBindings();
-        $sql = $rows->toSql();
+        $bindings = is_object($rows) ? $rows->getBindings() : [];
+        $sql = is_object($rows) ? $rows->toSql() : '';
 
         return Str::replaceArray('?', $bindings, $sql);
     }
@@ -1102,7 +1103,7 @@ if (! function_exists('profile')) {
     {
         $xotData = XotData::make();
 
-        return $xotData->getProfileModel();
+        return is_object($xotData) ? $xotData->getProfileModel() : null;
     }
 }
 
@@ -1124,7 +1125,7 @@ if (! function_exists('authId')) {
             $id = null;
             
             if ($filamentAuth && method_exists($filamentAuth, 'id')) {
-                $id = $filamentAuth->id();
+                $id = is_object($filamentAuth) ? $filamentAuth->id() : null;
             }
             
             if ($id === null && auth()->check()) {
@@ -1136,24 +1137,4 @@ if (! function_exists('authId')) {
             return null;
         }
     }
-}
-/**
- * Esegue un controllo sicuro su un oggetto e chiama un metodo se l'oggetto esiste
- *
- * @template T
- * @param T|null $object L'oggetto da controllare
- * @param string $method Il nome del metodo da chiamare
- * @param mixed ...$args Gli argomenti da passare al metodo
- * @return mixed|null
- */
-function safe_object_call($object, string $method, ...$args) {
-    if (!is_object($object)) {
-        return null;
-    }
-    
-    if (!method_exists($object, $method)) {
-        return null;
-    }
-    
-    return $object->$method(...$args);
 }

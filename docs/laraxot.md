@@ -419,7 +419,7 @@ class GeoLogger
             ->info('Geocoding request', [
                 'address' => $address,
                 'success' => $result !== null,
-                'coordinates' => $result?->toArray()
+                'coordinates' => $result->toArray()
             ]);
     }
 
@@ -553,7 +553,7 @@ class ModuleList extends Component
     
     public function delete(int $id): void
     {
-        Module::find($id)?->delete();
+        Module::find($id)->delete();
         $this->emit('moduleDeleted');
     }
 }
@@ -845,7 +845,7 @@ class ClientMapWidget extends Widget
     protected function getViewData(): array
     {
         return [
-            'clients' => $this->listClients?->getTableQuery()
+            'clients' => $this->listClients->getTableQuery()
                 ->get(['latitude', 'longitude', 'name'])
                 ->toArray(),
         ];
@@ -891,7 +891,7 @@ class ClientMapWidget extends Widget
     protected function getViewData(): array
     {
         return [
-            'clients' => $this->listClients?->getTableQuery()
+            'clients' => $this->listClients->getTableQuery()
                 ->get(['latitude', 'longitude', 'name'])
                 ->toArray(),
         ];

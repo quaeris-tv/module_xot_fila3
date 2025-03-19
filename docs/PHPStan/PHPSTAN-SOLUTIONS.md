@@ -255,7 +255,7 @@ public function user()
 3. **Per variabili complesse, usare PHPDoc anche all'interno dei metodi**
 4. **Usare assert in modo strategico per aiutare l'analisi statica**
 5. **Validare input esterni il prima possibile**
-6. **Utilizzare nullsafe operator (?->) quando appropriato**
+6. **Utilizzare nullsafe operator (->) quando appropriato**
 7. **Utilizzare collections invece di array quando possibile**
 8. **Configurare .phpstan.neon per ignorare errori non risolvibili**
 

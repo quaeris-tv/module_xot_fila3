@@ -29,7 +29,8 @@ class HandlersRepository
      */
     public function addReporter(callable $reporter): int
     {
-        return array_unshift($this->reporters, $reporter);
+        array_unshift($this->reporters, $reporter);
+        return count($this->reporters);
     }
 
     /**
@@ -37,7 +38,8 @@ class HandlersRepository
      */
     public function addRenderer(callable $renderer): int
     {
-        return array_unshift($this->renderers, $renderer);
+        array_unshift($this->renderers, $renderer);
+        return count($this->renderers);
     }
 
     /**
@@ -45,7 +47,8 @@ class HandlersRepository
      */
     public function addConsoleRenderer(callable $renderer): int
     {
-        return array_unshift($this->consoleRenderers, $renderer);
+        array_unshift($this->consoleRenderers, $renderer);
+        return count($this->consoleRenderers);
     }
 
     /**
@@ -86,11 +89,11 @@ class HandlersRepository
         if ($handler instanceof \Closure) {
             $reflection = new \ReflectionFunction($handler);
         } else {
-            /** @var callable $handler */
             $reflection = new \ReflectionFunction(\Closure::fromCallable($handler));
         }
 
-        if (! $params = $reflection->getParameters()) {
+        $params = $reflection->getParameters();
+        if (empty($params)) {
             return false;
         }
 

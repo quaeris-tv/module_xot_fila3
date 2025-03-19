@@ -14,6 +14,9 @@ use Webmozart\Assert\Assert;
 
 use function Safe\glob;
 
+/**
+ * @method static string getUrl(string $name, array<string, mixed> $parameters = [], bool $isAbsolute = true)
+ */
 abstract class XotBaseResource extends FilamentResource
 {
     use NavigationLabelTrait;
@@ -58,12 +61,11 @@ abstract class XotBaseResource extends FilamentResource
     }
 
     /**
-     * per rendere obbligatorio questo metodo.
-     * @return array<string,\Filament\Forms\Components\Component>
+     * @return array<string|int,\Filament\Forms\Components\Component>
      */
     abstract public static function getFormSchema(): array;
 
-    public static function form(Form $form): Form
+    final public static function form(Form $form): Form
     {
         return $form
             ->schema(static::getFormSchema());
@@ -95,6 +97,9 @@ abstract class XotBaseResource extends FilamentResource
         }
     }
 
+    /**
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>
+     */
     public static function getPages(): array
     {
         $prefix = static::class.'\Pages\\';
@@ -136,7 +141,8 @@ abstract class XotBaseResource extends FilamentResource
     {
         $reflector = new \ReflectionClass(static::class);
         $filename = $reflector->getFileName();
-        Assert::string($filename, 'Filename must be a string');
+        Assert::string($filename);
+        
         $path = Str::of($filename)
             ->before('.php')
             ->append(DIRECTORY_SEPARATOR)
@@ -144,23 +150,19 @@ abstract class XotBaseResource extends FilamentResource
             ->toString();
 
         $files = glob($path.DIRECTORY_SEPARATOR.'*RelationManager.php');
-        /** @var array<class-string<\Filament\Resources\RelationManagers\RelationManager>|\Filament\Resources\RelationManagers\RelationGroup|\Filament\Resources\RelationManagers\RelationManagerConfiguration> $res */
+        Assert::isArray($files);
+        
+        /** @var array<class-string<\Filament\Resources\RelationManagers\RelationManager>> $res */
         $res = [];
         foreach ($files as $file) {
-            // Ensure $file is a string before passing to pathinfo
-            if (!is_string($file)) {
-                continue;
-            }
+            $className = Str::of($file)
+                ->after('RelationManagers'.DIRECTORY_SEPARATOR)
+                ->before('.php')
+                ->prepend(static::class.'\RelationManagers\\')
+                ->toString();
             
-            $info = pathinfo($file);
-            if (!isset($info['filename']) || !is_string($info['filename'])) {
-                continue;
-            }
-            
-            $className = static::class.'\RelationManagers\\'.$info['filename'];
-            // Verifica che la classe esista ed estenda RelationManager
-            if (class_exists($className) && is_subclass_of($className, \Filament\Resources\RelationManagers\RelationManager::class)) {
-                /** @var class-string<\Filament\Resources\RelationManagers\RelationManager> $className */
+            if (class_exists($className)) {
+                Assert::subclassOf($className, \Filament\Resources\RelationManagers\RelationManager::class);
                 $res[] = $className;
             }
         }

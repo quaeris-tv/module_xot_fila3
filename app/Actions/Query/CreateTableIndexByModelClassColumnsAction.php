@@ -66,8 +66,8 @@ class CreateTableIndexByModelClassColumnsAction
     /**
      * Validate that all specified columns exist in the table.
      *
-     * @param string   $connectionName database connection name
-     * @param string   $tableName      name of the table
+     * @param string $connectionName database connection name
+     * @param string $tableName      name of the table
      * @param string[] $columns        columns to validate
      *
      * @throws \RuntimeException
@@ -123,7 +123,7 @@ class CreateTableIndexByModelClassColumnsAction
     /**
      * Generate a unique index name based on the table and columns.
      *
-     * @param string   $tableName name of the table
+     * @param string $tableName name of the table
      * @param string[] $columns   columns to include in the index
      */
     private function generateIndexName(string $tableName, array $columns): string

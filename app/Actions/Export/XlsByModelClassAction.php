@@ -108,7 +108,7 @@ class XlsByModelClassAction
         $with = [];
         foreach ($includes as $include) {
             // Assicuriamo che $include sia una stringa
-            $includeStr = (string) $include;
+            $includeStr = is_string($include) ? $include : (string) $include;
             
             // Verifichiamo se contiene un punto (indicatore di relazione)
             if (!Str::contains($includeStr, '.')) {

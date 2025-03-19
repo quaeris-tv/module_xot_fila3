@@ -18,7 +18,7 @@ class GetYearFilter
     {
         $opts = [];
         for ($curr = $from; $curr <= $to; ++$curr) {
-            $opts[(string) $curr] = (string) $curr;
+            $opts[is_string($curr) ? $curr : (string) $curr] = is_string($curr) ? $curr : (string) $curr;
         }
 
         return SelectFilter::make($fieldName)

@@ -137,10 +137,16 @@ abstract class XotBaseManageRelatedRecords extends FilamentManageRelatedRecords
         $recordTitle = $this->getRecordTitle();
         $relationship = static::getRelationshipName();
 
-        $titleString = is_string($recordTitle) ? $recordTitle : (string) $recordTitle;
+        $titleString = '';
+        if ($recordTitle instanceof \Illuminate\Contracts\Support\Htmlable) {
+            $titleString = $recordTitle->toHtml();
+        } else {
+            $titleString = (string) $recordTitle;
+        }
+
         return Str::of($relationship)
             ->title()
-            ->prepend("{$titleString} - ")
+            ->prepend($titleString.' - ')
             ->toString();
     }
 }

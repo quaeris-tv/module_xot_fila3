@@ -66,7 +66,7 @@ class GetViewBlocksOptionsByTypeAction
                     
                 Assert::notEmpty($modulePath, 'Impossibile estrarre il nome del modulo dal percorso');
                 
-                $module_low = (string) $modulePath->lower();
+                $module_low = is_string($modulePath) ? $modulePath : (string) $modulePath->lower();
                 Assert::stringNotEmpty($module_low, 'Il nome del modulo in minuscolo non può essere vuoto');
                 
                 // Estraiamo il nome del file

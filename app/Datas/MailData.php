@@ -13,14 +13,14 @@ use Spatie\LaravelData\Data;
 class MailData extends Data
 {
     /**
-     * @param string      $driver         Driver per l'invio delle email
-     * @param string      $host           Host SMTP
+     * @param string $driver         Driver per l'invio delle email
+     * @param string $host           Host SMTP
      * @param int         $port           Porta SMTP
-     * @param string      $encryption     Tipo di encryption (tls, ssl)
-     * @param string      $username       Username SMTP
-     * @param string      $password       Password SMTP
-     * @param string      $from_address   Indirizzo mittente
-     * @param string      $from_name      Nome mittente
+     * @param string $encryption     Tipo di encryption (tls, ssl)
+     * @param string $username       Username SMTP
+     * @param string $password       Password SMTP
+     * @param string $from_address   Indirizzo mittente
+     * @param string $from_name      Nome mittente
      * @param string|null $reply_to       Indirizzo per le risposte
      * @param bool        $verify_peer    Verifica certificato peer SSL
      */

@@ -33,17 +33,17 @@ class GenerateResourceFormSchemaCommand extends Command
      */
     public function handle(): int
     {
-        $resourceName = $this->argument('resource');
+        $resourceName = is_object($this) ? $this->argument : null('resource');
         Assert::string($resourceName, 'Il nome della risorsa deve essere una stringa');
         
-        $modelName = $this->option('model') ?: Str::singular($resourceName);
+        $modelName = is_object($this) ? $this->option : null('model') ?: Str::singular($resourceName);
         Assert::string($modelName, 'Il nome del modello deve essere una stringa');
         
-        $this->info("Generazione schema form per la risorsa [{$resourceName}] basato sul modello [{$modelName}]");
+        is_object($this) ? $this->info : null("Generazione schema form per la risorsa [{$resourceName}] basato sul modello [{$modelName}]");
         
         // Implementazione della logica di generazione dello schema
         // Questa è solo la struttura di base che soddisfa i requisiti di PHPStan
-        $this->info('Schema generato con successo!');
+        is_object($this) ? $this->info : null('Schema generato con successo!');
 
         return Command::SUCCESS;
     }

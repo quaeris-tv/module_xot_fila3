@@ -164,7 +164,7 @@ class InformationSchemaTable extends Model
      * Get the rows array for the Sushi model.
      * This method is required by Sushi to provide the data.
      *
-     * @return array<int, array<string, mixed
+     * @return array<int, array<string, mixed>>
      */
     public function getRows(): array
     {
@@ -201,7 +201,7 @@ class InformationSchemaTable extends Model
             })
             ->toArray();
 
-        /** @var array<int, array<string, mixed */
+        /** @var array<int, array<string, mixed>> */
         return $results;
     }
 

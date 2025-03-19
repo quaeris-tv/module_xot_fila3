@@ -153,7 +153,7 @@ class RouteService
             //}
             //return $tmp;
 
-            $container_root = $parents->first()->row;
+            $container_root = $parents->first()?->row;
         }
 
         //$containers_class = self::getContainersClass();

@@ -26,7 +26,7 @@ use Illuminate\Support\Carbon;
  * @property bool               $is_reclamed
  * @property bool               $table_enable
  * @property PivotContract|null $pivot
- * @property string             $tennant_name
+ * @property string $tennant_name
  *
  * @method mixed     getKey()
  * @method string    getRouteKey()
@@ -101,7 +101,7 @@ interface ModelContract
      * @param  \Closure|string|array|\Illuminate\Contracts\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
-     * @param  string  $boolean
+     * @param  string $boolean
      * @return $this
 
     public function where($column, $operator = null, $value = null, $boolean = 'and');
@@ -110,7 +110,7 @@ interface ModelContract
     /*
      * Execute the query and get the first result or throw an exception.
      *
-     * @param  array|string  $columns
+     * @param  array|string $columns
      * @return \Illuminate\Database\Eloquent\Model|static
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>

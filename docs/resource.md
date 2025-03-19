@@ -343,7 +343,7 @@ class ListMyRecords extends XotBaseListRecords
     public function mount(): void
     {
         abort_unless(
-            Auth::user()?->can('resource.read'),
+            Auth::user()->can('resource.read'),
             403
         );
     }
@@ -352,7 +352,7 @@ class ListMyRecords extends XotBaseListRecords
     {
         return [
             CreateAction::make()
-                ->visible(fn () => Auth::user()?->can('resource.write')),
+                ->visible(fn () => Auth::user()->can('resource.write')),
         ];
     }
 }
@@ -401,7 +401,7 @@ class ListRecords extends XotBaseListRecords
     public function mount(): void
     {
         abort_unless(
-            Auth::user()?->can('resource.read'),
+            Auth::user()->can('resource.read'),
             403
         );
     }
@@ -519,5 +519,85 @@ public function getTableColumns(): array
 2. Usa i metodi standard di Filament per la configurazione della tabella
 3. Mantieni la visibilità pubblica dei metodi
 4. Non aggiungere il prefisso "List" ai nomi dei metodi
+
+## Tipizzazione degli Array
+
+È **OBBLIGATORIO** utilizzare chiavi di tipo stringa per tutti gli array restituiti dai seguenti metodi:
+
+### 1. Form Schema
+```php
+/**
+ * @return array<string, Forms\Components\Component>
+ */
+public static function getFormSchema(): array
+{
+    return [
+        'nome' => TextInput::make('nome'),
+        'email' => TextInput::make('email'),
+    ];
+}
+```
+
+### 2. Table Columns
+```php
+/**
+ * @return array<string, Tables\Columns\Column>
+ */
+public function getListTableColumns(): array
+{
+    return [
+        'id' => TextColumn::make('id'),
+        'nome' => TextColumn::make('nome'),
+    ];
+}
+```
+
+### 3. Table Filters
+```php
+/**
+ * @return array<string, Tables\Filters\BaseFilter>
+ */
+public function getTableFilters(): array
+{
+    return [
+        'attivo' => Filter::make('attivo'),
+        'tipo' => SelectFilter::make('tipo'),
+    ];
+}
+```
+
+### 4. Table Actions
+```php
+/**
+ * @return array<string, Tables\Actions\Action|Tables\Actions\ActionGroup>
+ */
+public function getTableActions(): array
+{
+    return [
+        'edit' => EditAction::make(),
+        'delete' => DeleteAction::make(),
+    ];
+}
+```
+
+### 5. Table Bulk Actions
+```php
+/**
+ * @return array<string, Tables\Actions\BulkAction>
+ */
+public function getTableBulkActions(): array
+{
+    return [
+        'delete' => DeleteBulkAction::make(),
+        'export' => ExportBulkAction::make(),
+    ];
+}
+```
+
+### ⚠️ Importante
+- NON utilizzare array numerici
+- Le chiavi devono essere descrittive e rappresentare l'azione/campo
+- Mantenere consistenza nei nomi delle chiavi tra diverse risorse
+- Utilizzare sempre la tipizzazione PHPDoc corretta
 
 // ... existing code ... 

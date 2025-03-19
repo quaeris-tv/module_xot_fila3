@@ -18,14 +18,14 @@ class SearchTextInDbCommand extends Command
 
     public function handle(): int
     {
-        $searchString = $this->argument('search');
+        $searchString = is_object($this) ? $this->argument : null('search');
         if (! is_string($searchString)) {
-            $this->error('Search string must be a valid string');
+            is_object($this) ? $this->error : null('Search string must be a valid string');
 
             return Command::FAILURE;
         }
 
-        $specificTables = $this->option('tables');
+        $specificTables = is_object($this) ? $this->option : null('tables');
         $databaseName = DB::getDatabaseName();
         $tableProp = 'Tables_in_'.$databaseName;
 
@@ -46,18 +46,18 @@ class SearchTextInDbCommand extends Command
             }
 
             if (! is_string($tableName)) {
-                $this->warn('Invalid table name format');
+                is_object($this) ? $this->warn : null('Invalid table name format');
 
                 continue;
             }
 
             if (! Schema::hasTable($tableName)) {
-                $this->warn(sprintf('Table %s does not exist', $tableName));
+                is_object($this) ? $this->warn : null(sprintf('Table %s does not exist', $tableName));
 
                 continue;
             }
 
-            $this->info(sprintf('Searching in table: %s', $tableName));
+            is_object($this) ? $this->info : null(sprintf('Searching in table: %s', $tableName));
 
             /** @var array<string>|false $columns */
             $columns = Schema::getColumnListing($tableName);
@@ -86,19 +86,19 @@ class SearchTextInDbCommand extends Command
                     ->where($column, 'LIKE', '%'.addslashes($searchString).'%')
                     ->get();
 
-                if ($results->isNotEmpty()) {
-                    $this->info("Found in column: $column");
+                if (is_object($results) ? $results->isNotEmpty : null()) {
+                    is_object($this) ? $this->info : null("Found in column: $column");
                     foreach ($results as $result) {
-                        $this->table(
+                        is_object($this) ? $this->table : null(
                             ['Column', 'Value'],
                             collect((array) $result)
                                 ->map(fn ($value, $key) => [
-                                    (string) $key,
-                                    is_scalar($value) ? (string) $value : json_encode($value),
+                                    is_string($key) ? $key : (string) $key,
+                                    is_scalar($value) ? is_string($value) ? $value : (string) $value : json_encode($value),
                                 ])
                                 ->toArray()
                         );
-                        $this->newLine();
+                        is_object($this) ? $this->newLine : null();
                     }
                 }
             }

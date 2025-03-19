@@ -13,6 +13,13 @@ use Webmozart\Assert\Assert;
 /**
  * Trait Updater.
  * https://dev.to/hasanmn/automatically-update-createdby-and-updatedby-in-laravel-using-bootable-traits-28g9.
+ *
+ * @property int|null $created_by ID dell'utente che ha creato il record
+ * @property int|null $updated_by ID dell'utente che ha aggiornato il record
+ * @property int|null $deleted_by ID dell'utente che ha eliminato il record
+ * @property-read \Modules\Xot\Contracts\ProfileContract|null $creator
+ * @property-read \Modules\Xot\Contracts\ProfileContract|null $updater
+ * @property-read \Modules\Xot\Contracts\ProfileContract|null $deleter
  */
 trait Updater
 {
@@ -59,17 +66,25 @@ trait Updater
     {
         static::creating(
             static function (Model $model): void {
-                // @phpstan-ignore property.notFound
-                $model->created_by = authId();
-                // @phpstan-ignore property.notFound
-                $model->updated_by = authId();
+                Assert::isArray($attributes = $model->getAttributes());
+
+                if (array_key_exists('created_by', $attributes)) {
+                    $model->setAttribute('created_by', authId());
+                }
+
+                if (array_key_exists('updated_by', $attributes)) {
+                    $model->setAttribute('updated_by', authId());
+                }
             }
         );
 
         static::updating(
             static function (Model $model): void {
-                // @phpstan-ignore property.notFound
-                $model->updated_by = authId();
+                Assert::isArray($attributes = $model->getAttributes());
+
+                if (array_key_exists('updated_by', $attributes)) {
+                    $model->setAttribute('updated_by', authId());
+                }
             }
         );
         /*
@@ -81,7 +96,7 @@ trait Updater
                 Assert::isArray($attributes = $model->attributes);
 
                 if (\in_array('deleted_by', array_keys($attributes), false)) {
-                    $model->update(['deleted_by' => authId()]);
+                    $model->setAttribute('deleted_by', authId());
                 }
             }
         );

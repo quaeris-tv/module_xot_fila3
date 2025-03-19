@@ -20,28 +20,20 @@ class ViewLog extends \Modules\Xot\Filament\Resources\Pages\XotBaseViewRecord
     {
         $log = $this->getRecord()->getModel();
         return [
-            Section::make('Informazioni Log')
+            'log_info' => Section::make('Informazioni Log')
                 ->schema([
-                    Grid::make(['default' => 3])
+                    'log_grid' => Grid::make(['default' => 3])
                         ->schema([
-                            TextEntry::make('id')
-                                ->label('ID'),
-                            TextEntry::make('message')
-                                ->label('Messaggio'),
-                            TextEntry::make('level')
-                                ->label('Livello'),
-                            TextEntry::make('level_name')
-                                ->label('Nome Livello'),
-                            TextEntry::make('channel')
-                                ->label('Canale'),
-                            TextEntry::make('datetime')
-                                ->label('Data e Ora')
+                            'id' => TextEntry::make('id'),
+                            'message' => TextEntry::make('message'),
+                            'level' => TextEntry::make('level'),
+                            'level_name' => TextEntry::make('level_name'),
+                            'channel' => TextEntry::make('channel'),
+                            'datetime' => TextEntry::make('datetime')
                                 ->dateTime(),
-                            TextEntry::make('context')
-                                ->label('Contesto')
+                            'context' => TextEntry::make('context')
                                 ->formatStateUsing(fn ($state) => json_encode($state, JSON_PRETTY_PRINT)),
-                            TextEntry::make('extra')
-                                ->label('Extra')
+                            'extra' => TextEntry::make('extra')
                                 ->formatStateUsing(fn ($state) => json_encode($state, JSON_PRETTY_PRINT)),
                         ]),
                 ]),

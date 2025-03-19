@@ -87,17 +87,20 @@ class ModuleService
                  * @var class-string
                  */
                 $class = $ns.'\\'.$name;
+                if ($tmp === null) {
+                    continue;
+                }
                 $tmp->class = $class;
-
                 $name = Str::snake($name);
                 $tmp->name = $name;
-                // 434    Parameter #1 $argument of class ReflectionClass constructor expects class-string<T of object>|T of object, string given.
+
                 try {
                     $reflection_class = new \ReflectionClass($tmp->class);
                     if (! $reflection_class->isAbstract()) {
                         $data[$tmp->name] = $tmp->class;
                     }
                 } catch (\Exception) {
+                    // Ignore reflection errors
                 }
             }
         }

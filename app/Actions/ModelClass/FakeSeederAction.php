@@ -44,7 +44,7 @@ class FakeSeederAction
         $chunks = $rows->chunk(self::CHUNK_SIZE);
 
         $chunks->each(function (Collection $chunk) use ($modelClass): void {
-            /** @var array<int, array<string, mixed $data */
+            /** @var array<int, array<string, mixed>> $data */
             $data = $chunk->map(function ($item) {
                 assert($item instanceof Model);
 

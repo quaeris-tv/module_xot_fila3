@@ -15,8 +15,8 @@ namespace Modules\Xot\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|PulseEntry  query()
  * @property int         $id
  * @property int         $timestamp
- * @property string      $type
- * @property string      $key
+ * @property string $type
+ * @property string $key
  * @property string|null $key_hash
  * @property int|null    $value
  * @method static \Illuminate\Database\Eloquent\Builder|PulseEntry whereId($value)

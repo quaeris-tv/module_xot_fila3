@@ -33,7 +33,7 @@ trait TransTrait
         if (is_array($res)) {
             $first = current($res);
             if (is_string($first) || is_numeric($first)) {
-                return (string) $first;
+                return is_string($first) ? $first : (string) $first;
             }
         }
 
@@ -98,7 +98,7 @@ trait TransTrait
         if (is_array($trans)) {
             $first = current($trans);
             if (is_string($first) || is_numeric($first)) {
-                return (string) $first;
+                return is_string($first) ? $first : (string) $first;
             }
         }
 
@@ -128,7 +128,7 @@ trait TransTrait
 
         // $first = current($trans);
         // if (is_string($first) || is_numeric($first)) {
-        //    return (string) $first;
+        //    return is_string($first) ? $first : (string) $first;
         // }
 
         return 'fix:'.$key;

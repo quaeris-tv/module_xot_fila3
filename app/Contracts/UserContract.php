@@ -22,8 +22,8 @@ use Spatie\Permission\Contracts\Role;
  * Modules\User\Contracts\UserContract.
  *
  * @property ProfileContract|null                                                       $profile
- * @property string                                                                     $id
- * @property string                                                                     $handle
+ * @property string $id
+ * @property string $handle
  * @property string|null                                                                $first_name
  * @property string|null                                                                $last_name
  * @property string|null                                                                $full_name

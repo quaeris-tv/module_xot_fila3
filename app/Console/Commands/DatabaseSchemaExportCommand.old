@@ -38,14 +38,14 @@ class DatabaseSchemaExportCommand extends Command
      */
     public function handle(): int
     {
-        $databaseName = $this->argument('database') ?? config('database.connections.mysql.database');
+        $databaseName = is_object($this) ? $this->argument : null('database') ?? config('database.connections.mysql.database');
         if (! is_string($databaseName)) {
-            $databaseName = (string) $databaseName;
+            $databaseName = is_string($databaseName) ? $databaseName : (string) $databaseName;
         }
-        $this->info('schemaexport '.$databaseName);
+        is_object($this) ? $this->info : null('schemaexport '.$databaseName);
         
-        $connection = $this->argument('connection') ?: $this->ask('Inserisci il nome della connessione database');
-        $outputPath = $this->option('output');
+        $connection = is_object($this) ? $this->argument : null('connection') ?: is_object($this) ? $this->ask : null('Inserisci il nome della connessione database');
+        $outputPath = is_object($this) ? $this->option : null('output');
 
         // Assicurati che il percorso sia assoluto
         if ($outputPath !== null && !Str::startsWith($outputPath, '/')) {
@@ -53,9 +53,9 @@ class DatabaseSchemaExportCommand extends Command
         }
 
         // Assicurati che connection sia una stringa
-        $connectionStr = is_string($connection) ? $connection : (string)$connection;
+        $connectionStr = is_string($connection) ? $connection : is_string($connection) ? $connection : (string) $connection;
         
-        $this->info("Estrazione schema dal database usando la connessione: {$connectionStr}");
+        is_object($this) ? $this->info : null("Estrazione schema dal database usando la connessione: {$connectionStr}");
 
         try {
             // Imposta la connessione database
@@ -63,9 +63,9 @@ class DatabaseSchemaExportCommand extends Command
             $databaseName = DB::connection()->getDatabaseName();
 
             // Assicurati che databaseName sia una stringa
-            $databaseNameStr = is_string($databaseName) ? $databaseName : (string)$databaseName;
+            $databaseNameStr = is_string($databaseName) ? $databaseName : is_string($databaseName) ? $databaseName : (string) $databaseName;
             
-            $this->info("Connesso al database: {$databaseNameStr}");
+            is_object($this) ? $this->info : null("Connesso al database: {$databaseNameStr}");
 
             // Ottieni tutte le tabelle
             $tables = DB::select('SHOW TABLES');
@@ -79,12 +79,12 @@ class DatabaseSchemaExportCommand extends Command
                 'generated_at' => now()->toIso8601String(),
             ];
 
-            $bar = $this->output->createProgressBar(count($tables));
-            $bar->start();
+            $bar = is_object($this) ? $this->output : null->createProgressBar(count($tables));
+            is_object($bar) ? $bar->start : null();
 
             foreach ($tables as $table) {
                 $tableName = $table->$tablesKey;
-                $this->info("\nAnalyzing table: {$tableName}");
+                is_object($this) ? $this->info : null("\nAnalyzing table: {$tableName}");
 
                 // Ottieni la struttura della tabella
                 $columns = DB::select("SHOW FULL COLUMNS FROM `{$tableName}`");
@@ -98,7 +98,7 @@ class DatabaseSchemaExportCommand extends Command
                 try {
                     $result = \Safe\preg_match_all('/CONSTRAINT\s+`([^`]+)`\s+FOREIGN\s+KEY\s+\(`([^`]+)`\)\s+REFERENCES\s+`([^`]+)`\s+\(`([^`]+)`\)/i', $createTableSql, $foreignKeys, PREG_SET_ORDER);
                 } catch (\Exception $e) {
-                    $this->error("Errore nell'analisi delle foreign keys per la tabella {$tableName}: " . $e->getMessage());
+                    is_object($this) ? $this->error : null("Errore nell'analisi delle foreign keys per la tabella {$tableName}: " . is_object($e) ? $e->getMessage : null());
                     $foreignKeys = [];
                 }
 
@@ -108,46 +108,46 @@ class DatabaseSchemaExportCommand extends Command
                     'indices' => [],
                     'foreign_keys' => [],
                     'primary_key' => null,
-                    'model_name' => $this->getModelName($tableName),
-                    'migration_name' => $this->getMigrationName($tableName),
+                    'model_name' => is_object($this) ? $this->getModelName : null($tableName),
+                    'migration_name' => is_object($this) ? $this->getMigrationName : null($tableName),
                 ];
 
                 // Processa colonne
                 foreach ($columns as $column) {
                     $columnSchema = [
-                        'name' => $column->Field,
-                        'type' => $column->Type,
-                        'null' => $column->Null === 'YES',
-                        'key' => $column->Key,
-                        'default' => $column->Default,
-                        'extra' => $column->Extra,
-                        'comment' => $column->Comment,
+                        'name' => is_object($column) ? $column->Field : null,
+                        'type' => is_object($column) ? $column->Type : null,
+                        'null' => is_object($column) ? $column->Null : null === 'YES',
+                        'key' => is_object($column) ? $column->Key : null,
+                        'default' => is_object($column) ? $column->Default : null,
+                        'extra' => is_object($column) ? $column->Extra : null,
+                        'comment' => is_object($column) ? $column->Comment : null,
                     ];
 
-                    if ($column->Key === 'PRI') {
-                        $tableSchema['primary_key'] = $column->Field;
+                    if (is_object($column) ? $column->Key : null === 'PRI') {
+                        $tableSchema['primary_key'] = is_object($column) ? $column->Field : null;
                     }
 
-                    $tableSchema['columns'][$column->Field] = $columnSchema;
+                    $tableSchema['columns'][is_object($column) ? $column->Field : null] = $columnSchema;
                 }
 
                 // Processa indici
                 $groupedIndices = [];
                 foreach ($indices as $index) {
-                    $indexName = $index->Key_name;
+                    $indexName = is_object($index) ? $index->Key_name : null;
 
                     if (!isset($groupedIndices[$indexName])) {
                         $groupedIndices[$indexName] = [
                             'name' => $indexName,
                             'columns' => [],
-                            'unique' => !$index->Non_unique,
-                            'type' => $index->Index_type,
+                            'unique' => !is_object($index) ? $index->Non_unique : null,
+                            'type' => is_object($index) ? $index->Index_type : null,
                         ];
                     }
 
                     $groupedIndices[$indexName]['columns'][] = [
-                        'name' => $index->Column_name,
-                        'order' => $index->Seq_in_index,
+                        'name' => is_object($index) ? $index->Column_name : null,
+                        'order' => is_object($index) ? $index->Seq_in_index : null,
                     ];
                 }
 
@@ -174,11 +174,11 @@ class DatabaseSchemaExportCommand extends Command
                 }
 
                 $schema['tables'][$tableName] = $tableSchema;
-                $bar->advance();
+                is_object($bar) ? $bar->advance : null();
             }
 
-            $bar->finish();
-            $this->newLine(2);
+            is_object($bar) ? $bar->finish : null();
+            is_object($this) ? $this->newLine : null(2);
 
             // Crea directory se non esiste
             if ($outputPath !== null) {
@@ -191,18 +191,18 @@ class DatabaseSchemaExportCommand extends Command
                 try {
                     $jsonContent = \Safe\json_encode($schema, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
                     File::put($outputPath, $jsonContent);
-                    $this->info("Schema del database esportato con successo in: {$outputPath}");
+                    is_object($this) ? $this->info : null("Schema del database esportato con successo in: {$outputPath}");
                 } catch (\Exception $e) {
-                    $this->error("Errore nell'encoding JSON dello schema: " . $e->getMessage());
+                    is_object($this) ? $this->error : null("Errore nell'encoding JSON dello schema: " . is_object($e) ? $e->getMessage : null());
                     return Command::FAILURE;
                 }
             }
 
             // Genera un report riassuntivo
-            $this->generateReport($schema);
+            is_object($this) ? $this->generateReport : null($schema);
 
         } catch (\Exception $e) {
-            $this->error("Errore durante l'estrazione dello schema: " . $e->getMessage());
+            is_object($this) ? $this->error : null("Errore durante l'estrazione dello schema: " . is_object($e) ? $e->getMessage : null());
             return 1;
         }
 
@@ -242,25 +242,25 @@ class DatabaseSchemaExportCommand extends Command
      */
     protected function generateReport(array $schema): void
     {
-        $this->info("Riepilogo Schema Database");
-        $this->info("=============================================");
-        $this->info("Database: " . $schema['database']);
-        $this->info("Numero tabelle: " . count($schema['tables']));
-        $this->info("Numero relazioni: " . count($schema['relationships']));
+        is_object($this) ? $this->info : null("Riepilogo Schema Database");
+        is_object($this) ? $this->info : null("=============================================");
+        is_object($this) ? $this->info : null("Database: " . $schema['database']);
+        is_object($this) ? $this->info : null("Numero tabelle: " . count($schema['tables']));
+        is_object($this) ? $this->info : null("Numero relazioni: " . count($schema['relationships']));
 
-        $this->newLine();
-        $this->info("Tabelle principali:");
+        is_object($this) ? $this->newLine : null();
+        is_object($this) ? $this->info : null("Tabelle principali:");
 
         // Mostra le tabelle più rilevanti (con più relazioni o colonne)
         if (!isset($schema['tables']) || !is_array($schema['tables']) || !isset($schema['relationships']) || !is_array($schema['relationships'])) {
-            $this->error('Schema non valido: mancano tables o relationships');
+            is_object($this) ? $this->error : null('Schema non valido: mancano tables o relationships');
             return;
         }
 
-        /** @var \Illuminate\Support\Collection<string, array<string, mixed $relevantTables */
+        /** @var \Illuminate\Support\Collection<string, array<string, mixed> $relevantTables */
         $relevantTables = collect($schema['tables'])
             ->map(function (array $table, string $tableName) use ($schema): array {
-                /** @var \Illuminate\Support\Collection<int, array<string, mixed $relationships */
+                /** @var \Illuminate\Support\Collection<int, array<string, mixed> $relationships */
                 $relationships = collect($schema['relationships']);
                 
                 /** @var int $relationCount */
@@ -280,18 +280,18 @@ class DatabaseSchemaExportCommand extends Command
             ->sortByDesc('relations')
             ->take(10);
 
-        $this->table(
+        is_object($this) ? $this->table : null(
             ['Tabella', 'Colonne', 'Relazioni', 'Modello Suggerito'],
-            $relevantTables->values()->toArray()
+            is_object($relevantTables) ? $relevantTables->values : null()->toArray()
         );
 
-        $this->newLine();
-        $this->info("File JSON generato correttamente. Puoi usarlo per creare modelli, migrazioni, factories e seeder.");
+        is_object($this) ? $this->newLine : null();
+        is_object($this) ? $this->info : null("File JSON generato correttamente. Puoi usarlo per creare modelli, migrazioni, factories e seeder.");
     }
 
     private function getDatabaseTableList(string $databaseName): array
     {
-        $sql = 'SHOW TABLES FROM '.$this->wrapValue($databaseName);
+        $sql = 'SHOW TABLES FROM '.is_object($this) ? $this->wrapValue : null($databaseName);
 
         $result = DB::select($sql);
         $list = collect($result)->map(
@@ -317,7 +317,7 @@ class DatabaseSchemaExportCommand extends Command
         
         $table_name = $rows[0]->TABLE_NAME;
         if (! is_string($table_name)) {
-            $table_name = (string) $table_name;
+            $table_name = is_string($table_name) ? $table_name : (string) $table_name;
         }
         
         return $table_name;

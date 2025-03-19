@@ -11,7 +11,7 @@ namespace Modules\Xot\Models;
  * @property int|null                        $user_id
  * @property string|null                     $ip_address
  * @property string|null                     $user_agent
- * @property string                          $payload
+ * @property string $payload
  * @property int                             $last_activity
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -35,7 +35,7 @@ namespace Modules\Xot\Models;
  * @property int|null                        $user_id
  * @property string|null                     $ip_address
  * @property string|null                     $user_agent
- * @property string                          $payload
+ * @property string $payload
  * @property int                             $last_activity
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at

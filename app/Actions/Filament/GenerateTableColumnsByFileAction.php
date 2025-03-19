@@ -49,27 +49,27 @@ class GenerateTableColumnsByFileAction
         $class_name = Str::replace(base_path('Modules/'), 'Modules/', $filename);
         Assert::string($class_name = Str::replace('/', '\\', $class_name), '['.__LINE__.']['.class_basename($this).']');
         $class_name = Str::substr($class_name, 0, -4);
-        
+
         // Verifichiamo che la classe esista
         Assert::classExists($class_name);
-        
+
         /** @var Resource $resourceInstance */
         $resourceInstance = app($class_name);
-        
+
         // Verifichiamo che il metodo getModel esista
         if (!method_exists($resourceInstance, 'getModel')) {
             return;
         }
-        
+
         /** @var string $modelClass */
         $modelClass = $resourceInstance->getModel();
-        
+
         // Verifichiamo che la classe del modello esista
         Assert::classExists($modelClass);
-        
+
         /** @var Model $modelInstance */
         $modelInstance = app($modelClass);
-        
+
         // ------------------- TABLE -------------------
         // *
         $body = app(GetMethodBodyAction::class)->execute($class_name, 'table');
@@ -94,7 +94,7 @@ class GenerateTableColumnsByFileAction
         // Verifichiamo che il metodo getFillable esista
         if (method_exists($modelInstance, 'getFillable')) {
             $fillable = $modelInstance->getFillable();
-            
+
             // Verifichiamo che $fillable sia un array e contenga 'anno'
             if (is_array($fillable) && in_array('anno', $fillable)) {
                 $body = app(GetMethodBodyAction::class)->execute($class_name, 'table');

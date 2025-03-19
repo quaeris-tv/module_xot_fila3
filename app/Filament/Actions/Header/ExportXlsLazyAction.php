@@ -34,22 +34,20 @@ class ExportXlsLazyAction extends Action
                 $transKey .= '.fields';
 
                 $resource = $livewire->getResource();
+                /** @var array<int, string> $fields */
                 $fields = [];
                 if (method_exists($resource, 'getXlsFields')) {
-                    $fields = $resource::getXlsFields($livewire->tableFilters);
-                    // Convertiamo tutti i valori a stringhe
-                    if (is_array($fields)) {
-                        $fields = array_map(function ($field): string {
+                    $rawFields = $resource::getXlsFields($livewire->tableFilters);
+                    if (is_array($rawFields)) {
+                        $fields = array_map(static function ($field): string {
+                            if (is_object($field) && method_exists($field, '__toString')) {
+                                return $field->__toString();
+                            }
                             if (is_scalar($field)) {
                                 return (string) $field;
                             }
-                            if (is_object($field) && method_exists($field, '__toString')) {
-                                return (string) $field;
-                            }
                             return '';
-                        }, $fields);
-                    } else {
-                        $fields = [];
+                        }, $rawFields);
                     }
                     Assert::isArray($fields);
                 }
@@ -58,14 +56,12 @@ class ExportXlsLazyAction extends Action
                 
                 if ($lazy->count() < 7) {
                     Assert::isInstanceOf($lazy, Builder::class);
-                    // Ottieni il criterio per la query
-                    $query = $lazy;
                     
-                    // Convertiamo l'array di campi in array<int|string, string>
+                    /** @var array<int, string> $stringFields */
                     $stringFields = array_values($fields);
                     
                     return app(ExportXlsByQuery::class)->execute(
-                        $query, 
+                        $lazy, 
                         $filename, 
                         $stringFields, 
                         null

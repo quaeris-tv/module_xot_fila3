@@ -111,7 +111,7 @@ class GetFactoryAction
             );
         }
         
-        $module_name = (string)$module_parts;
+        $module_name = is_string($module_parts) ? $module_parts : (string) $module_parts;
         
         // Eseguiamo il comando Artisan per generare la factory
         $artisan_cmd = 'module:make-factory';

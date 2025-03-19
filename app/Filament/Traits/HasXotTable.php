@@ -276,7 +276,7 @@ trait HasXotTable
     /**
      * Get table filters.
      *
-     * @return array<string, Tables\Filters\Filter|TernaryFilter|BaseFilter>
+     * @return array<string|int, Tables\Filters\Filter|TernaryFilter|BaseFilter>
      */
     public function getTableFilters(): array
     {

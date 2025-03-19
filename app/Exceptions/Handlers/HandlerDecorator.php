@@ -20,10 +20,7 @@ class HandlerDecorator implements ExceptionHandler
 
     public function __call(string $name, array $parameters): mixed
     {
-        /** @var callable */
-        $callable = [$this->defaultHandler, $name];
-
-        return \call_user_func_array($callable, $parameters);
+        return call_user_func_array([$this->defaultHandler, $name], $parameters);
     }
 
     public function report(\Throwable $e): void

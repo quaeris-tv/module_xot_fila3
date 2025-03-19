@@ -14,14 +14,14 @@ use Spatie\Health\Models\HealthCheckResultHistoryItem as BaseHealthCheckResultHi
  * 
  *
  * @property int                             $id
- * @property string                          $check_name
- * @property string                          $check_label
- * @property string                          $status
+ * @property string $check_name
+ * @property string $check_label
+ * @property string $status
  * @property string|null                     $notification_message
  * @property string|null                     $short_summary
  * @property array                           $meta
- * @property string                          $ended_at
- * @property string                          $batch
+ * @property string $ended_at
+ * @property string $batch
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|HealthCheckResultHistoryItem newModelQuery()

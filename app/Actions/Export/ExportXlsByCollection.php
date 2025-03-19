@@ -9,6 +9,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Modules\Xot\Exports\CollectionExport;
 use Spatie\QueueableAction\QueueableAction;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ExportXlsByCollection
 {
@@ -31,7 +33,7 @@ class ExportXlsByCollection
         array $fields = [],
     ): BinaryFileResponse {
         // Assicuriamo che $fields sia un array di stringhe
-        $stringFields = array_map(function ($field) {
+        $stringFields = array_map(function (string|int|float|bool $field): string {
             return (string) $field;
         }, array_values($fields));
 
@@ -42,5 +44,60 @@ class ExportXlsByCollection
         );
 
         return Excel::download($export, $filename);
+    }
+
+    /**
+     * Esporta una collezione in Excel utilizzando PhpSpreadsheet direttamente.
+     *
+     * @param Collection $rows La collezione da esportare
+     * @param array<string> $fields Campi da includere nell'export
+     * @param string $filename Nome del file Excel
+     * 
+     * @return string Il percorso del file generato
+     */
+    public function executeWithSpreadsheet(Collection $rows, array $fields, string $filename): string
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $this->writeHeader($sheet, $fields);
+        $this->writeRows($sheet, $rows, $fields);
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filename);
+
+        return $filename;
+    }
+
+    /**
+     * Scrive l'intestazione nel foglio Excel.
+     *
+     * @param \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet Il foglio Excel
+     * @param array<string> $fields I campi da utilizzare come intestazioni
+     */
+    protected function writeHeader(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet, array $fields): void
+    {
+        foreach ($fields as $col => $field) {
+            $sheet->setCellValueByColumnAndRow($col + 1, 1, $field);
+        }
+    }
+
+    /**
+     * Scrive le righe di dati nel foglio Excel.
+     *
+     * @param \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet Il foglio Excel
+     * @param Collection $rows Le righe di dati da scrivere
+     * @param array<string> $fields I campi da utilizzare per le colonne
+     */
+    protected function writeRows(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet, Collection $rows, array $fields): void
+    {
+        $row = 2;
+        foreach ($rows as $data) {
+            foreach ($fields as $col => $field) {
+                $value = $data->get($field) ?? '';
+                $sheet->setCellValueByColumnAndRow($col + 1, $row, $value);
+            }
+            $row++;
+        }
     }
 }

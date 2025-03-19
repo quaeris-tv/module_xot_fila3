@@ -34,7 +34,7 @@ class AutoLabelAction
         // Per i componenti Field di Filament
         if (method_exists($component, 'getName')) {
             $name = $component->getName();
-            return (string) $name;
+            return is_string($name) ? $name : (string) $name;
         }
 
         // Per i componenti generali di Filament
@@ -43,7 +43,7 @@ class AutoLabelAction
         // @phpstan-ignore function.alreadyNarrowedType
         if (method_exists($component, 'getStatePath')) {
             $statePath = $component->getStatePath();
-            return (string) $statePath;
+            return is_string($statePath) ? $statePath : (string) $statePath;
         }
 
         // Fallback a reflection per altri casi
@@ -51,7 +51,7 @@ class AutoLabelAction
         if ($reflectionClass->hasProperty('name') && $reflectionClass->getProperty('name')->isPublic()) {
             $property = $reflectionClass->getProperty('name');
             $value = $property->getValue($component);
-            return (string) $value;
+            return is_string($value) ? $value : (string) $value;
         }
 
         // Ultima risorsa: ritorniamo il nome della classe
@@ -82,7 +82,7 @@ class AutoLabelAction
         
         // Assicuriamo che $class sia una stringa
         if (!is_string($class)) {
-            $class = is_object($class) ? get_class($class) : (string) $class;
+            $class = is_object($class) ? get_class($class) : is_string($class) ? $class : (string) $class;
         }
 
         Assert::stringNotEmpty($class, 'La classe deve essere una stringa non vuota');
