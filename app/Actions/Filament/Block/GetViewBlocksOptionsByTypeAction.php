@@ -36,7 +36,7 @@ class GetViewBlocksOptionsByTypeAction
         Assert::stringNotEmpty($type, 'Il tipo di blocco non può essere vuoto');
         
         $basePath = base_path('Modules');
-        Assert::directoryExists($basePath, 'Il percorso base dei moduli non esiste');
+        Assert::directory($basePath, 'Il percorso base dei moduli non esiste');
         
         $globPattern = $basePath.'/*/resources/views/components/blocks/'.$type.'/*.blade.php';
         $files = File::glob($globPattern);

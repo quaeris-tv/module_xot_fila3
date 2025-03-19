@@ -10,7 +10,7 @@ use Modules\Xot\Filament\Resources\LogResource;
 
 
 
-use Modules\Xot\Filament\Resources\RelationManagers\XotBaseRelationManager;
+use Modules\Xot\Filament\Resources\XotBaseResource\RelationManager\XotBaseRelationManager;
 
 
 

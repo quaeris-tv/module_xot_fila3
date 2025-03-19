@@ -244,7 +244,6 @@ class GenerateModelsFromSchemaCommand extends Command
 
 declare(strict_types=1);
 
-namespace {$namespace};
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -405,7 +404,7 @@ PHP;
         $length = null;
 
         if (is_string($columnType) && \Safe\preg_match('/\((\d+)\)/', $columnType, $matches)) {
-            $length = isset($matches[1]) ? (int)$matches[1] : null;
+            $length = (int)$matches[1];
         }
 
         $methodName = match ($baseType) {
@@ -433,8 +432,8 @@ PHP;
             $code .= "->length({$length})";
         } elseif ('decimal' === $methodName) {
             if (is_string($columnType) && \Safe\preg_match('/\((\d+),\s*(\d+)\)/', $columnType, $matches)) {
-                $precision = isset($matches[1]) ? (int)$matches[1] : 0;
-                $scale = isset($matches[2]) ? (int)$matches[2] : 0;
+                $precision = (int)$matches[1];
+                $scale = (int)$matches[2];
                 $code .= ", {$precision}, {$scale}";
             }
         } elseif ('enum' === $methodName) {

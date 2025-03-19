@@ -38,6 +38,12 @@ class DatabaseSchemaExportCommand extends Command
      */
     public function handle(): int
     {
+        $databaseName = $this->argument('database') ?? config('database.connections.mysql.database');
+        if (! is_string($databaseName)) {
+            $databaseName = (string) $databaseName;
+        }
+        $this->info('schemaexport '.$databaseName);
+        
         $connection = $this->argument('connection') ?: $this->ask('Inserisci il nome della connessione database');
         $outputPath = $this->option('output');
 
@@ -251,10 +257,10 @@ class DatabaseSchemaExportCommand extends Command
             return;
         }
 
-        /** @var \Illuminate\Support\Collection<string, array<string, mixed>> $relevantTables */
+        /** @var \Illuminate\Support\Collection<string, array<string, mixed $relevantTables */
         $relevantTables = collect($schema['tables'])
             ->map(function (array $table, string $tableName) use ($schema): array {
-                /** @var \Illuminate\Support\Collection<int, array<string, mixed>> $relationships */
+                /** @var \Illuminate\Support\Collection<int, array<string, mixed $relationships */
                 $relationships = collect($schema['relationships']);
                 
                 /** @var int $relationCount */
@@ -281,5 +287,39 @@ class DatabaseSchemaExportCommand extends Command
 
         $this->newLine();
         $this->info("File JSON generato correttamente. Puoi usarlo per creare modelli, migrazioni, factories e seeder.");
+    }
+
+    private function getDatabaseTableList(string $databaseName): array
+    {
+        $sql = 'SHOW TABLES FROM '.$this->wrapValue($databaseName);
+
+        $result = DB::select($sql);
+        $list = collect($result)->map(
+            function (object $item) {
+                $item_vars = get_object_vars($item);
+                /** @var string $first_var */
+                $first_var = reset($item_vars);
+                return $first_var;
+            }
+        )->toArray();
+
+        return $list;
+    }
+
+    private function getUnescapedTableName(string $databaseName, string $tableName): string
+    {
+        $sql = 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?';
+        $rows = DB::select($sql, [$databaseName, $tableName]);
+        
+        if (! isset($rows[0])) {
+            return $tableName;
+        }
+        
+        $table_name = $rows[0]->TABLE_NAME;
+        if (! is_string($table_name)) {
+            $table_name = (string) $table_name;
+        }
+        
+        return $table_name;
     }
 }

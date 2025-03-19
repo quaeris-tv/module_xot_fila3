@@ -9,6 +9,7 @@ use Illuminate\View\FileViewFinder;
 use Modules\Xot\Datas\XotData;
 use Spatie\QueueableAction\QueueableAction;
 use Webmozart\Assert\Assert;
+use Nwidart\Modules\Facades\Module;
 
 class GetViewNameSpacePathAction
 {
@@ -17,28 +18,17 @@ class GetViewNameSpacePathAction
     /**
      * @throws \Exception
      */
-    public function execute(string $ns): string
+    public function execute(?string $module_name = null): string
     {
-        $xot = XotData::make();
-        /** @var FileViewFinder $finder */
-        $finder = view()->getFinder();
-        $viewHints = [];
-        if (method_exists($finder, 'getHints')) {
-            /** @var array<string, array<string>> $viewHints */
-            $viewHints = $finder->getHints();
+        if (null !== $module_name && '' !== $module_name) {
+            $module_path = Module::getModulePath($module_name);
+            /** @var string $namespace_path */
+            $namespace_path = $module_path.'Resources/views';
+        } else {
+            /** @var string $namespace_path */
+            $namespace_path = resource_path('views');
         }
 
-        $path = Arr::get($viewHints, "$ns.0");
-        if (! empty($path) && is_string($path)) {
-            return $path;
-        }
-
-        if (\in_array($ns, ['pub_theme', 'adm_theme'], false)) {
-            Assert::string($theme_name = ($xot->{$ns} ?? ''));
-
-            return base_path('Themes/'.$theme_name);
-        }
-
-        throw new \Exception('View namespace not found['.$ns.'].');
+        return $namespace_path;
     }
 }

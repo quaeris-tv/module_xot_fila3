@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Spatie\QueueableAction\QueueableAction;
+use Webmozart\Assert\Assert;
 
 class FakeSeederAction
 {
@@ -43,7 +44,7 @@ class FakeSeederAction
         $chunks = $rows->chunk(self::CHUNK_SIZE);
 
         $chunks->each(function (Collection $chunk) use ($modelClass): void {
-            /** @var array<int, array<string, mixed>> $data */
+            /** @var array<int, array<string, mixed $data */
             $data = $chunk->map(function ($item) {
                 assert($item instanceof Model);
 
@@ -101,5 +102,15 @@ class FakeSeederAction
         app(self::class)
             ->onQueue()
             ->execute($modelClass, $qty - self::MAX_RECORDS);
+    }
+
+    private function getTableName(string $modelClass): string
+    {
+        Assert::classExists($modelClass, 'La classe del modello deve esistere');
+        
+        /** @var \Illuminate\Database\Eloquent\Model */
+        $model = app($modelClass);
+        
+        return $model->getTable();
     }
 }

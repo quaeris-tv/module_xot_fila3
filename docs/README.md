@@ -103,4 +103,12 @@ Il modulo è configurabile tramite:
 - `/docs/filament/`: Integrazione Filament
 - `/docs/model/`: Gestione modelli
 - `/docs/service/`: Servizi disponibili
-- `/docs/activity/`: Sistema di logging 
+- `/docs/activity/`: Sistema di logging
+
+## Documentazione PHPStan
+
+- [Linee Guida PHPStan Livello 10](./PHPStan/LEVEL10_LINEE_GUIDA.md) - Linee guida dettagliate per rispettare le regole di PHPStan a livello 10
+
+## Documentazione Filament
+
+- [Linee Guida per getInfolistSchema](./filament/INFOLIST_SCHEMA_GUIDELINES.md) - Guida completa per l'implementazione corretta del metodo getInfolistSchema, con focus sull'uso delle chiavi stringa negli array 

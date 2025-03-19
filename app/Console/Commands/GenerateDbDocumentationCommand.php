@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Modules\Xot\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use InvalidArgumentException;
+use Symfony\Component\Console\Helper\TableSeparator;
 
 class GenerateDbDocumentationCommand extends Command
 {
@@ -57,6 +60,10 @@ class GenerateDbDocumentationCommand extends Command
         $progressBar->start();
 
         foreach ($schema['tables'] as $tableName => $tableInfo) {
+            if (!is_array($tableInfo) || !is_array($schema['relationships'] ?? [])) {
+                $this->error("Errore: dati non validi per la tabella {$tableName}");
+                continue;
+            }
             $this->generateTableDoc($tableName, $tableInfo, $schema['relationships'], $outputDir);
             $progressBar->advance();
         }
@@ -153,11 +160,27 @@ Tabella `{$tableName}` nel database.
 MARKDOWN;
 
         foreach ($columns as $columnName => $column) {
-            $type = isset($column['type']) ? (string)$column['type'] : '';
+            $type = '';
+            if (isset($column['type']) && (is_string($column['type']) || is_numeric($column['type']))) {
+                $type = (string)$column['type'];
+            }
+
             $nullable = isset($column['nullable']) && $column['nullable'] ? 'Sì' : 'No';
-            $default = isset($column['default']) ? (string)$column['default'] : 'NULL';
-            $extra = isset($column['extra']) ? (string)$column['extra'] : '';
-            $comment = isset($column['comment']) ? (string)$column['comment'] : '';
+
+            $default = 'NULL';
+            if (isset($column['default']) && (is_string($column['default']) || is_numeric($column['default']))) {
+                $default = (string)$column['default'];
+            }
+
+            $extra = '';
+            if (isset($column['extra']) && (is_string($column['extra']) || is_numeric($column['extra']))) {
+                $extra = (string)$column['extra'];
+            }
+
+            $comment = '';
+            if (isset($column['comment']) && (is_string($column['comment']) || is_numeric($column['comment']))) {
+                $comment = (string)$column['comment'];
+            }
             
             $columnNameSafe = is_string($columnName) ? $columnName : '';
             $content .= "| {$columnNameSafe} | {$type} | {$nullable} | {$default} | {$extra} | {$comment} |\n";

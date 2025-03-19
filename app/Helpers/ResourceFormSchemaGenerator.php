@@ -77,8 +77,8 @@ class ResourceFormSchemaGenerator
         $results = ['updated' => [], 'skipped' => []];
 
         foreach ($resourceFiles as $file) {
-            Assert::string($file);
             try {
+                Assert::string($file);
                 $content = file_get_contents($file);
                 $namespaceMatch = [];
                 $classMatch = [];
@@ -96,7 +96,7 @@ class ResourceFormSchemaGenerator
                     }
                 }
             } catch (\Exception $e) {
-                $results['skipped'][] = $file.': '.$e->getMessage();
+                $results['skipped'][] = (string)$file.': '.$e->getMessage();
             }
         }
 

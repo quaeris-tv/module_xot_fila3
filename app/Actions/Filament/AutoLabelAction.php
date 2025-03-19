@@ -34,7 +34,7 @@ class AutoLabelAction
         // Per i componenti Field di Filament
         if (method_exists($component, 'getName')) {
             $name = $component->getName();
-            return is_string($name) ? $name : (string) $name;
+            return (string) $name;
         }
 
         // Per i componenti generali di Filament
@@ -43,7 +43,7 @@ class AutoLabelAction
         // @phpstan-ignore function.alreadyNarrowedType
         if (method_exists($component, 'getStatePath')) {
             $statePath = $component->getStatePath();
-            return is_string($statePath) ? $statePath : (string) $statePath;
+            return (string) $statePath;
         }
 
         // Fallback a reflection per altri casi
@@ -51,7 +51,7 @@ class AutoLabelAction
         if ($reflectionClass->hasProperty('name') && $reflectionClass->getProperty('name')->isPublic()) {
             $property = $reflectionClass->getProperty('name');
             $value = $property->getValue($component);
-            return is_string($value) ? $value : (string) $value;
+            return (string) $value;
         }
 
         // Ultima risorsa: ritorniamo il nome della classe
@@ -74,10 +74,15 @@ class AutoLabelAction
         // Otteniamo il valore dalla backtrace
         $class = Arr::get($backtrace, '5.class');
 
-        // Gestiamo il caso in cui $class non sia una stringa
-        if (!is_string($class) || empty($class)) {
+        // Gestiamo il caso in cui $class sia vuoto
+        if (empty($class)) {
             // Se non riusciamo a ottenere la classe dal backtrace, usiamo la classe del componente
             $class = get_class($component);
+        }
+        
+        // Assicuriamo che $class sia una stringa
+        if (!is_string($class)) {
+            $class = is_object($class) ? get_class($class) : (string) $class;
         }
 
         Assert::stringNotEmpty($class, 'La classe deve essere una stringa non vuota');
@@ -118,9 +123,8 @@ class AutoLabelAction
             }
             
             // Applichiamo l'etichetta al componente
-            if (method_exists($component, 'label')) {
-                $component->label($label);
-            }
+            // Field ha sempre un metodo label(), quindi possiamo chiamarlo direttamente
+            $component->label($label);
         }
 
         return $component;

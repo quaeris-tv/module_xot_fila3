@@ -72,12 +72,12 @@ class InformationSchemaTable extends Model
     /**
      * The connection name for the model.
      */
-    protected $connection = 'mysql';
+    protected $connection = 'information_schema';
 
     /**
      * The table associated with the model.
      */
-    protected $table = 'information_schema_tables';
+    protected $table = 'tables';
 
     /**
      * Indicates if the model should be timestamped.
@@ -90,27 +90,24 @@ class InformationSchemaTable extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'TABLE_CATALOG',
-        'TABLE_SCHEMA',
-        'TABLE_NAME',
-        'TABLE_TYPE',
-        'ENGINE',
-        'VERSION',
-        'ROW_FORMAT',
-        'TABLE_ROWS',
-        'AVG_ROW_LENGTH',
-        'DATA_LENGTH',
-        'MAX_DATA_LENGTH',
-        'INDEX_LENGTH',
-        'DATA_FREE',
-        'AUTO_INCREMENT',
-        'CREATE_TIME',
-        'UPDATE_TIME',
-        'CHECK_TIME',
-        'TABLE_COLLATION',
-        'CHECKSUM',
-        'CREATE_OPTIONS',
-        'TABLE_COMMENT',
+        'table_schema',
+        'table_name',
+        'engine',
+        'version',
+        'row_format',
+        'table_rows',
+        'avg_row_length',
+        'data_length',
+        'max_data_length',
+        'index_length',
+        'data_free',
+        'create_time',
+        'update_time',
+        'check_time',
+        'table_collation',
+        'checksum',
+        'create_options',
+        'table_comment',
     ];
 
     /**
@@ -167,7 +164,7 @@ class InformationSchemaTable extends Model
      * Get the rows array for the Sushi model.
      * This method is required by Sushi to provide the data.
      *
-     * @return array<int, array<string, mixed>>
+     * @return array<int, array<string, mixed
      */
     public function getRows(): array
     {
@@ -203,7 +200,8 @@ class InformationSchemaTable extends Model
                 return $data;
             })
             ->toArray();
-        // @phpstan-ignore return.type
+
+        /** @var array<int, array<string, mixed */
         return $results;
     }
 
@@ -336,8 +334,11 @@ class InformationSchemaTable extends Model
             return 0;
         }
 
-        // @phpstan-ignore-next-line
-        return (int) $dataLength + (int) $indexLength;
+        // Assicuriamo che i valori siano convertiti correttamente in intero
+        $dataLengthInt = is_numeric($dataLength) ? (int) $dataLength : 0;
+        $indexLengthInt = is_numeric($indexLength) ? (int) $indexLength : 0;
+        
+        return $dataLengthInt + $indexLengthInt;
     }
 
     /**

@@ -1644,11 +1644,7 @@ return [
 ✅ **USARE** invece:
 - Un file di traduzione dedicato per ogni componente
 - Struttura standardizzata con chiave 'navigation'
-- Definizione completa di gruppo, label, icona e ordinamento 
-
-
-=======
->>>>>>> origin/dev
+- Definizione completa di gruppo, label, icona e ordinamento
 # Laraxot Framework
 
 ## Panoramica
@@ -8819,4 +8815,4 @@ class ClientMapWidget extends Widget
 3. Implementare sempre controlli di tipo
 4. Gestire i casi di errore in modo graceful
 5. La reattività funziona automaticamente con Livewire 3
-  - Contact section 
+  - Contact section
