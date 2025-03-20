@@ -4,108 +4,175 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Exceptions\Handlers;
 
+use Throwable;
+use Illuminate\Support\Collection;
+use Illuminate\Contracts\Container\Container;
+
 /**
  * The handlers repository.
  */
 class HandlersRepository
 {
     /**
-     * The custom handlers reporting exceptions.
+     * @var array<string, array<string>>
      */
-    protected array $reporters = [];
+    private array $reporters = [];
 
     /**
-     * The custom handlers rendering exceptions.
+     * @var array<string, array<string>>
      */
-    protected array $renderers = [];
+    private array $renderers = [];
 
     /**
-     * The custom handlers rendering exceptions in console.
+     * @var array<string, array<string>>
      */
-    protected array $consoleRenderers = [];
+    private array $consoleRenderers = [];
 
-    /**
-     * Register a custom handler to report exceptions.
-     */
-    public function addReporter(callable $reporter): int
+    private Container $container;
+
+    public function __construct(Container $container)
     {
-        array_unshift($this->reporters, $reporter);
-        return count($this->reporters);
+        $this->container = $container;
     }
 
     /**
-     * Register a custom handler to render exceptions.
+     * Get reporters for an exception.
+     *
+     * @param Throwable $e
+     * @return array<object>
      */
-    public function addRenderer(callable $renderer): int
+    public function getReportersByException(Throwable $e): array
     {
-        array_unshift($this->renderers, $renderer);
-        return count($this->renderers);
+        return $this->getHandlersByException($e, $this->reporters);
     }
 
     /**
-     * Register a custom handler to render exceptions in console.
+     * Get renderers for an exception.
+     *
+     * @param Throwable $e
+     * @return array<object>
      */
-    public function addConsoleRenderer(callable $renderer): int
+    public function getRenderersByException(Throwable $e): array
     {
-        array_unshift($this->consoleRenderers, $renderer);
-        return count($this->consoleRenderers);
+        return $this->getHandlersByException($e, $this->renderers);
     }
 
     /**
-     * Retrieve all reporters handling the given exception.
+     * Get console renderers for an exception.
+     *
+     * @param Throwable $e
+     * @return array<object>
      */
-    public function getReportersByException(\Throwable $e): array
+    public function getConsoleRenderersByException(Throwable $e): array
     {
-        return array_filter($this->reporters, function (mixed $handler) use ($e): bool {
-            return is_callable($handler) && $this->handlesException($handler, $e);
-        });
+        return $this->getHandlersByException($e, $this->consoleRenderers);
     }
 
     /**
-     * Retrieve all renderers handling the given exception.
+     * Add a reporter.
+     *
+     * @param string $reporter
+     * @param string $exceptionType
      */
-    public function getRenderersByException(\Throwable $e): array
+    public function addReporter(string $reporter, string $exceptionType): void
     {
-        return array_filter($this->renderers, function (mixed $handler) use ($e): bool {
-            return is_callable($handler) && $this->handlesException($handler, $e);
-        });
+        $this->reporters[$exceptionType][] = $reporter;
     }
 
     /**
-     * Retrieve all console renderers handling the given exception.
+     * Add a renderer.
+     *
+     * @param string $renderer
+     * @param string $exceptionType
      */
-    public function getConsoleRenderersByException(\Throwable $e): array
+    public function addRenderer(string $renderer, string $exceptionType): void
     {
-        return array_filter($this->consoleRenderers, function (mixed $handler) use ($e): bool {
-            return is_callable($handler) && $this->handlesException($handler, $e);
-        });
+        $this->renderers[$exceptionType][] = $renderer;
     }
 
     /**
-     * Determine whether the given handler can handle the provided exception.
+     * Add a console renderer.
+     *
+     * @param string $renderer
+     * @param string $exceptionType
      */
-    protected function handlesException(callable $handler, \Throwable $e): bool
+    public function addConsoleRenderer(string $renderer, string $exceptionType): void
     {
-        if ($handler instanceof \Closure) {
-            $reflection = new \ReflectionFunction($handler);
-        } else {
-            $reflection = new \ReflectionFunction(\Closure::fromCallable($handler));
+        $this->consoleRenderers[$exceptionType][] = $renderer;
+    }
+
+    /**
+     * Get handlers for an exception.
+     *
+     * @param Throwable $e
+     * @param array<string, array<string>> $handlers
+     * @return array<object>
+     */
+    private function getHandlersByException(Throwable $e, array $handlers): array
+    {
+        return Collection::make($handlers)
+            ->filter(fn (array $_, string $type) => is_a($e, $type))
+            ->flatten()
+            ->map(fn (string $handler) => $this->container->make($handler))
+            ->all();
+    }
+
+    public function getReporters(Throwable $e): Collection
+    {
+        return collect($this->reporters)
+            ->filter(fn ($handler) => $this->handlesException($handler, $e))
+            ->map(fn ($handler) => $this->resolveHandler($handler));
+    }
+
+    public function getRenderers(Throwable $e): Collection
+    {
+        return collect($this->renderers)
+            ->filter(fn ($handler) => $this->handlesException($handler, $e))
+            ->map(fn ($handler) => $this->resolveHandler($handler));
+    }
+
+    public function getConsoleRenderers(Throwable $e): Collection
+    {
+        return collect($this->consoleRenderers)
+            ->filter(fn ($handler) => $this->handlesException($handler, $e))
+            ->map(fn ($handler) => $this->resolveHandler($handler));
+    }
+
+    public function addReporter(string|callable $handler): void
+    {
+        $this->reporters[] = $handler;
+    }
+
+    public function addRenderer(string|callable $handler): void
+    {
+        $this->renderers[] = $handler;
+    }
+
+    public function addConsoleRenderer(string|callable $handler): void
+    {
+        $this->consoleRenderers[] = $handler;
+    }
+
+    public function shouldReport(Throwable $e): bool
+    {
+        return true;
+    }
+
+    private function handlesException(string|callable $handler, Throwable $e): bool
+    {
+        if (is_string($handler)) {
+            return is_a($e, $handler);
         }
 
-        $params = $reflection->getParameters();
-        if (empty($params)) {
-            return false;
+        return true;
+    }
+
+    private function resolveHandler(string|callable $handler): object|callable
+    {
+        if (is_string($handler)) {
+            return $this->container->make($handler);
         }
 
-        if (!isset($params[0]) || !$params[0]->hasType()) {
-            return true;
-        }
-
-        $type = $params[0]->getType();
-        if (!$type instanceof \ReflectionNamedType || $type->isBuiltin()) {
-            return true;
-        }
-
-        return is_a($e, $type->getName(), true);
+        return $handler;
     }
 }

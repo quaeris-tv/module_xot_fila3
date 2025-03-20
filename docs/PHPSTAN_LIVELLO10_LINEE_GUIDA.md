@@ -446,13 +446,13 @@ Anche se i file sono fisicamente collocati nella directory `app` del modulo, il 
 Uno degli errori più frequenti riguarda il namespace delle Actions:
 
 - ✅ **CORRETTO**: `namespace Modules\Xot\Actions;`
-- ❌ **ERRATO**: `namespace Modules\Xot\app\Actions;`
+- ❌ **ERRATO**: `namespace Modules\Xot\Actions;`
 
 Anche se il file Actions si trova fisicamente in `Modules/Xot/app/Actions/`, il namespace deve sempre essere `Modules\Xot\Actions` (senza il segmento `app`).
 
 Gli errori PHPStan relativi a questo problema sono spesso del tipo:
 ```
-Class 'Modules\Xot\app\Actions\MyAction' not found.
+Class 'Modules\Xot\Actions\MyAction' not found.
 ```
 
 #### Namespace Corretti per i Componenti Principali
@@ -474,7 +474,7 @@ Class 'Modules\Xot\app\Actions\MyAction' not found.
 namespace Modules\Xot\Console\Commands;
 
 // ERRATO
-namespace Modules\Xot\app\Console\Commands;
+namespace Modules\Xot\Console\Commands;
 ```
 
-Errori PHPStan come `Class Modules\Xot\app\Console\Commands\DatabaseSchemaExportCommand not found` indicano che è necessario rimuovere il segmento `app` dal namespace.
+Errori PHPStan come `Class Modules\Xot\Console\Commands\DatabaseSchemaExportCommand not found` indicano che è necessario rimuovere il segmento `app` dal namespace.

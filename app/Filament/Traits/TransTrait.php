@@ -77,8 +77,15 @@ trait TransTrait
     public static function transFunc(string $func, bool $exceptionIfNotExist = false): string
     {
         $key = static::getKeyTransFunc($func);
-        /** @var string|array<int|string,mixed>|null $trans */
-        $trans = trans($key);
+        try{
+            /** @var string|array<int|string,mixed>|null $trans */
+            $trans = trans($key);
+        } catch (\TypeError $e) {
+            dddx([
+                'e' => $e,
+                'key' => $key,
+            ]);
+        }
 
         if ($key == $trans) {
             $group = Str::of($key)->before('.')->toString();

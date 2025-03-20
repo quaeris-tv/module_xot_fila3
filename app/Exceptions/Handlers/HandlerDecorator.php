@@ -4,78 +4,62 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Exceptions\Handlers;
 
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Throwable;
 
 class HandlerDecorator implements ExceptionHandler
 {
-    protected HandlersRepository $repository;
-
     public function __construct(
-        protected ExceptionHandler $defaultHandler,
-        HandlersRepository $repository,
+        private readonly HandlersRepository $handlers
     ) {
-        $this->repository = $repository;
     }
 
     public function __call(string $name, array $parameters): mixed
     {
-        return call_user_func_array([$this->defaultHandler, $name], $parameters);
-    }
-
-    public function report(\Throwable $e): void
-    {
-        foreach ($this->repository->getReportersByException($e) as $reporter) {
-            if (is_callable($reporter)) {
-                $reporter($e);
-            }
+        if (method_exists($this->handlers, $name)) {
+            return $this->handlers->$name(...$parameters);
         }
 
-        $this->defaultHandler->report($e);
+        throw new \BadMethodCallException(sprintf(
+            'Il metodo %s non esiste nell\'handler delle eccezioni',
+            $name
+        ));
     }
 
-    public function render($request, \Throwable $e): SymfonyResponse
+    public function report(Throwable $e): void
     {
-        foreach ($this->repository->getRenderersByException($e) as $renderer) {
-            if (is_callable($renderer)) {
-                $response = $renderer($e, $request);
-                if ($response instanceof SymfonyResponse) {
-                    return $response;
-                }
-            }
-        }
-
-        return $this->defaultHandler->render($request, $e);
+        $this->handlers->getReporters($e)->each(fn ($reporter) => $reporter->report($e));
     }
 
-    public function renderForConsole($output, \Throwable $e): void
+    public function render($request, Throwable $e): SymfonyResponse
     {
-        foreach ($this->repository->getConsoleRenderersByException($e) as $renderer) {
-            if (is_callable($renderer)) {
-                $renderer($e, $output);
-            }
-        }
-
-        $this->defaultHandler->renderForConsole($output, $e);
+        return $this->handlers->getRenderers($e)->first()?->render($request, $e);
     }
 
-    public function reporter(callable $reporter): int
+    public function renderForConsole($output, Throwable $e): void
     {
-        return $this->repository->addReporter($reporter);
+        $this->handlers->getConsoleRenderers($e)->first()?->render($output, $e);
     }
 
-    public function renderer(callable $renderer): int
+    public function reporter(): HandlersRepository
     {
-        return $this->repository->addRenderer($renderer);
+        return $this->handlers;
     }
 
-    public function consoleRenderer(callable $renderer): int
+    public function renderer(): HandlersRepository
     {
-        return $this->repository->addConsoleRenderer($renderer);
+        return $this->handlers;
+    }
+
+    public function consoleRenderer(): HandlersRepository
+    {
+        return $this->handlers;
     }
 
     public function shouldReport(\Throwable $e): bool
     {
-        return $this->defaultHandler->shouldReport($e);
+        return $this->handlers->shouldReport($e);
     }
 }

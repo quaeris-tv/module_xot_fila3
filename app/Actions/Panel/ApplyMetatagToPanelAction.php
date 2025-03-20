@@ -12,22 +12,27 @@ class ApplyMetatagToPanelAction
 {
     use QueueableAction;
 
-    public function execute(Panel &$panel): Panel
+    /**
+     * Apply metatag configuration to a Filament panel.
+     */
+    public function execute(Panel $panel): void
     {
-        try {
-            $metatag = MetatagData::make();
+        $metatag = MetatagData::make();
 
-            return $panel
-                ->colors($metatag->getColors())
-                ->brandLogo($metatag->getLogoHeader())
-                ->brandName($metatag->title)
-                ->darkModeBrandLogo($metatag->getLogoHeaderDark())
-                ->brandLogoHeight($metatag->getLogoHeight())
-                ->favicon($metatag->getFavicon());
-        } catch (\Exception $e) {
-            // Log l'errore ma non bloccare l'applicazione
-            \Illuminate\Support\Facades\Log::error('Error applying metatag to panel: ' . $e->getMessage());
-            return $panel;
+        $colors = $metatag->getColors();
+        $formattedColors = [];
+
+        foreach ($colors as $name => $shades) {
+            if (is_array($shades)) {
+                $formattedColors[$name] = array_combine(
+                    array_keys($shades),
+                    array_map(fn (string $shade) => $shade, $shades)
+                );
+            } else {
+                $formattedColors[$name] = $shades;
+            }
         }
+
+        $panel->colors($formattedColors);
     }
 }

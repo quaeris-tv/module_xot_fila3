@@ -26,9 +26,9 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
-use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
 use Modules\Xot\Exceptions\Handlers\HandlerDecorator;
 use Modules\Xot\Exceptions\Handlers\HandlersRepository;
+use Modules\Xot\Exceptions\Formatters\WebhookErrorFormatter;
 use Modules\Xot\View\Composers\XotComposer;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Webmozart\Assert\Assert;
@@ -61,8 +61,8 @@ class XotServiceProvider extends XotBaseServiceProvider
     {
         parent::register();
         $this->registerConfig();
-        $this->registerExceptionHandlersRepository();
-        $this->extendExceptionHandler();
+        //$this->registerExceptionHandlersRepository();
+        //$this->extendExceptionHandler();
         $this->registerCommands();
     }
 
@@ -93,38 +93,22 @@ class XotServiceProvider extends XotBaseServiceProvider
     public function registerExceptionHandler(): void
     {
         $exceptionHandler = $this->app->make(ExceptionHandler::class);
+        if ($exceptionHandler instanceof HandlerDecorator) {
+            $exceptionHandler->reporter(
+                static function (\Throwable $e): void {
+                    $data = (new WebhookErrorFormatter($e))->format();
+                    if ($e instanceof AuthenticationException || $e instanceof NotFoundHttpException) {
+                        return;
+                    }
 
-        $exceptionHandler->reporter(
-            static function (\Throwable $e): void {
-                $data = (new WebhookErrorFormatter($e))->format();
-                if ($e instanceof AuthenticationException || $e instanceof NotFoundHttpException) {
-                    return;
+                    if (is_string(config('logging.channels.slack_errors.url'))
+                        && mb_strlen(config('logging.channels.slack_errors.url')) > 5) {
+                        Log::channel('slack_errors')
+                            ->error($e->getMessage(), $data);
+                    }
                 }
-
-                if (is_string(config('logging.channels.slack_errors.url'))
-                    && mb_strlen(config('logging.channels.slack_errors.url')) > 5) {
-                    Log::channel('slack_errors')
-                        ->error($e->getMessage(), $data);
-                }
-            }
-        );
-
-        // $exceptionHandler->renderer(function ($e, $request) {
-        //    dddx([$e, $request]);
-        // });
-
-        /*
-        ->reporter(function ($e) {
-            // $this->app['log']->debug($e->getMessage());
-
-        });
-
-        // register a custom renderer to redirect the user back and show validation errors
-        $this->app->make(ExceptionHandler::class)->renderer(function ($e, $request) {
-            // return back()->withInput()->withErrors($e->errors());
-
-        });
-        */
+            );
+        }
     }
 
     public function registerConfig(): void
